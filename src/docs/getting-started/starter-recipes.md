@@ -1,33 +1,31 @@
 # Starter Recipes and Themes included with Orchard Core
 
-Orchard Core is available for use via two different NuGet meta packages.
+可以通过两个不同的 NuGet 元包去使用 Orchard Core 。
 
 - `OrchardCore.Application.Cms.Core.Targets`
 - `OrchardCore.Application.Cms.Targets`
 
-The first package `OrchardCore.Application.Cms.Core.Targets` is intended for use when 
+第一个包 `OrchardCore.Application.Cms.Core.Targets` 用于以下情况 
 
-- Developing a Decoupled Web Site
-- Developing a Headless Web Site
-- Developing a Themed Web Site from scratch
+- 开发一个解耦的网站
+- 开发无头网站
+- 从头开始开发主题网站
 
-The `Core.Targets` package contains the minimum you need to setup an Orchard Core installation.
-It contains `TheAdmin` theme, and two recipes to base your installation on, but no front end themes.
+`Core.Targets` 包包含设置 Orchard Core 安装所需的最低要求。 它包含 `TheAdmin` 主题和两个安装配方，但没有前端主题。
 
-!!! tip
-    Any features that are not enabled by the selected setup recipe can be enabled after setup,
-    through the _Configuration -> Features_ menu.
+!!! 提示
+    您可以在安裝後啟用任何未包括在安裝配方裡的功能，
+    通过菜单 _Configuration -> Features_ 。
 
-The second package `OrchardCore.Application.Cms.Targets` contains all of the above plus
+第二个包 `OrchardCore.Application.Cms.Targets` 包含以上所有内容以及
 
-- Setup recipes for the Themes
-- Multiple CMS Starter Themes
+- 适用于主题的配方
+- 多个 CMS 起始主题
 
-Recipes in Orchard Core help you get your site setup by enabling features,
-and / or creating content types, and content for your site.
+Orchard Core 中的配方通过启用功能帮助您设置站点，
+和/或为您的网站创建内容类型和内容。
 
-Orchard Core Themes can contain Razor or Liquid views, and by default use 
-Orchard Core Display Management techniques to render content.
+Orchard Core 主题可以包含 Razor 或 Liquid 视图，默认情况下使用 Orchard Core Display Management 技術去渲染內容。
 
 ## OrchardCore.Application.Cms.Core.Targets
 
