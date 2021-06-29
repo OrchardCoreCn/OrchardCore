@@ -1,23 +1,23 @@
-# Add preview package source
+# 添加预览包源
 
 在本文中，我们将添加一个指向预览包的新包源。   
 每次在 dev 分支上提交一些代码时都会构建预览包，和从master分支构建的Nuget包相比，
 它们是最新版本，但不是最稳定的，并且可能包含重大更改。 
 
-!!! warning
+!!! 警告
     我们不建议您在生产中使用 dev 包。
 
-## Adding Orchard Core preview Feed to Visual Studio
+## 将 Orchard Core 预览源添加到 Visual Studio
 
-In order to be able to use the __preview__ feed from Visual Studio, open the Tools menu under NuGet Package Manager --> Package Manager Settings.
-The feed url is <https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json>
+为了能够在 Visual Studio 裡使用预览源，请打开 Tools → NuGet Package Manager → Package Manager Settings, 
+並添加包源网址 <https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json>
 
 ![image](assets/add-preview-package-source.png)
 
 
-## Adding Orchard Core preview Feed with NuGet.config
+## 使用 NuGet.config 添加 Orchard Core 预览源
 
-You can also add the package source by using a NuGet.config file:
+您也可以通过 `NuGet.config` 文件添加包源，将 该文件添加到你的解决方案中，并放置于sln 相同目录：
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
