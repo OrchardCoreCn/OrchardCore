@@ -15,25 +15,27 @@ Orchard Core 不直接渲染 HTML，而是通常会渲染一个叫做 **Shape** 
 
 Orchard Core 可以匹配许多相同形状的模板。
 
-这些潜在的模板被称为 **Alternates**。
+这些潜在的模板被称为 **Alternates** (替代)。
 
-Shape 包含一系列可接受的模板名称（替代名称），并将查看提供程序以获得最合适的名称。
+Shape 包含一系列可接受的模板名称（替代名称），并将查找提供程序以获得最合适的名称。
 
 >  A Shape contains a list of acceptable template names (the alternates) and will look into providers to get the most appropriate one.  
 
 
-例如，当呈现类型为Article的Content Item时，将配置所呈现的相应Shape
-查找处理所有文章的模板，以及在列表中使用时处理文章的模板，等等。
-
+例如，当呈现类型为`Article`的Content Item时，将配置所呈现的相应Shape
+查找处理所有`Article`的模板，以及在列表中使用时处理文章的模板，等等。
 
 本文档提供了一个可在呈现形状时使用的预定义模板列表。
-它使用模板的内部名称，如果是由Theme提供，还使用文件名。
+它使用模板的内部名称以及在其由主题提供的情况下的文件名。
 
 ## Content templates
 
 ### `Content__[ContentType]`
 
-当显示“Detail”显示类型的内容项时，该模板被调用，例如从它自己的URL访问时。
+使用`Detail`显示类型显示内容项时，调用此模板，例如当从自己的URL访问时。
+>This template is called when displaying a content item with the Detail display type, for instance when accessed from its own URL.
+
+
 
 #### Content Examples
 
