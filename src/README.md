@@ -78,7 +78,7 @@ Orchard Core的最新发行版本是 `1.0.0-rc2`。
 ## 从这里开始
 
 - 使用命令 `git clone https://github.com/OrchardCMS/OrchardCore.git` 克隆此仓库，并切换到 `dev` 分支。
-- 按照这个教程 [Training Demo Module](https://github.com/Lombiq/Orchard-Training-Demo-Module) 你将学习如何开发Orchard Core模块。（这里是包含中文翻译的版本：[码云仓库,含全部中文注释](https://gitee.com/hyzx86/Orchard-Training-Demo-Module/)）
+- 按照这个教程 [Training Demo Module](https://github.com/Lombiq/Orchard-Training-Demo-Module) 你将学习如何开发Orchard Core模块。（这里是包含中文翻译的版本：[码云仓库,含全部中文注释](https://gitee.com/OrchardCore/Orchard-Training-Demo-Module/)）
 - 观看Orchard Core演示的ASP.NET社区站立视频:[B站](https://www.bilibili.com/video/BV1Sz411e7eY/)  [youtube](https://www.youtube.com/watch?v=HeDjv3blBjQ&t=2246s&list=PL1rZQsJPBU2StolNg0aqvQswETPcYnNKL&index=24)
 - 参考这个示例 <https://github.com/OrchardCMS/OrchardCore.Samples> 它将引导你如何构建一个 **模块化** 和 **多租户** 的应用程序。
 
