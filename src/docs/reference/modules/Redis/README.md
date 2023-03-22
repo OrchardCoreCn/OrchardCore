@@ -1,13 +1,16 @@
+
 # Redis (`OrchardCore.Redis`)
 
-Integrates Redis into Orchard Core. Provides the following features:
+将Redis集成到Orchard Core中。提供以下功能：
 
-- Redis: Redis configuration support.
-- Redis Cache: Distributed cache using Redis.
-- Redis Bus: Makes the `Signal` service distributed.
-- Redis Lock: Distributed Lock using Redis.
-- Redis DataProtection: Distributed DataProtection using Redis.
+- Redis：Redis配置支持。
+- Redis缓存：使用Redis的分布式缓存。
+- Redis总线：使“Signal”服务分布式。
+- Redis锁：使用Redis的分布式锁。
+- Redis数据保护：使用Redis的分布式数据保护。
 
-## Video
+## 视频
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/etH6IJOGUe8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/etH6IJOGUe8" title="YouTube视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+> 该文档由ChatGPT 4 翻译

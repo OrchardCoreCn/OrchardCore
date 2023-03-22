@@ -1,12 +1,15 @@
-# Content Management
+# 内容管理
 
-Orchard Core allows you to define your [content types](../../glossary/README.md#content-type) and manage your [content items](../../glossary/README.md#content-item) dynamically.
+Orchard Core允许您动态地定义[内容类型](../../glossary/README.md#content-type)和管理[内容项](../../glossary/README.md#content-item)。
 
-## How to Create Content
+## 如何创建内容
 
-- [Define your Content Types](../../reference/modules/ContentTypes/README.md)
-- [Add Content Parts](../../reference/modules/ContentParts/README.md)
-- [Add Content Fields](../../reference/modules/ContentFields/README.md)
-- [Preview your Content](../../reference/modules/ContentPreview/README.md)
-- [Use Widgets](../../reference/modules/Widgets/README.md)
-- [Layers and Zones](../../reference/modules/Layers/README.md)
+- [定义您的内容类型](../../reference/modules/ContentTypes/README.md)
+- [添加内容部件](../../reference/modules/ContentParts/README.md)
+- [添加内容字段](../../reference/modules/ContentFields/README.md)
+- [预览您的内容](../../reference/modules/ContentPreview/README.md)
+- [使用小部件](../../reference/modules/Widgets/README.md)
+- [层和区域](../../reference/modules/Layers/README.md)
+
+
+> 该文档由Chat-GPT 翻译

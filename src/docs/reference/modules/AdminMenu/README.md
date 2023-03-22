@@ -1,102 +1,98 @@
-# Admin Menu (`OrchardCore.AdminMenu`)
+# 管理菜单 (`OrchardCore.AdminMenu`)
 
-The Admin Menu module provides a way for users to create custom admin menus through the Admin UI.
+管理菜单模块提供了一种通过管理界面创建自定义管理菜单的方法。
 
-## General Concepts
+## 基本概念
 
-There are two basic concepts:
+有两个基本概念：
 
-1. **Admin Menu**: A tree of Admin Nodes whose root is at the first level of the Admin Menu. There can be one or several of them.  
+1. **管理菜单**：一个管理节点树，其根位于管理菜单的第一级。可以有一个或多个。
 
-2. **Admin Node**: Each one of the nodes that form an Admin Menu. An AdminNode can contain other Admin Nodes. Each admin node results in one or more menu items rendered on TheAdmin menu.
+2. **管理节点**：组成管理菜单的每个节点。管理节点可以包含其他管理节点。每个管理节点都会在TheAdmin菜单上呈现一个或多个菜单项。
 
-These trees of menu items are merged with the standard admin menu that Orchard Core provides out of the box. In this document when we refer to that menu that is provided by Orchard Core out of the box we use the term **TheAdmin Menu**.
+这些菜单项的树与Orchard Core默认提供的标准管理菜单合并。在本文档中，当我们提到由Orchard Core默认提供的菜单时，我们使用术语**TheAdmin菜单**。
 
-You can disable an Admin Menu and it won't be shown.
+您可以禁用管理菜单，它将不会显示。
 
-You can disable an Admin Node and neither it nor their descendants will be shown.
+您可以禁用管理节点，它和它的后代都将不会显示。
 
-## How to create Admin Menu
+## 如何创建管理菜单
 
-1. Ensure the Admin Menu module is enabled.
+1. 确保启用了管理菜单模块。
 
-2. Go to Configuration: Admin Menu.
+2. 转到“配置：管理菜单”。
 
-3. Create a new Admin Menu, and start adding Admin Nodes to it. The Link Admin Node is the simplest type and it's perfect to test the feature.
+3. 创建新的管理菜单，并开始添加管理节点。链接管理节点是最简单的类型，非常适合测试功能。
 
-4. As you keep adding Admin Nodes you will see them rendered automatically on TheAdmin Menu.
+4. 随着您不断添加管理节点，您将看到它们自动呈现在TheAdmin菜单上。
 
-## Provided Admin Node Types
+## 提供的管理节点类型
 
-At the time of writing this document there are 3 Admin Node Types provided out of the box by Orchard Core:
+在编写本文档时，Orchard Core默认提供了3种管理节点类型：
 
-1. **Link Admin Node**: It provides a simple menu item. The user can add a text, a url and a Font Awesome icon class so that the current admin theme can use them when rendering the menu item. At the moment TheAdmin theme is using that icon class only for first level menu items.
-This link is the only one provided by the OrchardCore.AdminMenu module itself.
+1. **链接管理节点**：它提供了一个简单的菜单项。用户可以添加文本、URL和Font Awesome图标类，以便当前管理主题在呈现菜单项时使用它们。目前，TheAdmin主题仅对一级菜单项使用该图标类。此链接是OrchardCore.AdminMenu模块本身提供的唯一链接。
 
-2. **Content Types Admin Node**: It provides a list of menu items containing a menu item for each content type. The links point to the Index action in the Contents Controller.
-This node type is provided by the OrchardCore.Contents module.
+2. **内容类型管理节点**：它提供了一个包含每个内容类型菜单项的菜单项列表。链接指向内容控制器中的索引操作。此节点类型由OrchardCore.Contents模块提供。
 
-3. **Lists Admin Node**: It provides menu items pointing to the Edit Page of those Content Items that include a part list on them.
-For example, if you have a Blog Content Type, and several Blog Content Items, it will provide a link for each existing Blog.
-This node type is provided by the OrchardCore.Lists module.
+3. **列表管理节点**：它提供了指向包含列表部分的那些内容项的编辑页面的菜单项。例如，如果您有一个博客内容类型和几个博客内容项，它将为每个现有博客提供一个链接。此节点类型由OrchardCore.Lists模块提供。
 
-Note that each one of these nodes can have other nodes nested on it. The nesting is done through drag and drop on the UI.
+请注意，这些节点中的每一个都可以有其他嵌套节点。嵌套是通过UI上的拖放完成的。
 
-## How are the Admin Menu rendered as admin menu items
+## 如何将管理菜单呈现为管理菜单项
 
-### How it works without the Admin Menu Module
+### 在没有管理菜单模块的情况下如何工作
 
-The Admin Menu that OrchardCore provides out of the box it's built broadly speaking like this:
+OrchardCore默认提供的管理菜单大体上是这样构建的：
 
-1. NavigationManager retrieves all classes that implement INavigationProvider. There are many of them through many modules with the file name of "AdminMenu.cs".
+1. NavigationManager检索实现INavigationProvider的所有类。有许多这样的类通过许多具有“AdminMenu.cs”文件名的模块。
 
-2. On each AdminMenu the NavigationManager calls the BuildNavigationAsync method, passing a builder to it. The builder is the object where each AdminMenu can add their own menuItems.
+2. 在每个AdminMenu上，NavigationManager调用BuildNavigationAsync方法，将一个构建器传递给它。构建器是每个AdminMenu都可以向其中添加自己的menuItems的对象。
 
-3. Once all the AdminMenu classes finished adding their own menu items to the builder, the NavigationManager uses the info on the builder to "render" the full menu.
+3. 一旦所有AdminMenu类都完成了将自己的菜单项添加到构建器的操作，NavigationManager使用构建器上的信息来“呈现”完整的菜单。
 
-### What changes when the Admin Menu is Enabled
+### 启用管理菜单时发生了什么
 
-1. The AdminMenu module declares it's own INavigationProvider and so it will be called too by NavigationManager. The name of that INavigationProvider is AdminMenuNavigationProvidersCoordinator.
+1. 管理菜单模块声明了自己的INavigationProvider，因此NavigationManager也会调用它。该INavigationProvider的名称是AdminMenuNavigationProvidersCoordinator。
 
-2. The coordinator retrieves all AdminMenu stored on the database and for each one of them call a BuildTreeAsync method, where each node add recursively its own menu items to the builder.
+2. 协调器检索存储在数据库中的所有管理菜单，并为每个管理菜单调用BuildTreeAsync方法，在其中每个节点递归地向构建器添加自己的菜单项。
 
-## Deployment Plan Step and Recipe Step
+## 部署计划步骤和配方步骤
 
-The module provides an Admin Menu Deployment Step. So an admin user can expend some time configuring a custom admin menu, add it to a deployment plan, export a json file, and use the generated json on a setup recipe. This way the sites that are built using that recipe will have the admin menu as the user prepared it.
+该模块提供了一个管理菜单部署步骤。因此，管理员用户可以花费一些时间配置自定义管理菜单，将其添加到部署计划中，导出json文件，并在设置配方中使用生成的json。这样，使用该配方构建的站点将具有用户准备的管理菜单。
 
-## Permissions
+## 权限
 
-There are two kind of permissions associated with the module:
+该模块有两种与之关联的权限：
 
-1. Manage Admin Menus. It its about being able to create edit and delete admin menus from the admin.
+1. 管理管理菜单。它是关于能否从管理中创建、编辑和删除管理菜单的。
 
-2. View Admin Menus. It enables the possibility to show or hide an admin menu per role. You can do that from the standard Edit Roles page
+2. 查看管理菜单。它使显示或隐藏每个角色的管理菜单成为可能。您可以从标准的编辑角色页面上执行此操作。
 
-## Developing Custom Admin Node Types
+## 开发自定义管理节点类型
 
-Any module can add it's own custom admin node types so that they can be used by users to build custom admin menus.
+任何模块都可以添加自己的自定义管理节点类型，以便用户可以使用它们构建自定义管理菜单。
 
-Commonly the steps that you follow in order to do that are:
+通常，您遵循的步骤是：
 
-1. Add a class that inherits from `AdminNode`. On this class add the specific properties that you want for your node type. This is the info that will go into the database.
+1. 添加一个从`AdminNode`继承的类。在此类中添加您想要的特定属性，以用于您的节点类型。这是将进入数据库的信息。
 
-2. Add a Driver to handle the display and edit of your admin node on the Admin. This won't handle the actual rendering of the admin menu. Drivers are only about the views required to create and edit the admin menu.
+2. 添加一个驱动程序来处理在管理中显示和编辑您的管理节点。这不会处理管理菜单的实际呈现。驱动程序仅涉及创建和编辑管理菜单所需的视图。
 
-3. Optionally, you could implement a ViewModel to move info between the edit views and the driver.
+3. 可选地，您可以实现ViewModel以在编辑视图和驱动程序之间移动信息。
 
-4. Add a class that implements IAdminNodeNavigationBuilder. Its BuildNavigationAsync() method will be called by the AdminMenuNavigationProvidersCoordinator class when it is time to render the menu.
+4. 添加一个实现IAdminNodeNavigationBuilder的类。当渲染菜单时，AdminMenuNavigationProvidersCoordinator类将调用其BuildNavigationAsync()方法。
 
-5. Create the views required to create and edit the admin nodes based on your node type.
+5. 根据您的节点类型创建创建和编辑管理节点所需的视图。
 
-By convention you should store all these non-view classes on a "AdminNodes" folder. This is optional.
+按照惯例，您应将所有这些非视图类存储在“AdminNodes”文件夹中。这是可选的。
 
-By convention you have to store the views on a "Items" folder inside the "Views" folder. This is required.
+按照惯例，您必须将视图存储在“Views”文件夹内的“Items”文件夹中。这是必需的。
 
-Don't forget to register the corresponding classes on the Startup class.
+不要忘记在Startup类中注册相应的类。
 
-### Code Snippets based on the LinkAdminNode
+### 基于LinkAdminNode的代码片段
 
-This is the LinkAdminNode.cs
+这是LinkAdminNode.cs
 
 ```csharp
 
@@ -111,22 +107,22 @@ This is the LinkAdminNode.cs
     }
 ```
 
-This is how LinkAdminNodeBuilder builds a link.
+这是LinkAdminNodeBuilder如何构建链接。
 
-This class is responsible for:
+该类负责：
 
-* Converting the admin node info in the database to menuItems and adding them to the global builder.
+*将数据库中的管理节点信息转换为menuItems，并将它们添加到全局构建器中。
 
-* Calling the same BuildNavigationAsync() method on each of their AdminNode's children.
+*在每个管理节点的子项上调用相同的BuildNavigationAsync()方法。
 
-This pattern ensures that at the end of the process the full tree will be processed.
+此模式确保在处理完整个树之后，将处理完整个树。
 
 ```csharp
         public Task BuildNavigationAsync(MenuItem menuItem, 
                 NavigationBuilder builder, 
                 IEnumerable<IAdminNodeNavigationBuilder> treeNodeBuilders)
         {
-            // cast the received item to the concrete admin node type we are handling.
+            //将接收到的项转换为我们正在处理的具体管理节点类型。
             var ltn = menuItem as LinkAdminNode;
 
             if ((ltn == null) ||( !ltn.Enabled))
@@ -134,14 +130,14 @@ This pattern ensures that at the end of the process the full tree will be proces
                 return Task.CompletedTask;
             }
 
-            // this is the standard Orchard Core way of adding menuItems to a builder 
+            //这是将菜单项添加到构建器的标准Orchard Core方式
             builder.Add(new LocalizedString(ltn.LinkText, ltn.LinkText), async itemBuilder => {
 
-                // Add the actual link
+                //添加实际链接
                 itemBuilder.Url(ltn.LinkUrl);
                 AddIconPickerClassToLink(ltn.IconClass, itemBuilder);
 
-                // Let children admin nodes build themselves inside this MenuItem
+                //让每个子管理节点在此MenuItem内部构建自己
                 foreach (var childTreeNode in menuItem.Items)
                 {
                     try
@@ -155,7 +151,7 @@ This pattern ensures that at the end of the process the full tree will be proces
                     catch (Exception e)
                     {
                         _logger.LogError(e,
-                            "An exception occurred while building the '{MenuItem}' child Menu Item.",
+                            "在构建'{MenuItem}'子菜单项时发生异常。",
                             childTreeNode.GetType().Name);
                     }
                 }
@@ -171,9 +167,9 @@ This pattern ensures that at the end of the process the full tree will be proces
 
 <https://farbelous.github.io/fontawesome-iconpicker/>
 
-Originally written by (c) 2016 Javi Aguilar
+最初由(c)2016 Javi Aguilar编写
 
-Licensed under the MIT License
+根据MIT许可证许可
 <https://github.com/farbelous/fontawesome-iconpicker/blob/master/LICENSE>
 
 ### jQuery UI Nested Sortable
@@ -181,9 +177,11 @@ Licensed under the MIT License
 v 2.1a / 2016-02-04
 <https://github.com/ilikenwf/nestedSortable>
 
-Depends on:
+依赖于：
 jquery.ui.sortable.js 1.10+
 
-Copyright (c) 2010-2016 Manuele J Sarfatti and contributors
-Licensed under the MIT License
+版权所有(c)2010-2016 Manuele J Sarfatti和贡献者
+根据MIT许可证许可
 <http://www.opensource.org/licenses/mit-license.php>
+
+> 该文档由ChatGPT 4 翻译

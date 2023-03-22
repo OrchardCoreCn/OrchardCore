@@ -1,12 +1,12 @@
-# SQL Indexing
+# SQL索引
 
-## Content Item Indexing
+## 内容项索引
 
-Here are some SQL tables that you can query and their columns.
+以下是您可以查询的SQL表及其列。
 
 ### **ContentItemIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -22,7 +22,7 @@ Here are some SQL tables that you can query and their columns.
 
 ### **LocalizedContentItemIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -32,19 +32,19 @@ Here are some SQL tables that you can query and their columns.
 | **LocalizationSet** | **nvarchar** | **false** | **false** |
 | **Culture** | **nvarchar** | **false** | **false** |
 
-## Content Fields Indexing
+## 内容字段索引
 
-The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing for content fields.
+`OrchardCore.ContentFields.Indexing.SQL` 模块提供了内容字段的数据库索引。
 
-* Note that the listed types are SQL Server data types.
+* 请注意，所列出的类型是 SQL Server 数据类型。
 
-    *SQLite doesn't have a length limit on text fields.*
+    *SQLite 在文本字段上没有长度限制。*
 
-## Available Content Fields Tables
+## 可用的内容字段表
 
 ### **BooleanFieldIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -59,7 +59,7 @@ The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing f
 
 ### **ContentPickerFieldIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -74,7 +74,7 @@ The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing f
 
 ### **DateFieldIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -89,7 +89,7 @@ The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing f
 
 ### **DateTimeFieldIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -104,7 +104,7 @@ The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing f
 
 ### **HtmlFieldIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -119,7 +119,7 @@ The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing f
 
 ### **LinkFieldIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -137,7 +137,7 @@ The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing f
 
 ### **MultiTextFieldIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `Int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -153,7 +153,7 @@ The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing f
 
 ### **NumericFieldIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -168,7 +168,7 @@ The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing f
 
 ### **TextFieldIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `Int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -184,7 +184,7 @@ The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing f
 
 ### **TimeFieldIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `Int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -199,7 +199,7 @@ The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing f
 
 ### **UserPickerFieldIndex**
 
-| Name | Type | Non-Null | Primary Key |
+| 名称 | 类型 | 非空 | 主键 |
 | --- | --- | --- | --- |
 | `Id` | `Int` | `true` | `true` |
 | `DocumentId` | `int` | `false` | `false` |
@@ -212,11 +212,11 @@ The `OrchardCore.ContentFields.Indexing.SQL` module provides database indexing f
 | `Latest` | `bit` | `false` | `false` |
 | **SelectedUserId** | **string** | **false** | **false** |
 
-## Usage
+## 用法
 
-Please look at each index tables to see which fields are available to query on. The following examples are for the TextFieldIndex only.
+请查看每个索引表，以查看可以查询哪些字段。以下示例仅适用于 TextFieldIndex。
 
-From a class.
+从类中。
 
 ```csharp
 using OrchardCore.ContentManagement;
@@ -236,7 +236,7 @@ public class MyClass(){
 }
 ```
 
-From a Razor template:
+从 Razor 模板：
 
 ```html
 @using OrchardCore.ContentManagement
@@ -248,14 +248,14 @@ From a Razor template:
 }
 ```
 
-From Liquid, you will be required to create a SQL Query in Orchard Core to retrieve these records first. Name it "AllCountries" for the current example and **don't select** the option "Return Documents" on the Query:
+从 Liquid，您需要先在 Orchard Core 中创建一个 SQL 查询以检索这些记录。将其命名为“所有国家”以进行当前示例，并且**不要选择**查询选项“返回文档”：
 
 ```SQL
 SELECT * FROM TextFieldIndex
 WHERE ContentType = 'Acme' AND ContentField = 'Country'
 ```
 
-In our Liquid template we will now retrieve these records.
+在我们的 Liquid 模板中，我们现在将检索这些记录。
 
 ```liquid
 {% assign allCountries = Queries.AllCountries | query %}
@@ -264,4 +264,5 @@ In our Liquid template we will now retrieve these records.
 {% endfor %}
 ```
 
-Please note that Datetimes are stored as UTC so a conversion with the current request culture will be required.
+请注意，日期时间存储为 UTC，因此需要使用当前请求区域设置进行转换。
+> 该文档由ChatGPT 4 翻译

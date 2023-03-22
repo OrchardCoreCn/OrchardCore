@@ -1,39 +1,39 @@
-# ContentLocalization (`OrchardCore.ContentLocalization`)
+# 内容本地化 (`OrchardCore.ContentLocalization`)
 
-This module allows you to localize your content items.
+该模块允许您本地化内容项。
 
 ## LocalizationPart
 
-Attach this part to a content type to manage multiple localized versions of a content item.
+将此部分附加到内容类型以管理多个本地化版本的内容项。
 
 ## ContentCulturePicker (`OrchardCore.ContentLocalization.ContentCulturePicker`)
 
-## ContentCulturePicker Feature
+## ContentCulturePicker 功能
 
-The `ContentCulturePicker` feature helps you manage cultures for the frontend.
+`ContentCulturePicker` 功能可帮助您管理前端的文化。
 
-Enabling this module results in
+启用此模块会导致
 
-- A `ContentRequestCultureProvider` being added as the first method used to determine the current thread culture.
-    This Provider will set the thread culture based on the ContentItem that matches the current url.
-- 2 shapes (described below) are available to the frontend theme.
+- 将 `ContentRequestCultureProvider` 添加为用于确定当前线程文化的第一个方法。
+    此提供程序将根据与当前 URL 匹配的 ContentItem 设置线程文化。
+- 前端主题提供了 2 个形状（如下所述）。
 
-The `ContentCulturePicker` selects the url to redirect using the following rules
+`ContentCulturePicker` 使用以下规则选择要重定向的 URL
 
-- If the `ContentItem` has a related ContentItem for the selected culture, it redirects to that Item.
-- OR If a HomePage is specified, attempts to find a Localization of the Homepage `ContentItem` for the current culture.
-- OR redirects to the current page.
+- 如果 `ContentItem` 有一个相关的 ContentItem 用于所选文化，则重定向到该项。
+- 或者，如果指定了 HomePage，则尝试查找当前文化的 Homepage `ContentItem` 的本地化。
+- 或者重定向到当前页面。
 
-### Localization Cookie
+### 本地化 Cookie
 
-By default, the `ContentCulturePicker` sets a cookie for the `CookieRequestCultureProvider`. This can be disabled in the  `Configuration/Settings/Localization/Content Culture Picker` settings page.
+默认情况下，`ContentCulturePicker` 为 `CookieRequestCultureProvider` 设置了一个 cookie。可以在 `Configuration/Settings/Localization/Content Culture Picker` 设置页面中禁用此功能。
 
-The `ContentRequestCultureProvider` can set the cookie based on the ContentItem that matches the current url. This setting can be edited in the  `Configuration/Settings/Localization/Content Request Culture Provider` settings page.
+`ContentRequestCultureProvider` 可以根据与当前 URL 匹配的 ContentItem 设置 cookie。可以在 `Configuration/Settings/Localization/Content Request Culture Provider` 设置页面中编辑此设置。
 
 
-#### Recipe Step
+#### 配方步骤
 
-The cookie can be set during recipes using the settings step. Here is a sample step:
+可以使用设置步骤在配方期间设置 cookie。以下是一个示例步骤：
 
 ```json
 {
@@ -47,12 +47,12 @@ The cookie can be set during recipes using the settings step. Here is a sample s
 },
 ```
 
-### Shapes
+### 形状
 
 #### `ContentCulturePicker`
 
-The `ContentCulturePicker` shape loads data for the `ContentCulturePickerContainer` shape.  
-You should always render this shape in your theme:
+`ContentCulturePicker` 形状为 `ContentCulturePickerContainer` 形状加载数据。  
+您应始终在主题中呈现此形状：
 
 === "Liquid"
 
@@ -68,15 +68,15 @@ You should always render this shape in your theme:
 
 #### `ContentCulturePickerContainer`
 
-The `ContentCulturePickerContainer` shape is used to render the `ContentCulturePicker`.
-You should override this shape in your theme.
+`ContentCulturePickerContainer` 形状用于呈现 `ContentCulturePicker`。
+您应在主题中覆盖此形状。
 
-| Property                  | Description                                                 |
+| 属性                  | 描述                                                 |
 | ------------------------- | ----------------------------------------------------------- |
-| `Model.CurrentCulture`    | CultureViewModel {Name, DisplayName} representing the current thread culture. |
-| `Model.SupportedCultures` | A list of CultureViewModel objects for all supported cultures.   |
+| `Model.CurrentCulture`    | CultureViewModel {Name, DisplayName} 表示当前线程文化。 |
+| `Model.SupportedCultures` | 所有支持的文化的 CultureViewModel 对象列表。   |
 
-##### ContentCulturePickerContainer Example
+##### ContentCulturePickerContainer 示例
 
 === "Liquid"
 
@@ -118,19 +118,19 @@ You should override this shape in your theme.
     </ul>
     ```
 
-## Liquid filters
+## Liquid 过滤器
 
 ### `switch_culture_url`
 
-Returns the URL of the Action that switches cultures.
+返回切换文化的操作的 URL。
 
-Input
+输入
 
 ```liquid
 {{ Model.Culture.Name | switch_culture_url }}
 ```
 
-Output
+输出
 
 ```text
 /Loc1/RedirectToLocalizedContent?targetculture=fr&contentItemUrl=%2Fblog
@@ -138,30 +138,32 @@ Output
 
 ### `localization_set`
 
-Returns the content item in the specified culture (defaults to request culture).
+返回指定文化（默认为请求文化）中的内容项。
 
-Input
+输入
 
 ```liquid
 {{ Model.ContentItem.Content.LocalizationPart.LocalizationSet | localization_set: "en" }}
 ```
 
-Output
+输出
 
 ```text
 Title
 ```
 
-## Configuration
+## 配置
 
-The following configuration is used by default and can be customized:
+默认情况下使用以下配置，可以自定义：
 
 ```json
 {
    "OrchardCore": {
     "OrchardCore_ContentLocalization_CulturePickerOptions": {
-     "CookieLifeTime": 14 // Set the culture picker cookie life time (in days).
+     "CookieLifeTime": 14 // 设置文化选择器 cookie 的生存期（以天为单位）。
     }
   }
 }
 ```
+
+> 该文档由ChatGPT 4 翻译

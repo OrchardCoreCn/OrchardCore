@@ -1,179 +1,162 @@
-# Glossary
+# 术语表
 
-List of terms and concepts that you can find in Orchard Core.
+列出了在Orchard Core中可以找到的术语和概念。
 
-They are grouped by roles: User, Theme designer, Administrator.
+它们按角色分组：用户、主题设计师、管理员。
 
-## Authenticated users
+## 已认证用户
 
-### Content Item
+### 内容项
 
-A single document containing some content of a specific content type, that can be versioned and localized. Examples of content items are pages, blog posts and products. They are often associated with a unique URL (address) on the site.
+包含特定内容类型的一些内容的单个文档，可以进行版本控制和本地化。内容项的示例包括页面、博客文章和产品。它们通常与站点上的唯一URL（地址）相关联。
 
-### Content Item Version
+### 内容项版本
 
-A single document that represent a specific version of a content item. These can be draft, published, or pasts versions
+表示内容项的特定版本的单个文档。它们可以是草稿、已发布或过去的版本。
 
-### Content Type
+### 内容类型
 
-Define the list of Content Parts and Content Fields a content item can be made of. An analogy is to compare them to classes, whose instances are the content items.
+定义内容部件和内容字段的列表，这些内容部件和内容字段可以组成一个内容项。一种类比是将它们与类进行比较，其实例是内容项。
 
-### Content Part
+### 内容部分
 
-Content parts are atoms of content that are enough to build a specific coherent behavior and that can be reused across content types.
-See [Content Parts](../reference/modules/ContentParts/README.md)
+内容部分是构建特定一致行为所需的元素，并且可以在内容类型之间重复使用。
+详情请参见[内容部分（Content Parts）](../reference/modules/ContentParts/README.md)
 
-### Content Field
+### 内容字段
 
-A content field extends a content type with a named piece of data. There can be multiple fields of the same kind attached to a content type or a content part. For instance __Description__ could be a field defined on a __Product__ content type.
-See [Content Fields](../reference/modules/ContentFields/README.md)
+内容字段是使用命名数据扩展内容类型的组成部分。一个内容类型或内容部分可以有多个相同类型的字段附加。例如，__描述__ 可以是定义在 __产品__ 内容类型上的字段。 
+详情请参见[内容字段（Content Fields）](../reference/modules/ContentFields/README.md)
 
-### Display Type
+### 显示类型
 
-A way to specify in which context a content element is rendered (ex: Details, Summary, SummaryAdmin). A template can be defined for each display type.
+指定内容元素在哪种上下文中呈现的方式（例如：详细信息，摘要，概述管理）。每种显示类型都可以定义一个模板。
 
-### Field Editor
+### 字段编辑器
 
-A field can have different Editors (Ex: The value of a Numeric Field can be set by an input or a slider).
+一个字段可以有不同的编辑器（例如：数值字段的值可以通过输入或滑块进行设置）。
 
-### Autoroute
-
-A part that dynamically creates and registers a url to access a content item. It can use a Liquid pattern to be automatically generated.
-See [Autoroute](../reference/modules/Autoroute/README.md)
+### Autoroute动态创建并注册访问内容项的URL的部分。可以使用Liquid模式进行自动生成。
+请参见[Autoroute](../reference/modules/Autoroute/README.md)。
 
 ### Bag
 
-A collection of content items of a certain type in a parent content item. The content items are aggregated in the bag.
+父级内容项中特定类型的内容项的集合。内容项在包中聚合。
 
 ### List
 
-A list of content items to a parent container (Ex: A blog contains a list of blog posts). The content items are referenced.
-See [Lists](../reference/modules/Lists/README.md)
+父容器的内容项列表（例如，博客包含博客文章列表）。内容项已被引用。
+请参见[列表](../reference/modules/Lists/README.md)。
 
-### Taxonomy
+### 分类法
 
-A hierarchy of content items that are used as references for other content items. Also called managed vocabularies. An example is a list of colors which can then be attached to products. Also often used for categories of articles for instance.
-See [Taxonomies](../reference/modules/Taxonomies/README.md)
+用作其他内容项引用的内容项的层次结构。也称为托管词汇表。例如，颜色列表，然后可以将其附加到产品。通常也用于文章类别等。
+请参阅[分类法](../reference/modules/Taxonomies/README.md)。
 
-### Admin menu
+### 管理菜单菜单项的层次结构，显示在站点的管理部分中。
+详见[管理菜单](../reference/modules/ AdminMenu/ README.md)
 
-A hierarchy of menu items that are displayed in the admin section of the site.
-See [Admin menu](../reference/modules/AdminMenu/README.md)
+### 别名
 
-### Alias
+允许指定别名的一部分。一种使用关键字标识项目，以便调用它而不是使用 ID 的方法。
+详见[别名](../reference/modules/Alias/README.md)
 
-A part that allows you to specify an alias. A way to identify an item with a key that you can call to retrieve it, instead of an Id.  
-See [Alias](../reference/modules/Alias/README.md)
+### 内容预览
 
-### Content Preview
+允许预览和实时编辑内容。
+详见[内容预览](../reference/modules/ContentPreview/README.md)
 
-Allows to Preview and Live Edit a content.  
-See [Content Preview](../reference/modules/ContentPreview/README.md)
+### 索引
 
-### Indexing
+定义内容索引的方式，以便从查询中搜索它。
+详见[索引](../reference/modules/Indexing/README.md)
 
-Define the way the content will be indexed in order to search it from a query.  
-See [Indexing](../reference/modules/Indexing/README.md)
+### 查询管理员定义的参数化Lucene或SQL查询。参见[Queries](../reference/modules/Queries/README.md)
 
-### Query
+### 租户
 
-Parameterized Lucene or Sql query defined in admin.  
-See [Queries](../reference/modules/Queries/README.md)
+具有自己的URL的独立子站点。  
+一个实例可以有多个租户。  
+它们只能在默认的一个中进行管理。  
+参见[Tenants](../reference/modules/Tenants/README.md)
 
-### Tenant
+## 主题设计师
 
-An independent subsite with its own url.  
-One instance can have multiple tenants.  
-They can only be managed in the Default one.  
-See [Tenants](../reference/modules/Tenants/README.md)
+### 主题
 
-## Theme Designer
+包含资产（图像、样式、脚本）和视图的模块，用于自定义显示。  
+它还可以包含一个配方来初始化某些内容类型和内容项。
 
-### Theme
+### Liquid资源
 
-A module that contains assets (Images, Styles, Scripts) and views used to customize the display.  
-It can also contain a recipe to initialize some content types and content items.
+一个可以在视图中代替Razor或模板语法的语法。参见 [Liquid](../reference/modules/Liquid/README.md)。
 
-### Liquid
+### 替代模板
 
-A syntax that you can use in the views instead of Razor or in the Templates.  
-See [Liquid](../reference/modules/Liquid/README.md)
+使用主题中的文件来覆盖内容类型、部分或字段。参见 [替代模板](../reference/modules/Templates//README.md#shape-differentiators)。
 
-### Alternate
+### 布局
 
-An override of content type or part or field using a file in a Theme.  
-See [Alternates](../reference/modules/Templates//README.md#shape-differentiators)
+一个映射文件，用于设置特定内容类型、部分/字段名称或主题中的显示类型的出现顺序或隐藏内容。参见 [布局](../reference/core/Placement/README.md)。
 
-### Placement
+### 资源
 
-A mapping file to set the order of appearance or hide contents for a specific content type or Part/Field name or display type in a Theme.  
-See [Placement](../reference/core/Placement/README.md)
+在管理界面中，这是媒体库。在主题中，这些是位于wwwroot文件夹中的文件夹。样式或脚本库是使用特定版本和可能被压缩的文件以及CDN网址注册的。  
+请参见[资源](../reference/modules/Resources/README.md)。
 
-### Assets
+### 形状
 
-In the Admin, this is the Media library. In a Theme, these are the folders in wwwroot.
+[GitHub讨论](https://github.com/OrchardCMS/OrchardCore/issues/4121#issuecomment-539608731)
 
-### Resource
+### 模板
 
-Style or Script libraries that are registered with a specific version and with potentially minified file and CDN urls.  
-See [Resources](../reference/modules/Resources/README.md)
+Liquid中管理员对形状或显示类型的重写。  
+请参见[模板](../reference/modules/Templates/README.md)。
 
-### Shape
+### 区域
 
- [GitHub Discussion](https://github.com/OrchardCMS/OrchardCore/issues/4121#issuecomment-539608731)
+布局中的部分（例如页脚），可以在其中呈现项。
 
-### Template
+### 层
 
-A Liquid override of a Shape or a Display type in admin.  
-See [Templates](../reference/modules/Templates/README.md)
+显示规则，其中您可以指定要呈现的条件（例如isHomepage（））。查看[图层(Layers)](../reference/modules/Layers/README.md)
 
-### Zone
+### 构造型
 
-A section in the Layout (ex: Footer) in which you can render items.
+默认情况下，内容项(Content Items)没有构造型(stereotype)，但是某些模块将会使用定义好的构造型来确定哪些内容类型可以被它们使用。    
+其中的例子包括菜单构造型(Munu Stereotype)和小部件构造型(Widget Stereotype)。
 
-### Layer
+### 小部件
 
-A display Rule in which you specify a condition to be rendered (ex: isHomepage()).  
-See [Layers](../reference/modules/Layers/README.md)
+一种在特定区域和层(layer)中显示的内容项。   
+它在其内容定义中具有`Widget`构造型。
 
-### Stereotype
+### 流程
 
-By default Content Items have no stereotype, however certain modules will use a defined Stereotype to determine which content types can be used by them.  
-Examples of this include the Menu Stereotype, and the Widget Stereotype.
+可向其中添加小部件的页面布局。   
+请参见[流程(Flow)](../reference/modules/Flow/README.md)。
 
-### Widget
+### 短代码
 
-A content displayed in a specific zone and layer.  
-It has the `Widget` stereotype in its content definition.
+短代码是一小段包含在[方括号]中的代码，可以为内容编辑器添加一些行为，例如嵌入媒体文件。请查看[简码](../reference/modules/Shortcodes/README.md)
 
-### Flow
+## 管理员
 
-Page Layout in which you can add widgets.  
-See [Flow](../reference/modules/Flow/README.md)
+### 配方
 
-### Shortcode
+用于执行不同导入和配置步骤的JSON文件。
 
-A Shortcode is a small piece of code wrapped into [brackets] that can add some behavior to content editors, like embedding media files.  
-See [Shortcodes](../reference/modules/Shortcodes/README.md)
+### 安装配方
 
-## Administrator
+在安装期间执行的导入步骤，例如设置主题、定义类型、导入数据等。
 
-### Recipe
+### 权限
 
-A json file used to execute different import and configuration steps.
+允许角色中的用户访问特定操作。
 
-### Setup Recipe
+### 部署步骤
 
-Import steps like Set theme, Define types, Import data, ... executed during setup.
+特定信息集的导出（配置或数据）。### 部署计划
 
-### Permission
-
-Allow Users in a Role to have access to a specific action.
-
-### Deployment Step
-
-An export of a specific set of information (Configuration or Data).
-
-### Deployment Plan
-
-A batch Export that executes multiple deployment steps.
+一个批量导出工具，可以执行多个部署步骤。
+$END_OF_FILE$

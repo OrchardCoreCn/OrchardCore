@@ -1,33 +1,33 @@
 # GitHub (`OrchardCore.GitHub`)
 
-This module adds GitHub Authentication to OrchardCore.
+该模块为OrchardCore添加了GitHub身份验证。
 
-## Authenticate with GitHub
+## 使用GitHub进行身份验证
 
-Authenticates users with their GitHub Account.
+使用用户的GitHub帐户进行身份验证。
 
-Create an OAuth app in the [GitHub Developer applications](https://GitHub.com/settings/developers).  
-In the app details, you must configure the Authorization Callback URL. The default url in OrchardCore is [tenant]/signin-github.
+在[GitHub开发人员应用程序](https://GitHub.com/settings/developers)中创建OAuth应用程序。  
+在应用程序详细信息中，您必须配置授权回调URL。 OrchardCore中的默认URL为[tenant] / signin-github。
 
-Configuration can be set through the _GitHub -> Authenticate with GitHub_ settings menu in the admin dashboard.
+可以通过管理仪表板中的_GitHub->使用GitHub进行身份验证_设置菜单进行配置。
 
-Available settings are:
+可用设置为：
 
-- ClientID: Client ID found in your GitHub app.
-- Client Secret: The secret key of your GitHub app.
-- CallbackPath: The request path within the application's base path where the user-agent will be returned. The middleware will process this request when it arrives.  
-If no value is provided, setup Authorization callback URL in GitHub app to use the default path /signin-github.
+- ClientID：在GitHub应用程序中找到的客户端ID。
+- Client Secret：您的GitHub应用程序的秘密密钥。
+- CallbackPath：应用程序基本路径内的请求路径，其中将返回用户代理。中间件将在到达时处理此请求。  
+如果未提供任何值，请在GitHub应用程序中设置授权回调URL以使用默认路径/signin-github。
 
-## Users Registration
+## 用户注册
 
-- If you want to enable new users to register to the site through their GitHub account, the `OrchardCore.Users.Registration` feature must be enabled and setup accordingly.
-- An existing user can link his account to his GitHub account through the External Logins link from User menu.
+- 如果要启用新用户通过其GitHub帐户注册到站点，则必须启用和相应设置`OrchardCore.Users.Registration`功能。
+- 现有用户可以通过用户菜单中的外部登录链接将其帐户链接到其GitHub帐户。
 
-## GitHub Settings Configuration
+## GitHub设置配置
 
-The `OrchardCore.GitHub` module allows the user to use configuration values to override the settings configured from the admin area by calling the `ConfigureGitHubSettings()` extension method on `OrchardCoreBuilder` when initializing the app.
+`OrchardCore.GitHub`模块允许用户使用配置值覆盖从管理区域配置的设置，方法是在初始化应用程序时在`OrchardCoreBuilder`上调用`ConfigureGitHubSettings()`扩展方法。
 
-The following configuration values can be customized:
+可以自定义以下配置值：
 
 ```json
     "OrchardCore_GitHub": {
@@ -38,4 +38,5 @@ The following configuration values can be customized:
     }
 ```
 
-For more information please refer to [Configuration](../../core/Configuration/README.md).
+有关更多信息，请参见[Configuration](../../core/Configuration/README.md)。
+> 该文档由ChatGPT 4 翻译

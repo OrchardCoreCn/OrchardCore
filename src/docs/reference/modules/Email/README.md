@@ -1,35 +1,35 @@
 # Email (`OrchardCore.Email`)
 
-This module provides the infrastructure necessary to send emails using `SMTP`.
+该模块提供了使用 `SMTP` 发送电子邮件所需的基础设施。
 
-## SMTP Settings
+## SMTP 设置
 
-Enabling the `OrchardCore.Email` module will allow the user to set the following settings:
+启用 `OrchardCore.Email` 模块将允许用户设置以下设置：
 
-| Setting | Description |
+| 设置 | 描述 |
 | --- | --- |
-| `DefaultSender` | The email of the sender. |
-| `DeliveryMethod` | The method for sending the email, `SmtpDeliveryMethod.Network` (online) or `SmtpDeliveryMethod.SpecifiedPickupDirectory` (offline). |
-| `PickupDirectoryLocation` | The directory location for the mailbox (`SmtpDeliveryMethod.SpecifiedPickupDirectory`). |
-| `Host` | The SMTP server. |
-| `Port` | The SMTP port number. |
-| `AutoSelectEncryption` | Whether the SMTP select the encryption automatically. |
-| `RequireCredentials` | Whether the SMTP requires the user credentials. |
-| `UseDefaultCredentials` | Whether the SMTP will use the default credentials. |
-| `EncryptionMethod` | The SMTP encryption method `SmtpEncryptionMethod.None`, `SmtpEncryptionMethod.SSLTLS` or `SmtpEncryptionMethodSTARTTLS`. |
-| `UserName` | The username for the sender. |
-| `Password` | The password for the sender. |
-| `ProxyHost` | The proxy server. |
-| `ProxyPort` | The proxy port number. |
+| `DefaultSender` | 发件人的电子邮件。 |
+| `DeliveryMethod` | 发送电子邮件的方法，`SmtpDeliveryMethod.Network`（在线）或 `SmtpDeliveryMethod.SpecifiedPickupDirectory`（离线）。 |
+| `PickupDirectoryLocation` | 邮箱的目录位置（`SmtpDeliveryMethod.SpecifiedPickupDirectory`）。 |
+| `Host` | SMTP 服务器。 |
+| `Port` | SMTP 端口号。 |
+| `AutoSelectEncryption` | SMTP 是否自动选择加密。 |
+| `RequireCredentials` | SMTP 是否需要用户凭据。 |
+| `UseDefaultCredentials` | SMTP 是否使用默认凭据。 |
+| `EncryptionMethod` | SMTP 加密方法 `SmtpEncryptionMethod.None`、`SmtpEncryptionMethod.SSLTLS` 或 `SmtpEncryptionMethodSTARTTLS`。 |
+| `UserName` | 发件人的用户名。 |
+| `Password` | 发件人的密码。 |
+| `ProxyHost` | 代理服务器。 |
+| `ProxyPort` | 代理端口号。 |
 
-!!! note
-    You must configure `ProxyHost` and `ProxyPort` if the SMTP server runs through a proxy server.
+!!! 注意
+    如果 SMTP 服务器通过代理服务器运行，则必须配置 `ProxyHost` 和 `ProxyPort`。
 
-## Email Settings Configuration
+## 电子邮件设置配置
 
-The `OrchardCore.Email` module allows the user to use configuration values to override the settings configured from the admin area by calling the `ConfigureEmailSettings()` extension method on `OrchardCoreBuilder` when initializing the app.
+`OrchardCore.Email` 模块允许用户使用配置值通过在初始化应用程序时调用 `OrchardCoreBuilder` 上的 `ConfigureEmailSettings()` 扩展方法来覆盖从管理区域配置的设置。
 
-The following configuration values can be customized:
+以下配置值可以自定义：
 
 ```json
     "OrchardCore_Email": {
@@ -50,7 +50,7 @@ The following configuration values can be customized:
     }
 ```
 
-For more information please refer to [Configuration](../../core/Configuration/README.md).
+有关更多信息，请参见 [Configuration](../../core/Configuration/README.md)。
 
 ## Credits
 
@@ -58,5 +58,6 @@ For more information please refer to [Configuration](../../core/Configuration/RE
 
 <https://github.com/jstedfast/MailKit>
 
-Copyright 2013-2019 Xamarin Inc
-Licensed under the MIT License
+版权所有 2013-2019 Xamarin Inc
+根据 MIT 许可证许可
+> 该文档由ChatGPT 4 翻译

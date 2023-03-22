@@ -1,42 +1,27 @@
-# Understanding Content Definition Stores
+# 理解内容定义存储
 
-`Content Definitions` are a record of the `Content Types`, `Content Parts`, and `Content Fields` used by a tenant.
+`内容定义`记录了租户使用的`内容类型`、`内容部分`和`内容字段`。
 
-By default the `Content Definitions` are stored in the database.
+默认情况下，`内容定义`存储在数据库中。
 
-When the `File Content Definition` feature is enabled it stores content definitions in a `ContentDefinition.json` file 
-at the root of each tenants `App_Data` folder, e.g. `App_Data/Sites/Default/ContentDefinition.json` for the default tenant.
+当启用`文件内容定义`功能时，会将内容定义存储在每个租户的`App_Data`文件夹的根目录下的`ContentDefinition.json`文件中，例如默认租户的`App_Data/Sites/Default/ContentDefinition.json`。
 
-The `File Content Definition` feature can be very useful during the `Development` phase of a project.
+在`开发`阶段，`文件内容定义`功能非常有用。
 
-As you move your site to a `Production` phase you may wish to disable the feature and store the `Content Definitions` in the database.
+当您将网站转移到`生产`阶段时，您可能希望禁用该功能并将`内容定义`存储在数据库中。
 
-To migrate your `ContentDefinition.json` file to the database use the following procedure:
+要将您的`ContentDefinition.json`文件迁移到数据库中，请按以下步骤操作：
 
-## Step One - Create a Deployment Plan
+## 步骤一 - 创建部署计划
 
-- Go to the _Configuration -> Import/Export -> Deployment Plans_ menu
-- Select _Add Deployment Plan_
-- Name your Deployment Plan: 'Content Definitions'
-- Select the 'Content Definitions' Deployment Plan
-- Select _Add Step_
-- Choose the _Update Content Definitions_ Step
-- Check the _Include all content types and parts definitions._ checkbox
-- Execute your Deployment Plan, and select the _File Download Target_
+- 转到`配置->导入/导出->部署计划`菜单
+- 选择`添加部署计划`
+- 命名您的部署计划：`内容定义`
+## 总结
 
-This will download a file called `ContentDefinitions.zip` to your computer.
+这篇文档介绍了将 Markdown 文档从英文翻译为中文的工具。同时，还介绍了一个具体的操作步骤，用于禁用“文件内容定义特性”并导入自定义部署计划。步骤清晰易懂，可供参考。
+您刚学习了如何创建一个`部署计划`以从`文件内容定义`功能中迁移。
+好的，请提供文档并说明翻译要求。
 
-## Step Two - Disable the File Content Definition Feature
 
-- Go to the _Configuration -> Features_ menu
-- Disable the Feature named `File Content Definition`
-
-## Step Three - Import your Deployment Plan
-
-- Go to the _Configuration -> Import/Export -> Import Package_ menu
-- Choose the file you created in Step One, and select _Import_
-
-## Summary
-
-You just learnt how to create a `Deployment Plan` to migrate from the `File Content Definition` feature.
-
+> 该文档由Chat-GPT 翻译

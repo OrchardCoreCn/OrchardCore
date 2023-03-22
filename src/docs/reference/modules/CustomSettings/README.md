@@ -1,45 +1,45 @@
 # Custom Settings (`OrchardCore.CustomSettings`)
+# 自定义设置 (`OrchardCore.CustomSettings`)
 
-Custom Settings allow a site administrator to create a customized set of properties that are global to the web sites.  
-These settings are edited in the standard Settings section and can be protected with specific permissions.
+自定义设置允许网站管理员创建一组全局属性。这些设置在标准设置部分中进行编辑，并可以使用特定权限进行保护。
 
-## Creating Custom Settings
+## 创建自定义设置
 
-Custom Settings are organized in sections. Each section is represented by a Content Type with the `CustomSettings` stereotype.  
-When creating such a section, remember to disable `Creatable`, `Listable`, `Draftable` and `Securable` metadata as they don't apply.
+自定义设置按部分组织。每个部分由具有`CustomSettings`原型的内容类型表示。  
+创建此类部分时，请记住禁用`Creatable`、`Listable`、`Draftable`和`Securable`元数据，因为它们不适用。
 
-!!! warning
-    Don't mark any existing Content Type with this `CustomSettings` stereotype, as this will break existing content items of this type.
+!!! 警告
+    不要将任何现有的内容类型标记为此`CustomSettings`原型，因为这将破坏此类型的现有内容项。
 
-Custom Settings are then comprised of parts and fields like any other content type.  
-Once created, open the Setting menu item and each of these sections should appear alongside the module-provided ones.
+自定义设置由部分和字段组成，就像其他任何内容类型一样。  
+创建后，打开设置菜单项，每个部分都应出现在模块提供的部分旁边。
 
-### Permissions
+### 权限
 
-Each Custom Settings section gets a dedicated permission to allow specific users to edit it.
+每个自定义设置部分都会获得专用权限，以允许特定用户对其进行编辑。
 
-To edit this permission open the Roles editor and go to the `OrchardCore.CustomSettings` Feature group.
+要编辑此权限，请打开角色编辑器并转到`OrchardCore.CustomSettings`功能组。
 
-## Usage
+## 用法
 
 ### Liquid
 
-The Custom Settings (like other settings) are available in the `{{ Site.Properties }}` object.  
-Each section is made available using its name.
+自定义设置（如其他设置）在`{{Site.Properties}}`对象中可用。  
+每个部分都可以使用其名称。
 
-For instance the `HtmlBodyPart` of a custom settings section named `BlogSettings` would be accessible using `{{ Site.Properties.BlogSettings.HtmlBodyPart }}`.
+例如，名为`BlogSettings`的自定义设置部分的`HtmlBodyPart`将可通过`{{Site.Properties.BlogSettings.HtmlBodyPart}}`访问。
 
-### Code
+### 代码
 
-Custom Settings are a ContentItem, and by accessing it as a `ContentItem` you can access its parts and metadata.
+自定义设置是ContentItem，通过将其访问为`ContentItem`，您可以访问其部分和元数据。
 
-!!! note
-    You will need to register your `ContentPart` with Dependency Injection as demonstrated in the [ContentTypes documentation](../ContentTypes/README.md).
+!!! 注意
+    您需要在[ContentTypes文档](../ContentTypes/README.md)中演示的依赖注入中注册您的`ContentPart`。
 
-Here is an example of getting the `HtmlBodyPart` of a custom settings section named `BlogSettings`:
+以下是获取名为`BlogSettings`的自定义设置部分的`HtmlBodyPart`的示例：
 
-!!! warning
-    These types may be modified in the CMS. It's important to make sure these types will not be modified outside of the development cycle when consuming them in code.
+!!! 警告
+    这些类型可能会在CMS中进行修改。在消耗它们的代码中，确保这些类型不会在开发周期之外进行修改。
 
 ```csharp
 public class MyController : Controller
@@ -54,12 +54,15 @@ public class MyController : Controller
         var siteSettings = await _siteService.GetSiteSettingsAsync();
         var blogSettings = siteSettings.As<ContentItem>("BlogSettings");
         var blogHtml = blogSettings.As<HtmlBodyPart>();
-
-        return View();
+ View();
     }
 }
 ```
 
-## Video
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/RuDsBx4wdT0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/RuDsBx4wdT0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+> 该文档由ChatGPT 4 翻译

@@ -1,34 +1,34 @@
-# Content Types (`OrchardCore.ContentTypes`)
+# 内容类型 (`OrchardCore.ContentTypes`)
 
-## View Components
+## 视图组件
 
 ### `SelectContentTypes`
 
-Renders an editor to select a list of content types.  
-It can optionally filter content types of a specific stereotype.  
-The editor returns the selection as a `string[]` on the model.
+渲染一个编辑器以选择内容类型列表。  
+它可以选择性地过滤特定原型的内容类型。  
+编辑器将选择作为模型上的 `string[]` 返回。
 
-#### Parameters
+#### 参数
 
-| Parameter | Type | Description |
+| 参数 | 类型 | 描述 |
 | --------- | ---- | ----------- |
-| `selectedContentTypes` | `string[]` | The list of content types that should be marked as selected when rendering the editor. |
-| `htmlName` | `string` | The name of the model property to bind the result to.
-| `stereotype` (optional) | `string` | A stereotype name to filter the list of content types available to select. |
+| `selectedContentTypes` | `string[]` | 渲染编辑器时应标记为选定的内容类型列表。 |
+| `htmlName` | `string` | 将结果绑定到的模型属性的名称。
+| `stereotype` (可选) | `string` | 用于过滤可选择的内容类型列表的原型名称。 |
 
-#### Sample
+#### 示例
 
 ```csharp
 @await Component.InvokeAsync("SelectContentTypes", new { selectedContentTypes = Model.ContainedContentTypes, htmlName = Html.NameFor(m => m.ContainedContentTypes) })
 ```
 
-## Migrations
+## 迁移
 
-Migration classes can be used to alter the content type definitions, like by adding new __types__, or configuring their __parts__ and __fields__.
+迁移类可用于更改内容类型定义，例如添加新的 __类型__，或配置其 __部分__ 和 __字段__。
 
 ### `IContentDefinitionManager`
 
-This service provides a way to modify the content type definitions. From a migrations class, we can inject an instance of this interface.
+此服务提供了一种修改内容类型定义的方法。从迁移类中，我们可以注入此接口的实例。
 
 ```csharp
 public class Migrations : DataMigration
@@ -42,41 +42,41 @@ public class Migrations : DataMigration
 
     public int Create()
     {
-        // This code will be run when the feature is enabled
+        // 此代码将在启用功能时运行
 
         return 1;
     }
 }
 ```
 
-### Creating a new Content Type
+### 创建新的内容类型
 
-The following example creates a new Content Type named `Product`.
+以下示例创建名为 `Product` 的新内容类型。
 
 ```csharp
 _contentDefinitionManager.AlterTypeDefinition("Product");
 ```
 
-### Changing the metadata of a Content Type
+### 更改内容类型的元数据
 
-To change specific properties of the content type, an argument can be used to configure it:
+要更改内容类型的特定属性，可以使用参数进行配置：
 
 ```csharp
 _contentDefinitionManager.AlterTypeDefinition("Product", type => type
-    // content items of this type can have drafts
+    // 此类型的内容项可以有草稿
     .Draftable()
-    // content items versions of this type have saved
+    // 此类型的内容项版本已保存
     .Versionable()
-    // this content type appears in the New menu section
+    // 此内容类型出现在新菜单部分中
     .Creatable()
-    // permissions can be applied specifically to instances of this type
+    // 可以将权限专门应用于此类型的实例
     .Securable()
 );
 ```
 
-### Adding Content Parts to a type
+### 将内容部分添加到类型
 
-The following example adds the `TitlePart` content part to the `Product` type.
+以下示例将 `TitlePart` 内容部分添加到 `Product` 类型。
 
 ```csharp
 _contentDefinitionManager.AlterTypeDefinition("Product", type => type
@@ -84,24 +84,24 @@ _contentDefinitionManager.AlterTypeDefinition("Product", type => type
 );
 ```
 
-Each part can also be configured in the context of a type. For instance the `AutoroutePart` requires a __Liquid__ template as its pattern to generate custom routes. It's defined in a custom setting for this part.
+每个部分也可以在类型的上下文中进行配置。例如，`AutoroutePart` 需要一个 __Liquid__ 模板作为其模式以生成自定义路由。它在此部分的自定义设置中定义。
 
 ```csharp
 _contentDefinitionManager.AlterTypeDefinition("Product", type => type
     .WithPart("AutoroutePart", part => part
-        // sets the position among other parts
+        // 在其他部分中设置位置
         .WithPosition("2")
-        // sets all the settings on the AutoroutePart
+        // 设置 AutoroutePart 上的所有设置
         .WithSettings(new AutoroutePartSettings { Pattern = "{{ ContentItem | display_text | slugify }}" })
     )
 );
 ```
 
-For a list of all the settings each type can use, please refer to their respective documentation pages.
+有关每种类型可以使用的所有设置的列表，请参阅它们各自的文档页面。
 
-### Adding Content Fields to a part
+### 将内容字段添加到部分
 
-Fields can not be attached directly to a Content Type. To add fields to a content type, create a part with the same name as the type, and add fields to this part.
+字段不能直接附加到内容类型。要将字段添加到内容类型，请创建与类型名称相同的部分，并将字段添加到此部分中。
 
 ```csharp
 _contentDefinitionManager.AlterTypeDefinition("Product", type => type
@@ -111,25 +111,25 @@ _contentDefinitionManager.AlterTypeDefinition("Product", type => type
 _contentDefinitionManager.AlterPartDefinition("Product", part => part
     .WithField("Image", field => field
         .OfType("MediaField")
-        .WithDisplayName("Main image")
+        .WithDisplayName("主图像")
     )
     .WithField("Price", field => field
         .OfType("NumericField")
-        .WithDisplayName("Price")
+        .WithDisplayName("价格")
     )
 );
 ```
 
-When added to a part, fields can also have custom settings which for instance will define how the editor will behave, or validation rules. Also refer to their respective documentation pages for a list of possible settings.
+将字段添加到部分时，字段还可以具有自定义设置，例如定义编辑器的行为方式或验证规则。有关可能设置的列表，请参阅它们各自的文档页面。
 
-### Consuming Content Parts and Fields from CSharp
+### 从 CSharp 使用内容部分和字段
 
-It's possible to get strongly typed versions of Content Parts and Fields from the above type definitions.
+可以从上述类型定义中获取 Content Parts 和 Fields 的强类型版本。
 
-!!! warning
-    These types may be modified in the CMS. It's important to make sure these types will not be modified outside of the development cycle when consuming them in code.
+!!! 警告
+    这些类型可能会在 CMS 中进行修改。在代码中使用它们时，确保在开发周期之外不会修改这些类型非常重要。
 
-First, create a part that matches the type definition:
+首先，创建与类型定义匹配的部分：
 
 ```csharp
 public class Product : ContentPart
@@ -139,7 +139,7 @@ public class Product : ContentPart
 }
 ```
 
-Then, register your ContentPart with Dependency Injection:
+然后，使用依赖项注入注册 ContentPart：
 
 ```csharp
 using OrchardCore.ContentManagement;
@@ -155,7 +155,7 @@ public class Startup : StartupBase
 }
 ```
 
-Finally, here is an example of consuming your Content Item as your Content Part in a Controller.
+最后，以下是在控制器中将 Content Item 作为 Content Part 使用的示例。
 
 ```csharp
 public class ProductController : Controller
@@ -181,8 +181,8 @@ public class ProductController : Controller
 
         var productPart = product.As<Product>();
 
-        // you'll get exceptions if any of these Fields are null
-        // the null-conditional operator (?) should be used for any fields which aren't required
+        // 如果这些字段中的任何一个为 null，则会引发异常
+        // 对于不需要的任何字段，应使用 null-conditional 运算符 (?)
         return new ObjectResult(new {
              Image = productPart.Image.Paths.FirstOrDefault(),
              Price = productPart.Price.Value,
@@ -192,7 +192,7 @@ public class ProductController : Controller
     [HttpPost("/api/product/{productId}/price/{price}")]
     public async Task<ContentValidateResult> UpdateProductPriceAsync(string productId, int price)
     {
-        //this call will only fetch published content item, which makes publishing after update redundant
+        //此调用仅获取已发布的内容项，这使得更新后的发布变得多余
         var product = _orchardHelper.GetContentItemByIdAsync(productId);
 
         if (product == null) 
@@ -203,12 +203,14 @@ public class ProductController : Controller
         var productPart = product.As<Product>();
         productPart.Price.Value = price;
         
-        product.Apply(productPart) //apply modified part to a content item
+        product.Apply(productPart) //将修改后的部分应用于内容项
         
-        await _contentManager.UpdateAsync(product); //update will fire handlers which could alter the content item.
+        await _contentManager.UpdateAsync(product); //更新将触发处理程序，这些处理程序可能会更改内容项。
 
-        //validation will cancel changes if product is not valid. It's fired after update since handlers could change the object.
+        //验证将取消更改，如果产品无效。它在更新后触发，因为处理程序可能会更改对象。
         return await _contentManager.ValidateAsync(product);
     }
 }
 ```
+
+> 该文档由ChatGPT 4 翻译

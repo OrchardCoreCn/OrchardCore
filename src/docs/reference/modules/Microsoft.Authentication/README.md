@@ -1,60 +1,60 @@
 # Microsoft Authentication (`OrchardCore.Microsoft.Authentication`)
 
-This module configures Orchard to support Microsoft Account and/or Microsoft Azure Active Directory accounts.
+该模块配置Orchard以支持Microsoft帐户和/或Microsoft Azure Active Directory帐户。
 
 ## Microsoft Account
 
-Authenticates users with their Microsoft Account.
-If the site allows to register new users, a local user is created and the Microsoft Account is linked.
-If a local user with the same email is found, then the external login is linked to that account, after authenticating.
+使用Microsoft帐户对用户进行身份验证。
+如果站点允许注册新用户，则会创建本地用户并链接Microsoft帐户。
+如果找到具有相同电子邮件的本地用户，则在身份验证后将外部登录链接到该帐户。
 
-You should create an app in the [Application Registration Portal](https://apps.dev.microsoft.com) and add the web platform.
+您应在[应用程序注册门户](https://apps.dev.microsoft.com)中创建应用程序并添加Web平台。
 
-Give a name for your App, create a secret that you will use it as AppSecret in Orchard, and allow the implicit flow. The default callback at Orchard is [tenant]/signin-microsoft or can be set as needed.
+为您的应用程序命名，创建一个将用作Orchard中的AppSecret的密钥，并允许隐式流。 Orchard中的默认回调为[tenant] / signin-microsoft，或者可以根据需要设置。
 
-Configuration can be set through the _Microsoft Authentication -> Microsoft Account_ settings menu in the admin dashboard.
+可以通过管理仪表板中的_Microsoft Authentication-> Microsoft Account_设置菜单设置配置。
 
-Available settings are:
+可用设置为：
 
-- AppId: Application id in the Application Registration Portal.
-- AppSecret: The application secret that will be used by Orchard.
-- CallbackPath: The request path within the application's base path where the user-agent will be returned. The middleware will process this request when it arrives.
-If no value is provided, setup Microsoft Account app to use the default path /signin-microsoft.
+- AppId：应用程序注册门户中的应用程序ID。
+- AppSecret：Orchard将使用的应用程序密钥。
+- CallbackPath：应用程序基本路径内的请求路径，用户代理将在其中返回。中间件将在到达时处理此请求。
+如果未提供任何值，请设置Microsoft Account应用程序以使用默认路径/signin-microsoft。
 
 ## Azure Active Directory
 
-Authenticates users with their Azure AD Account, like Microsoft work or school accounts. If the site allows to register new users, a local user is created and the Azure AD account is linked. If a local user with the same email is found, then the external login is linked to that account, after authenticating.
+使用其Azure AD帐户对用户进行身份验证，例如Microsoft工作或学校帐户。如果站点允许注册新用户，则会创建本地用户并链接Azure AD帐户。如果找到具有相同电子邮件的本地用户，则在身份验证后将外部登录链接到该帐户。
 
-First, you need to create an Azure AD app on the [Azure Portal](https://portal.azure.com) for your Azure AD tenant.
+首先，您需要在[Azure门户](https://portal.azure.com)上为Azure AD租户创建Azure AD应用程序。
 
-1. Go to the "Azure Active Directory" menu, which will open your organization's Active Directory settings.
-2. Open "App registrations" and click "New registration" to start creating a new app registration.
-3. Use the following settings:
-    - Name: We suggest the name of your web app, e.g. "My App". This is not the same display name that you need to specify for the login later and it doesn't need to match anything else.
-    - Supported account types: The feature supports both single and multitenant Azure AD, but not personal accounts.
-    - Redirect URI: While supposedly optional, you have to specify one for the login flow to work with web apps. Add the URL that'll handle Azure AD login redirects; by default, this is `/signin-oidc` under your app's root URL, e.g. "https://example.com/signin-oidc" (upon login, users will be redirected to the page they visited previously, this isn't for that).
-4. Once the app is created, note the following details of it, as displayed in the Azure Portal, which will be necessary to configure in Orchard Core later:
-    - Application (client) ID
-    - Directory (tenant) ID
-5. Configure the rest of the authentication settings of the app under its "Authentication" menu. There, under "Implicit grant and hybrid flows", enable both "Access tokens (used for implicit flows)" and "ID tokens (used for implicit and hybrid flows)". Without these, login will fail with errors.
-6. Configure the `email` claim under the "Token configuration" menu. Click "Add optional claim", as "Token type" select "ID", then select "email" and click "Add". Without this, Orchard can't match logins based on the user's email, and thus existing users won't be able to log in.
+1.转到“Azure Active Directory”菜单，这将打开您的组织的Active Directory设置。
+2.打开“应用程序注册”，然后单击“新注册”以开始创建新的应用程序注册。
+3.使用以下设置：
+    -名称：我们建议您的Web应用程序的名称，例如“My App”。这不是您需要在登录后指定的显示名称，也不需要与其他任何内容匹配。
+    -支持的帐户类型：该功能支持单租户和多租户Azure AD，但不支持个人帐户。
+    -重定向URI：虽然据说是可选的，但您必须为Web应用程序指定一个以使登录流程正常工作。添加将处理Azure AD登录重定向的URL；默认情况下，这是您的应用程序根URL下的/ signin-oidc，例如“https://example.com/signin-oidc”（登录后，用户将被重定向到他们之前访问的页面，这不是为此）。
+4.创建应用程序后，请注意在Azure门户中显示的以下详细信息，这些信息将需要在Orchard Core中进行配置：
+    -应用程序（客户端）ID
+    -目录（租户）ID
+5.在其“身份验证”菜单下配置应用程序的其余身份验证设置。在“隐式授权和混合流”下，启用“访问令牌（用于隐式流）”和“ID令牌（用于隐式和混合流）”。如果没有这些，登录将失败并显示错误。
+6.在“令牌配置”菜单下配置“电子邮件”声明。单击“添加可选声明”，选择“令牌类型”为“ID”，然后选择“电子邮件”，然后单击“添加”。如果没有此项，Orchard无法根据用户的电子邮件匹配登录，因此现有用户将无法登录。
 
-Now you're ready to configure Azure AD login in Orchard too. After you enable the "Microsoft Azure Active Directory Authentication" feature, on the Orchard admin you'll see the "Security" → "Azure Active Directory" menu. Configure the following at least:
+现在，您已准备好在Orchard中配置Azure AD登录。启用“Microsoft Azure Active Directory Authentication”功能后，在Orchard管理员中，您将看到“Security”→“Azure Active Directory”菜单。至少进行以下配置：
 
-- Display Name: The text that'll be displayed on the Orchard login screen. We recommend something like "My Company Microsoft account".
-- AppId: Use the above-mentioned "Application (client) ID" from the Azure Portal.
-- TenantId: Use the above-mentioned "Directory (tenant) ID" from the Azure Portal.
-- CallbackPath: We recommend not changing this unless you want to handle the login callback from your custom code, or if the `/signin-oidc` path is used by something else. This is the path within the application's base path where the user-agent will be returned after login. The middleware will process this request when it arrives. If no value is provided, the default `/signin-oidc` is used, which requires no further setup. If you change this, you'll also need to use it under "Redirect URIs" of the app in the Azure Portal.
+-显示名称：将在Orchard登录屏幕上显示的文本。我们建议类似于“My Company Microsoft account”的内容。
+-AppId：使用Azure门户中上述“应用程序（客户端）ID”。
+-TenantId：使用Azure门户中上述“目录（租户）ID”。
+-CallbackPath：我们建议不更改此项，除非您想通过自定义代码处理登录回调，或者如果/sigin-oidc路径由其他内容使用。这是应用程序基本路径内的路径，在登录后用户代理将在其中返回。中间件将在到达时处理此请求。如果未提供任何值，则使用默认值/ signin-oidc，无需进一步设置。如果更改此项，则还需要在Azure门户中的应用程序的“重定向URI”下使用它。
 
-Now, the login screen will display a button for Azure AD login:
+现在，登录屏幕将显示Azure AD登录按钮：
 
-![Azure AD login button on the Orchard Core login screen](images/azure-ad-login-button.png)
+![Orchard Core登录屏幕上的Azure AD登录按钮](images/azure-ad-login-button.png)
 
-Existing users who have the same e-mail address in Orchard and in Azure AD will be able to log in and attach their two accounts. New users will be able to register if registration is otherwise enabled and set up, see below.
+在Orchard和Azure AD中具有相同电子邮件地址的现有用户将能够登录并附加其两个帐户。如果启用并设置了注册，新用户将能够注册，有关详细信息，请参见下文。
 
-### Recipe Step
+###配方步骤
 
-The Azure Active Directory can be set during recipes using the settings step. Here is a sample step:
+可以使用设置步骤在配方中设置Azure Active Directory。这是一个示例步骤：
 
 ```json
 {
@@ -66,16 +66,16 @@ The Azure Active Directory can be set during recipes using the settings step. He
 }
 ```
 
-## User Registration
+##用户注册
 
-- If you want to enable new users to register to the site through their Microsoft Account and/or Microsoft Azure AD login, the `OrchardCore.Users.Registration` feature must be enabled and setup accordingly.
-- Apart from during login, an existing user can link their account to their Microsoft Account and/or Microsoft Azure AD login through the External Logins link from User menu.
+-如果要通过其Microsoft帐户和/或Microsoft Azure AD登录启用新用户注册站点，则必须启用和相应地设置`OrchardCore.Users.Registration`功能。
+-除了在登录期间外，现有用户可以通过用户菜单中的外部登录链接将其帐户链接到其Microsoft帐户和/或Microsoft Azure AD登录。
 
-## Microsoft Account & Azure Active Directory Settings Configuration
+## Microsoft Account＆Azure Active Directory设置配置
 
-The `OrchardCore.Microsoft.Authentication` module allows the user to use configuration values to override the settings configured from the admin area by calling the `ConfigureMicrosoftAccountSettings()` or `ConfigureAzureADSettings()` extension methods on `OrchardCoreBuilder` when initializing the app.
+`OrchardCore.Microsoft.Authentication`模块允许用户使用配置值覆盖通过在初始化应用程序时在`OrchardCoreBuilder`上调用`ConfigureMicrosoftAccountSettings（）`或`ConfigureAzureADSettings（）`扩展方法从管理区域配置的设置。
 
-The following configuration values can be customized:
+可以自定义以下配置值：
 
 ```json
     "OrchardCore_Microsoft_Authentication_MicrosoftAccount": {
@@ -96,4 +96,5 @@ The following configuration values can be customized:
     }
 ```
 
-For more information please refer to [Configuration](../../core/Configuration/README.md).
+有关更多信息，请参见[Configuration]（../../core/Configuration/README.md）。
+> 该文档由ChatGPT 4 翻译

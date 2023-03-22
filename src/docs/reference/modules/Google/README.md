@@ -1,67 +1,67 @@
 # Google (`OrchardCore.Google`)
 
-This module adds Google features to OrchardCore.
+该模块为OrchardCore添加了Google功能。
 
 ## Google Analytics
 
-Enable Google Analytics Feature to integrate tracking on the front end site.
+启用Google Analytics功能以在前端网站上集成跟踪。
 
-Navigate to [Google Analytics](https://analytics.google.com/analytics/web) portal and select the Analytics account you want to use.
+转到[Google Analytics](https://analytics.google.com/analytics/web)门户网站并选择要使用的分析帐户。
 
-Copy the Tracking ID from the Admin->Tracking Info->Tracking Code link.
+从Admin->Tracking Info->Tracking Code链接中复制跟踪ID。
 
-Το configure Orchard Core, go to _Google -> Google Analytics_ settings menu in the admin dashboard and enter the Tracking ID.
+要配置Orchard Core，请转到管理仪表板中的_Google->Google Analytics_设置菜单并输入跟踪ID。
 
 ## Google Tag Manager
 
-Enable Google Tag Manager Feature to integrate on the front end site.
+启用Google Tag Manager功能以在前端网站上集成。
 
-Navigate to [Google Tag Manager](https://tagmanager.google.com/) portal and create a Tag Manager account.
+转到[Google Tag Manager](https://tagmanager.google.com/)门户网站并创建一个标记管理器帐户。
 
-Copy the _Container ID_ generated for you to use on your website.
+复制为您生成的_Container ID_以在您的网站上使用。
 
-Το configure Orchard Core, go to _Google -> Google Tag Manager_ settings menu in the admin dashboard and enter the Container ID.
+要配置Orchard Core，请转到管理仪表板中的_Google->Google Tag Manager_设置菜单并输入容器ID。
 
-## Google Authentication
+## Google身份验证
 
-Enable Google Authentication to allow users to use their Google Account to login.
+启用Google身份验证以允许用户使用其Google帐户登录。
 
-Create a project in the [Google API Console](https://console.developers.google.com/projectselector/apis/library).
+在[Google API控制台](https://console.developers.google.com/projectselector/apis/library)中创建一个项目。
 
-Add the Google+ API to your project. Navigate to Credentials and Create Credentials for your site.
+将Google+ API添加到您的项目中。导航到凭据并为您的站点创建凭据。
 
-In the 'Which API are you using' question select the Google+ API
+在“您使用哪个API”问题中选择Google+ API
 
-In the 'Where will you be calling the API from' question select the Web server (e.g. node.js, Tomcat).
+在“您将从哪里调用API”问题中选择Web服务器（例如node.js，Tomcat）。
 
-In the 'What data will you be accessing' question select 'User data'
+在“您将访问哪些数据”问题中选择“用户数据”
 
-Now click the 'What credentials do I need?' button and set the ClientID.  
-You must also set the authorized redirect URI to point to your Orchard instance. The default url in OrchardCore is [tenant]/signin-google
+现在单击“我需要什么凭据？”按钮并设置ClientID。 
+您还必须将授权重定向URI设置为指向您的Orchard实例。 OrchardCore中的默认URL为[tenant] / signin-google
 
-The next step is to parameterize the consent screen that will appear to the user.
+下一步是参数化将显示给用户的同意屏幕。
 
-Now you can download your credentials.
+现在，您可以下载您的凭据。
 
-Configuration can be set through the _Google -> Google Authentication_ settings menu in the admin dashboard.
+可以通过管理仪表板中的_Google->Google身份验证_设置菜单设置配置。
 
-Available settings are:
+可用设置包括：
 
-+ ClientID: The client_id field value in the downloaded json file.
-+ ClientSecret: The client_secret field value in the downloaded json file.
-+ CallbackPath: The request path within the application's base path where the user-agent will be returned. The middleware will process this request when it arrives.  
-If no value is provided, setup Callback URL in Google API to use the default path /signin-google.
++ ClientID：下载的json文件中的client_id字段值。
++ ClientSecret：下载的json文件中的client_secret字段值。
++ CallbackPath：用户代理将返回的应用程序基本路径内的请求路径。 中间件将在到达时处理此请求。 
+如果未提供任何值，请在Google API中设置回调URL以使用默认路径/signin-google。
 
-## Users Registration
+## 用户注册
 
-+ If you want to enable new users to register to the site through their Google account, the `OrchardCore.Users.Registration` feature must be enabled and setup accordingly.
-+ An existing user can link his account to his Google account through the External Logins link from User menu.
++ 如果您想通过他们的Google帐户启用新用户注册到站点，则必须启用和相应设置`OrchardCore.Users.Registration`功能。
++ 现有用户可以通过用户菜单中的外部登录链接将其帐户链接到其Google帐户。
 
-## Google Settings Configuration
+## Google设置配置
 
-The `OrchardCore.Google` module allows the user to use configuration values to override the settings configured from the admin area by calling the `ConfigureGoogleSettings()` extension method on `OrchardCoreBuilder` when initializing the app.
+`OrchardCore.Google`模块允许用户使用配置值覆盖从管理区域配置的设置，通过在初始化应用程序时调用`OrchardCoreBuilder`上的`ConfigureGoogleSettings()`扩展方法。
 
-The following configuration values can be customized:
+可以自定义以下配置值：
 
 ```json
     "OrchardCore_Google": {
@@ -72,4 +72,5 @@ The following configuration values can be customized:
     }
 ```
 
-For more information please refer to [Configuration](../../core/Configuration/README.md).
+有关更多信息，请参见[Configuration](../../core/Configuration/README.md)。
+> 该文档由ChatGPT 4 翻译

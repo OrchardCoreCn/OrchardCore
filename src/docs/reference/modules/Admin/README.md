@@ -1,10 +1,10 @@
-# Admin (`OrchardCore.Admin`)
+# 管理员 (`OrchardCore.Admin`)
 
-The Admin module provides an admin dashboard for your site.
+管理员模块为您的网站提供了一个管理仪表板。
 
-## Custom Admin prefix
+## 自定义管理员前缀
 
-If you want to specify another prefix in the urls to access the admin section, you can change it by using this option in the appsettings.json:
+如果您想在URL中指定另一个前缀以访问管理员部分，则可以通过在appsettings.json中使用此选项来更改它：
 
 ``` json
   "OrchardCore": {
@@ -13,14 +13,14 @@ If you want to specify another prefix in the urls to access the admin section, y
       }
     }
 ```
-## Customize Admin branding
+## 自定义管理员品牌
 
-By default, OrchardCore logo and site name are displayed in the top navbar.
+默认情况下，OrchardCore的标志和站点名称显示在顶部导航栏中。
 
-You can change it by overriding 'AdminBranding' shape, either from a [custom admin theme](../../../guides/create-admin-theme/README.md) or using Admin Templates feature.
-You can also use this shape to define admin favicon.
+您可以通过覆盖“AdminBranding”形状来更改它，无论是从[自定义管理员主题](../../../guides/create-admin-theme/README.md)还是使用管理员模板功能。
+您还可以使用此形状来定义管理员favicon。
 
-Here are samples using logo and favicon from media module.
+以下是使用媒体模块的徽标和favicon的示例。
 
 === "Liquid"
 
@@ -43,3 +43,4 @@ Here are samples using logo and favicon from media module.
         <span>@Site.SiteName</span>
     </a>
     ```
+> 该文档由ChatGPT 4 翻译

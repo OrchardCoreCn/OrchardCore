@@ -1,170 +1,167 @@
-# Dynamic Cache (`OrchardCore.DynamicCache`)
+# 动态缓存 (`OrchardCore.DynamicCache`)
 
-## Purpose
+## 目的
 
-Dynamic Cache allows you to cache sections of markup.  
-Each cached section of markup can contain other (child) cached sections of markup.
+动态缓存允许您缓存标记的部分。  
+每个缓存的标记部分可以包含其他（子）缓存的标记部分。
 
-Cached sections can all have their own cache policies, which allows for finer configuration options than a page level cache would have.
+缓存的部分可以都有自己的缓存策略，这允许比页面级缓存更细的配置选项。
 
-Cached values are stored using the `IDynamicCache` service.  
-Its default implementation is based on `IDistributedCache` which is itself based on `IMemoryCache`.
+使用 `IDynamicCache` 服务存储缓存值。  
+其默认实现基于 `IDistributedCache`，后者本身基于 `IMemoryCache`。
 
-### Example
+### 示例
 
-Layout (not cached)
+布局（未缓存）
 
-- Section A
-  - Section A1 (varies by role)
-  - Section A2
-- Section B
-  - Section B1 (varies by query string)
-  - Section B2
+- 部分 A
+  - 部分 A1（根据角色变化）
+  - 部分 A2
+- 部分 B
+  - 部分 B1（根据查询字符串变化）
+  - 部分 B2
 
-## Rendering cached sections
+## 渲染缓存的部分
 
-When this page is rendered for the first time, all shapes will be evaluated. Any blocks of markup that have been identified as cacheable will be stored in the `IDynamicCache` service.
+当第一次渲染此页面时，将评估所有形状。已标识为可缓存的标记块将存储在 `IDynamicCache` 服务中。
 
-On subsequent requests, if a cacheable section has already been cached (and the cache entry is still valid) then it won't be processed (`Processing` event in
-the `ShapeMetadata`). The markup will be retrieved from the cache and returned as part of the response.
+在后续请求中，如果已经缓存了可缓存的部分（并且缓存条目仍然有效），则不会处理它（`ShapeMetadata` 中的 `Processing` 事件）。标记将从缓存中检索并作为响应的一部分返回。
 
-## Invalidating cached sections
-If a cached section is invalidated, the markup for the section will be regenerated on the next request, and then placed back into the cache for subsequent requests to take advantage of.
+## 使缓存的部分无效
+如果缓存的部分无效，则该部分的标记将在下一次请求中重新生成，然后放回缓存以供后续请求使用。
 
-- If its children are still cached, then their cached value will be used.
-- Invalidating a block will also invalidate all parent blocks.
+- 如果其子级仍然被缓存，则将使用其缓存值。
+- 使块无效也将使所有父块无效。
 
-For instance, if `Section B2` is invalidated, `Section B` will also be invalidated. When the Layout is rendered, the `Section B` code will run 
-again, as will `Section B2`, but the cached content of `Section B1` will be reused.
+例如，如果使 `Section B2` 无效，则 `Section B` 也将无效。当渲染布局时，将再次运行 `Section B` 代码，以及 `Section B2`，但将重用 `Section B1` 的缓存内容。
 
-Cached sections can define dependencies, which allows the cache to know when the cached value should be invalidated.
+缓存的部分可以定义依赖项，这允许缓存知道何时应使缓存值无效。
 
-For example, if a cache section includes the body of a content item, you may want to automatically invalidate this cache section whenever that content item changes.
-You can do this by adding the dependencies `contentitemid:{ContentItemId}` to the cache section. 
+例如，如果缓存部分包括内容项的正文，则可能希望在该内容项更改时自动使此缓存部分无效。
+您可以通过将 `contentitemid：{ContentItemId}` 添加到缓存部分的依赖项来实现此目的。
 
-Cached sections can also be configured with a sliding expiration window, an absolute expiration window, or both.  
-If no expiration window is provided, a default sliding window of one minute will be used.  
-If both types of expiration windows are supplied, the sliding policy will be used, up to the maximum absolute time allowed by the absolute expiration window.
+缓存的部分还可以配置滑动过期窗口、绝对过期窗口或两者兼备。  
+如果未提供过期窗口，则将使用默认的一分钟滑动窗口。  
+如果提供了两种类型的过期窗口，则将使用滑动策略，直到绝对过期窗口允许的最大时间为止。
 
-### Well-known Cache dependencies
+### 知名缓存依赖项
 
-Here is a list of common cache dependency values that can be used to invalidate cache entries.
+以下是可用于使缓存条目无效的常见缓存依赖项值列表。
 
-| Dependency | Description |
+| 依赖项 | 描述 |
 | --------- | ----------- |
-| `contentitemid:{ContentItemId}` | Invalidated when a content item described with its unique id (`{ContentItemId}`) is Published, Unpublished or Removed. |
-| `alias:{Alias}` | Invalidated when a content item with a specific alias (`{Alias}`) is Published, Unpublished or Removed. |
+| `contentitemid：{ContentItemId}` | 当描述其唯一 ID（`{ContentItemId}`）的内容项已发布、未发布或已删除时无效。 |
+| `alias：{Alias}` | 当具有特定别名（`{Alias}`）的内容项已发布、未发布或已删除时无效。 |
 
-You can create your own dependencies by calling `RemoveTagAsync()` on `ITagCache` in response to events.
+您可以通过在响应事件中调用 `ITagCache` 上的 `RemoveTagAsync()` 来创建自己的依赖项。
 
-## Varying cached sections (Contexts)
+## 变化的缓存部分（上下文）
 
-You may have a cached section that needs to be varied depending on the context of the request.  
-An example of this would be a header section that is included on every page on the site, but contains different markup for each user (e.g. a log in form, or the currently logged in user's username etc...').
+您可能有一个需要根据请求的上下文而变化的缓存部分。  
+例如，这将是在站点上的每个页面上都包含的标题部分，但对于每个用户包含不同的标记部分（例如，登录表单或当前登录用户的用户名等）。
 
-You can do this by adding 'vary by' values (called contexts) to the cache policy of a cached section.
+您可以通过将“vary by”值（称为上下文）添加到缓存部分的缓存策略中来实现此目的。
 
-Adding a `user` context to the header example given above would create a unique cache item for each user that logs in to your site.
+在上面给出的标题示例中添加“user”上下文将为登录到您的站点的每个用户创建唯一的缓存项。
 
-Contexts are hierarchical. For instance if a shape varies by `user` and `user.roles` contexts, only the `user` value will be used
-as it's more specialized than the `user.roles` one.
+上下文是分层的。例如，如果形状根据“user”和“user.roles”上下文变化，则仅使用“user”值，因为它比“user.roles”更专业化。
 
-Contexts can be parameterized, for instance `query:age` will pick the `age` value of the query string.
+上下文可以参数化，例如 `query:age` 将选择查询字符串的 `age` 值。
 
-### Available Contexts
+### 可用上下文
 
-| Context | Description |
+| 上下文 | 描述 |
 | --------- | ----------- |
-| `features` | The list of enabled features. |
-| `features:{featureName}` | The specified feature name. |
-| `query` | The list of querystring values. |
-| `query:{queryName}` | The specified query name value. |
-| `user` | The current user. |
-| `user.roles` | The roles of the current user. |
-| `route` | The current request path. |
+| `features` | 启用的功能列表。 |
+| `features：{featureName}` | 指定的功能名称。 |
+| `query` | 查询字符串值列表。 |
+| `query：{queryName}` | 指定的查询名称值。 |
+| `user` | 当前用户。 |
+| `user.roles` | 当前用户的角色。 |
+| `route` | 当前请求路径。 |
 
-You can create your own Contexts by implementing `ICacheContextProvider`.
+您可以通过实现 `ICacheContextProvider` 来创建自己的上下文。
 
-### Fallback Contexts
+### 回退上下文
 
-Sometimes you may want to vary by a known value that is not an available context.
+有时您可能希望根据不可用上下文变化的已知值进行变化。
 
-For example: You may wish to cache all your blog posts so that you can quickly display lists of your posts throughout your site. If the cache ID for the cache block was `blog-post`, you can use a known value as a context to vary the cache item for each blog post. In this case, you could use the Content Item ID as a context:
+例如：您可能希望缓存所有博客文章，以便可以在整个站点上快速显示您的帖子列表。如果缓存块的缓存 ID 为 `blog-post`，则可以使用已知值作为上下文，以使每个博客文章的缓存项有所不同。在这种情况下，您可以使用内容项 ID 作为上下文：
 
 ```liquid
-{% cache "blog-post-summary", vary_by: Model.ContentItem.ContentItemId %}
+{% cache "blog-post-summary"，vary_by: Model.ContentItem.ContentItemId %}
     ...
 {% endcache %}
 ```
 
-## Usage
+## 用法
 
-Cached sections can be configured to encompass a shape, or they can be explicitly added to markup with the `cache` liquid block, or the `cache` razor tag helper:
+可以将缓存部分配置为包含形状，也可以使用 `cache` Liquid块或 `cache` Razor标记助手将其明确添加到标记中：
 
-### Caching a shape
+### 缓存形状
 
 `ShapeMetadata.Cache(string cacheId)`
 
-When called on a shape instance, marks the shape as being cached. Returns a `CacheContext` object.
+在形状实例上调用时，将标记形状为已缓存。返回 `CacheContext` 对象。
 
-Example: `myShape.Cache("myshape")`
+示例：`myShape.Cache("myshape")`
 
-#### CacheContext members
+#### CacheContext 成员
 
-| Method | Description |
+| 方法 | 描述 |
 | --------- | ----------- |
-| `WithDuration(Timespan)` | Cache the shape for the specified amount of time. |
-| `WithSlidingExpiration(Timespan)` | Cache the shape for a specific amount of time with a sliding window. |
-| `AddContext(params string[])` | Varies the cached content on the specified context values. |
-| `RemoveContext(string)` | Removes the specified context. |
-| `AddDependency(params string[])` | Defines the context values that will invalidate the cache entry. |
-| `RemoveDependency(string)` | Removes the specified dependency. |
-| `AddTag(string)` | Adds a tag to the cache entry to that it can be invalidated by this tag value. |
-| `RemoveTag(string)` | Removes the specified tag. |
+| `WithDuration(Timespan)` | 缓存指定时间量的形状。 |
+| `WithSlidingExpiration(Timespan)` | 使用滑动窗口缓存指定时间量的形状。 |
+| `AddContext(params string[])` | 在指定的上下文值上变化缓存的内容。 |
+| `RemoveContext(string)` | 删除指定的上下文。 |
+| `AddDependency(params string[])` | 定义将使缓存条目无效的上下文值。 |
+| `RemoveDependency(string)` | 删除指定的依赖项。 |
+| `AddTag(string)` | 将标记添加到缓存条目中，以便可以通过此标记值使其无效。 |
+| `RemoveTag(string)` | 删除指定的标记。 |
 
 !!! note
-    `AddDependency` differs from `AddContext` in that it doesn't store multiple values for each context,
-    but invalidates the cached shape content when the value of the context varies.
-    Internally they share the same implementation, as the physical cache key will contain the dependency context value.
+    `AddDependency` 与 `AddContext` 不同之处在于它不会为每个上下文存储多个值，
+    但在上下文的值变化时会使缓存的形状内容无效。
+    在内部，它们共享相同的实现，因为物理缓存键将包含依赖项上下文值。
 
-#### Shape Tag Helper Attributes
+#### 形状标记助手属性
 
-When using shape tag helpers, the following attributes can be used:
+在使用形状标记助手时，可以使用以下属性：
 
-| Razor Attribute | Liquid Attribute | Description | Required |
+| Razor属性 | Liquid属性 | 描述 | 必需 |
 | --------- | ----------- | ----------- | ----------- |
-| `cache-id` | `cache_id` | The identifier of the cached shape. | Yes |
-| `cache-context` | `cache_context` | A set of space/comma-separated context values. | No |
-| `cache-dependency` | `cache_dependency` | A set of space/comma-separated dependency values. | No |
-| `cache-tag` | `cache_tag` | A set of space/comma-separated tag values. | No |
-| `cache-fixed-duration` | `cache_fixed_duration` | The cache duration of the entry, e.g. "00:05:00" for 5 minutes. | No |
-| `cache-sliding-duration` | `cache_sliding_duration` | The sliding cache duration of the entry, e.g. "00:05:00" for 5 minutes. | No |
+| `cache-id` | `cache_id` | 缓存形状的标识符。 | 是 |
+| `cache-context` | `cache_context` | 一组空格/逗号分隔的上下文值。 | 否 |
+| `cache-dependency` | `cache_dependency` | 一组空格/逗号分隔的依赖项值。 | 否 |
+| `cache-tag` | `cache_tag` | 一组空格/逗号分隔的标记值。 | 否 |
+| `cache-fixed-duration` | `cache_fixed_duration` | 条目的缓存持续时间，例如“00:05:00”表示 5 分钟。 | 否 |
+| `cache-sliding-duration` | `cache_sliding_duration` | 条目的滑动缓存持续时间，例如“00:05:00”表示 5 分钟。 | 否 |
 
-For example, to cache the menu shape in a liquid template, you would use this markup:
+例如，在Liquid模板中缓存菜单形状，您将使用此标记：
 
 `{% shape "menu", alias: "alias:main-menu", cache_id: "main-menu", cache_fixed_duration: "00:05:00", cache_tag: "alias:main-menu" %}`
 
-To cache a content item shape in a liquid template, you could use this markup:
+在Liquid模板中缓存内容项形状，您可以使用此标记：
 
 `{% contentitem alias: "alias:main-menu", cache_id: "main-menu", cache_fixed_duration: "00:05:00", cache_tag: "alias:main-menu" %}`
 
-### Liquid cache block
+### Liquid缓存块
 
-The liquid `cache` block can be used to cache sections of markup. `cache` blocks can be nested.
+Liquid `cache` 块可用于缓存标记的部分。`cache` 块可以嵌套。
 
-#### Arguments
+#### 参数
 
-| Liquid Attribute | Description | Required |
+| Liquid属性 | 描述 | 必需 |
 | --------- | ----------- | ----------- |
-| `id` | The identifier of the cached shape. | Yes (this is the default first argument --- no need to explicitly specify the name of this argument.)  |
-| `contexts` | A set of space/comma-separated context values. | No |
-| `dependencies` | A set of space/comma-separated dependency values. | No |
-| `expires_after` | The cache duration of the entry, e.g. "00:05:00" for 5 minutes. | No |
-| `expires_sliding` | The sliding cache duration of the entry, e.g. "00:05:00" for 5 minutes. | No |
+| `id` | 缓存形状的标识符。 | 是（这是默认的第一个参数---不需要显式指定此参数的名称。） |
+| `contexts` | 一组空格/逗号分隔的上下文值。 | 否 |
+| `dependencies` | 一组空格/逗号分隔的依赖项值。 | 否 |
+| `expires_after` | 条目的缓存持续时间，例如“00:05:00”表示 5 分钟。 | 否 |
+| `expires_sliding` | 条目的滑动缓存持续时间，例如“00:05:00”表示 5 分钟。 | 否 |
 
-#### Examples
+#### 示例
 
-Simple block:
+简单块：
 
 ```liquid
 {% cache "my-cache-block" %}
@@ -172,7 +169,7 @@ Simple block:
 {% endcache %}
 ```
 
-Nested blocks:
+嵌套块：
 
 ```liquid
 {% cache "a" %}
@@ -189,23 +186,23 @@ Nested blocks:
 {% endcache %}
 ```
 
-### Altering a cache scope
+### 更改缓存范围
 
-You may not yet know all the child dependencies, or even how long the cache block should be cached for when you enter a cache block.  
-An example might be a cache block around a list of content items from a query --- because you do not know which content items will be displayed by the query, you cannot define the correct dependencies when you enter the cache block.
+当您进入缓存块时，您可能尚未知道所有子依赖项，甚至不知道缓存块应缓存多长时间。  
+例如，可能是围绕查询的内容项列表的缓存块---因为您不知道查询将显示哪些内容项，因此无法在进入缓存块时定义正确的依赖项。
 
-There are four tags that allow you to alter the current cache scope. It's safe to use these tags even if you don't necessarily know if you're inside a cache block:
+有四个标记允许您更改当前缓存范围。即使您不确定自己是否在缓存块内，也可以使用这些标记：
 
-| Liquid Tag | Description | Example |
+| Liquid标记 | 描述 | 示例 |
 | --------- | ----------- | ----------- |
-| `cache_dependency` | Adds a dependency to the current cache scope. | `{% cache_dependency "alias:{Alias}" %}` |
-| `cache_expires_on` | Sets a fixed date and time that the cache item will expire. The most restrictive cache policy (i.e. the one with the shortest life) will win in the event of multiple expiry policies being defined for a single block.  | `{% cache_expires_on {A DateTime or DateTimeOffset instance %}` (e.g. from a date/time field on a content item) |
-| `cache_expires_after` | Sets a timespan relative to when the item was cached that the cache item will expire. The most restrictive cache policy (i.e. the one with the shortest life) will win in the event of multiple expiry policies being defined for a single block. | `{% cache_expires_after "01:00:00" %}` (One hour) |
-| `cache_expires_sliding` | Sets a sliding window for the expiry of the cache item. The most restrictive cache policy (i.e. the one with the shortest life) will win in the event of multiple expiry policies being defined for a single block. | `{% cache_expires_sliding "00:01:00" %}` (One minute) |
+| `cache_dependency` | 将依赖项添加到当前缓存范围。 | `{% cache_dependency "alias:{Alias}" %}` |
+| `cache_expires_on` | 设置缓存项将过期的固定日期和时间。在单个块中定义多个过期策略时，最严格的缓存策略（即生命周期最短的策略）将获胜。 | `{% cache_expires_on {A DateTime or DateTimeOffset instance %}`（例如来自内容项上的日期/时间字段） |
+| `cache_expires_after` | 设置相对于缓存项缓存时的时间跨度，缓存项将在此时间跨度后过期。在单个块中定义多个过期策略时，最严格的缓存策略（即生命周期最短的策略）将获胜。 | `{% cache_expires_after "01:00:00" %}`（一小时） |
+| `cache_expires_sliding` | 为缓存项的过期设置滑动窗口。在单个块中定义多个过期策略时，最严格的缓存策略（即生命周期最短的策略）将获胜。 | `{% cache_expires_sliding "00:01:00" %}`（一分钟） |
 
-#### Example:
+#### 示例：
 
-Displaying content items from a query:
+显示查询的内容项：
 
 ```liquid
 {% cache "recent-blog-posts" %}
@@ -219,9 +216,11 @@ Displaying content items from a query:
 {% endcache %}
 ```
 
-Each item that is displayed by the query will now add its own cache dependency to the `recent-blog-posts` cache block.
+由查询显示的每个项目现在都会将其自己的缓存依赖项添加到 `recent-blog-posts` 缓存块中。
 
-### Razor cache tag helper
+### Razor缓存标记助手
 
 !!! note
-    This has been renamed from `<cache>` to `<dynamic-cache>` to prevent collisions with the ASP.NET Core cache tag helper.
+    这已从 `<cache>` 重命名为 `<dynamic-cache>`，以避免与 ASP.NET Core 缓存标记助手发生冲突。
+
+> 该文档由ChatGPT 4 翻译

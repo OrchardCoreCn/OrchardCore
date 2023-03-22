@@ -1,49 +1,49 @@
-# Audit Trail (`OrchardCore.AuditTrail`)
+# 审计追踪 (`OrchardCore.AuditTrail`)
 
-The Audit Trail module provides an immutable (for users, even administrators but not for developers), auditable log of certain changes and events in the system. This includes e.g. creation or deletion of content items, and events like user login failures. For content items, previous versions and deleted items can be restored, and changes can be tracked.
+审计追踪模块提供了系统中某些更改和事件的不可变（对于用户，甚至管理员，但对于开发人员不是）可审计日志。这包括例如创建或删除内容项以及用户登录失败等事件。对于内容项，可以恢复以前的版本和已删除的项，并可以跟踪更改。
 
-## General Concepts
+## 一般概念
 
-Audit Trail events are created if a certain supported event happened in the system. While there are several built-in event handlers for the most important events, this is extensible and module authors can provide their own ones.
+如果系统中发生了某个支持的事件，则会创建审计追踪事件。虽然有几个内置事件处理程序用于最重要的事件，但这是可扩展的，模块作者可以提供自己的事件处理程序。
 
-Once you've enabled the module, you will see a new menu item in the admin UI called *Audit Trail*. The list there shows you the logged Audit Trail events.
+启用模块后，您将在管理UI中看到一个名为* Audit Trail *的新菜单项。列表显示了记录的审计追踪事件。
 
-## Using the Audit Trail event list
+## 使用审计追踪事件列表
 
-The Audit Trail event list provides you with filtering and pagination to be able to find the Audit Trail events that you are looking for easily. By default, you can filter by the following criteria:
+审计追踪事件列表提供了过滤和分页功能，以便轻松查找您要查找的审计追踪事件。默认情况下，您可以按以下标准进行过滤：
 
-- A given date range,
-- categories (e.g. *All categories*, *Content*, *User*).
+-给定的日期范围，
+-类别（例如*所有类别*，*内容*，*用户*）。
 
-Also, you can sort entries by various parameters.
+此外，您可以按各种参数对条目进行排序。
 
-Events provide various details on their line:
+事件提供其行的各种详细信息：
 
-- The category and type of event (e.g. *Content* and *Published*).
-- The time when the event was recorded.
-- The user initiating the event.
-- An event-specific quick summary, if any. E.g. events of the *Content* category show you the version and title of the content item. If you click on the *Version X* link you can see the read-only editor of the content item filled with the values that the content item has at that version. If you click on the display text of the content item, you can edit the latest version of the content item.
-- Event-specific buttons, if any. E.g. events of the *Content* category will display a *View* button that you can use to view the content item at the given version, and a *Restore* button that you can use to restore the content item to the version even if the item was deleted (the restored item will be created as a draft version that you then need to publish).
-- A *Details* link. Here you can get more general information about the given event, as well as event handlers can provide custom information. E.g. if you check out the *Detail* view of a *Content* event you can also see the textual differences between the current version of the content item and the previous version under the *Diff* tab. The values of the current version will be shown in green, and the values of the previous version will be shown in red.
+-事件的类别和类型（例如*内容*和*已发布*）。
+-记录事件的时间。
+-启动事件的用户。
+-如果有的话，事件特定的快速摘要。例如，*内容*类别的事件会向您显示内容项的版本和标题。如果单击*版本X*链接，则可以查看填充有该版本的内容项的值的只读编辑器。如果单击内容项的显示文本，则可以编辑内容项的最新版本。
+-事件特定的按钮（如果有）。例如，*内容*类别的事件将显示一个*查看*按钮，您可以使用该按钮查看给定版本的内容项，以及一个*还原*按钮，您可以使用该按钮将内容项还原到版本，即使该项已被删除（恢复的项将被创建为草稿版本，然后您需要发布）。
+-一个*详细信息*链接。在这里，您可以获取有关给定事件的更多一般信息，以及事件处理程序可以提供自定义信息。例如，如果您查看*内容*事件的*详细信息*视图，则还可以在*差异*选项卡下查看当前版本的内容项与上一个版本之间的文本差异。当前版本的值将显示为绿色，上一个版本的值将显示为红色。
 
-## Audit Trail Settings 
+## 审计追踪设置
 
-If you navigate to Configuration -> Settings -> Audit Trail, you will see various configuration options, depending on the enabled Audit Trail features:
+如果导航到配置->设置->审计追踪，则会看到各种配置选项，具体取决于启用的审计追踪功能：
 
-- A list that contains every event that you can record using the Audit Trail module. Here you can enable or disable the recording of the given events.
-- You can enable client IP address logging. When you enable this, the client IP address will be recorded in Audit Trail events. Note that depending on the legislation your site operates in, you need to take special care to collect and store such Personal Identifiable Information.
-- The *Trimming* settings are about configuring how long you would like to keep the Audit Trail events in the database. You can disable trimming if you would like to keep the events indefinitely.
-- Further tabs can be added. E.g. the *Content* tab allows you to select items of which content types you want to record Audit Trail events for.
+-包含您可以使用审计追踪模块记录的每个事件的列表。在此处，您可以启用或禁用记录给定事件。
+-您可以启用客户端IP地址记录。启用此功能后，将在审计追踪事件中记录客户端IP地址。请注意，根据您的站点所在的立法，您需要特别注意收集和存储此类个人可识别信息。
+- *修剪*设置是关于配置您希望在数据库中保留审计追踪事件的时间长度。如果您希望无限期保留事件，则可以禁用修剪。
+-可以添加其他选项卡。例如，*内容*选项卡允许您选择要为其记录审计追踪事件的哪些内容类型。
 
-## Audit Trail Part
+## 审计追踪部分
 
-You can attach the `AuditTrailPart` content part to your content type. This will allow content editors to enter a comment to be saved into the Audit Trail event when saving a content item. This will then be visible in the Audit Trail event list.
+您可以将`AuditTrailPart`内容部分附加到内容类型。这将允许内容编辑器在保存内容项时输入要保存到审计追踪事件中的注释。然后，这将在审计追踪事件列表中可见。
 
-## Recording Custom Events
+## 记录自定义事件
 
-Orchard Core is built to be extended, and the Audit Trail module is no different. So, when creating your own module, you can log your events with Audit Trail too. Check out the source of the `OrchardCore.Users` or `OrchardCore.Contents` modules for examples.
+Orchard Core是可扩展的，审计追踪模块也不例外。因此，在创建自己的模块时，您也可以使用审计追踪记录事件。查看`OrchardCore.Users`或`OrchardCore.Contents`模块的源代码以获取示例。
 
-## Videos
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ko0jEgQtXYc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -54,5 +54,6 @@ Orchard Core is built to be extended, and the Audit Trail module is no different
 ### jsdiff
 
 <https://github.com/kpdecker/jsdiff>  
-Copyright (c) 2009-2015, Kevin Decker, <kpdecker@gmail.com>  
-License: Software License Agreement (BSD License)
+版权所有（c）2009-2015，Kevin Decker，<kpdecker@gmail.com>  
+许可证：软件许可协议（BSD许可证）
+> 该文档由ChatGPT 4 翻译

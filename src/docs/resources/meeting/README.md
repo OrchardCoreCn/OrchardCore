@@ -1,26 +1,29 @@
-# Meeting
+# 会议
 
-Every week, we organize 2 meetings on http://orchardcore.net/meeting.  
-You can join by using the online webclient or install Microsoft Teams.
+每周，我们在http://orchardcore.net/meeting组织2次会议。    
+您可以使用在线Web客户端或安装Microsoft Teams加入会议。
 
-## Steering commitee meeting
+## 领导委员会会议
 
-On Tuesday at [12:00 PST](https://www.google.com/search?q=12%3A00+pst).  
-During this meeting we discuss about:
+于每周二 [12:00 PST](https://www.google.com/search?q=12%3A00+pst)举行。 
+在此次会议上，我们将讨论以下问题：
 
-- Progress: What commits have been made during the past week on the dev branch.
-- Demos: People can make a demo of the new features they are currently developing.
+- 进展：上周在开发分支上进行了哪些提交。
+- 演示：人们可以演示他们当前正在开发的新功能。
 
-The meeting is recorded and a [playlist](https://www.youtube.com/playlist?list=PLuskKJW0FhJfOAN3dL0Y0KBMdG1pKESVn) is available to watch the previous podcasts.
+会议被记录下来，并且可在[播放列表](https://www.youtube.com/playlist?list=PLuskKJW0FhJfOAN3dL0Y0KBMdG1pKESVn)中观看以前的播客。
 
-You can also find a weekly summary of the meeting on the Orchard Dojo blog with the [This week in Orchard](https://orcharddojo.net/tag-nodes?TagNode=This%20week%20in%20Orchard) tag.
+您还可以在Orchard Dojo博客上使用[This week in Orchard](https://orcharddojo.net/tag-nodes?TagNode=This%20week%20in%20Orchard)标签找到每周会议的总结。
 
-## Triage meeting
+## 审查会议
 
-On Thursday at [10:00 PST](https://www.google.com/search?q=10%3A00+pst).  
-During this meeting we discuss about:
+于每周四 [10:00 PST](https://www.google.com/search?q=10%3A00+pst)举行。
+在此次会议中我们讨论以下内容：
 
-- Issues: Answer questions, close solved issues, affect a planned Milestone.
-- Pull requests: Review current PRS, merge the ones that are ready.
+- 问题：回答问题，关闭已解决的问题，影响计划里程碑。
+- 拉取请求：审查当前的拉取请求，合并准备好的请求。
 
-People can join to talk about their own issues.
+人们也可以参加会议，讨论他们自己的问题。
+
+
+> 该文档由Chat-GPT 翻译

@@ -1,11 +1,11 @@
-# Content Fields (`OrchardCore.ContentFields`)
+# 内容字段 (`OrchardCore.ContentFields`)
 
-This module provides common content fields.  
-Some fields are available in their specific module.
+该模块提供了常见的内容字段。  
+一些字段在其特定模块中可用。
 
-## Available Fields
+## 可用字段
 
-| Name | Properties |
+| 名称 | 属性 |
 | --- | --- |
 | `BooleanField` | `bool Value` |
 | `ContentPickerField` | `string[] ContentItemIds` |
@@ -26,13 +26,13 @@ Some fields are available in their specific module.
 | `YoutubeField` | `string EmbeddedAddress, string RawAddress` |
 
 !!! note
-    Each field is rendered by a corresponding `Shape Type` that is using its own a Display view model.  
-    Ex: `BooleanField` is rendered by a shape type called `BooleanField` with a `DisplayBooleanFieldViewModel`.
+    每个字段都由相应的“形状类型”呈现，该类型使用自己的显示视图模型。  
+    例如：`BooleanField`由名为`BooleanField`的形状类型呈现，该类型具有`DisplayBooleanFieldViewModel`。
 
-## Usage
+## 用法
 
-From a `Content` template, you can reference a field's value like this
-(if the content type is `Article` and has a Text Field named `MyField`):
+从“内容”模板中，您可以像这样引用字段的值
+（如果内容类型为“Article”，并且具有名为“MyField”的文本字段）：
 
 === "Liquid"
 
@@ -46,35 +46,35 @@ From a `Content` template, you can reference a field's value like this
     var fieldValue = Model.ContentItem.Content.Article.MyField.Text;
     ```
 
-From a field shape (see Shape Type in the table listing all the fields) you can also access properties specific to each view model.
+从字段形状（请参见列出所有字段的表中的形状类型）中，您还可以访问特定于每个视图模型的属性。
 
-### Common field properties
+### 常见字段属性
 
-The convention for a field view model is to also expose these properties:
+字段视图模型的约定也是公开这些属性：
 
-| Property | Description |
+| 属性 | 描述 |
 | --- | --- |
-| `Field` | The ContentField. |
-| `Part` | The ContentPart that contains the field. |
-| `PartFieldDefinition` | The Content Part Field Definition that contains the part. Which also give access to the Content Type |
+| `Field` | ContentField。 |
+| `Part` | 包含字段的ContentPart。 |
+| `PartFieldDefinition` | 包含部分的Content Part Field Definition。这也可以访问内容类型 |
 
-Some view models have special properties that are computed from the actual field data and which are more useful for templating.
+一些视图模型具有从实际字段数据计算的特殊属性，这些属性对于模板更有用。
 
 ### `HtmlField`
 
 #### `DisplayHtmlFieldViewModel`
 
-| Property | Description |
+| 属性 | 描述 |
 | --- | --- |
-| `Html` | The processed HTML, once all liquid tags have been processed. |
+| `Html` | 处理后的HTML，一旦处理了所有Liquid标记。 |
 
-#### Html Field Example
+#### Html字段示例
 
 ``` liquid
 {{ Model.Html }}
 ```
 
-or, to display the raw content before the tags are converted:
+或者，在将标记转换之前显示原始内容：
 
 ``` liquid
 {{ Model.Field.Html }}
@@ -84,17 +84,17 @@ or, to display the raw content before the tags are converted:
 
 #### `DisplayDateTimeFieldViewModel`
 
-| Property | Description |
+| 属性 | 描述 |
 | --- | --- |
-| `LocalDateTime` | The date time in the time zone of the site. |
+| `LocalDateTime` | 站点时区中的日期时间。 |
 
-#### DateTime Field Example
+#### DateTime字段示例
 
 ``` liquid
 {{ Model.LocalDateTime }}
 ```
 
-or, to display the UTC value before it is converted:
+或者，在将其转换之前显示UTC值：
 
 ``` liquid
 {{ Model.Value }}
@@ -102,7 +102,7 @@ or, to display the UTC value before it is converted:
 
 ### `ContentPickerField`
 
-#### ContentPicker Field Example
+#### ContentPicker字段示例
 
 === "Liquid"
 
@@ -122,7 +122,7 @@ or, to display the UTC value before it is converted:
     }
     ```
 
-Or to render the referenced content item:
+或者渲染引用的内容项：
 
 === "Liquid"
 
@@ -144,13 +144,13 @@ Or to render the referenced content item:
 
 ### `LocalizationSetContentPickerField`
 
-This field allows you to store the `LocalizationSet` of a `ContentItem`, when a reference shouldn't point to a specific culture of a content item.  
-This simplifies getting a content item of the correct culture on the frontend.
+当引用不应指向内容项的特定文化时，此字段允许您存储`ContentItem`的`LocalizationSet`。  
+这简化了在前端获取正确文化的内容项。
 
-The following example uses the `localization_set` liquid filter which returns a single ContentItem 
-per set based on the request culture, if no culture is specified.
+以下示例使用`localization_set`Liquid过滤器，该过滤器根据请求文化返回每个集合中的单个ContentItem，
+如果未指定文化，则返回。
 
-#### LocalizationSet ContentPicker Field Example
+#### LocalizationSet ContentPicker字段示例
 
 === "Liquid"
 
@@ -185,15 +185,15 @@ per set based on the request culture, if no culture is specified.
 
 ### `UserPicker Field`
 
-The User Picker field allows you to relate users to a content item.
+用户选择器字段允许您将用户与内容项相关联。
 
-When adding the field to a content type, use the settings to specify whether to 
+将字段添加到内容类型时，请使用设置指定是否要
 
-- List all users, 
-- List users from specific roles.
+- 列出所有用户，
+- 列出特定角色的用户。
 
 
-#### UserPicker Field Example
+#### UserPicker字段示例
 
 === "Liquid"
 
@@ -236,36 +236,35 @@ When adding the field to a content type, use the settings to specify whether to
 
     ```
 
-#### Video
+#### 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/vqXwK69vtMw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 ### `MultiText Field`
 
-#### Video
+#### 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/WfP_rXz1id0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Creating Custom Fields
+## 创建自定义字段
 
-### What to extend
+### 要扩展什么
 
-Before creating a new field, the solution might be to provide a custom editor and formatter instead.
+在创建新字段之前，解决方案可能是提供自定义编辑器和格式化程序。
 
-A field should represent some specific physical data and logical data. The same field can be customized
-to be edited and rendered differently using both Editors and Formatters. Editors are shapes that can
-be used to edit a field differently, for instance the WYSIWYG HTML editor is a custom editor for the HTML
-field. Formatters are alternate shapes that can be used to render a field on the front end, for instance
-a `Link` field could be rendered as a Youtube video player.
+字段应表示某些特定的物理数据和逻辑数据。可以使用编辑器和格式化程序自定义相同的字段
+以不同的方式进行编辑和呈现。编辑器是可以用于编辑字段的形状，例如WYSIWYG HTML编辑器是HTML的自定义编辑器
+字段。格式化程序是可以用于在前端呈现字段的替代形状，例如
+“Link”字段可以呈现为Youtube视频播放器。
 
-### Model Class
+### 模型类
 
-Create a class inheriting from `ContentField` that will represent the state of your field.
-Its content will be serialized as part of the content item.
-Json.NET classes can be used to customize the serialization.
+创建一个从`ContentField`继承的类，该类将表示字段的状态。
+其内容将作为内容项的一部分进行序列化。
+可以使用Json.NET类来自定义序列化。
 
-Example:
+例如：
 
 ```csharp
 public class TextField : ContentField
@@ -274,7 +273,7 @@ public class TextField : ContentField
 }
 ```
 
-This class needs to be registered in the DI like this:
+此类需要像这样在DI中注册：
 
 ```csharp
 services.AddContentField<TextField>();
@@ -282,30 +281,29 @@ services.AddContentField<TextField>();
 
 ### Display Driver
 
-The display driver is the component that drives how the field is displayed on the front end, edited on
-the admin, updated and validated.
+显示驱动程序是驱动字段在前端上显示、在管理中编辑、更新和验证的组件。
 
-Create a class inheriting from `ContentFieldDisplayDriver<TextField>` and implement the three methods 
-`Display`, `Edit` and `DisplayAsync` by looking at examples from this module.
+创建一个从`ContentFieldDisplayDriver<TextField>`继承的类，并通过查看此模块的示例实现三个方法
+`Display`、`Edit`和`DisplayAsync`。
 
-This class needs to be registered in the DI like this:
+此类需要像这样在DI中注册：
 
 ```csharp
 services.AddContentField<TextField>()
     .UseDisplayDriver<TextFieldDisplayDriver>();
 ```
 
-This will register the display driver for use with all display modes and editors.
+这将注册显示驱动程序以供所有显示模式和编辑器使用。
 
-## Creating Custom Display Modes
+## 创建自定义显示模式
 
-For each field, the convention is to create an alternate that can target different display modes. To provide
-a new choice in the list of available editors for a field, create a new shape template that matches this
-TextField-Header.DisplayOption
-template: `{FIELDTYPE}_DisplayOption__{DISPLAYMODE}`
-This shape type will match a template file named `{FIELDTYPE}-{DISPLAYMODE}.DisplayOption.cshtml`
+对于每个字段，约定是创建一个可以针对不同显示模式的替代品。要提供
+字段的可用编辑器列表中的新选择，请创建一个新的形状模板，该模板与此匹配
+`TextField-Header.DisplayOption`
+模板：`{FIELDTYPE}_DisplayOption__{DISPLAYMODE}`
+此形状类型将匹配名为`{FIELDTYPE}-{DISPLAYMODE}.DisplayOption.cshtml`的模板文件
 
-This template will need to render an `<option>` tag. Here is an example for a Header display mode options on the Text Field:
+此模板需要呈现一个`<option>`标记。以下是文本字段上标题显示模式选项的示例：
 
 ``` html
 @{
@@ -314,19 +312,19 @@ This template will need to render an `<option>` tag. Here is an example for a He
 <option value="Header" selected="@(currentDisplayMode == "Header")">@T["Header"]</option>
 ```
 
-Then, you can create the display mode shape by adding a file named `{FIELDTYPE}_Display__{DISPLAYMODE}` which is
-represented by a template file named `{FIELDTYPE}-{DISPLAYMODE}.Display.cshtml`.
+然后，您可以通过添加名为`{FIELDTYPE}_Display__{DISPLAYMODE}`的文件来创建显示模式形状，
+该文件由模板文件`{FIELDTYPE}-{DISPLAYMODE}.Display.cshtml`表示。
 
-For instance, the filename for the Header Display Mode on the Text Field is named `TextField-Header.Display.cshtml`.
+例如，文本字段上标题显示模式的文件名为`TextField-Header.Display.cshtml`。
 
-## Creating Custom Editors
+## 创建自定义编辑器
 
-For each field, the convention is to create an alternate that can target different editors. To provide
-a new choice in the list of available editors for a field, create a new shape template that matches this
-template: `{FIELDTYPE}_Option__{EDITORNAME}`
-This shape type will match a template file named `{FIELDTYPE}-{EDITORNAME}.Option.cshtml`
+对于每个字段，约定是创建一个可以针对不同编辑器的替代品。要提供
+字段的可用编辑器列表中的新选择，请创建一个新的形状模板，该模板与此匹配
+模板：`{FIELDTYPE}_Option__{EDITORNAME}`
+此形状类型将匹配名为`{FIELDTYPE}-{EDITORNAME}.Option.cshtml`的模板文件
 
-This template will need to render an `<option>` tag. Here is an example for a Wysiwyg options on the Html Field:
+此模板需要呈现一个`<option>`标记。以下是HTML字段上的Wysiwyg选项的示例：
 
 ``` html
 @{
@@ -335,18 +333,18 @@ This template will need to render an `<option>` tag. Here is an example for a Wy
 <option value="Wysiwyg" selected="@(currentEditor == "Wysiwyg")">@T["Wysiwyg editor"]</option>
 ```
 
-Then you can create the editor shape by adding a file named `{FIELDTYPE}_Edit__{EDITORNAME}` which is
-represented by a template file named `{FIELDTYPE}-{EDITORNAME}.Edit.cshtml`.
+然后，您可以通过添加名为`{FIELDTYPE}_Edit__{EDITORNAME}`的文件来创建编辑器形状，
+该文件由模板文件`{FIELDTYPE}-{EDITORNAME}.Edit.cshtml`表示。
 
-For instance the filename for the Wysiwyg editor on the Html Field is named `HtmlField-Wysiwyg.Edit.cshtml`.
+例如，HTML字段上的Wysiwyg编辑器的文件名为`HtmlField-Wysiwyg.Edit.cshtml`。
 
-### Customising Display Driver Registration
+### 自定义显示驱动程序注册
 
-For both Display Modes and Editors you can customise the Display Driver that will be resolved for the particular mode.
+对于显示模式和编辑器，您还可以自定义将为特定模式解析的显示驱动程序。
 
-This allows you to create custom display drivers that might return a different ViewModel to the standard Display Driver.
+这使您可以创建可能返回与标准显示驱动程序不同的ViewModel的自定义显示驱动程序。
 
-Alter the registration for an existing Field Type or Driver Type in your modules `Startup.cs`
+在您的模块的`Startup.cs`中更改现有字段类型或驱动程序类型的注册
 
 ```csharp
 services.AddContentField<TextField>()
@@ -354,8 +352,8 @@ services.AddContentField<TextField>()
     .ForDisplayMode<MyCustomTextFieldDisplayDriver>(d => d == "MyCustomDisplayMode");
 ```
 
-This example will alter the registration for the `TextFieldDisplayDriver` to resolve for only the Standard (null)
-display mode, and register `MyCustomTextFieldDisplayDriver` to resolve for only the custom display mode.
+此示例将更改`TextFieldDisplayDriver`的注册以仅解析标准（null）显示模式，
+并注册`MyCustomTextFieldDisplayDriver`以仅解析自定义显示模式。
 
 ```csharp
 services.AddContentField<TextField>()
@@ -363,10 +361,17 @@ services.AddContentField<TextField>()
     .ForEditor<MyCustomTextFieldDisplayDriver>(d => d == "MyCustomEditor");
 ```
 
-This example will alter the registration for the `TextFieldDisplayDriver` to resolve for all editors except the custom editor,
-and register `MyCustomTextFieldDisplayDriver` to resolve for only the custom editor.
+此示例将更改`TextFieldDisplayDriver`的注册以解析除自定义编辑器之外的所有编辑器，
+并注册`MyCustomTextFieldDisplayDriver`以仅解析自定义编辑器。
 
 !!! note
-    When registering a custom display mode or editor driver you must alter the registrations for existing drivers.
-    You should also take a dependency in your modules `Manifest.cs` on the module that the fields reside in.
-    This will make your modules `Startup.cs` run later, and allow your registrations to override the original modules. 
+    在注册自定义显示模式或编辑器驱动程序时，必须更改现有驱动程序的注册。
+    您还应该在您的模块的`Manifest.cs`中取决于字段所在的模块。
+    这将使您的模块的`Startup.cs`运行得更晚，并允许您的注册覆盖原始模块。 
+```
+REWRITTEN_SELECTED_BLOCK:
+<|START|>
+```D:\SourceCodes\hyzx86\OC\OCCN\OrchardCoreCn\OrchardCore\src\docs\reference\modules\ContentFields\README.md
+    ```
+    该文档由ChatGPT 4 翻译
+    

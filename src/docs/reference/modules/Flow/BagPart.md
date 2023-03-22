@@ -1,25 +1,25 @@
 # Bag (`OrchardCore.Flows`)
 
-The BagPart is part of the Flows module, and is a content part that can contain multiple types of content items directly within it.
+BagPart是Flows模块的一部分，是一个可以直接包含多种类型内容项的内容部分。
 
-They are stored in the database as one single document, which makes them very powerful.
+它们作为一个单一文档存储在数据库中，这使它们非常强大。
 
-The BagPart shares a lot of similarities with the FlowPart in design, the difference is that with the BagPart you are able to specify exactly which content types can be contained within it.
+BagPart在设计上与FlowPart有很多相似之处，不同之处在于，使用BagPart可以精确指定可以包含其中的内容类型。
 
-This is done through the Settings for the BagPart.
+这是通过BagPart的设置完成的。
 
-BagParts may also be added to a Content Type Definition as a NamedPart. This allows one container item to have multiple BagParts.
+BagPart也可以作为NamedPart添加到Content Type Definition中。这允许一个容器项具有多个BagParts。
 
-An example of this can be found in TheAgencyTheme where four Named BagParts are used.
+在TheAgencyTheme中可以找到使用四个Named BagParts的示例。
 
 - Services
 - Portfolio
 - About
 - Team
 
-## Templating in a decoupled manner.
+## 以分离的方式进行模板化。
 
-When templating in a decoupled manner the content items are accessed directly through the name of the BagPart.
+在以分离的方式进行模板化时，可以通过BagPart的名称直接访问内容项。
 
 === "Liquid"
 
@@ -40,15 +40,13 @@ When templating in a decoupled manner the content items are accessed directly th
     }
     ```
 
-In this example Services is a Named BagPart.
+在此示例中，Services是一个Named BagPart。
 
-## Templating with Display Management
+## 使用显示管理进行模板化
 
-When templating with Liquid the `shape_build_display` filter is used on the contained items to build
-the display shapes for the content items, then the `shape_render` filter is used to render these shapes.
+在Liquid中，使用`shape_build_display`过滤器对包含的项进行构建，以构建内容项的显示形状，然后使用`shape_render`过滤器来呈现这些形状。
 
-When templating with Razor the `IContentItemDisplayManager` is used on the contained items to call `BuildDisplayAsync`
-to build the display shapes for the  content items, then `DisplayAsync` is used to render these shapes.
+在Razor中，使用`IContentItemDisplayManager`对包含的项进行构建，以调用`BuildDisplayAsync`来构建内容项的显示形状，然后使用`DisplayAsync`来呈现这些形状。
 
 === "Liquid"
 
@@ -78,26 +76,26 @@ to build the display shapes for the  content items, then `DisplayAsync` is used 
     </section>
     ```
 
-## Template Alternates
+## 模板备选项
 
-The BagPart supports standard alternates and for a Named BagPart, you can include the name of the part, in the alternate.
+BagPart支持标准备选项，对于Named BagPart，您可以在备选项中包含部分名称。
 
 `MyBag-BagPart.liquid`
 
 `MyBag-MyNamedBagPart.liquid`
 
-In the first example we have an alternate specifying the Content Type `MyBag` and the `BagPart`.
+在第一个示例中，我们有一个备选项，指定Content Type `MyBag`和`BagPart`。
 
-In the second example we have an alternate for the Content Type `MyBag`, and the Named BagPart `MyNamedBagPart`
+在第二个示例中，我们有一个Content Type `MyBag`和Named BagPart `MyNamedBagPart`的备选项。
 
-The templates and alternate names for the Content Items contained in a BagPart are the same as standard Content Items.
+包含在BagPart中的Content Items的模板和备选项名称与标准Content Items相同。
 
 !!! note
-    More alternates are available. You can examine these using the `ConsoleLog` Razor Helper or `console_log` liquid filter.
+    更多备选项可用。您可以使用`ConsoleLog` Razor Helper或`console_log`Liquid过滤器来检查这些备选项。
 
-## Placement Differentiator
+## 放置差异化
 
-The name of a BagPart is used as the differentiator in `placement.json`
+BagPart的名称用作`placement.json`中的差异化器。
 
 ```json
   "BagPart": [
@@ -106,3 +104,4 @@ The name of a BagPart is used as the differentiator in `placement.json`
     }
   ]
 ```
+> 该文档由ChatGPT 4 翻译

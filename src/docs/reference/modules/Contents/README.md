@@ -1,65 +1,65 @@
-# Contents (`OrchardCore.Contents`)
+# 内容 (`OrchardCore.Contents`)
 
-This module provides Content Management services.
+该模块提供内容管理服务。
 
 ## Liquid
 
-You can access content items from liquid views and templates by using the `Content` property.  
-By default, you can retrieve content by alias or content item ID.  
-Other modules (such as `Alias` and `Autoroute`) allow you to retrieve content by other identifiers.
+您可以通过使用 `Content` 属性从Liquid视图和模板中访问内容项。  
+默认情况下，您可以通过别名或内容项 ID 检索内容。  
+其他模块（例如 `Alias` 和 `Autoroute`）允许您通过其他标识符检索内容。
 
-### Loading from a handle
+### 从句柄加载
 
 ```liquid
 {% assign my_content = Content["alias:main-menu"] %}
 ```
 
-Handles can be in various forms, like when using Autoroute, with the `slug` prefix.
+句柄可以采用各种形式，例如使用 Autoroute 时，带有 `slug` 前缀。
 
 ```liquid
 {% assign my_content = Content["slug:my-blog/my-blog-post"] %}
 ```
 
-> Handles are provided by implementing `IContentHandleProvider`.
+> 通过实现 `IContentHandleProvider` 提供句柄。
 
-### Loading the latest version of a content item
+### 加载内容项的最新版本
 
-You can use the `Latest` property to retrieve the latest version of a content item (whether that's the published version or the latest draft version) by alias:
+您可以使用 `Latest` 属性通过别名检索内容项的最新版本（无论是已发布版本还是最新草稿版本）：
 
 ```liquid
 {% assign my_content = Content.Latest["alias:main-menu"] %}
 ```
 
-### Loading from a content item id
+### 从内容项 ID 加载
 
 ```liquid
 {% assign my_content = Content.ContentItemId["417qsjrgv97e74wvp149h4da53"] %}
 ```
 
-When a list of content item ids is available, the `content_item_id` filter should be preferred:
+当可用内容项 ID 列表时，应优先使用 `content_item_id` 过滤器：
 
 ```liquid
 {% assign posts = postIds | content_item_id %}
 ```
 
-### Loading from a content item version id
+### 从内容项版本 ID 加载
 
 ```liquid
 {% assign my_content = Content.ContentItemVersionId["49gq8g6zndfc736x0az3zsp4w3"] %}
 ```
 
-### Rendering a content item from a handle
+### 从句柄呈现内容项
 
 ```liquid
 {% contentitem handle:"alias:test", display_type="Summary" %}
 ```
 
-The default display type is "Detail" when none is specified.
-An optional `alternate` argument can be specified.
+当未指定时，默认显示类型为“Detail”。
+可以指定可选的 `alternate` 参数。
 
-### Logging to the browser console
+### 记录到浏览器控制台
 
-The `console_log` liquid filter can be used to dump data from well known properties, or objects serializable to json, to the browser console.
+`console_log` Liquid过滤器可用于将数据从众所周知的属性或可序列化为 json 的对象转储到浏览器控制台。
 
 ```liquid
 {{ Model.Content | console_log }}
@@ -69,61 +69,61 @@ The `console_log` liquid filter can be used to dump data from well known propert
 {{ Model.ContentItem | console_log }}
 ```
 
-Well known properties include
-- Strings
+众所周知的属性包括
+- 字符串
 - JTokens
-- Content Items (from the `Model.ContentItem` property)
-- Shapes (from the `Model.Content` property)
-- Objects that can serialize to json.
+- 内容项（来自 `Model.ContentItem` 属性）
+- 形状（来自 `Model.Content` 属性）
+- 可序列化为 json 的对象。
 
-!!! note
-    To log shapes call `{{ Model.Content | console_log }}` after calling `{{ Model.Content | shape_render }}`
-    This will allow the shape to execute, and populate the alternates for any child shapes.
+!!! 注意
+    要记录形状，请在调用 `{{ Model.Content | shape_render }}` 后调用 `{{ Model.Content | console_log }}`
+    这将允许形状执行，并为任何子形状填充替代项。
 
 ## Razor Helper
 
-The following methods are available from the Razor helper.
+以下方法可从 Razor 帮助程序中使用。
 
-| Method | Parameters | Description |
+| 方法 | 参数 | 描述 |
 | --------- | ---- |------------ |
-| `GetContentItemIdByHandleAsync` | `string name` | Returns the content item id from its handle. Ex: `alias:carousel`, `slug:myblog/my-blog-post` |
-| `GetContentItemByHandleAsync` | `string handle, bool latest = false` | Loads a content item from its handle, seeking the latest version or not. |
-| `GetContentItemByIdAsync` | `string contentItemId, bool latest = false` | Loads a content item from its id, seeking the latest version or not. |
-| `GetContentItemsByIdAsync` | `IEnumerable<string> contentItemIds, bool latest = false` | Loads a list of content items by ids, seeking the latest version or not. |
-| `GetContentItemByVersionIdAsync` | `string contentItemVersionId` | Loads a content item from its version id. |
-| `ConsoleLog` | `object content` | Logs content to the browser console |
+| `GetContentItemIdByHandleAsync` | `string name` | 从其句柄返回内容项 ID。例如 `alias:carousel`，`slug:myblog/my-blog-post` |
+| `GetContentItemByHandleAsync` | `string handle, bool latest = false` | 从其句柄加载内容项，寻找最新版本或不寻找。 |
+| `GetContentItemByIdAsync` | `string contentItemId, bool latest = false` | 从其 ID 加载内容项，寻找最新版本或不寻找。 |
+| `GetContentItemsByIdAsync` | `IEnumerable<string> contentItemIds, bool latest = false` | 按 ID 加载内容项列表，寻找最新版本或不寻找。 |
+| `GetContentItemByVersionIdAsync` | `string contentItemVersionId` | 从其版本 ID 加载内容项。 |
+| `ConsoleLog` | `object content` | 将内容记录到浏览器控制台 |
 
-> The Razor Helper is accessible on the `Orchard` property if the view is using Orchard Core's Razor base class, or by injecting `OrchardCore.IOrchardHelper` in all other cases.
+> 如果视图使用 Orchard Core 的 Razor 基类，则可以在 `Orchard` 属性上访问 Razor Helper，或者在所有其他情况下注入 `OrchardCore.IOrchardHelper`。
 
-### Razor console log
+### Razor 控制台日志
 
-The `ConsoleLog` extension method can be used to dump data from well known properties, or objects serializable to json, to the browser console.
+`ConsoleLog` 扩展方法可用于将数据从众所周知的属性或可序列化为 json 的对象转储到浏览器控制台。
 
-`@Orchard.ConsoleLog(Model.Content as object)` noting that we cast to an object, as extension methods do not support dynamic dispatching.
+`@Orchard.ConsoleLog(Model.Content as object)` 注意我们将其转换为对象，因为扩展方法不支持动态分派。
 
-`@Orchard.ConsoleLog(Model.ContentItem as object)` noting that we cast to an object, as extension methods do not support dynamic dispatching.
+`@Orchard.ConsoleLog(Model.ContentItem as object)` 注意我们将其转换为对象，因为扩展方法不支持动态分派。
 
-Well known properties include
-- Strings
+众所周知的属性包括
+- 字符串
 - JTokens
-- Content Items (from the `Model.ContentItem` property)
-- Shapes (from the `Model.Content` property)
-- Objects that can serialize to json.
+- 内容项（来自 `Model.ContentItem` 属性）
+- 形状（来自 `Model.Content` 属性）
+- 可序列化为 json 的对象。
 
-!!! note
-    To log shapes call `@Orchard.ConsoleLog(Model.Content as object)` after calling `@await DisplayAsync(Model.Content)`
-    This will allow the shape to execute, and populate the alternates for any child shapes.
+!!! 注意
+    要记录形状，请在调用 `@await DisplayAsync(Model.Content)` 后调用 `@Orchard.ConsoleLog(Model.Content as object)`
+    这将允许形状执行，并为任何子形状填充替代项。
 
 ## GraphQL
 
-The contents module provides a feature to provide GraphQL queries for content items.
-For more information about how to send GraphQL queries, please refer to [this section](../Apis.GraphQL/README.md).
+内容模块提供了一个功能，用于为内容项提供 GraphQL 查询。
+有关如何发送 GraphQL 查询的更多信息，请参见[此部分](../Apis.GraphQL/README.md)。
 
-### Content Type Queries
+### 内容类型查询
 
-You can use content queries to fetch either a single content item, or a list of content items for a certain content type.
+您可以使用内容查询来获取某个内容类型的单个内容项或内容项列表。
 
-Here, we use the `blogPost` query to fetch a list of `BlogPost` content items. In the response, we include only the `contentItemId` and `displayText` of each `BlogPost` content item:
+在此示例中，我们使用 `blogPost` 查询来获取 `BlogPost` 内容项的列表。 在响应中，我们仅包括每个 `BlogPost` 内容项的 `contentItemId` 和 `displayText`：
 
 ```graphql
 query {
@@ -134,7 +134,7 @@ query {
 }
 ```
 
-We can also query a specific `BlogPost` content item using the `blogPost` query. Note that we're using the `where` argument to select the content item:
+我们还可以使用 `blogPost` 查询查询特定的 `BlogPost` 内容项。 请注意，我们使用 `where` 参数来选择内容项：
 
 ```graphql
 query {
@@ -148,11 +148,11 @@ query {
 }
 ```
 
-### Available fields
+### 可用字段
 
-These fields are available at the content item level:
+这些字段在内容项级别可用：
 
-| Property |
+| 属性 |
 | -------- |
 | `contentItemId` |
 | `contentItemVersionId` |
@@ -166,7 +166,7 @@ These fields are available at the content item level:
 | `owner` |
 | `author` |
 
-In addition, all the content parts can also be retrieved like this:
+此外，还可以像这样检索所有内容部分：
 
 ```graphql
 {
@@ -179,19 +179,19 @@ In addition, all the content parts can also be retrieved like this:
 }
 ```
 
-### Query arguments
+### 查询参数
 
-Different types of query arguments can be composed to filter the results:
+可以组合不同类型的查询参数来过滤结果：
 
-- Ordering: Sorting content items by any field value using `orderBy`
-- Filtering: Selecting content items in a query by scalar or relational filters using `where`
-- Pagination: Slicing content items in a query using `first` and `skip`
+- 排序：使用 `orderBy` 按任何字段值对内容项进行排序
+- 过滤：使用 `where` 选择标量或关系过滤器中的内容项
+- 分页：使用 `first` 和 `skip` 切片查询中的内容项
 
-#### Ordering
+#### 排序
 
-When querying all content items of a type you can supply the `orderBy` argument for every scalar field of the type: `orderBy: { <field>: ASC }` or  `orderBy: { <field>: DESC }`.
+当查询特定内容类型的所有内容项时，可以为每个标量字段的类型提供 `orderBy` 参数：`orderBy: { <field>: ASC }` 或 `orderBy: { <field>: DESC }`。
 
-Order the list of all `BlogPost` content items ascending by `displayText`:
+按 `displayText` 升序排序所有 `BlogPost` 内容项：
 
 ```graphql
 query {
@@ -203,7 +203,7 @@ query {
 }
 ```
 
-Order the list of all `BlogPost` content items descending by `publishedUtc` and then ascending by `displayText`:
+按 `publishedUtc` 降序排序所有 `BlogPost` 内容项，然后按 `displayText` 升序排序：
 
 ```graphql
 query {
@@ -215,23 +215,23 @@ query {
 }
 ```
 
-The field you are ordering by does not have to be selected in the actual query.
+您正在排序的字段不必在实际查询中选择。
 
-It's also not currently possible to order responses by their parts or custom fields.
+目前还无法按其部分或自定义字段对响应进行排序。
 
-#### Filtering
+#### 过滤
 
-When querying all content items of a type you can supply different parameters to the where argument to constrain the data in the response according to your requirements. 
-The available options depend on the scalar and part fields defined on the type in question.
+当查询特定内容类型的所有内容项时，可以向 where 参数提供不同的参数以根据您的要求约束响应中的数据。 
+可用选项取决于所讨论的类型上定义的标量和部分字段。
 
-##### Single Filters
+##### 单个过滤器
 
-If you supply exactly one parameter to the `where` argument, the query response will only contain content items that adhere to this constraint.  
-Multiple filters can be combined using `AND` and/or `OR`, see [below](#arbitrary-combination-of-filters-with-and-and-or) for more details.
+如果向 `where` 参数提供了一个参数，则查询响应将仅包含符合此约束的内容项。  
+可以使用 `AND` 和/或 `OR` 组合多个过滤器，请参见下文的[任意组合过滤器与 AND 和 OR](#arbitrary-combination-of-filters-with-and-and-or)以获取更多详细信息。
 
-##### Filtering by a publication status
+##### 按发布状态过滤
 
-By default only the published content items are returned. You can select either `DRAFT`, `LATEST` or `ALL` versions of a content item.
+默认情况下，仅返回已发布的内容项。 您可以选择 `DRAFT`、`LATEST` 或 `ALL` 版本的内容项。
 
 ```graphql
 query {
@@ -243,11 +243,11 @@ query {
 }
 ```
 
-##### Filtering by a concrete value
+##### 按具体值过滤
 
-The easiest way to filter a query response is by supplying a concrete value for a certain field to filter by.
+过滤查询响应的最简单方法是为某个字段提供具体值以进行过滤。
 
-Query all `BlogPost` content items with a specific display text:
+查询具有特定显示文本的所有 `BlogPost` 内容项：
 
 ```graphql
 query {
@@ -259,11 +259,11 @@ query {
 }
 ```
 
-##### Advanced filter criteria
+##### 高级过滤条件
 
-Depending on the type of the field you want to filter by, you have access to different advanced criteria you can use to filter your query response.
+根据您要过滤的字段类型，您可以访问不同的高级条件来过滤查询响应。
 
-Query all `BlogPost` content items whose `displayText` is in a given list of strings:
+查询所有 `BlogPost` 内容项，其中 `displayText` 在给定字符串列表中：
 
 ```graphql
 query {
@@ -277,7 +277,7 @@ query {
 }
 ```
 
-Query all `BlogPost` content items whose creation date is less than a specific date:
+查询所有 `BlogPost` 内容项，其中创建日期小于特定日期：
 
 ```graphql
 query {
@@ -291,11 +291,11 @@ query {
 }
 ```
 
-##### Content Part Filters
+##### 内容部分过滤器
 
-For content parts, you can define conditions on the part by nesting the according argument in `where`.
+对于内容部分，您可以通过在 `where` 中嵌套相应参数来定义部分上的条件。
 
-Query all `BlogPost` content items where the `autoroutePart` has a specific value in its `path`:
+查询所有 `BlogPost` 内容项，其中 `autoroutePart` 具有其 `path` 中的特定值：
 
 ```graphql
 query {
@@ -311,18 +311,18 @@ query {
 }
 ```
 
-##### Combining Multiple Filters
+##### 组合多个过滤器
 
-You can use the filter combinators `OR`, `AND` and `NOT` to create an arbitrary logical combination of filter conditions:
+您可以使用过滤器组合器 `OR`、`AND` 和 `NOT` 来创建任意逻辑组合的过滤条件：
 
-For an `AND`-filter to evaluate to `true`, all of the nested conditions have to be `true`.
-For an `OR`-filter to evaluate to `true`, at least one of the nested conditions has to be `true`.
-For a `NOT`-filter to evaluate to `true`, all of the nested conditions have to be `false`.
-Using `OR`, `AND` and `NOT`
+对于 `AND` 过滤器，所有嵌套条件都必须为 `true` 才能评估。
+对于 `OR` 过滤器，至少有一个嵌套条件必须为 `true` 才能评估。
+对于 `NOT` 过滤器，所有嵌套条件都必须为 `false` 才能评估。
+使用 `OR`、`AND` 和 `NOT`
 
-Let's start with an easy example:
+让我们从一个简单的例子开始：
 
-Query all `BlogPost` content items that are created in `2018` and whose `displayText` is in a given list of strings:
+查询所有在 `2018` 中创建的 `BlogPost` 内容项，其中 `displayText` 在给定字符串列表中：
 
 ```graphql
 query {
@@ -340,11 +340,11 @@ query {
 }
 ```
 
-##### Arbitrary combination of filters with `AND`, `OR` and `NOT`
+##### 任意组合过滤器与 AND 和 OR
 
-You can combine and even nest the filter combinators `AND`, `OR` and `NOT` to create arbitrary logical combinations of filter conditions.
+您可以组合甚至嵌套过滤器组合器 `AND`、`OR` 和 `NOT`，以创建任意逻辑组合的过滤条件。
 
-Query all `BlogPost` content items that are created in `2018` and whose `displayText` is in a given list of strings, or have the specific `contentItemId` we supply:
+查询所有在 `2018` 中创建的 `BlogPost` 内容项，其中 `displayText` 在给定字符串列表中，或者具有我们提供的特定 `contentItemId`：
 
 ```graphql
 query {
@@ -365,23 +365,23 @@ query {
 }
 ```
 
-Notice how we nest the `AND` combinator inside the `OR` combinator.
+请注意，我们将 `AND` 组合器嵌套在 `OR` 组合器内。
 
-#### Pagination
+#### 分页
 
-When querying all content items of a specific content type, you can supply arguments that allow you to paginate the query response.
+当查询特定内容类型的所有内容项时，可以提供参数以允许您对查询响应进行分页。
 
-##### Limiting the number of results
+##### 限制结果数量
 
-To limit the number of results, use `first`.
+要限制结果数量，请使用 `first`。
 
-##### Skipping elements with skip
+##### 跳过 skip 的元素
 
-To skip a number of results, use `skip`.
+要跳过一些结果，请使用 `skip`。
 
-##### Examples
+##### 示例
 
-Query the first 3 content items:
+查询前 3 个内容项：
 
 ```graphql
 query {
@@ -393,7 +393,7 @@ query {
 }
 ```
 
-Query the content items from position 6 to position 10:
+查询从位置 6 到位置 10 的内容项：
 
 ```graphql
 query {
@@ -408,8 +408,10 @@ query {
 }
 ```
 
-## Videos
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/j6xuupq9FYY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/wbTEUl_N0Lk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+> 该文档由ChatGPT 4 翻译

@@ -1,34 +1,33 @@
 # Autoroute (`OrchardCore.Autoroute`)
 
-This module allows you to specify custom URLs (permalinks) for your content items.
+该模块允许您为内容项指定自定义URL（永久链接）。
 
-## Autoroute Part
+## Autoroute部分
 
-Attach this part to a content type to specify custom URLs to your content items.
+将此部分附加到内容类型以指定内容项的自定义URL。
 
-Then, go to the definition of a Content Type and edit the Autoroute Part:
+然后，转到内容类型的定义并编辑Autoroute部分：
 
-- Enter a Pattern using a Liquid expression that will represent the generated slug.
+- 使用Liquid表达式输入模式，该表达式将表示生成的slug。
 
-For example, for a content with a `TitlePart` that will use it to generate the slug :
+例如，对于使用它来生成slug的TitlePart的内容：
 
 ```liquid
 {{ ContentItem | display_text | slugify }}
 ```
 
-For instance, for a content type with a `ListPart` and a `TitlePart` (e.g.: `BlogPost` nested in a `Blog`) that will use the container and the title to generate the slug:
+例如，对于具有ListPart和TitlePart（例如：嵌套在Blog中的BlogPost）的内容类型，它将使用容器和标题来生成slug：
 
 ```liquid
 {{ ContentItem | container | display_text | slugify }}/{{ ContentItem | display_text | slugify }}
 ```
 
-- If you want to be able to enter a custom path when you edit a content item, check 'Allow custom path'.
-- If you want to be able to set a content item as the homepage, check 'Show homepage options'.
+- 如果您想在编辑内容项时能够输入自定义路径，请勾选“允许自定义路径”。
+- 如果您想将内容项设置为主页，请勾选“显示主页选项”。
 
-### Using fields in patterns
+### 在模式中使用字段
 
-Fields can also be used as part of the pattern. The following example uses a __Text field__ named `Color`, on a `Product` content type. The text is _slugified_ such that
-it is compatible with a URL.
+字段也可以用作模式的一部分。以下示例使用名为Color的Text字段，在Product内容类型上。将文本slugify，以使其与URL兼容。
 
 ```liquid
 {{ ContentItem.Content.Product.Color.Text | slugify }}
@@ -36,123 +35,122 @@ it is compatible with a URL.
 
 ## Autoroute Slug Handle
 
-Content items with an `Autoroute` can be retrieved by URL anywhere you can retrieve content by its slug handle (see example below). The syntax for this is `slug:<URL>`, e.g. `slug:my-blog/my-blog-post`.
+具有Autoroute的内容项可以通过URL检索，您可以在任何可以通过其slug handle检索内容的地方检索它（请参见下面的示例）。其语法为`slug：<URL>`，例如`slug：my-blog/my-blog-post`。
 
 ## Liquid
 
-With `Autoroute` enabled, you can retrieve content by URL in your liquid views and templates:
+启用Autoroute后，您可以在Liquid视图和模板中通过URL检索内容：
 
 ```liquid
 {% assign my_content = Content["slug:my-blog/my-blog-post"] %}
 ```
 
-or
+或
 
 ```liquid
 {% assign my_content = Content.Slug["my-blog/my-blog-post"] %}
 ```
 
-## Container Routing
+## 容器路由
 
-The `AutoroutePart` supports routing of content items which are children of a parent content item.
+AutoroutePart支持父内容项的子项的路由。
 
-### Container and Contained Definitions
+### 容器和包含的定义
 
-### Container Definition
+### 容器定义
 
-A _container_ content item is a parent content item, which _contains_ child content items.
+容器内容项是父内容项，其中包含子内容项。
 
-For example :
+例如：
 
-- A content item with a `BagPart` attached is a _container or parent_ content item.
+- 附加了BagPart的内容项是容器或父内容项。
 
-- A `Taxonomy` is also a _container_ content item.
+- Taxonomy也是容器内容项。
 
-### Contained Definition
+### 包含的定义
 
-A _contained_ content item refers to a content item which is _contained_ inside a _container_ content item.
+包含的内容项是指包含在容器内容项中的内容项。
 
-For example :
+例如：
 
-- Content items _contained_ inside a `BagPart` are considered _contained or child_ content items.
+- 包含在BagPart中的内容项被视为包含或子内容项。
 
-- `Terms` of a `Taxonomy` are _contained_ by the `Taxonomy`.
+- Taxonomy的术语由Taxonomy包含。
 
-_Contained_ content items are stored as part of the json inside the _container_ document.
+包含的内容项作为json的一部分存储在容器文档中。
 
-### Supported Containers
+### 支持的容器
 
-The `AutoroutePart` supports routing of these _container_ types.
+AutoroutePart支持这些容器类型的路由。
 
-- `BagPart` and content items _contained_ by the `BagPart`
-- `Taxonomy` content items and _contained_ `Terms`
+- BagPart和由BagPart包含的内容项
+- Taxonomy内容项和包含的术语
 
-### Configuration
+### 配置
 
-To enable routing of _contained_ content items the `AutoroutePart` must be configured correctly.
+要启用包含的内容项的路由，必须正确配置AutoroutePart。
 
-- Add the `AutoroutePart` to the _container or parent_ content type definition.
-- Enable `Allow contained item routing` on the `AutoroutePart Settings`.
-- Enable `Route Contained Items` on the _container_ content item.
+- 将AutoroutePart添加到容器或父内容类型定义中。
+- 在AutoroutePart设置上启用“允许包含项路由”。
+- 在容器内容项上启用“路由包含项”。
 
-Optionally, add the `AutoroutePart` to the content type definition of the _contained or child_ content items, to manage the contained item routes.
+可选地，将AutoroutePart添加到包含或子内容项的内容类型定义中，以管理包含项路由。
 
-#### Path Generation
+#### 路径生成
 
-By default when the `AutoroutePart` is added to a _container_ content item and `Route Contained Items` is enabled the generated route will be made up of the _container_ segment, then the `ContentItemId` of the _contained_ content item, and if present, the `DisplayText`.
+默认情况下，当将AutoroutePart添加到容器内容项中并启用“路由包含项”时，生成的路由将由容器段、包含的内容项的ContentItemId以及如果存在，则由DisplayText组成。
 
-For example :
+例如：
 `https://www.mysite.com/categories/47twnxzx9hs5k3dyn9j1mc5rny-travel`
 
-To configure a friendly slug for the child content items add the `AutoroutePart` to the content type definition for those content types.
+要为子内容项添加友好的slug，请将AutoroutePart添加到这些内容类型的内容类型定义中。
 
-You are then able to use the `Liquid` pattern to generate a friendly slug.
+然后，您可以使用Liquid模式生成友好的slug。
 
-For example :
+例如：
 `https://www.mysite.com/categories/travel`
 
-Routing is, by default, relative to the parent, and there is no `Liquid` filter for the parent as there is with the `ListPart`
+路由默认相对于父级，并且与ListPart不同，没有父级的Liquid过滤器
 
-#### AutoroutePart Settings
+#### AutoroutePart设置
 
-Settings on the `AutoroutePart` allow the site administrator to control how _container and contained_ routing is enabled for a user.
+AutoroutePart上的设置允许站点管理员控制如何为用户启用容器和包含的路由。
 
-##### Allow Route Contained Items
+##### 允许路由包含项
 
-Enable this on a `container` content type definition, i.e. the parent, to allow a user to turn on routing for _contained_, i.e. child, content items.
+在容器内容类型定义上启用此选项，即父项，以允许用户为包含的即子项启用路由。
 
-##### Manage Contained Item Routes
+##### 管理包含项路由
 
-Enable this on a `contained` content type definition, i.e. the child, to allow the `AutoroutePart` to configure individual control of routing for these content items.
+在包含的内容类型定义上启用此选项，即子项，以允许AutoroutePart配置对这些内容项的单独路由控制。
 
-##### Allow Absolute Path
+##### 允许绝对路径
 
-Enabled `AllowAbsolutePath` to allow a user to set a path as absolute.
+启用`AllowAbsolutePath`以允许用户将路径设置为绝对路径。
 
-By default _container_ routing will build a url relative to the _containers_ route.
+默认情况下，容器路由将构建相对于容器路由的URL。
 
-##### Allow Disabled
+##### 允许禁用
 
-Enable this option to allow content editors to disable route generation.
+启用此选项以允许内容编辑器禁用路由生成。
 
-Use this option when you have a _container_ with two `BagParts` and routing should only be enabled for one.
+当您有两个BagParts的容器并且应仅启用一个路由时，请使用此选项。
 
-#### AutoroutePart Content Item Editor
+#### AutoroutePart内容项编辑器
 
-##### Disabled
+##### 禁用
 
-Content editors can select to disabled route generation for a particular _contained_ content item.
+内容编辑器可以选择禁用特定的包含内容项的路由生成。
 
-##### Route Contained Items
+##### 路由包含项
 
-When editing the content item select `Route Contained Items` on the _container_ content item to turn on routing for the _contained_ content items.
+在编辑内容项时，在容器内容项上选择“路由包含项”以为包含的内容项启用路由。
 
-##### Absolute
+##### 绝对
 
-When selected forces the route from relative to absolute.
+当选中时，将路由从相对路由强制为绝对路由。
 
-!!! note
-    When you configure _container routing_ for a `BagPart` you will want to change the default display type of the part to `Summary` and create `Summary` and `Detail` templates, for use when the item is displayed within its _container_ and when it is displayed in detail via a route.
+!!! 注意
+    当您为BagPart配置容器路由时，您将希望更改部分的默认显示类型为“Summary”，并创建“Summary”和“Detail”模板，以在其容器中显示该项时使用，以及在通过路由详细显示时使用。
 
-
-
+> 该文档由ChatGPT 4 翻译

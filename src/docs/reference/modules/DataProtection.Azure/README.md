@@ -1,22 +1,21 @@
-# Data Protection (Azure Storage) (`OrchardCore.DataProtection.Azure`)
+# 数据保护（Azure 存储）(`OrchardCore.DataProtection.Azure`)
 
-## Purpose
+## 目的
 
-Data Protection (Azure Storage) enables data protection key rings that are by default segregated by tenant and stored in an Azure Blob Storage container.  
-This is useful for load balanced environments where each active node will need to share the same key ring.
+数据保护（Azure 存储）启用了默认按租户隔离并存储在 Azure Blob 存储容器中的数据保护密钥环。这对于负载平衡环境非常有用，其中每个活动节点都需要共享相同的密钥环。
 
-## Configuration
+## 配置
 
-You'll need to specify a storage account connection string and a valid container name. The container will automatically be created if it does not already exist.
+您需要指定存储帐户连接字符串和有效的容器名称。如果容器不存在，则会自动创建容器。
 
-These settings need to be available to the `IShellConfiguration` implementation. In the simplest case, this will mean updating your `appsettings.json` file:
+这些设置需要对 `IShellConfiguration` 实现可用。在最简单的情况下，这将意味着更新您的 `appsettings.json` 文件：
 
 ```json
 {
   "OrchardCore": {
     "OrchardCore_DataProtection_Azure": {
       "ConnectionString": "DefaultEndpointsProtocol=https;AccountName=<myaccountname>;AccountKey=<myaccountkey>;EndpointSuffix=core.windows.net",
-      // Set to the Azure Blob container name. A container name must be a valid DNS name and conform to Azure container naming rules eg. lowercase only.
+      // 设置为 Azure Blob 容器名称。容器名称必须是有效的 DNS 名称并符合 Azure 容器命名规则，例如仅小写。
       "ContainerName": "dataprotection",
       "BlobName": "",
       "CreateContainer": true
@@ -25,31 +24,31 @@ These settings need to be available to the `IShellConfiguration` implementation.
 }
 ```
 
-By default this will use a single container to store all the Data Protection Keys based on a folder per tenant configuration.
+默认情况下，这将使用单个容器存储所有基于每个租户配置的数据保护密钥。
 
 `dataprotection/Sites/tenant_name/DataProtectionKeys.xml`
 
-During `Startup` if `CreateContainer` is set to true, Data Protection will check the container exists, and create it, if it does not.
-Set `CreateContainer` to `false` to disable this check if your container already exists.
+在 `Startup` 期间，如果将 `CreateContainer` 设置为 true，则数据保护将检查容器是否存在，并在不存在时创建它。
+如果容器已经存在，请将 `CreateContainer` 设置为 `false` 以禁用此检查。
 
-## Templating Configuration
+## 模板配置
 
-Optionally you may use liquid templating to further configure Data Protection.
-The `ShellSettings` property is made available to the liquid template.
-The `ContainerName` property and the `BlobName` property are the only templatable properties.
-If not supplied the `BlobName` will automatically default to a folder per tenant configuration, i.e. `Sites/tenant_name/DataProtectionKeys.xml`
+您可以选择使用Liquid模板进一步配置数据保护。
+`ShellSettings` 属性可用于Liquid模板。
+`ContainerName` 属性和 `BlobName` 属性是唯一可模板化的属性。
+如果未提供，则 `BlobName` 将自动默认为每个租户配置的文件夹，即 `Sites/tenant_name/DataProtectionKeys.xml`
 
-!!! note
-When templating the `ContainerName`  using  `{{ ShellSettings.Name }}`, the tenant's name will be automatically lowercased, however, you must also make sure the `ContainerName` conforms to other Azure Blob naming conventions as set out in Azure's documentation.
+!!! 注意
+当使用 `{{ ShellSettings.Name }}` 模板化 `ContainerName` 时，租户的名称将自动转换为小写，但是，您还必须确保 `ContainerName` 符合 Azure 的其他 Blob 命名约定，如 Azure 文档中所述。
 
-### Configuring a container per tenant.
+### 配置每个租户的容器。
 
 ```json
 {
   "OrchardCore": {
     "OrchardCore_DataProtection_Azure": {
       "ConnectionString": "DefaultEndpointsProtocol=https;AccountName=<myaccountname>;AccountKey=<myaccountkey>;EndpointSuffix=core.windows.net",
-      // Optionally configure with liquid. A container name must be a valid DNS name and conform to Azure container naming rules eg. lowercase only.
+      // 可选使用Liquid模板进行配置。容器名称必须是有效的 DNS 名称并符合 Azure 容器命名规则，例如仅小写。
       "ContainerName": "{{ ShellSettings.Name }}-dataprotection",
       "BlobName": "{{ ShellSettings.Name }}DataProtectionKeys.xml",
       "CreateContainer": true
@@ -58,8 +57,9 @@ When templating the `ContainerName`  using  `{{ ShellSettings.Name }}`, the tena
 }
 ```
 
-!!! note
-    Only the default liquid filters and tags are available during parsing of the liquid template.
-    Extra filters like `slugify` will not be available.
+!!! 注意
+    在解析Liquid模板期间，仅可用默认Liquid过滤器和标记。
+    额外的过滤器，如 `slugify`，将不可用。
 
-Refer also to the [Configuration Section](../../core/Configuration/README.md).
+还请参阅[配置部分](../../core/Configuration/README.md)。
+> 该文档由ChatGPT 4 翻译

@@ -1,14 +1,14 @@
 # Flows (`OrchardCore.Flows`)
 
-The Flows module provides methods to display content items directly within another content item. This is achieved with the Flow Part and the Bag Part.
+Flows模块提供了在另一个内容项中直接显示内容项的方法。这是通过Flow Part和Bag Part实现的。
 
-A good example of this would be a page with an FAQ section in it. A FAQ content type might have a question and an answer field, and the content editor can add new FAQs directly when editing the page.
+一个很好的例子是一个带有FAQ部分的页面。FAQ内容类型可能有一个问题和一个答案字段，内容编辑器可以在编辑页面时直接添加新的FAQ。
 
-## Empty Flows and Bags
+## 空的Flows和Bags
 
-Flows and Bags that do not contain any content items will be displayed with a different shape name. For empty Flows, the shape name is `FlowPart_Empty`; for empty Bags, it's `BagPart_Empty`.
+不包含任何内容项的Flows和Bags将显示不同的形状名称。对于空的Flows，形状名称为`FlowPart_Empty`；对于空的Bags，它是`BagPart_Empty`。
 
-This allows you to conditionally show or hide empty Flows or Bags. For example, to hide a Flow part that has no items, you can add this to your placement file:
+这允许您有条件地显示或隐藏空的Flows或Bags。例如，要隐藏没有项目的Flow部分，您可以将以下内容添加到放置文件中：
 
 ```json
   "FlowPart_Empty": [
@@ -18,7 +18,7 @@ This allows you to conditionally show or hide empty Flows or Bags. For example, 
   ]
 ```
 
-And if you'd like to use the same template for Flow parts that have items and Flow parts that have no items, you could add this:
+如果您想要使用相同的模板来处理具有项目和没有项目的Flow部分，您可以添加以下内容：
 
 ```json
   "FlowPart_Empty": [
@@ -28,6 +28,8 @@ And if you'd like to use the same template for Flow parts that have items and Fl
   ]
 ```
 
-## Video
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ufEhMXYZPy4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+> 该文档由ChatGPT 4 翻译

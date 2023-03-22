@@ -1,65 +1,50 @@
-# Starter Recipes and Themes included with Orchard Core
+# 包含在Orchard Core中的起始配方和主题
 
-Orchard Core is available for use via two different NuGet meta packages.
+Orchard Core可以通过两个不同的NuGet元包供使用。
 
 - `OrchardCore.Application.Cms.Core.Targets`
 - `OrchardCore.Application.Cms.Targets`
 
-The first package `OrchardCore.Application.Cms.Core.Targets` is intended for use when 
+第一个包 `OrchardCore.Application.Cms.Core.Targets` 适用于以下情况：
 
-- Developing a Decoupled Web Site
-- Developing a Headless Web Site
-- Developing a Themed Web Site from scratch
+- 开发解耦Web站点
+- 开发Headless Web站点
+- 从头开始开发主题Web站点
 
-The `Core.Targets` package contains the minimum you need to setup an Orchard Core installation.
-It contains `TheAdmin` theme, and two recipes to base your installation on, but no front end themes.
+`Core.Targets` 包包含了设置Orchard Core安装所需的最少量。它包含 `TheAdmin` 主题和两个基于配方的安装方案，但没有前端主题。
 
 !!! tip
-    Any features that are not enabled by the selected setup recipe can be enabled after setup,
-    through the _Configuration -> Features_ menu.
+    在选择设置配方后，可以通过 _Configuration -> Features_ 菜单启用未启用的任何功能。第二个包`OrchardCore.Application.Cms.Targets`包含了以上所有内容，还包括：
 
-The second package `OrchardCore.Application.Cms.Targets` contains all of the above plus
+- 主题的设置配方（Setup recipes）
+- 多个 CMS 初始主题（Multiple CMS Starter Themes）
 
-- Setup recipes for the Themes
-- Multiple CMS Starter Themes
+Orchard Core 中的配方（Recipes）可以帮助您通过启用功能和/或为您的站点创建内容类型和内容来设置站点。
 
-Recipes in Orchard Core help you get your site setup by enabling features,
-and / or creating content types, and content for your site.
-
-Orchard Core Themes can contain Razor or Liquid views, and by default use 
-Orchard Core Display Management techniques to render content.
+Orchard Core 主题可以包含 Razor 或 Liquid 视图，并且默认情况下使用 Orchard Core 显示管理技术来呈现内容。
 
 ## OrchardCore.Application.Cms.Core.Targets
 
-### Blank Recipe
+### 空白配方（Blank Recipe）
 
-The Blank recipe enables content management features, but does not set a current theme.
-You can use this recipe when starting Orchard Core in Decoupled Mode,
-or when building your own theme.
+空白配方启用内容管理功能，但不设置当前主题。您可以在启动 Orchard Core 的分离模式下使用此配方，或在构建自己的主题时使用它。或者，您可以选择其他的配置文件，然后在设置后更改活动主题。
 
-Alternatively you can start with another recipe,
-and change the active theme after setup.
+#### 空白配置文件内容
 
-#### Blank Recipe Contents 
+- 内容管理功能
+- 激活`TheAdmin`主题
 
-- Content management features
-- Activates `TheAdmin` theme
+### Headless配置文件
 
-### Headless Recipe
+Headless配置文件旨在帮助您使用Orchard Core作为API和内容管理系统，并具有对主机的管理员访问权限。
 
-The Headless recipe is intended to get you started when using Orchard Core
-as an API, and Content Management System, with Administrator access to the host.
+#### Headless配置文件内容
 
-#### Headless Recipe Contents
-
-- Content management features
-- Secure GraphQL API support
-- OpenID authentication features
-- Activates `TheAdmin` theme and set Admin as the home route
-
-!!! tip
-    You will want to review the default security configuration to be certain
-    it suits your requirements.
+- 内容管理功能
+- 安全的GraphQL API支持
+- OpenID身份验证功能
+- 激活`TheAdmin`主题，并将管理员设置为主页路由!!! tip
+    您将需要检查默认的安全配置以确保它符合您的要求。
 
 ## Headless Recipe Video
 
@@ -67,88 +52,84 @@ as an API, and Content Management System, with Administrator access to the host.
 
 ## OrchardCore.Application.Cms.Targets
 
-### TheBlogTheme and Blog Recipe
+### TheBlogTheme和Blog Recipe
 
-The Blog recipe sets up a range of content types, and widgets, the initial content,
-and sets the current theme to the TheBlogTheme.
+Blog recipe设置了一系列内容类型、小部件、初始内容，并将当前主题设置为TheBlogTheme。
 
-TheBlogTheme is based on the [Start Bootstrap Clean Blog Theme](https://startbootstrap.com/themes/clean-blog/)
+TheBlogTheme基于[Start Bootstrap Clean Blog Theme](https://startbootstrap.com/themes/clean-blog/)。
 
-#### Blog Recipe Contents
-
-- Content management features
-- Blog related Content Types, and Widgets
-- A blog, and a first blog post, based on the `ListPart`
-- Liquid templates, in the TheBlogTheme source code
+#### Blog Recipe的内容- 内容管理功能
+- 与博客相关的内容类型和小部件
+- 基于`ListPart`的博客和第一篇博客文章
+- `TheBlogTheme`源代码中的Liquid模板
 - Bootstrap
 
-### Blog - Lucene Query Recipe
+### 博客-Lucene查询配方
 
-The Lucene Query recipe is an optional recipe in the TheBlogTheme. 
-This recipe runs the Blog Lucene Search recipe and as an example,
-the recipe replaces the RecentBlogPosts SQL query with a Lucene query.
+Lucene查询配方是`TheBlogTheme`中的一个可选配方。此配方运行博客Lucene搜索配方，并作为示例，将近期博客文章的SQL查询替换为Lucene查询。
 
-#### Blog Lucene Query Recipe Contents
+#### 博客Lucene查询配方内容
 
-- Runs the Blog Lucene Search recipe
-- Replace RecentBlogPosts SQL query with Lucene
+- 运行博客Lucene搜索配方
+- 用Lucene替换近期博客文章的SQL查询
 
-### Blog - Lucene Search Recipe
+### 博客-Lucene搜索配方Lucene Search食谱是TheBlogTheme中的可选食谱。该食谱启用了Lucene功能，并创建了搜索设置、Lucene索引和权限。
 
-The Lucene Search recipe is an optional recipe in the TheBlogTheme. 
-This recipe enables the Lucene feature and creates Search setting, Lucene indices and permissions.
+#### Blog Lucene Search食谱内容
 
-#### Blog Lucene Search Recipe Contents
+- 启用Lucene功能
+- 设置Lucene索引
+- 创建搜索设置
+- 搜索索引权限
 
-- Enables Lucene feature
-- Setup Lucene indices 
-- Create the search settings
-- Search index permission
+### TheAgencyTheme和Agency食谱
 
-### TheAgencyTheme and Agency Recipe
+Agency食谱设置了一系列内容类型和小部件、初始内容，并将当前主题设置为TheAgencyTheme。
 
-The Agency recipe sets up a range of content types, and widgets, the initial content,
-and sets the current theme to TheAgencyTheme.
+TheAgencyTheme基于[Start Bootstrap Agency Theme](https://startbootstrap.com/themes/agency/)。
 
-TheAgencyTheme is based on the [Start Bootstrap Agency Theme](https://startbootstrap.com/themes/agency/)
+#### Agency食谱内容### 内容管理特性
+该功能可用于管理网站的所有内容，包括页面、博客、图片、视频等。可以轻松地添加、编辑和删除内容，以确保网站的动态更新。 
 
-#### Agency Recipe Contents
+### 与机构相关的内容类型和小部件
+为了方便网站使用者，该功能设置了与机构相关的内容类型和小部件，包括机构信息、团队成员、客户案例和服务内容等，以更好地展示机构特色。
 
-- Content management features
-- Agency related Content types, and widgets
-- A LandingPage, based on the `BagPart`
-- Liquid templates, in TheAgencyTheme source code, and Templates feature
-- Bootstrap
+### 基于 `BagPart` 的登陆页面
+该功能使用 `BagPart` 创建了一个登录页面，用户可以使用此页面登录网站，以便访问特定的网站内容。
 
-### ComingSoon Recipe and TheComingSoonTheme
+### TheAgencyTheme源代码中的Liquid模板和模板特性
+`Liquid` 是一种模板语言，可以用来创建动态数据的静态页面。在该功能中，通过修改 `TheAgencyTheme` 的源代码，添加了 `Liquid` 模板和模板特性。
 
-This recipe sets up a range of Content Types, and Widgets, and the initial content of TheComingSoonTheme.
-It also includes Email, Recaptcha, Forms, Workflows and User Registration Forms.
+### Bootstrap
+这是一个流行的前端框架，包括HTML、CSS和JavaScript的库，用于快速开发响应式、移动设备优化的网站。在该功能中使用了 `Bootstrap` 来进行网站的前端开发。 
 
-TheComingSoon theme is based on the [Start Bootstrap Coming Soon Theme](https://startbootstrap.com/themes/coming-soon/)
+### ComingSoon Recipe 和 TheComingSoonTheme
 
-#### ComingSoon Recipe Contents
+该功能包含了许多内容类型和小部件，并提供了 `TheComingSoonTheme` 的初始内容。它还包括电子邮件、验证码、表单、工作流和用户注册表单等功能。
 
-- Content management features
-- A Coming Soon landing page, using the the `FlowPart`, and form `Widgets`
-- Liquid layout template, in TheComingSoon Source Code
-- Liquid content templates stored in the database with the Templates features
-- Bootstrap
+`TheComingSoonTheme` 基于 [Start Bootstrap Coming Soon Theme](https://startbootstrap.com/themes/coming-soon/) 开发。
 
-### SaaS Recipe with TheTheme
+#### ComingSoon Recipe 内容
 
-The Saas recipe includes a Software as a Service multi tenancy configuration.
+- 内容管理功能
+- 一个 "即将上线" 的页面，使用 `FlowPart` 和表单 `Widgets`
+- 存储在数据库中的 `Liquid` 内容模板
+- `TheComingSoon` 源代码中的 `Liquid` 布局模板- Bootstrap
 
-It configures the site to use TheTheme, and you are then able to create Tenants 
-using any of the other recipes.
+### 使用TheTheme的SaaS配方
 
-#### Saas Recipe Contents
+SaaS配方包括软件即服务多租户配置。
 
-- Multi-tenancy feature
-- Razor home page and Layout with bootstrap and jQuery
+它配置网站使用TheTheme，然后您可以使用任何其他配方创建租户。
 
-## Creating your own recipe
+#### SaaS配方内容
 
-You can create your own recipes for deployment of your Orchard Core websites.
+- 多租户功能
+- 使用Bootstrap和jQuery的Razor主页和布局
 
-See the [Recipes](../reference/modules/Recipes/README.md) document for more information.
+## 创建自己的配方
+
+您可以为部署Orchard Core网站创建自己的配方。
+
+请参阅[配方](../reference/modules/Recipes/README.md)文档获取更多信息。
+$END_OF_FILE$

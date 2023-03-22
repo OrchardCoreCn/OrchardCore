@@ -1,33 +1,27 @@
-# Getting started with Orchard Core as a NuGet package
+# 通过NuGet包入门Orchard Core
 
-In this article, we are going to see how easy it is to create a CMS Web application using the NuGet packages provided by Orchard Core.
+在这篇文章中，我们将看到使用Orchard Core提供的NuGet包创建CMS Web应用程序有多么简单。
 
-## Create an Orchard Core CMS application
+## 创建Orchard Core CMS应用程序
 
-In Visual Studio, create a new empty .NET Core web application. Ex: `Cms.Web`. Do not check "Place solution and project in the same directory", because later when you create modules and themes you will want them to live alongside the web application within the solution.
+在Visual Studio中，创建一个新的空白的.NET Core Web应用程序。例如：'Cms.Web'。不要勾选“将解决方案和项目放在同一个目录中”，因为后来当你创建模块和主题时，你会想让它们与解决方案中的Web应用程序一起生存。
 
-!!! note
-    If you want to use the `preview` packages, [configure the OrchardCore Preview url in your Package sources](preview-package-source.md)
+!!! 注意
+    如果你想使用`preview`包，[请在Package sources中配置OrchardCore Preview url](preview-package-source.md)。
 
-To add a reference to the package, right-click on the project and click on `Manage NuGet packages...`, check `Include prerelease` if required. If you added the preview source above, select this from the `Package Source` selection in the top right.  In the `Browse` tab, search for `OrchardCore.Application.Cms.Targets` and `Install` the package.
+要添加对包的引用，请右键单击项目并单击“管理NuGet包...”，如果需要，请勾选“包括预发布版本”。如果你添加了上面的预览源，请从右上方的“Package Source”选择此源。在“Browse”选项卡中，搜索“OrchardCore.Application.Cms.Targets”并“安装”该包。
 
-### Getting Started with `Program.cs` Only Using .NET 6 Framework?
-!!! tip
-    When starting a new project using `.NET 6` framework, you'll notice that the created project does not have a `Startup` class as it did in previous versions of the .NET framework.
+### 仅使用.NET 6框架和`Program.cs`入门？
+!!!提示
+    当使用`.NET 6`框架启动新项目时，你会注意到创建的项目没有像以前的.NET框架版本一样拥有`Startup`类。
 
-Open `Program.cs` file. Remove the following line "if exists"
-
-```csharp
-builder.Services.AddRazorPages();
-```
-
-Add the following line 
+打开`Program.cs`文件，并删除如下代码：
 
 ```csharp
-builder.Services.AddOrchardCms()
+builder.UseOrchardCore(); 
 ```
 
-Additionally, remove the following lines
+此外，删除以下代码
 
 ```csharp
 app.UseHttpsRedirection();
@@ -35,13 +29,13 @@ app.UseRouting();
 app.UseAuthorization();
 app.MapRazorPages();
 ```
-Lastly, add the following line to the request pipeline
+
+最后，在请求管道中添加以下代码
 
 ```csharp
-app.UseOrchardCore();
+builder.UseOrchardCore(); 
 ```
-
-When you are done, the `Program.cs` file will something like this
+在完成后，`Program.cs` 文件会像这样
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
@@ -58,46 +52,42 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseOrchardCore();
-
-app.Run();
 ```
+## 使用 `Program.cs` 入门？
 
-### Getting Started Using `Program.cs` file?
-
-Open `Program.cs` file, then add the OrchardCore CMS services by adding this line:
+打开 `Program.cs` 文件，然后添加 OrchardCore CMS 服务，可以通过加入这一行代码来实现：
 
 ```csharp
 builder.Services.AddOrchardCms();
 ```
 
-After building the `WebApplication`, replace this line:
+构建 `WebApplication` 后，将这一行代码:
 
 ```csharp
 app.MapGet("/", () => "Hello World!");
 ```
 
-with this line:
+替换为以下行代码： 
 
 ```csharp
-app.UseOrchardCore();
+app.UseOrchardCore().Run();
 ```
 
-Finally, remove the default `Pages` and/or `Views` folder to allow OrchardCore to render the views from the active theme.
+最后，删除默认的 `Pages` 和/或 `Views` 文件夹，允许OrchardCore从当前主题渲染视图。
 
-## Setup your application
+## 设置你的应用程序
 
-Launch your application (Ctrl+F5). The setup page is displayed.
+启动你的应用程序 (Ctrl+F5)。设置页面将显示。
 
-Enter the required information about the site:
+输入有关该网站的必要信息：
 
-- The name of the site. Ex: `Orchard Core`.
-- The theme recipe to use. Ex: `Agency`.
-- The timezone of the site. Ex: `(+01:00) Europe/Paris`.
-- The Sql provider to use. Ex: `SqLite`.
-- The name of the admin user. Ex: `admin`.
-- The email of the admin. Ex: `foo@bar.com`
-- The password and the password confirmation.
+- 网站名称。例如： `Orchard Core`。
+- 用于的主题配方。例如： `Agency`。
+- 网站时区。例如： `(+01:00) Europe/Paris`。
+- 要使用的 Sql 提供程序。例如： `SqLite`。
+- 管理员用户名。例如： `admin`。
+- 管理员的电子邮件。例如： `foo@bar.com`。
+- 密码和密码确认。提交表单后，几秒钟后您的网站将生成。
 
-Submit the form and your site is generated after a few seconds.
-
-Then, you can access to the admin using the `/admin` url. Enjoy.
+然后，您可以通过`/admin` URL访问管理员页面。享受吧。
+$END_OF_FILE$

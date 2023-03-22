@@ -1,28 +1,30 @@
-# Creating a custom admin theme
+# 创建自定义管理员主题
 
-A custom Admin Theme may be created for Orchard Core.
+可以为 Orchard Core 创建自定义管理员主题。
 
-The default admin theme for Orchard Core is called `TheAdmin`
-
-
-## What you will build
-
-You will build a custom theme which uses `TheAdmin` as a base theme.
+Orchard Core 的默认管理员主题称为 `TheAdmin`。
 
 
-## What you will need
+## 你将要创建什么
 
-- An existing Orchard Core website that has already been setup.
+你将创建一个使用 `TheAdmin` 作为基础主题的自定义主题。
 
-## Creating an Orchard Core Theme
 
-Create a Orchard Core Theme following the [Create a theme](../../getting-started/theme.md) guide.
+## 你需要什么
 
-## Edit the Manifest.cs
+- 已经设置好的现有 Orchard Core 网站。
 
-In the root folder of your theme there will be a file called `Manifest.cs`
 
-Edit this file
+## 创建 Orchard Core 主题
+
+请按照 [创建主题](../../getting-started/theme.md) 指南创建一个 Orchard Core 主题。
+
+
+## 编辑Manifest.cs
+
+在您的主题的根目录中，将会有一个名为`Manifest.cs`的文件。
+
+编辑这个文件：
 
 ```csharp
 using OrchardCore.DisplayManagement.Manifest;
@@ -32,48 +34,50 @@ using OrchardCore.DisplayManagement.Manifest;
     Author = "My name",
     Website = "https://mywebsite.net",
     Version = "0.0.1",
-    Description = "My Orchard Core Admin theme.",
+    Description = "My Orchard Core 管理主题。",
     Tags = new [] { "admin" },
     BaseTheme = "TheAdmin"
 )]
 ```
 
-Add the property `Tags = new [] { "admin" }` and the property `BaseTheme = "TheAdmin"`
 
-The tag allows the theme to be selected as an admin theme.
+添加属性 `Tags = new [] { "admin" }` 和属性 `BaseTheme = "TheAdmin"`
 
-The `BaseTheme` property means that when the custom admin theme is active Orchard Core Display Management
-will search both `TheAdmin` theme and `MyAdminTheme` for template alternates when displaying admin content.
+该标签允许选择该主题作为管理主题。
 
-Views in `MyAdminTheme` will override views in `TheAdmin`.
+`BaseTheme` 属性的意思是当自定义管理主题处于活动状态时，Orchard Core Display Management会在显示管理内容时同时查找 `TheAdmin`主题和`MyAdminTheme`的模板备选项。
 
-## Enabling your custom admin theme.
+`MyAdminTheme`中的视图将覆盖`TheAdmin`中的视图。
 
-From the root of the folder containing both projects, run this command:
+## 启用自定义管理主题
+
+从包含两个项目的根目录中运行以下命令：
 
 `dotnet run --project .\MySite\MySite.csproj`
 
 !!! note
-    If you are using the development branch of the templates, run `dotnet restore .\MySite\MySite.csproj --source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json` before running the application
+    如果您正在使用模板的开发分支，请在运行应用程序之前运行 `dotnet restore .\MySite\MySite.csproj --source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json`
 
-Your application should now be running and contain the open ports:
-
+您的应用程序现在应该正在运行并包含开放端口：
 ```
-Now listening on: https://localhost:5001
-Now listening on: http://localhost:5000
-Application started. Press Ctrl+C to shut down.
+现在正在监听: https://localhost:5001
+现在正在监听: http://localhost:5000
+应用程序已启动。按Ctrl + C以关闭。
 ```
 
-Open a browser on <https://localhost:5001>
+在浏览器中打开< https://localhost:5001>
 
-Enter the Admin section by opening <https://localhost:5001/admin> and logging in.
+通过打开< https://localhost:5001/admin>并登录进入管理部分。
 
-Using the left menu go to _Design -> Themes_, search for your theme, __MyAdminTheme__, and select __Make Current__.
+使用左侧菜单转到“设计->主题”，搜索您的主题“ MyAdminTheme”，然后选择“使当前”。
 
-Now your admin theme is enabled.
+现在您的管理主题已启用。
 
-From here you can create templates, or use `placement.json` to alter shapes rendered in the admin.
+从这里，您可以创建模板或使用“placement.json”来更改在管理中呈现的形状。
 
-## Summary
+## 摘要
 
-You just learned how to create a custom admin theme.
+您刚学会了如何创建自定义管理员主题。
+
+
+> 该文档由Chat-GPT 翻译

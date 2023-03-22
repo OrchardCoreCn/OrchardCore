@@ -1,14 +1,16 @@
-# Content Preview (`OrchardCore.ContentPreview`)
+# 内容预览 (`OrchardCore.ContentPreview`)
 
-Content preview allows you to display the result that will be rendered on the frontend in a separate window, while you are editing a content item in the admin.
+内容预览允许您在管理界面中编辑内容项时，在单独的窗口中显示将在前端呈现的结果。
 
-A `Preview` button is available in the action buttons when you create or edit a content item.
+当您创建或编辑内容项时，操作按钮中会出现“预览”按钮。
 
-## CREDITS
+## 鸣谢
 
 ### JavaScript Cookie
 
 <https://github.com/js-cookie/js-cookie>
 
-Copyright 2006, 2015 Klaus Hartl & Fagner Brack  
-Released under the MIT license
+版权所有 2006 年，2015 年 Klaus Hartl 和 Fagner Brack  
+根据 MIT 许可证发布
+
+该文档由ChatGPT 4 翻译

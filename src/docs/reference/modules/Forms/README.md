@@ -1,221 +1,245 @@
-# Forms (`OrchardCore.Forms`)
+# 表单 (`OrchardCore.Forms`)
 
-The Forms module provides components in the form of widgets and workflow activities to create, validate and process forms.
+表单模块提供了组件，如小部件和工作流活动，用于创建、验证和处理表单。
 
-## General Concepts
+## 常规概念
 
-When building a form, there are primarily two aspects involved:
+构建表单时，主要涉及两个方面：
 
-1. Building the form.
-2. Processing the form when submitted.
+1. 构建表单。
+2. 提交时处理表单。
 
-These parts are independent from one another, so that you can just use the form builder and handle its submissions yourself, or provide the form HTML markup yourself but rely on workflows to handle form submission.  
-The form-building part relies on the Form widget. To create a form, add a Form widget to a zone or to a content item that has the `FlowPart` attached.
+这些部分是相互独立的，因此您可以仅使用表单构建器并自行处理其提交，或者提供表单 HTML 标记，但依赖于工作流来处理表单提交。  
+表单构建部分依赖于表单小部件。要创建表单，请将表单小部件添加到具有 `FlowPart` 附加的区域或内容项中。
 
-### Creating a Form
+### 创建表单
 
-Creating a form typically involves the following steps:
+创建表单通常涉及以下步骤：
 
-1. Make sure the Forms feature is enabled.
-2. Create a new content item that has the `FlowPart` attached. If you used the Blog recipe, there will be a `Page` content type that you can use.
-3. Add the Form widget.
-4. Because the Form widget has the `FlowPart` attached, you can add other widgets to the Form widget. Add widgets such as Input, Textarea and Button to build up your form.
+1. 确保启用了表单功能。
+2. 创建具有 `FlowPart` 附加的新内容项。如果使用了 Blog 配方，则会有一个可以使用的 `Page` 内容类型。
+3. 添加表单小部件。
+4. 因为表单小部件附加了 `FlowPart`，所以您可以将其他小部件添加到表单小部件中。添加诸如输入、文本区域和按钮之类的小部件以构建您的表单。
 
-### Processing Form submissions
+### 处理表单提交
 
-Once you have a form in place, you need to handle its submission. The Form widget has a field called **Action**, into which you can enter a URL to where the form should submit to. This could be the path to your own controller, but it can also be the URL pointing to a workflow type.  
-Using a workflow is convenient because it doesn't require you to create a custom module.
+一旦您有了一个表单，就需要处理其提交。表单小部件有一个名为 **Action** 的字段，您可以在其中输入表单应提交到的 URL。这可以是指向自己的控制器的路径，但也可以是指向工作流类型的 URL。  
+使用工作流很方便，因为它不需要您创建自定义模块。
 
-Creating a workflow and associating it with a form typically involves the following steps:
+创建工作流并将其与表单关联通常涉及以下步骤：
 
-1. Make sure the **HTTP Workflows Activities** feature is enabled.
-2. Click on the Workflows menu item and create a new Workflow Type.
-3. Add the **HTTP Request Event** event to the workflow. Make sure the **HTTP Method** field is set to **POST**.
-4. Copy the generated workflow URL to your clipboard.
-5. Click **Save** to save the changes and return to the workflow editor.
-6. Make sure the HTTP Request Event activity is configured as the start activity (on the workflow editor, single-click the activity and click on the on/off icon). The activity will have a green color if it's the starting activity.
-7. Add any other activities to validate and process the form submission. We will see a real-world example later on.
-8. Click **Save** to save the workflow.
-9. Go to the content item where you added a Form widget.
-10. Paste the workflow URL into the Action field.
-11. Save your content item.
+1. 确保启用了 **HTTP 工作流活动** 功能。
+2. 单击工作流菜单项并创建新的工作流类型。
+3. 将 **HTTP 请求事件** 事件添加到工作流中。确保 **HTTP 方法** 字段设置为 **POST**。
+4. 将生成的工作流 URL 复制到剪贴板中。
+5. 单击 **保存** 以保存更改并返回工作流编辑器。
+6. 确保 HTTP 请求事件活动已配置为起始活动（在工作流编辑器上，单击活动并单击开/关图标）。如果它是起始活动，则活动将呈绿色。
+7. 添加任何其他活动以验证和处理表单提交。稍后我们将看到一个真实的示例。
+8. 单击 **保存** 以保存工作流。
+9. 转到您添加了表单小部件的内容项。
+10. 将工作流 URL 粘贴到操作字段中。
+11. 保存您的内容项。
 
-At this point, you should be able to test out your form and its submission.
+此时，您应该能够测试您的表单及其提交。
 
-## Implementing a Contact Form
+## 实现联系表单
 
-In the following walkthrough, we'll build an actual contact form and implement a form handler using a workflow.  
-The contact form will include the following fields:
+在下面的演练中，我们将构建一个实际的联系表单，并使用工作流实现表单处理程序。  
+联系表单将包括以下字段：
 
-* A Validation Summary widget.
-* A Name input widget.
-* An Email input widget.
-* A Message text area widget.
-* A Google NoCaptcha widget to protect against automated form submissions.
-* A Submit button widget.
+* 验证摘要小部件。
+* 名称输入小部件。
+* 电子邮件输入小部件。
+* 消息文本区域小部件。
+* Google NoCaptcha 小部件，以防止自动提交表单。
+* 提交按钮小部件。
 
-The workflow will perform the following actions:
+工作流将执行以下操作：
 
-* Validate that the Name, Email and Message fields are not empty. If they are empty, we'll add Model State Validation errors.
-* Validate the NoCaptcha.
-* Send an email to the site owner that the contact form was submitted. The email will contain the submitted form fields.
+* 验证名称、电子邮件和消息字段不为空。如果它们为空，我们将添加模型状态验证错误。
+* 验证 NoCaptcha。
+* 向站点所有者发送电子邮件，说明已提交联系表单。电子邮件将包含提交的表单字段。
 
-### Creating the Contact Form
+### 创建联系表单
 
-For this walkthrough, I am assuming you executed the `Blog` recipe when setting up the site, which will automatically create a `Page` content type with the `FlowPart` attached.
-When you have a fresh new installation, the first thing we need to do is enable the following features:
+对于此演练，我假设您在设置站点时执行了 `Blog` 配方，这将自动创建具有 `FlowPart` 附加的 `Page` 内容类型。
+当您拥有全新的安装时，我们需要做的第一件事是启用以下功能：
 
-* Forms
-* HTTP Workflow Activities
-* Email
+* 表单
+* HTTP 工作流活动
+* 电子邮件
 
-Next, create a new Page content item and give it a title of *Contact Form*. Click the **Add Widget** button to add the **Form** widget.  
-Give the Form a title of *Contact* and leave the Action field empty for now.
+接下来，创建一个新的页面内容项，并将其标题设置为 *联系表单*。单击 **添加小部件** 按钮以添加 **表单** 小部件。  
+将表单命名为 *联系*，现在暂时将操作字段留空。
 
-Add the following widgets to the Form widget:
+将以下小部件添加到表单小部件中：
 
-* Validation Summary widget
-* Input widget, Name = "Name", Type = "Text", Placeholder Text = "Enter your name"
-* Input widget, Name = "Email", Type = "Email", Placeholder Text = "Enter your email address"
-* Textarea widget, Name = "Message", Placeholder Text = "Enter your message"
-* NoCaptcha widget (we'll configure the settings momentarily)
-* Button widget, Text = "Submit!", Type = "Submit"
+* 验证摘要小部件
+* 输入小部件，名称 = "Name"，类型 = "Text"，占位符文本 = "输入您的姓名"
+* 输入小部件，名称 = "Email"，类型 = "Email"，占位符文本 = "输入您的电子邮件地址"
+* 文本区域小部件，名称 = "Message"，占位符文本 = "输入您的消息"
+* NoCaptcha 小部件（我们将立即配置设置）
+* 按钮小部件，文本 = "提交!"，类型 = "提交"
 
-### Configuring NoCaptcha
+### 配置 NoCaptcha
 
-When adding the NoCaptcha widget, a message was displayed that the NoCaptcha settings need to be configured before it will be displayed on the form. Let's do that right away.  
-Click on the **NoCaptcha Settings** link that is displayed within the message. Alternatively, go to *Configuration* -> *Settings* -> *Forms*.
+添加 NoCaptcha 小部件时，会显示一条消息，指出需要配置 NoCaptcha 设置才能在表单上显示它。让我们立即这样做。  
+单击显示在消息中的 **NoCaptcha 设置** 链接。或者，转到 *配置* -> *设置* -> *表单*。
 
-The Forms settings shows two fields: **SiteKey** and **Site Secret**. You can get these values for free from [https://developers.google.com/recaptcha/](https://developers.google.com/recaptcha/). The widget uses **reCaptcha V2**, so make sure to create Site Key and Site Secret for that version.  
-Once you have generated a Site Key and Site Secret with Google, copy & paste those values in the SiteKey and Site Secret fields, respectively, and click the **Save** button.
+表单设置显示两个字段：**SiteKey** 和 **Site Secret**。您可以从 [https://developers.google.com/recaptcha/](https://developers.google.com/recaptcha/) 免费获取这些值。小部件使用 **reCaptcha V2**，因此请确保为该版本创建 Site Key 和 Site Secret。  
+在使用 Google 生成 Site Key 和 Site Secret 后，将这些值分别复制并粘贴到 SiteKey 和 Site Secret 字段中，然后单击 **保存** 按钮。
 
-The final form configuration should look something like this:
+最终表单配置应如下所示：
 
-![Contact Form - Expanded](./assets/contact-form-expanded-1.png)
+![联系表单 - 扩展](./assets/contact-form-expanded-1.png)
 
-And on the front-end, it will look like this:
+在前端，它将如下所示：
 
-![Contact Form - front-end](./assets/contact-form-front-end-1.png)
+![联系表单 - 前端](./assets/contact-form-front-end-1.png)
 
-### Create the Contact Form Workflow
+### 创建联系表单工作流
 
-In order to validate the form input and send an email, we will create a workflow. 
+为了验证表单输入并发送电子邮件，我们将创建一个工作流。
 
-From the admin menu, click the **Workflows** menu item. Next, click on **Create Workflow Type**.  
-We're now asked to provide a name for the workflow. Enter "Contact Form Workflow", leave the other options as-is, and click **Save**. When you do, you will be redirected to the Workflow Editor, which is where we'll implement the Contact Form submission logic.
+从管理菜单中单击 **工作流** 菜单项。接下来，单击 **创建工作流类型**。  
+现在要求我们为工作流提供名称。输入 "联系表单工作流"，将其他选项保留不变，然后单击 **保存**。这样做后，您将被重定向到工作流编辑器，这是我们将实现联系表单提交逻辑的地方。
 
-### Adding the Http Request Event
+### 添加 Http 请求事件
 
-Click on the **Add Event** button and look for the activity named **HTTP Request**.  
-For the Title, enter "Contact Form Submitted", and change the **HTTP Method** selection to **POST**.  
-Copy the generated URL (without the scheme, host name and port number) to the clipboard, because we will need it to update the form we created.  
-Click **Save** to return to the workflow editor.
+单击 **添加事件** 按钮，查找名为 **HTTP 请求** 的活动。  
+对于标题，输入 "提交联系表单"，并将 **HTTP 方法** 选择更改为 **POST**。  
+将生成的 URL（不包括方案、主机名和端口号）复制到剪贴板中，因为我们需要使用它来更新创建的表单。  
+单击 **保存** 返回到工作流编辑器。
 
-Back on the workflow editor, we have now a single activity. Single-click this activity and click on the left-most icon to turn this activity into the starting activity.
+回到工作流编辑器，现在有一个活动。单击此活动并单击最左侧的图标，将此活动转换为起始活动。
 
-### Adding the Fork Activity
+### 添加分叉活动
 
-There are various aspects of the form that we need to validate: we want to make sure the user entered a value for the **Name**, **Email** and **Message** fields, and we want to make sure the **captcha** is valid.  
-Although we could perform each field validation sequentially (i.e. one at a time), we are going to do it in parallel. The advantage of doing so is that we can perform form field validation without having to check the result of each validation immediately. Instead, we can simply check the `ModelState.IsValid` property after all form fields have been validated. This keeps the workflow simplified, and works similar to when you would perform this validation from code.  
-To execute branches of execution in parallel, we need to add the **Fork** activity, so go ahead and click the **Add Task** button and look for the Fork activity.  
-In the Fork activity editor, enter `"Validate Form Fields"` as the Title, and enter the following outcomes: `"Validate Name, Validate Email, Validate Message, Validate Captcha"`.  
-Click on **Save** to save the changes and to be returned to the workflow editor.
+有各种方面的表单需要验证：我们希望确保用户为 **名称**、**电子邮件** 和 **消息** 字段输入了值，并且我们希望确保 **captcha** 有效。  
+虽然我们可以依次执行每个字段验证（即一个接一个），但我们将并行执行它。这样做的好处是，我们可以在不必立即检查每个验证结果的情况下执行表单字段验证。相反，我们可以在验证所有表单字段后，一次性检查所有验证结果。
 
-Connect the **Http Request** activity to the **Fork** activity you just added.
+单击 **添加活动** 按钮，查找名为 **分叉** 的活动。  
+对于标题，输入 "验证表单字段"。  
+将 **分叉** 活动连接到 **HTTP 请求** 活动。  
+单击 **添加结果** 按钮，添加以下结果：
 
-### Adding Name, Email and Message Validation
+* **验证名称**
+* **验证电子邮件**
+* **验证消息**
+* **验证 NoCaptcha**
 
-Next, we will do the following for each of Name, Email and Message:
+单击 **保存**。
 
-Add the **Validate Form Field** activity. Enter a title of `"Validate Name"` for the Name field, `"Validate Email"` for the Email field and `"Validate Message"` for the Message field.  
-Enter the appropriate field name for the **Field Name** field ("Name", "Email" and "Message", respectively).  
-In the **Error Message** field, enter `"<field name here> is required"`.
+### 添加验证表单字段活动
 
-> The **Validate Form Field** activity in the Beta 2 version of the Forms module only supports checking if the form field is empty or not. The RC version will have support for other kinds of validation, including the ability to provide custom validation.
+现在，我们将添加四个验证活动，每个活动都验证一个表单字段。  
+单击 **添加活动** 按钮，查找名为 **验证表单字段** 的活动。  
+对于标题，输入 "验证名称"。  
+将 **验证名称** 活动连接到 **分叉** 活动的 **验证名称** 结果。  
+在 **验证表单字段** 活动的 **表单字段名称** 字段中输入 "Name"。  
+在 **验证表单字段** 活动的 **验证类型** 字段中选择 "不为空"。  
+单击 **保存**。
 
-### Adding NoCaptcha
+重复此过程，添加以下验证活动：
 
-To add the NoCaptcha validation activity, click **Add Task** and find the **Validate NoCaptcha**. Since there is nothing to configure on this activity, you'll be redirected straight to the workflow editor when you click Add.
+* **验证电子邮件**
+  * 标题：验证电子邮件
+  * 连接到：分叉活动的验证电子邮件结果
+  * 表单字段名称：Email
+  * 验证类型：不为空
+* **验证消息**
+  * 标题：验证消息
+  * 连接到：分叉活动的验证消息结果
+  * 表单字段名称：Message
+  * 验证类型：不为空
+* **验证 NoCaptcha**
+  * 标题：验证 NoCaptcha
+  * 连接到：分叉活动的验证 NoCaptcha 结果
+  * Site Key：从 Google 获取的 Site Key
+  * Site Secret：从 Google 获取的 Site Secret
 
-Once you have added all 4 validation tasks, connect the Fork activity to the validation activities using the appropriate outcomes. For example, connect the "Validate Name" outcome of the Fork activity to the "Validate Name" activity.
+### 添加 Join 活动
 
-If the specified form field is empty, the **Validate Form Field** activity will *add a model validation error to the ModelState* dictionary. The same goes for the **Validate NoCaptcha** activity if the captcha failed. This is useful, because we now only have to add a single check to see if there are *any* model validation errors.
-Before we do that however, we first need to *join* the forked workflow execution back into a single flow.
+现在，我们需要将分叉的工作流执行合并回单个流。  
+单击 **添加活动** 按钮，查找名为 **Join** 的活动。  
+对于标题，输入 "合并验证结果"。  
+将 **Join** 活动连接到所有验证活动的 **完成** 结果。  
+将 **Join** 活动的 **等待模式** 字段设置为 **等待所有**。  
+单击 **保存**。
 
-### Adding the Join Activity
+### 添加验证表单活动
 
-The **Join** activity will merge the forked workflow back into a single flow of execution. There are two modes: **Wait Any** and **Wait All**. In our case, we need the **Wait All** mode, because we need all validation steps to finish before continuing.  
-Go ahead and add the Join activity to the workflow, and *make sure to connect the **Done** outcome of each validation task* to the Join activity. The "Done" outcome will execute regardless of whether or not the form field validation step failed or not, which is exactly what we want.
+现在，我们需要添加一个活动，该活动将检查 ModelState 是否有效。  
+单击 **添加活动** 按钮，查找名为 **验证表单** 的活动。  
+对于标题，输入 "验证表单"。  
+将 **验证表单** 活动连接到 **Join** 活动的 **完成** 结果。  
+单击 **保存**。
 
-### Adding the Validate Form Activity
+### 添加重定向活动
 
-The **Validate Form** activity will check if the ModelState is valid or not. If any validation errors occurred, it will return False, and True otherwise.  
-Go ahead and add the Validate Form activity and connect it to the Join activity.
+如果 ModelState 无效，则我们将重定向回表单。  
+单击 **添加活动** 按钮，查找名为 **重定向** 的活动。  
+对于标题，输入 "显示表单错误"。  
+将 **重定向** 活动连接到 **验证表单** 活动的 **无效** 结果。  
+在 **重定向** 活动的 **URL** 字段中输入 "/contact-form"。  
+单击 **保存**。
 
-Next, we have to implement the two possible outcomes: **Valid** and **Invalid**.
+### 添加电子邮件活动
 
-If the outcome is Invalid, we will redirect back to the form. Since the form contains a Validation Summary, it will display all validation errors.  
-If the outcome is Valid, we want to send an email and redirect the user to a Thank You page.
-
-Let's implement the Redirect first.
-
-### Adding the First Redirect Activity
-
-Click the **Add Task** button and locate the Redirect activity. Use "Display Form Errors" for the title, and enter the relative path to the Contact Form content item (`/contact-form` if you used the same title as I did).  
-Click **Save** and connect the Invalid outcome of the Validate Form activity to the Redirect activity you just added.
-
-### Adding the Email Activity
-
-Click the **Add Task** button and locate the Send Email activity. Enter the following values:
-
-* Title: `Send Email to Site Admin`
-* Sender: (leave empty)
-* Recipients: `admin@orchardcore.io`
-* Subject: `Contact Form submitted by {{ Request.Form.Name }}!`
-* Body:
+如果 ModelState 有效，则我们将向站点所有者发送电子邮件。  
+单击 **添加活动** 按钮，查找名为 **发送电子邮件** 的活动。  
+对于标题，输入 "向站点所有者发送电子邮件"。  
+在 **发送电子邮件** 活动的 **收件人** 字段中输入 "admin@orchardcore.io"。  
+在 **发送电子邮件** 活动的 **主题** 字段中输入 "由 {{Request.Form.Name}} 提交的联系表单！"。  
+在 **发送电子邮件** 活动的 **正文** 字段中输入以下内容：
 
 ```liquid
-<p>The following information was submitted:<p/>
-<p>Name: {{ Request.Form.Name }}</p>
-<p>Email: {{ Request.Form.Email }}</p>
-<p>Message: {{ Request.Form.Message }}</p>
+<p>已提交以下信息：<p/>
+<p>名称：{{Request.Form.Name}}</p>
+<p>电子邮件：{{Request.Form.Email}}</p>
+<p>消息：{{Request.Form.Message}}</p>
 ```
 
-#### Configuring SMTP
+单击 **保存**。
 
-In order to try out sending emails, you will need to configure the SMTP settings. You can do so via *Configuration* -> *Settings* -> *Smtp*. For development purposes, I am a big fan of [Smtp4Dev](https://github.com/rnwood/smtp4dev), which makes it super easy to try out sending emails *without actually sending them*. It's basically an SMTP host that intercepts emails being sent that you can then inspect.  
-When configuring the SMTP settings in Orchard, make sure to provide the **Sender email address**, which will be used by default (remember, we didn't specify a Sender in the Send Email activity). Enter `system@orchardcore.io` or any other valid email address you like.  
-If you're using Smtp4Dev, make sure to enter `localhost` in the Host name field, and the configured port number.
+### 添加第二个重定向活动
 
-### Adding the Second Redirect Activity
+在发送电子邮件后，我们将重定向到 "感谢" 页面。  
+单击 **添加活动** 按钮，查找名为 **重定向** 的活动。  
+对于标题，输入 "显示感谢页面"。  
+将 **重定向** 活动连接到 **发送电子邮件** 活动的 **完成** 结果。  
+在 **重定向** 活动的 **URL** 字段中输入 "/thank-you"。  
+单击 **保存**。
 
-After the email is sent, we want to redirect the user to a "Thank You" page. Go ahead and add a Redirect activity, using `Display Thank You Page` as the title and `/thank-you` as the URL. Make sure to connect the *Done* outcome of the Send Email activity to this new Redirect activity.
+### 添加感谢页面
 
-### Adding a Thank You Page
+创建一个新的页面内容项，标题为 "感谢！"，并确保其永久链接为 "thank-you"。  
+将任何小部件添加到此页面，例如使用以下文本添加 **段落** 小部件： "感谢您的联系！我们会尽快回复。"
 
-Create a new Page content item with a title of `Thank You!`, and make sure its Permalink is `thank-you` after saving. Add any widgets to this page that you like. For example, add the **Paragraph** widget with the following text: `Thank you for reaching out! We'll get back to you soon.`
+### 更新联系表单小部件
 
-### Updating the Contact Form widget
+现在，我们需要更新联系表单小部件，以便它使用我们刚刚创建的工作流。  
+转到您创建的联系表单小部件所在的页面内容项。  
+展开联系表单小部件，并将工作流 URL 粘贴到 **操作** 字段中。  
+保存您的更改。
 
-Now that our workflow is done, we need to update the Contact Form widget with the Workflow URL that was generated for us in the **HTTP Request** activity. Unless you have that URL still on your clipboard, go back to the first activity on the workflow, double-click it to get to its activity editor, and copy the URL (without the scheme, host and port number; just the path).  
-Go back to the Contact Form page content item, expand the Contact Form widget and paste in the URL into the **Action** field and save your changes.
+### 尝试它！
 
-### Try it out!
+现在，您可以尝试提交表单。  
+导航到 <https://localhost:44300/contact-form> 并填写表单。如果一切正常，您应该会看到一封电子邮件进入并被重定向到感谢页面。  
+如果您留下任何字段为空或未通过 captcha，请将重定向到联系表单页面并查看验证错误。
 
-Go ahead and try it out. Navigate to <https://localhost:44300/contact-form> and fill out the form. If all went well, you should see an email coming in and be redirected to the Thank You page.  
-If you leave any field empty or do not pass the captcha, you should be redirected to the Contact Form page and see the validation errors.
+### 修复丢失字段值问题
 
-### Fixing the Lost Field Values Issue
+表单有一个问题，我故意将其留到最后。要查看问题，请在表单中输入一些值，除了一个（例如，将电子邮件留空，或者不选中 captcha 复选框）。当您提交表单时，请注意您输入的值已消失。  
+通常，当您将表单提交给 MVC 控制器时，模型绑定器将表单字段绑定到某个视图模型。在模型绑定阶段，MVC 将添加模型状态条目。但是，我们没有在任何地方调用模型绑定。我们仅在识别缺少值时添加模型验证错误。  
+为了解决此问题，我们必须将 **绑定表单模型状态** 活动添加到工作流中，并在第一个活动（Http 请求）和第二个活动（Fork 活动）之间连接它。这将导致将所有表单字段复制到 `ModelState` 中，该字段在再次显示表单时使用。
 
-There's one issue with the form that I left out intentionally to the very last. To see the problem, try entering some values in the form, except for one (e.g. leave Email empty, or do not check the captcha checkbox). When you submit the form, notice that the values you entered have disappeared.  
-Normally what happens when you submit a form to an MVC controller, the model binder will bind the fields to some view model. During the model binding phase, MVC will add model state entries. However, we are not invoking model binding anywhere. We only add model validation errors when we identify a missing value.  
-To fix this, we must add the **Bind Form Model State** activity to the workflow, and connect it in between the first activity (Http Request) and the second activity (the Fork activity). This will cause all Form fields to be copied into `ModelState`, which is used when displaying the form again.
+最终工作流应如下所示：
 
-The final workflow should look like this:
+![联系表单工作流](./assets/contact-form-workflow-1.png)
 
-![Contact Form Workflow](./assets/contact-form-workflow-1.png)
+## 未来的改进
 
-## Future Improvements
-
-Implementing a workflow that handles form submissions is easy, but the workflow becomes big quite quickly as soon as you start adding validation logic to the mix. In the next version of the Forms module, there will be an easier way to validate Form submissions in combination with the Form widget. The Form widget will contain all of the validation settings, and there will be a single workflow activity that validates the submitted values against those settings.  
-The low-level validation activities will remain part of the toolbox to support workflow validation for forms that are not built with the Form widget, but implemented as raw HTML for example.
+实现处理表单提交的工作流很容易，但是一旦开始将验证逻辑添加到混合中，工作流就会很快变得很大。在 Forms 模块的下一个版本中，将有一种更容易的方法来验证与 Form 小部件结合使用的表单提交。表单小部件将包含所有验证设置，并且将有一个单独的工作流活动，该活动根据这些设置验证提交的值。  
+低级别验证活动将继续作为工具箱的一部分，以支持针对不使用 Form 小部件的表单（例如，以原始 HTML 实现）的工作流验证。

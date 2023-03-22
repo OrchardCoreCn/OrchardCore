@@ -1,31 +1,32 @@
-# Guides
+# 指南
 
-Whatever you're building, these guides are designed to get you productive as quickly as possible using the latest Orchard Core project releases and techniques as recommended by the Orchard team.
+无论你在构建什么，这些指南旨在让你尽快使用最新的Orchard Core项目版本和Orchard团队推荐的技术，进入工作状态。
 
-## Getting Started Guides
+## 入门指南
 
-Designed to be completed in 15-30 minutes, these guides provide quick, hands-on instructions for building the "Hello World" of any development task with Orchard Core. In most cases, the only prerequisites are a .NET SDK and a text editor.
+这些指南旨在在15-30分钟内完成，提供快速的、实践操作的指令，用于使用Orchard Core构建任何开发任务的“Hello World”。在大多数情况下，唯一的先决条件是一个.NET SDK和一个文本编辑器。
 
-- [Creating a Modular ASP.NET Core Application](create-modular-application-mvc/README.md)
-- [Running Code on Startup](run-code-on-startup/README.md)
-- [Customizing encoding settings](encoding-settings/README.md)
+- [创建一个模块化的ASP.NET Core应用程序](create-modular-application-mvc/README.md)
+- [在启动时运行代码](run-code-on-startup/README.md)
+- [自定义编码设置](encoding-settings/README.md)
 
-### Orchard Core CMS Guides
+### Orchard Core CMS指南
 
-These guides are specific to Orchard Core CMS
+这些指南专门针对Orchard Core CMS：
 
-- [Creating an Orchard Core CMS website](create-cms-application/README.md)
-- [Adding a Menu Item to the Admin Navigation](add-admin-menu/README.md)
-- [Installing Localization Files](install-localization-files/README.md)
-- [How to use the assets transpiler/bundler/minifier pipeline](gulp-pipeline/README.md)
-- [Integrate facebook plugins](integrate-facebook-plugins/README.md)
-- [Implement Full Text search](implement-fulltext-search/README.md)
-- [Integrate AzureAD as external provider](azuread-integration/README.md)
+- [创建Orchard Core CMS网站](create-cms-application/README.md)
+- [向管理导航添加菜单项](add-admin-menu/README.md)
+- [安装本地化文件](install-localization-files/README.md)
+- [如何使用资产转码器/绑定器/缩小器管道](gulp-pipeline/README.md)- [集成 Facebook 插件](integrate-facebook-plugins/README.md)
+- [实现全文检索](implement-fulltext-search/README.md)
+- [将 AzureAD 集成为外部提供程序](azuread-integration/README.md)
 
-## Tutorials
+## 教程
 
-Designed to be completed in 2-3 hours, these guides provide deeper, in-context explorations of enterprise application development topics, leaving you ready to implement real-world solutions.
+这些教程旨在在2-3小时内完成，提供更深入、上下文探讨企业应用程序开发主题，并让您准备实现现实世界的解决方案。
 
-- [Building a decoupled website with Razor Pages](decoupled-cms/README.md)
-- Building a Website from a Web Template (TBD)
-- Implementing a Self-Service SaaS solution (TBD)
+- [使用 Razor Pages 构建解耦的网站](decoupled-cms/README.md)
+- 构建一个来自 Web 模板的网站（待定）
+- 实施自助式 SaaS 解决方案（待定）
+
+> 该文档由Chat-GPT 翻译

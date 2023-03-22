@@ -1,73 +1,71 @@
 # OpenID (`OrchardCore.OpenId`)
 
-## OpenID Connect Module
+## OpenID Connect 模块
 
-`OrchardCore.OpenId` provides the following features:
+`OrchardCore.OpenId` 提供以下功能：
 
-- Core Components
-- Authorization Server
-- Management Interface
-- Token Validation
-- OIDC Client
+- 核心组件
+- 授权服务器
+- 管理界面
+- 令牌验证
+- OIDC 客户端
 
-## Core Components
+## 核心组件
 
-Registers the core components used by the OpenID module.
+注册 OpenID 模块使用的核心组件。
 
-## Management Interface
+## 管理界面
 
-Allows adding, editing and removing the registered applications.
+允许添加、编辑和删除已注册的应用程序。
 
-## Authorization Server
+## 授权服务器
 
-Enables authentication of external applications using the OpenID Connect/OAuth 2.0 standards.  
-It is based on the [`OpenIddict`](https://github.com/openiddict/openiddict-core) library allowing.  
-Orchard Core to act as identity provider to support token authentication without the need of an external identity provider.  
+使用 OpenID Connect/OAuth 2.0 标准启用外部应用程序的身份验证。  
+它基于 [`OpenIddict`](https://github.com/openiddict/openiddict-core) 库，允许 Orchard Core 充当身份提供者，支持令牌身份验证而无需外部身份提供者。  
 
-- Orchard Core can also be used as an identity provider for centralizing the user access permissions to external applications.
-- Orchard Core services.
-  - The authorization server feature maintains its own private JWT/validation handler instance for the userinfo API endpoint. This way, you don't have to enable the token validation feature for current tenant.
+- Orchard Core 也可以用作集中用户访问权限的身份提供者，用于外部应用程序。
+- Orchard Core 服务。
+  - 授权服务器功能维护其自己的私有 JWT/验证处理程序实例，用于 userinfo API 端点。这样，您就不必为当前租户启用令牌验证功能。
 
-Flows supported: [code/implicit/hybrid flows](http://openid.net/specs/openid-connect-core-1_0.html) and [client credentials/resource owner password grants](https://tools.ietf.org/html/rfc6749).
+支持的流程：[code/implicit/hybrid flows](http://openid.net/specs/openid-connect-core-1_0.html) 和 [client credentials/resource owner password grants](https://tools.ietf.org/html/rfc6749)。
 
-### Configuration
+### 配置
 
-Configuration can be set through the _OpenID Connect_ settings menu in the admin dashboard and also through a recipe step.
+可以通过管理仪表板中的 _OpenID Connect_ 设置菜单和配方步骤来设置配置。
 
-Available settings are:
+可用设置如下：
 
-- Token Format:
-  - Data Protection: this format - enabled by default - uses non-standard opaque tokens encrypted by the ASP.NET Core Data Protection stack.
-  - Json Web Token: this format uses signed JWT standard tokens. The tokens are encrypted by default but access token encryption can be turned off
-to allow third-party resource servers to use the JWT tokens produced by the Orchard OpenID server.
-- Authority: Orchard URL used by Orchard to act as an identity server.
-- Signing Certificate Store Location: CurrentUser/LocalMachine <https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storelocation(v=vs.110).aspx>
-- Signing Certificate Store Name: AddressBook/AuthRootCertificateAuthority/Disallowed/My/Root/TrustedPeople/TrustedPublisher <https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storename(v=vs.110).aspx>
-- Encryption Certificate Thumbprint: the thumbprint of the signing certificate (it is recommended to not use same certificate that is being used for SSL).
-- Encryption Certificate Store Location: CurrentUser/LocalMachine <https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storelocation(v=vs.110).aspx>
-- Encryption Certificate Store Name: AddressBook/AuthRootCertificateAuthority/Disallowed/My/Root/TrustedPeople/TrustedPublisher <https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storename(v=vs.110).aspx>
-- Encryption Certificate Thumbprint: the thumbprint of the encryption certificate (it is recommended to not use same certificate that is being used for SSL).
-- Enable Token Endpoint.
-- Enable Authorization Endpoint.
-- Enable Logout Endpoint.
-- Enable User Info Endpoint.
-- Allow Password Flow: It requires that the Token Endpoint is enabled. More info at <https://tools.ietf.org/html/rfc6749#section-1.3.3>
-- Allow Client Credentials Flow: It requires that the Token Endpoint is enabled. More info at <https://tools.ietf.org/html/rfc6749#section-1.3.4>
-- Allow Authorization Code Flow: It requires that the Authorization and Token Endpoints are enabled. More info at <http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth>
-- Allow Implicit Flow: It requires that the Authorization Endpoint is enabled. More info at <http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth>
-- Allow Refresh Token Flow: It allows to refresh access token using a refresh token. It can be used in combination with Password Flow, Authorization Code Flow and Hybrid Flow. More info at <http://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens>
-- Require Proof Key for Code Exchange: Global setting that applies PKCE to all registered clients whether or not the 'Require PKCE' flag was set in the Application settings page.
+- 令牌格式：
+  - 数据保护：默认情况下启用此格式 - 使用非标准不透明令牌，由 ASP.NET Core 数据保护堆栈加密。
+  - Json Web Token：此格式使用签名的 JWT 标准令牌。默认情况下，令牌已加密，但可以关闭访问令牌加密，以允许第三方资源服务器使用 Orchard OpenID 服务器生成的 JWT 令牌。
+- 授权机构：Orchard 用于充当身份服务器的 URL。
+- 签名证书存储位置：CurrentUser/LocalMachine <https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storelocation(v=vs.110).aspx>
+- 签名证书存储名称：AddressBook/AuthRootCertificateAuthority/Disallowed/My/Root/TrustedPeople/TrustedPublisher <https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storename(v=vs.110).aspx>
+- 加密证书指纹：签名证书的指纹（建议不要使用用于 SSL 的相同证书）。
+- 加密证书存储位置：CurrentUser/LocalMachine <https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storelocation(v=vs.110).aspx>
+- 加密证书存储名称：AddressBook/AuthRootCertificateAuthority/Disallowed/My/Root/TrustedPeople/TrustedPublisher <https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storename(v=vs.110).aspx>
+- 加密证书指纹：加密证书的指纹（建议不要使用用于 SSL 的相同证书）。
+- 启用令牌端点。
+- 启用授权端点。
+- 启用注销端点。
+- 启用用户信息端点。
+- 允许密码流：需要启用令牌端点。更多信息请参见 <https://tools.ietf.org/html/rfc6749#section-1.3.3>
+- 允许客户端凭据流：需要启用令牌端点。更多信息请参见 <https://tools.ietf.org/html/rfc6749#section-1.3.4>
+- 允许授权代码流：需要启用授权和令牌端点。更多信息请参见 <http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth>
+- 允许隐式流：需要启用授权端点。更多信息请参见 <http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth>
+- 允许刷新令牌流：允许使用刷新令牌刷新访问令牌。它可以与密码流、授权代码流和混合流组合使用。更多信息请参见 <http://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens>
+- 要求代码交换的证明密钥：全局设置，将 PKCE 应用于所有已注册的客户端，无论应用程序设置页面中是否设置了“要求 PKCE”标志。
 
-A sample of OpenID Connect Settings recipe step:
+OpenID Connect 设置配方步骤示例：
 
 ```json
 {
       "name": "OpenIdServerSettings",
       "TestingModeEnabled": false,
-      "AccessTokenFormat": "JsonWebToken", // JsonWebToken or DataProtection
+      "AccessTokenFormat": "JsonWebToken", // JsonWebToken 或 DataProtection
       "Authority": "https://www.orchardproject.net",
-      "SigningCertificateStoreLocation": "LocalMachine", //More info: https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storelocation(v=vs.110).aspx
-      "SigningCertificateStoreName": "My", //More info: https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storename(v=vs.110).aspx
+      "SigningCertificateStoreLocation": "LocalMachine", //更多信息：https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storelocation(v=vs.110).aspx
+      "SigningCertificateStoreName": "My", //更多信息：https://msdn.microsoft.com/en-us/library/system.security.cryptography.x509certificates.storename(v=vs.110).aspx
       "SigningCertificateThumbprint": "27CCA66EF38EF46CD9022431FB1FF0F2DF5CA1D7",
       "EncryptionCertificateStoreLocation": "LocalMachine",
       "EncryptionCertificateStoreName": "My",
@@ -85,35 +83,34 @@ A sample of OpenID Connect Settings recipe step:
 }
 ```
 
-### Client OpenID Connect Apps Configuration
+### 客户端 OpenID Connect 应用程序配置
 
-OpenID Connect apps can be set through OpenID Connect Apps menu in the admin dashboard (through the Management Interface feature) 
-and also through a recipe step.
+OpenID Connect 应用程序可以通过管理仪表板中的 OpenID Connect 应用程序菜单（通过管理界面功能）和配方步骤来设置。
 
-OpenID Connect apps require the following configuration.
+OpenID Connect 应用程序需要以下配置。
 
-- Id: Unique identifier.
-- Client Id: Client identifier of the application. It has to be provided by a client when requesting a valid token.
-- Display Name: Display name associated with the current application.
-- Type: There are two options:
-  - Confidential: Confidential applications MUST send their client secret when communicating with the token and revocation endpoints. This guarantees that only the legit client can exchange an authorization code or get a refresh token.
-  - Public: Public applications don't use client secret on their communications.
-- Client Secret: Client secret is a password associated with the application. It will be required when the application is configured as Confidential.
-- Flows: If general OpenID Connect settings allow this flow, an app can also enable this flow.
-  - Allow Password Flow: It requires that the Token Endpoint is enabled. More info at <https://tools.ietf.org/html/rfc6749#section-1.3.3>
-  - Allow Client Credentials Flow: It requires that the Token Endpoint is enabled. More info at <https://tools.ietf.org/html/rfc6749#section-1.3.4>
-  - Allow Authorization Code Flow: It requires that the Authorization and Token Endpoints are enabled. More info at <http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth>
-  - Allow Implicit Flow: It requires that the Authorization Endpoint is enabled. More info at <http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth>
-  - Allow Refresh Token Flow: It allows to refresh access token using a refresh token. It can be used in combination with Password Flow, Authorization Code Flow and Hybrid Flow. More info at <http://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens>
-- Normalized RoleNames: This configuration is only required if Client Credentials Flow is enabled. It determines the roles assigned to the app when it is authenticated using that flow.
-- Redirect Options: Those options are only required when Implicit Flow, Authorization Code Flow or Allow Hybrid Flow is required.
-- Logout Redirect Uri: logout callback URL.
-- Redirect Uri: callback URL.
-- Skip Consent: sets whether a consent form has to be completed by the user after log in.
-- Advanced Parameters: Allows setting additional parameters that can be sent with the authorize request. Note: The default parameters are set from the options above.
-- Require PKCE: Applies PKCE for the registered application.  Ensure that the client library being used suppports PKCE.  
+- Id：唯一标识符。
+- Client Id：应用程序的客户端标识符。客户端在请求有效令牌时必须提供它。
+- 显示名称：与当前应用程序关联的显示名称。
+- 类型：有两个选项：
+  - 机密：机密应用程序在与令牌和撤销端点通信时必须发送其客户端密钥。这保证只有合法客户端才能交换授权代码或获取刷新令牌。
+  - 公共：公共应用程序在其通信中不使用客户端密钥。
+- 客户端密钥：客户端密钥是与应用程序关联的密码。当应用程序配置为机密时，将需要它。
+- 流程：如果通用 OpenID Connect 设置允许此流程，则应用程序也可以启用此流程。
+  - 允许密码流：需要启用令牌端点。更多信息请参见 <https://tools.ietf.org/html/rfc6749#section-1.3.3>
+  - 允许客户端凭据流：需要启用令牌端点。更多信息请参见 <https://tools.ietf.org/html/rfc6749#section-1.3.4>
+  - 允许授权代码流：需要启用授权和令牌端点。更多信息请参见 <http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth>
+  - 允许隐式流：需要启用授权端点。更多信息请参见 <http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth>
+  - 允许刷新令牌流：允许使用刷新令牌刷新访问令牌。它可以与密码流、授权代码流和混合流结合使用。更多信息请参见 <http://openid.net/specs/openid-connect-core-1_0.html#RefreshTokens>
+- 角色名称规范化：仅在启用客户端凭据流时需要此配置。它确定在使用该流进行身份验证时分配给应用程序的角色。
+- 重定向选项：仅在需要隐式流、授权代码流或允许混合流时才需要这些选项。
+- 注销重定向 URI：注销回调 URL。
+- 重定向 URI：回调 URL。
+- 跳过同意：设置用户在登录后是否必须完成同意表单。
+- 高级参数：允许设置可以与授权请求一起发送的其他参数。注意：默认参数从上面的选项设置。
+- 要求 PKCE：为注册应用程序应用 PKCE。确保使用的客户端库支持 PKCE。
 
-A sample of OpenID Connect App recipe step:
+OpenID Connect 应用程序配方步骤示例：
 
 ```json
 {
@@ -135,21 +132,21 @@ A sample of OpenID Connect App recipe step:
 }
 ```
 
-### OpenID Connect Scopes Configuration
+### OpenID Connect 范围配置
 
-Scopes can be set through OpenID Connect Scopes menu in the admin dashboard (through the Management Interface feature) and also through a recipe step.
+可以通过管理仪表板中的 OpenID Connect 范围菜单（通过管理界面功能）和配方步骤来设置范围。
 
-OpenID Connect Scopes require the following configuration.
+OpenID Connect 范围需要以下配置。
 
-| Property | Description |
+| 属性 | 描述 |
 | -------- | ----------- |
-| Name | Unique name of the scope. |
-| Display Name | Display name associated with the current scope. |
-| Description | Describe how this scope is used in the system. |
-| Tenants | Build the audience based on tenants names. |
-| Additional resources | Build the audience based on the space separated strings provided. |
+| 名称 | 范围的唯一名称。 |
+| 显示名称 | 与当前范围关联的显示名称。 |
+| 描述 | 描述此范围在系统中的使用方式。 |
+| 租户 | 基于租户名称构建受众。 |
+| 其他资源 | 基于提供的空格分隔字符串构建受众。 |
 
-A sample of OpenID Connect Scope recipe step:
+OpenID Connect 范围配方步骤示例：
 
 ```json
     {
@@ -161,20 +158,20 @@ A sample of OpenID Connect Scope recipe step:
     }
 ```
 
-### Configuring Certificates
+### 配置证书
 
 #### Windows / IIS
 
-Several tools are available for generating a signing certificate on Windows and/or IIS, for example:
+Windows 和/或 IIS 上有多个工具可用于生成签名证书，例如：
 
-- IIS Server Manager _(offers limited control)_
-    1. Server Certificates
-    2. Create Self-Signed Certificate
-- PowerShell _(offers full control)_
-    1. `New-SelfSignedCertificate`, for example:
+- IIS 服务器管理器（提供有限控制权）
+    1. 服务器证书
+    2. 创建自签名证书
+- PowerShell（提供完全控制权）
+    1. `New-SelfSignedCertificate`，例如：
 
 ```powershell
-# See https://technet.microsoft.com/en-us/itpro/powershell/windows/pkiclient/new-selfsignedcertificate
+# 参见 https://technet.microsoft.com/en-us/itpro/powershell/windows/pkiclient/new-selfsignedcertificate
 
 New-SelfSignedCertificate `
     -Subject "connect.example.com" `
@@ -192,67 +189,67 @@ New-SelfSignedCertificate `
     -Provider "Microsoft Enhanced RSA and AES Cryptographic Provider"
 ```
 
-**This snippet must be run as admin.** It generates a 4096-bit signing certificate, stores it in the machine store and returns the certificate's thumbprint, which you need in the OpenID Connect Settings recipe or when exporting the certificate through PowerShell. _You should update this example according to your requirements!_
+**必须以管理员身份运行此片段。**它生成一个 4096 位签名证书，将其存储在机器存储中，并返回证书的指纹，您需要在 OpenID Connect 设置配方或通过 PowerShell 导出证书时使用。_您应根据自己的要求更新此示例！_
 
-In multi-node environments consider creating the certificate with `-KeyExportPolicy Exportable`, then export the certificate (PFX) to a secure location, using the MMC Certificates Snap-In or PowerShell `Export-PfxCertificate`, and subsequently import the certificate on each node as non-exportable, which is the default when using `Import-PfxCertificate`. For example:
+在多节点环境中，考虑使用 `-KeyExportPolicy Exportable` 创建证书，然后将证书（PFX）导出到安全位置，使用 MMC 证书快照或 PowerShell `Export-PfxCertificate`，然后在每个节点上导入证书作为不可导出的，这是使用 `Import-PfxCertificate` 时的默认设置。例如：
 
 ```powershell
-# See https://technet.microsoft.com/en-us/itpro/powershell/windows/pkiclient/export-pfxcertificate
-# Run this on the machine where the certificate was generated:
+# 参见 https://technet.microsoft.com/en-us/itpro/powershell/windows/pkiclient/export-pfxcertificate
+# 在生成证书的计算机上运行此命令：
 
 $mypwd = ConvertTo-SecureString -String "MySecretPassword123" -Force -AsPlainText
 
 Export-PfxCertificate -FilePath C:\securelocation\connect.example.com.pfx cert:\localMachine\my\thumbprintfromnewselfsignedcertificate -Password $mypwd
 
-# See https://technet.microsoft.com/en-us/itpro/powershell/windows/pkiclient/import-pfxcertificate
-# Run this on the target node:
+# 参见 https://technet.microsoft.com/en-us/itpro/powershell/windows/pkiclient/import-pfxcertificate
+# 在目标节点上运行此命令：
 
 $mypwd = ConvertTo-SecureString -String "MySecretPassword123" -Force -AsPlainText
 
 Import-PfxCertificate -FilePath C:\securelocation\connect.example.com.pfx cert:\localMachine\my -Password $mypwd
 ```
 
-**Important:** In order for the `OrchardCore.OpenId` module to use the certificate's keys for signing, it requires `Read` access to the certificate in the store. This can be granted in various ways, for example:
+**重要提示：**为了使 `OrchardCore.OpenId` 模块使用证书的密钥进行签名，它需要对存储中的证书具有 `Read` 访问权限。这可以通过各种方式授予，例如：
 
 - `MMC.exe`
-    1. Add Snap-In 'Certificates' for Computer Account
-    2. Right-Click relevant certificate and select All Tasks, Manage Private Keys
-    3. Add the relevant identity (e.g. IIS AppPool\PoolName)
-        - Add
-        - Advanced
-        - Locations: Choose iis server machine name
-        - Find Now
-        - Search Results: Choose your iisServerMachineName\IIS_IUSRS (just one example)
-        - OK
-    4. Check Allow Read under Permissions
-- `WinHttpCertCfg.exe` (grants Full Control)
-    1. For example: `winhttpcertcfg -g -c LOCAL_MACHINE\My -s connect.example.com -a AppPoolIdentityName` <https://msdn.microsoft.com/en-us/library/windows/desktop/aa384088(v=vs.85).aspx>
+    1. 为计算机帐户添加“证书”快照
+    2. 右键单击相关证书，选择“所有任务”、“管理私钥”
+    3. 添加相关标识（例如 IIS AppPool\PoolName）
+        - 添加
+        - 高级
+        - 位置：选择 iis 服务器机器名称
+        - 查找
+        - 搜索结果：选择您的 iisServerMachineName\IIS_IUSRS（只是一个示例）
+        - 确定
+    4. 在权限下检查允许读取
+- `WinHttpCertCfg.exe`（授予完全控制权）
+    1. 例如：`winhttpcertcfg -g -c LOCAL_MACHINE\My -s connect.example.com -a AppPoolIdentityName` <https://msdn.microsoft.com/en-us/library/windows/desktop/aa384088(v=vs.85).aspx>
 
-### Use the Certificate in Azure
+### 在 Azure 中使用证书
 
-To use the certificate on an Azure hosted site.
+要在 Azure 托管的站点上使用证书。
 
-1. Upload the certificate to the 'TLS/SSL settings' page of the site Azure portal page.
-2. Add a new entry to the Azure site setting page with the following:
-    - Key: WEBSITE_LOAD_CERTIFICATES
-    - Value: [Thumbprint of the certificate]
-3. Select the certificate under `CurrentUser` > `My` certificate store.
+1. 将证书上传到站点 Azure 门户页面的“TLS/SSL 设置”页面。
+2. 在 Azure 站点设置页面中添加一个新条目，其中包含以下内容：
+    - Key：WEBSITE_LOAD_CERTIFICATES
+    - Value：[证书的 Thumbprint]
+3. 在“CurrentUser”>“My”证书存储中选择证书。
 
-## Token Validation
+## 令牌验证
 
-- Validates tokens issued by the Orchard OpenID server
-  - Configure the validation feature to transparently use the server configuration of another tenant, which has the authorization server feature enabled.
-- Validates token by a remote server supporting JWT and OpenID Connect discovery.
+- 验证 Orchard OpenID 服务器颁发的令牌
+  - 配置验证功能以透明地使用启用授权服务器功能的另一个租户的服务器配置。
+- 通过支持 JWT 和 OpenID Connect 发现的远程服务器验证令牌。
 
-Token Validation require the following configuration.
+令牌验证需要以下配置。
 
-| Property | Description |
+| 属性 | 描述 |
 | -------- | ----------- |
-| Authorization server tenant | The tenant that runs OpenID Connect Server. If none is selected, then the following properties must be provided. |
-| Authority | The address of the remote OpenID Connect server that issued the token. |
-| Audience | Defines the intended recipient of the token that must be checked. |
+| 授权服务器租户 | 运行 OpenID Connect 服务器的租户。如果未选择任何租户，则必须提供以下属性。 |
+| Authority | 颁发令牌的远程 OpenID Connect 服务器的地址。 |
+| Audience | 定义必须检查的令牌的预期接收者。 |
 
-A sample of Token Validation Settings recipe step:
+令牌验证设置示例：
 
 ```json
     {
@@ -262,38 +259,40 @@ A sample of Token Validation Settings recipe step:
     }
 ```
 
-## OIDC Client
+## OIDC 客户端
 
-Authenticates users from an external OpenID Connect identity provider. 
-If the site allows to register new users, a local user is linked and the external login is linked.
-If an "email" claim is received, and a local user is found, then the external login is linked to that account, after authenticating.
+从外部 OpenID Connect 身份提供程序验证用户。
+如果站点允许注册新用户，则会链接本地用户并链接外部登录。
+如果收到“电子邮件”声明并找到本地用户，则在身份验证后将外部登录链接到该帐户。
 
-### OpenId Configuration
+### OpenId 配置
 
-Configuration can be set through the _OpenID Connect_ settings menu in the admin dashboard and also through a recipe step.
+可以通过管理仪表板中的 OpenID Connect 设置菜单（通过管理界面功能）和配方步骤来设置配置。
 
-Available settings are:
+可用设置为：
 
-- Display Name: Display name of the IdP. It is shown in the login form.
-- Authority: Authority to use when making OpenIdConnect calls.
-- ClientId: The `client_id` part of the query.
-- CallbackPath: The request path within the application's base path where the user agent will be returned after sign out from the identity provider. See `post_logout_redirect_uri` from <http://openid.net/specs/openid-connect-session-1_0.html#RedirectionAfterLogout>
-- SignedOut CallbackPath: the callback endpoint for signout. Defaults to `/signout-callback-oidc`.
-- SignedOut Redirect Uri: The URI where the user agent will be redirected to after application is signed out from the identity provider. The redirect will happen after the `SignedOutCallbackPath` is invoked.
-- Scopes: Extra scopes except openid and profile.
-- Response Mode: Configure Response Mode see: <http://openid.net/specs/openid-connect-core-1_0.html#ImplicitAuthResponse>. If fragment or query only Code Authentication Flow is allowed.
-- Supported Flows: Select one of the OIDC flows:
-  - Code Authentication Flow (see: <http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth>)
-  - Hybrid Authentication Flow (see: <http://openid.net/specs/openid-connect-core-1_0.html#HybridAuthRequest>)
-    - Use `code id_token` response type (example: <http://openid.net/specs/openid-connect-core-1_0.html#code-id_token-tokenExample>)
-    - Use `code id_token token` response type (example: <http://openid.net/specs/openid-connect-core-1_0.html#code-id_token-tokenExample>)
-    - Use `code token` response type (example: <http://openid.net/specs/openid-connect-core-1_0.html#code-tokenExample>)
-  - Implicit Authentication Flow (see: <http://openid.net/specs/openid-connect-core-1_0.html#ImplicitAuthRequest>)
-    - Use `id_token` response type (example: <http://openid.net/specs/openid-connect-core-1_0.html#id_tokenExample>)
-    - Use `id_token token` response type (example: <http://openid.net/specs/openid-connect-core-1_0.html#id_token-tokenExample>)
-- Client Secret: It is used with one of the 'confidential' flows, code or hybrid.
+- 显示名称：IdP 的显示名称。它显示在登录表单中。
+- Authority：进行 OpenIdConnect 调用时要使用的 Authority。
+- ClientId：查询的 `client_id` 部分。
+- CallbackPath：用户代理在从标识提供程序注销后将返回的应用程序基本路径内的请求路径。请参见 <http://openid.net/specs/openid-connect-session-1_0.html#RedirectionAfterLogout> 中的 `post_logout_redirect_uri`
+- SignedOut CallbackPath：注销回调端点。默认为 `/signout-callback-oidc`。
+- SignedOut Redirect Uri：应用程序从标识提供程序注销后，用户代理将重定向到的 URI。在调用 `SignedOutCallbackPath` 后将发生重定向。
+- Scopes：除 openid 和 profile 之外的额外范围。
+- Response Mode：配置响应模式，请参见：<http://openid.net/specs/openid-connect-core-1_0.html#ImplicitAuthResponse>。如果仅允许片段或查询，则只允许代码身份验证流。
+- 支持的流：选择 OIDC 流之一：
+  - 代码身份验证流（请参见：<http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth>）
+  - 混合身份验证流（请参见：<http://openid.net/specs/openid-connect-core-1_0.html#HybridAuthRequest>）
+    - 使用 `code id_token` 响应类型（示例：<http://openid.net/specs/openid-connect-core-1_0.html#code-id_token-tokenExample>）
+    - 使用 `code id_token token` 响应类型（示例：<http://openid.net/specs/openid-connect-core-1_0.html#code-id_token-tokenExample>）
+    - 使用 `code token` 响应类型（示例：<http://openid.net/specs/openid-connect-core-1_0.html#code-tokenExample>）
+  - 隐式身份验证流（请参见：<http://openid.net/specs/openid-connect-core-1_0.html#ImplicitAuthRequest>）
+    - 使用 `id_token` 响应类型（示例：<http://openid.net/specs/openid-connect-core-1_0.html#id_tokenExample>）
+    - 使用 `id_token token` 响应类型（示例：<http://openid.net/specs/openid-connect-core-1_0.html#id_token-tokenExample>）
+- 客户端密钥：它与“机密”流中的一个一起使用，代码或混合。
+- 跳过同意：设置用户在登录后是否必须完成同意表单。
+- 高级参数：允许设置可以与授权请求一起发送的其他参数。注意：默认参数从上面的选项设置。
 
-A sample of OpenID Connect Client Settings recipe step:
+OpenID Connect 客户端设置示例：
 
 ```json
 {

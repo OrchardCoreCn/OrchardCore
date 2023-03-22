@@ -1,11 +1,14 @@
-# Configuration
+# 配置
 
-Orchard Core allows you to create your own setup templates (know as [Recipes](../glossary/#Recipe)) and configure your [Tenants](../glossary/#Tenant) individually.
+Orchard Core 允许您创建自己的设置模板（即所谓的 [Recipes](../glossary/#Recipe) ）并单独配置您的 [Tenants](../glossary/#Tenant)。
 
-## Configure your Orchard Core instance
+## 配置您的 Orchard Core 实例
 
-- [Configuration](../../reference/core/Configuration/README.md)
-- [Setup](../../reference/modules/Setup/README.md)
+- [配置](../../reference/core/Configuration/README.md)
+- [安装程序](../../reference/modules/Setup/README.md)
 - [Recipes](../../reference/modules/Recipes/README.md)
-- [Scripting](../../reference/modules/Scripting/README.md)
-- [Tenants](../../reference/modules/Tenants/README.md)
+- [脚本编写](../../reference/modules/Scripting/README.md)
+- [租户](../../reference/modules/Tenants/README.md)
+
+
+> 该文档由Chat-GPT 翻译

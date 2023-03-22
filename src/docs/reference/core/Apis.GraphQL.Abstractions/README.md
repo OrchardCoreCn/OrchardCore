@@ -1,8 +1,8 @@
 # GraphQL
 
-## Queries
+## 查询
 
-Queries are made up of three areas, the `type`, `arguments` and `return values`, an example would be;
+查询由三个部分组成，即“类型”、“参数”和“返回值”，例如：
 
 ```json
 {
@@ -12,7 +12,7 @@ Queries are made up of three areas, the `type`, `arguments` and `return values`,
 }
 ```
 
-In this example, the `blog` is the type, and the `displayText` is the return value. You could expand this, to add an argument. An argument is used for filtering a query, for example;
+在此示例中，“blog”是类型，“displayText”是返回值。您可以扩展此内容以添加参数。参数用于过滤查询，例如：
 
 ```json
 {
@@ -22,13 +22,13 @@ In this example, the `blog` is the type, and the `displayText` is the return val
 }
 ```
 
-Here we can see that the query is using the argument `contentItemId` to filter.
+在这里，我们可以看到查询正在使用参数“contentItemId”进行过滤。
 
-### Define a query type
+### 定义查询类型
 
-Lets see how to wire a type in to the GraphQL schema;
+让我们看看如何将类型连接到GraphQL模式中；
 
-First: Lets start with a simple C# part
+首先：让我们从一个简单的C#部分开始
 
 ```csharp
 public class AutoroutePart : ContentPart
@@ -38,7 +38,7 @@ public class AutoroutePart : ContentPart
 }
 ```
 
-This is the part that is attached to your content item. GraphQL doesnt know what this is, so we now need to create a GraphQL representation of this class;
+这是附加到您的内容项的部分。GraphQL不知道这是什么，因此我们现在需要创建此类的GraphQL表示形式；
 
 ```csharp
 public class AutorouteQueryObjectType : ObjectGraphType<AutoroutePart>
@@ -47,18 +47,18 @@ public class AutorouteQueryObjectType : ObjectGraphType<AutoroutePart>
     {
         Name = "AutoroutePart";
 
-        // Map the fields you want to expose
+        // 映射要公开的字段
         Field(x => x.Path);
     }
 }
 ```
 
-There are two things going on here;
+这里有两件事情要做；
 
-1. Inherit off `ObjectGraphType`. GraphQL understands this type.
-2. Field(x => x.Path);. This tells the class from #1 what fields you want exposed publicly.
+1. 继承自“ObjectGraphType”。GraphQL理解此类型。
+2. Field(x => x.Path);。这告诉＃1类您要公开的字段。
 
-The last part is to tell the Orchard Subsystem about your new type, once this is done, the GraphQL subsystem will pick up your new object from its dependency tree. To do this, simple register it in a Startup class;
+最后一部分是告诉Orchard子系统有关您的新类型的信息，一旦完成，GraphQL子系统将从其依赖树中获取您的新对象。要执行此操作，请在Startup类中简单注册它；
 
 ```csharp
 [RequireFeatures("OrchardCore.Apis.GraphQL")]
@@ -66,27 +66,27 @@ public class Startup : StartupBase
 {
     public override void ConfigureServices(IServiceCollection services)
     {
-        // I have omitted the registering of the AutoroutePart, as we expect that to already be registered
+        // 我省略了AutoroutePart的注册，因为我们希望它已经注册
         services.AddObjectGraphType<AutoroutePart, AutorouteQueryObjectType>();
     }
 }
 ```
 
-Thats it, your part will now be exposed in GraphQL... just go to the query explorer and take a look. Magic.
+就这样，您的部分现在将在GraphQL中公开...只需转到查询资源管理器并查看即可。神奇。
 
-### Define a query filter type
+### 定义查询过滤器类型
 
-So now you have lots of data coming back, the next thing you want to do is to be able to filter said data.
+现在您有了大量的数据返回，下一步要做的是能够过滤所述数据。
 
-We follow a similar process from step #1, so at this point I will make the assumption you have implemented step #1.
+我们从步骤＃1开始执行类似的过程，因此此时我将假设您已经实现了步骤＃1。
 
-What we are going to cover here is;
+我们要在这里介绍的是；
 
-1. Implement an Input type.
-2. Register it in Startup class.
-3. Implement a Filter.
+1. 实现输入类型。
+2. 在Startup类中注册它。
+3. 实现过滤器。
 
-So, lets start. The Input type is similar to the Query type, here we want to tell the GraphQL schema that we accept this input.
+因此，让我们开始。输入类型类似于查询类型，在这里我们要告诉GraphQL模式我们接受此输入。
 
 ```csharp
 public class AutorouteInputObjectType : InputObjectGraphType<AutoroutePart>
@@ -95,13 +95,13 @@ public class AutorouteInputObjectType : InputObjectGraphType<AutoroutePart>
     {
         Name = "AutoroutePartInput";
 
-        Field(x => x.Path, nullable: true).Description("the path of the content item to filter");
+        Field(x => x.Path, nullable: true).Description("要过滤的内容项的路径");
     }
 }
 ```
 
 
-Update Startup class like below.
+像下面这样更新Startup类。
 
 ```csharp
 [RequireFeatures("OrchardCore.Apis.GraphQL")]
@@ -109,16 +109,16 @@ public class Startup : StartupBase
 {
     public override void ConfigureServices(IServiceCollection services)
     {
-        // I have omitted the registering of the AutoroutePart, as we expect that to already be registered
+        // 我省略了AutoroutePart的注册，因为我们希望它已经注册
         services.AddObjectGraphType<AutoroutePart, AutorouteQueryObjectType>();
         services.AddInputObjectGraphType<AutoroutePart, AutorouteInputObjectType>();
     }
 }
 ```
 
-The main thing to take away from this class is that all Input Types must inherit off of InputObjectGraphType.
+从此类中获取的主要内容是所有输入类型都必须继承自InputObjectGraphType。
 
-When an input part is registered, it adds in that part as the parent query, in this instance the autoroutePart, as shown below;
+当注册输入部分时，它将该部分添加为父查询，例如此实例中的autoroutePart，如下所示；
 
 ```json
 {
@@ -128,7 +128,7 @@ When an input part is registered, it adds in that part as the parent query, in t
 }
 ```
 
-Next we want to implement a filter. The filter takes the input from the class we just built and the above example, and performs the actual filter against the object passed to it.
+接下来，我们要实现一个过滤器。过滤器从我们刚刚构建的类和上面的示例中获取输入，并对传递给它的对象执行实际过滤器。
 
 ```csharp
 public class AutoroutePartGraphQLFilter : GraphQLFilter<ContentItem>
@@ -159,11 +159,11 @@ public class AutoroutePartGraphQLFilter : GraphQLFilter<ContentItem>
 }
 ```
 
-The first thing we notice is
+我们注意到的第一件事是
 
 > context.GetArgument<AutoroutePart>("autoroutePart");
 
-Shown in the example above, we have an autoroutePart argument, this is registered when we register an input type. From there we can deserialize and perform the query;
+如上所示，我们有一个autoroutePart参数，这是在注册输入类型时注册的。从那里，我们可以反序列化并执行查询；
 
 ```json
 {
@@ -173,17 +173,17 @@ Shown in the example above, we have an autoroutePart argument, this is registere
 }
 ```
 
-Done.
+完成。
 
-## Querying related content items
+## 查询相关内容项
 
-One of the features of Content Items, is that they can be related to other Content Items.
+内容项的一个特点是它们可以与其他内容项相关联。
 
-Imagine we have the following Content Types: Movie (with name and ReleaseYear as text fields) and Person with a FavoriteMovies field (content picker field of Movie).
+假设我们有以下内容类型：电影（具有名称和发布年份作为文本字段）和人员，其中包含FavoriteMovies字段（Movie的内容选择器字段）。
 
-### Get the related content items GraphQL query
+### 获取相关内容项GraphQL查询
 
-Now, if we would want to get the Favorite Movies of the Person items we query, the following query will throw an error:
+现在，如果我们想要获取Person项目的Favorite Movies，查询将抛出错误：
 
 ```json
 {
@@ -199,13 +199,13 @@ Now, if we would want to get the Favorite Movies of the Person items we query, t
 }
 ```
 
-The error will complain that ```name``` and ```releaseYear``` are not fields of a Content Item.
+错误将抱怨“name”和“releaseYear”不是内容项的字段。
 
-The ´inline fragment´ the error hints about, is a construct to tell the query parser what it is supposed to do with these generic items, and have them treated as a ´Movie´ type instead of as a generic ´Content Item´.
+错误提示的“inline fragment”是一种构造，用于告诉查询解析器它应该如何处理这些通用项，并将它们视为“Movie”类型而不是通用的“Content Item”。
 
-**Notice** the ```... on Movie``` fragment, that tells the GraphQL parser to treat the discovered object as ´Movie´.
+**注意**“... on Movie”片段，它告诉GraphQL解析器将发现的对象视为“Movie”。
 
-The following query gives us the results we want:
+以下查询为我们提供了所需的结果：
 
 ```json
 {
@@ -223,9 +223,9 @@ The following query gives us the results we want:
 }
 ```
 
-## More Info
+## 更多信息
 
-For more information on GraphQL you can visit the following links:
+有关GraphQL的更多信息，您可以访问以下链接：
 
 - <https://graphql.org/learn/>
 - <https://graphql-dotnet.github.io/docs/getting-started/introduction>

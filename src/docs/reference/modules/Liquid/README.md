@@ -1,34 +1,34 @@
 # Liquid (`OrchardCore.Liquid`)
 
-This module provides a way to create templates securely from the admin site.  
-For more information about the Liquid syntax, please refer to this site: <https://shopify.github.io/liquid/>.
-Liquid syntax is powered by Fluid. Check <https://github.com/sebastienros/fluid> for extra examples and custom filters.
+该模块提供了一种从管理站点安全地创建模板的方法。  
+有关Liquid语法的更多信息，请参见此网站：<https://shopify.github.io/liquid/>。
+Liquid语法由Fluid驱动。请查看<https://github.com/sebastienros/fluid>以获取额外的示例和自定义过滤器。
 
-## General concepts
+## 一般概念
 
-### HTML escaping
+### HTML转义
 
-All outputs are encoded into HTML by default.  
-This means that any HTML reserved chars will be converted to the corresponding HTML entities.  
-If you need to render some raw HTML chars you can use the `raw` filter.
+默认情况下，所有输出都会被编码为HTML。  
+这意味着任何HTML保留字符都将转换为相应的HTML实体。  
+如果您需要呈现一些原始HTML字符，可以使用“raw”过滤器。
 
-## Content Item Filters
+## 内容项过滤器
 
-All the default filters that are available in the standard Liquid syntax are available in OrchardCore.  
-On top of that each Orchard module can provide custom filters for their own purpose. 
-Here is a list of common filters that apply to content items.
+所有在标准Liquid语法中可用的默认过滤器都可在OrchardCore中使用。  
+此外，每个Orchard模块都可以为其自己的目的提供自定义过滤器。 
+以下是适用于内容项的常见过滤器列表。
 
 ### `display_url`
 
-Returns the URL of the content item.
+返回内容项的URL。
 
-Input
+输入
 
 ```liquid
 {{ Model.ContentItem | display_url }}
 ```
 
-Output
+输出
 
 ```text
 /blog/my-blog-post
@@ -36,15 +36,15 @@ Output
 
 ### `display_text`
 
-Returns the title of the content item.
+返回内容项的标题。
 
-Input
+输入
 
 ```liquid
 {{ Model.ContentItem | display_text }}
 ```
 
-Output
+输出
 
 ```text
 My Blog Post
@@ -52,34 +52,34 @@ My Blog Post
 
 ### `container`
 
-Returns the container content item of another content item.
+返回另一个内容项的容器内容项。
 
-Input
+输入
 
 ```liquid
 {{ Model.ContentItem | container | display_text }}
 ```
 
-In this example we assume `ContentItem` represents a blog post.
+在此示例中，我们假设`ContentItem`表示博客文章。
 
-Output
+输出
 
 ```text
 Blog
 ```
-## String Filters
+## 字符串过滤器
 
 ### `slugify`
 
-Convert a text into a string that can be used in a URL.
+将文本转换为可用于URL的字符串。
 
-Input
+输入
 
 ```liquid
 {{ "This is some text" | slugify }}
 ```
 
-Output
+输出
 
 ```text
 this-is-some-text
@@ -87,121 +87,121 @@ this-is-some-text
 
 ### `local`
 
-Converts a UTC date and time to the local date and time based on the site settings.
+将UTC日期和时间转换为基于站点设置的本地日期和时间。
 
-Input
+输入
 
 ```liquid
 {{ "now" | local | date: "%c" }}
 ```
 
-or
+或
 
 ```liquid
 {{ Model.ContentItem.CreatedUtc | local | date: "%c" }}
 ```
 
-Output
+输出
 
 ```text
-Wednesday, 02 August 2017 11:54:48
+2017年8月2日星期三 11:54:48
 ```
 
 ### `utc`
 
-Converts a local date and time to the UTC date and time based on the site settings.
+将本地日期和时间转换为基于站点设置的UTC日期和时间。
 
-Input
+输入
 
 ```liquid
 {{ "now" | utc | date: "%c" }}
 ```
 
-Output
+输出
 
 ```text
-Wednesday, 02 August 2017 11:54:48
+2017年8月2日星期三 11:54:48
 ```
 
 ### `t`
 
-Localizes a string using the current culture.
+使用当前区域设置本地化字符串。
 
-Input
+输入
 
 ```liquid
 {{ "Hello!" | t }}
 ```
 
-Output
+输出
 
 ```text
 Bonjour!
 ```
 
-## Html Filters
+## Html过滤器
 
 ### `absolute_url`
 
-Creates the full absolute URL for the given relative virtual path.
+为给定的相对虚拟路径创建完整的绝对URL。
 
-Input
+输入
 
 ```liquid
 {{ '~/some-page' | absolute_url }}
 ```
 
-Output if there is no URL prefix for the current tenant:
+如果当前租户没有URL前缀，则输出：
 
 ```text
 https://example.com/some-page
 ```
 
-Output if there is a URL prefix for the current tenant:
+如果当前租户有URL前缀，则输出：
 
 ```text
 https://example.com/url-prefix/some-page
 ```
 
-If the input URL starts with a tilde then the output URL's base will always be the current tenant's root URL, including the tenant prefix if one is configured. E.g. `~/` will always point to the homepage of the tenant, regardless of configuration.
+如果输入URL以波浪线开头，则输出URL的基础始终是当前租户的根URL，包括如果已配置租户前缀，则包括租户前缀。例如，`~/`将始终指向租户的主页，而不考虑配置。
 
-The HTTP request scheme (e.g. "https") and port number are added too.
+还会添加HTTP请求方案（例如“https”）和端口号。
 
 ### `href`
 
-Creates a content URL for a relative virtual path. Recommended for generating URLs in every case you want to refer to a relative path.
+为相对虚拟路径创建内容URL。建议在每种情况下生成引用相对路径的URL。
 
-Input
+输入
 
 ```liquid
 {{ '~/some-page' | href }}
 ```
 
-Output if there is no URL prefix for the current tenant:
+如果当前租户没有URL前缀，则输出：
 
 ```text
 /some-page
 ```
 
-Output if there is an URL prefix for the current tenant:
+如果当前租户有URL前缀，则输出：
 
 ```text
 /url-prefix/some-page
 ```
 
-If the input URL starts with a tilde then the output URL will always be relative to the current tenant's root URL, including the tenant prefix if one is configured. E.g. `~/` will always point to the homepage of the tenant, regardless of configuration.
+如果输入URL以波浪线开头，则输出URL始终相对于当前租户的根URL，包括如果已配置租户前缀，则包括租户前缀。例如，`~/`将始终指向租户的主页，而不考虑配置。
 
 ### `html_class`
 
-Converts a string into a friendly HTML class.
+将字符串转换为友好的HTML类。
 
-Input
+输入
 
 ```liquid
 {{ "LandingPage" | html_class }}
 ```
 
-Output
+输出
 
 ```text
 landing-page
@@ -209,35 +209,35 @@ landing-page
 
 ### `liquid`
 
-Renders a liquid string template.
+呈现Liquid字符串模板。
 
-Input
+输入
 
 ```liquid
 {{ Model.ContentItem.Content.Paragraph.Content.Html | liquid }}
 ```
 
-In this example we assume that `Model.ContentItem.Content.Paragraph.Content` represents an `HtmlField`, and `Html` is the field value.
+在此示例中，我们假设`Model.ContentItem.Content.Paragraph.Content`表示`HtmlField`，而`Html`是字段值。
 
-Output
+输出
 
 ```html
 <p> <img src="/blog/media/kitten.jpg" /> </p>
 ```
 
-Optionally you can pass a class for model binding.
+可以选择为模型绑定传递类。
 
 ### `markdownify`
 
-Converts a Markdown string to HTML.
+将Markdown字符串转换为HTML。
 
-Input
+输入
 
 ```liquid
 {{ "### Services" | markdownify }}
 ```
 
-Output
+输出
 
 ```html
 <h3>Services</h3>
@@ -245,7 +245,7 @@ Output
 
 ### `sanitize_html`
 
-Sanitizes some HTML content.
+消毒一些HTML内容。
 
 ```liquid
 {% capture output %}
@@ -256,19 +256,19 @@ Sanitizes some HTML content.
 
 ### `shortcode`
 
-Renders Shortcodes. Should be combined with the `raw` filter.
+呈现短代码。应与“raw”过滤器结合使用。
 
 ```liquid
 {{ Model.ContentItem.Content.RawHtml.Content.Html | shortcode | raw }}
 ```
 
-## Json Filters
+## Json过滤器
 
 ### `json`
 
-Serializes the input value to a json string. To format the json indented, pass the `true` argument to the liquid filter.
+将输入值序列化为json字符串。要将json格式缩进，请将true参数传递给Liquid过滤器。
 
-Example:
+示例：
 
 ```liquid
 
@@ -279,10 +279,10 @@ Example:
 
 ### `jsonparse`
 
-Converts a json string to a JObject. 
-This can be useful to build collections and iterate over the values in liquid.
+将json字符串转换为JObject。 
+这可以用于构建集合并在Liquid中迭代值。
 
-Example:
+示例：
 
 ```liquid
 {% capture someCollection %}
@@ -299,110 +299,110 @@ Example:
 {% endfor %}
 ```
 
-## Properties
+## 属性
 
-By default the liquid templates have access to a common set of objects.
+默认情况下，Liquid模板可以访问一组公共对象。
 
 ### `Model.Content`
 
-When available, a zone shape that contains all the shapes generated by the content's parts and fields.
+如果可用，则为包含由内容的部分和字段生成的所有形状的区域形状。
 
 ### `Model.ContentItem`
 
-When available, represents the current content item being rendered.
+如果可用，则表示正在呈现的当前内容项。
 
-The following properties are available on the `ContentItem` object.
+以下属性在`ContentItem`对象上可用。
 
-| Property | Example | Description |
+| 属性 | 示例 | 描述 |
 | --------- | ---- |------------ |
-| `Id` | `12` | The id of the document in the database. |
-| `ContentItemId` | `4qs7mv9xc4ttg5ktm61qj9dy5d` | The common identifier of all versions of the content item. |
-| `ContentItemVersionId` | `4jp895achc3hj1qy7xq8f10nmv` | The unique identifier of the content item version. |
-| `DisplayText` | `Blog` | The title of a content item. Can be edited manually by using the TitlePart. |
-| `Number` | `6` | The version number. |
-| `Owner` | `admin` | The username of the creator of this content item. |
-| `Author` | `admin` | The username of the editor of this version. |
-| `Published` | `true` | Whether this content item version is published or not. |
-| `Latest` | `true` | Whether this content item version is the latest of the content item. |
-| `ContentType` | `BlogPost` | The content type. |
-| `CreatedUtc` | `2017-05-25 00:27:22.647` | When the content item was first created or first published. |
-| `ModifiedUtc` | `2017-05-25 00:27:22.647` | When the content item version was created. |
-| `PublishedUtc` | `2017-05-25 00:27:22.647` | When the content item was last published. |
-| `Content` | `{ ... }` | A document containing all the content properties. See below for usage. |
+| `Id` | `12` | 数据库中文档的ID。 |
+| `ContentItemId` | `4qs7mv9xc4ttg5ktm61qj9dy5d` | 所有版本的内容项的公共标识符。 |
+| `ContentItemVersionId` | `4jp895achc3hj1qy7xq8f10nmv` | 内容项版本的唯一标识符。 |
+| `DisplayText` | `Blog` | 内容项的标题。可以使用TitlePart手动编辑。 |
+| `Number` | `6` | 版本号。 |
+| `Owner` | `admin` | 创建此内容项的用户的用户名。 |
+| `Author` | `admin` | 此版本的编辑器的用户名。 |
+| `Published` | `true` | 此内容项版本是否已发布。 |
+| `Latest` | `true` | 此内容项版本是否为内容项的最新版本。 |
+| `ContentType` | `BlogPost` | 内容类型。 |
+| `CreatedUtc` | `2017-05-25 00:27:22.647` | 创建或发布内容项的时间。 |
+| `ModifiedUtc` | `2017-05-25 00:27:22.647` | 创建内容项版本的时间。 |
+| `PublishedUtc` | `2017-05-25 00:27:22.647` | 上次发布内容项的时间。 |
+| `Content` | `{ ... }` | 包含所有内容属性的文档。请参阅下面的用法。 |
 
-#### Content property
+#### 内容属性
 
-The `Content` property of a content item exposes all of its parts and fields. It is possible to
-inspect all the available properties by evaluating `Content` directly. It will then render the full document.
+内容项的`Content`属性公开了其所有部分和字段。可以直接评估`Content`以检查所有可用属性。它将呈现完整文档。
 
 ```liquid
 <pre>{{ Model.ContentItem.Content }}</pre>
 ```
 
-The convention is that each Part is exposed by its name as the first level.  
-If the content item has custom fields, they will be available under a part whose name will match the content type.
+约定是，每个部分都按其名称作为第一级公开。  
+如果内容项具有自定义字段，则它们将在名称匹配内容类型的部分下可用。
 
-For example, assuming the type `Product` has a Text field named `Size`, access the value of this field for a 
-content item as follows:
+例如，假设类型`Product`具有名为`Size`的文本字段，请按如下方式访问此字段的值：
 
 ```liquid
 {{ Model.ContentItem.Content.Product.Size.Text }}
 ```
 
-Similarly, if the content item has a `Title` part, we can access it like this:
+同样，如果内容项具有`Title`部分，我们可以按如下方式访问它：
 
 ```liquid
 {{ Model.ContentItem.Content.TitlePart.Title }}
 ```
-**Note**: This is no longer the recommended way to display the title of a content item.
-Use the `Model.ContentItem.DisplayText` property instead.
+**注意**：这不再是显示内容项标题的推荐方法。
+请改用`Model.ContentItem.DisplayText`属性。
 
-### User
 
-Represents the authenticated user for the current request.
+### 用户
 
-The following properties are available on the `User` object.
+表示当前请求的已验证用户。
 
-| Property | Example | Description |
+以下属性在`User`对象上可用。
+
+| 属性 | 示例 | 描述 |
 | --------- | ---- |------------ |
-| `Identity.Name` | `admin` | The name of the authenticated user. |
-| `Identity.Claims` |  | The claims of the authenticated user. |
+| `Identity.Name` | `admin` | 已验证用户的名称。 |
+| `Identity.Claims` |  | 已验证用户的声明。 |
 
-##### user_email filter
+##### user_email过滤器
 
-Returns the user's email.
+返回用户的电子邮件。
 
 ```liquid
 {{ User | user_email }}
 ```
 
-##### user_id filter
+##### user_id过滤器
 
-Returns the user's unique identifier.
+返回用户的唯一标识符。
 
 ```liquid
 {{ User | user_id }}
 ```
 
-##### users_by_id filter
+##### users_by_id过滤器
 
-Loads a single or multiple user objects from the database by id(s).
+按ID（S）从数据库加载单个或多个用户对象。
 
-The resulting object has access to the following properties:
+生成的对象具有以下属性：
 
-| Property | Example | Description |
+| 属性 | 示例 | 描述 |
 | --------- | ---- |------------ |
-| `UserId` | `42z3ps88pm8d40zn9cfwbee45c ` | The id of the authenticated user. |
-| `UserName` | `admin` | The name of the authenticated user. |
-| `NormalizedUserName` | `ADMIN` | The normailzed name of the authenticated user. |
-| `Email` | `admin@gmail.com` | The email of the authenticated user. |
-| `NormailizedEmail` | `ADMIN@GMAIL>COM` | The normalized email of the authenticated user. |
-| `EmailConfirmed` | `true` | True if the user has confirmed his email or if the email confirmation is not required |
-| `IsEnabled` | `true` | True if the user is enabled |
-| `RoleNames` | `[Editor,Contributor]`  | An array of role names assigned to the user |
-| `Properties` | `UserProfile.FirstName.Text` | Holds the Custom Users Settings of the user. |
+| `UserId` | `42z3ps88pm8d40zn9cfwbee45c ` | 已验证用户的ID。 |
+| `UserName` | `admin` | 已验证用户的名称。 |
+| `NormalizedUserName` | `ADMIN` | 已验证用户的规范化名称。 |
+| `Email` | `admin@gmail.com` | 已验证用户的电子邮件。 |
+| `NormailizedEmail` | `ADMIN@GMAIL>COM` | 已验证用户的规范化电子邮件。 |
+| `EmailConfirmed` | `true` | 如果用户已确认其电子邮件或不需要电子邮件确认，则为True |
+| `IsEnabled` | `true` | 如果用户已启用，则为True |
+| `RoleNames` | `[Editor,Contributor]`  | 分配给用户的角色名称数组 |
+| `Properties` | `UserProfile.FirstName.Text` | 保存用户的自定义用户设置。 |
 
-You can use this filter to load the user information of the current authenticated user like this.
+您可以使用此过滤器来加载当前已验证用户的用户信息，如下所示。
+
 ```liquid
 {% assign user = User | user_id | users_by_id %}
 
@@ -410,7 +410,7 @@ You can use this filter to load the user information of the current authenticate
 
 ```
 
-You can use this filter with the UserPicker field to load the picked user's information.
+您可以将此过滤器与UserPicker字段一起使用，以加载选定用户的信息。
 
 ```liquid
 {% assign users = Model.ContentItem.Content.SomeType.UserPicker.UserIds | users_by_id %}
@@ -420,11 +420,9 @@ You can use this filter with the UserPicker field to load the picked user's info
 {% endfor %}
 
 ```
-
-
 #### User has_permission filter
 
-Checks if the User has permission clearance, optionally on a resource
+检查用户是否具有权限清除，可选地在资源上
 
 ```liquid
 {{ User | has_permission:"EditContent",Model.ContentItem }}
@@ -432,7 +430,7 @@ Checks if the User has permission clearance, optionally on a resource
 
 #### User is_in_role filter
 
-Checks if the user is in role
+检查用户是否在角色中
 
 ```liquid
 {{ User | is_in_role:"Administrator" }}
@@ -440,110 +438,102 @@ Checks if the user is in role
 
 #### User has_claim filter
 
-Checks if the user has a claim of the specified type
+检查用户是否具有指定类型的声明
 
 ```liquid
 {{ User | has_claim:"email_verified","true" }}
 {{ User | has_claim:"Permission","ManageSettings" }}
 ```
 
-### Site
+提供对当前站点设置的访问，例如 `Site.SiteName`。
 
-Gives access to the current site settings, e.g `Site.SiteName`.
-
-| Property | Example | Description |
+| 属性 | 示例 | 描述 |
 | -------- | ------- |------------ |
-| `BaseUrl` |  | The base URL of the site. | 
-| `Calendar` |  | The site's calendar. | 
-| `MaxPagedCount` | `0` | The maximum number of pages that can be paged. | 
-| `MaxPageSize` | `100` | The maximum page size that can be set by a user. | 
-| `PageSize` | `10` | The default page size of lists. | 
-| `SiteName` | `My Site` | The friendly name of the site. | 
-| `SuperUser` | `4kxfgfrxqmdpnt5n508cqvpvca` | The user id of the site's super user. | 
-| `TimeZoneId` | `America/Los_Angeles` | The site's time zone id as per the tz database, c.f., https://en.wikipedia.org/wiki/List_of_tz_database_time_zones | 
-| `UseCdn` | `false` | Enable/disable the use of a CDN. | 
-| `ResourceDebugMode` | `Disabled` | Provides options for whether src or debug-src is used for loading scripts and stylesheets | 
-| `CdnBaseUrl` | `https://localhost:44300` | If provided a CDN Base url is prepended to local scripts and stylesheets  | 
-| `Meta` |  | The meta to render in the head section of the current theme.| 
+| `BaseUrl` |  | 站点的基本URL。| 
+| `Calendar` |  | 站点的日历。| 
+| `MaxPagedCount` | `0` | 可分页的最大页面数。| 
+| `MaxPageSize` | `100` | 用户可以设置的最大页面大小。| 
+| `PageSize` | `10` | 列表的默认页面大小。| 
+| `SiteName` | `My Site` | 站点的友好名称。| 
+| `SuperUser` | `4kxfgfrxqmdpnt5n508cqvpvca` | 站点超级用户的用户ID。| 
+| `TimeZoneId` | `America/Los_Angeles` | 站点的时区ID，根据tz数据库，参见https://en.wikipedia.org/wiki/List_of_tz_database_time_zones | 
+| `UseCdn` | `false` | 启用/禁用CDN的使用。| 
+| `ResourceDebugMode` | `Disabled` | 提供了是否使用src或debug-src来加载脚本和样式表的选项| 
+| `CdnBaseUrl` | `https://localhost:44300` | 如果提供了CDN基本URL，则会将其前缀添加到本地脚本和样式表中| 
+| `Meta` |  | 在当前主题的head部分呈现的元数据。| 
+请求。
 
-### Request
+以下属性可在 `Request` 对象上使用。
 
-Represents the current request.
-
-The following properties are available on the `Request` object.
-
-| Property | Example | Description |
+| 属性 | 示例 | 描述 |
 | --------- | ---- |------------ |
-| `QueryString` | `?sort=name&page=1` | The escaped query string with the leading '?' character. |
-| `UriQueryString` | `?sort=name&page=1` | The query string escaped in a way which is correct for combining into the URI representation. |
-| `ContentType` | `application/x-www-form-urlencoded; charset=UTF-8` | The `Content-Type` header. |
-| `ContentLength` | `600` | The `Content-Length` header. |
-| `Cookies` | Usage: `Request.Cookies.orchauth_Default` | The collection of cookies for this request. |
-| `Headers` | Usage: `Request.Headers.accept` | The request headers. Each property value is an array of values.|
-| `Query` | Usage: `Request.Query.sort` | The query value collection parsed from `QueryString`. Each property value is an array of values. |
-| `Form` | Usage: `Request.Form.value` | The collection of form values. |
-| `Protocol` | `https` | The protocol of this request. |
-| `Path` | `/OrchardCore.ContentPreview/Preview/Render` | The unescaped path of the request. |
-| `UriPath` | `/OrchardCore.ContentPreview/Preview/Render` | The path escaped in a way which is correct for combining into the URI representation. |
-| `PathBase` | `/mytenant` | The unescaped base path of the request. |
-| `UriPathBase` | `/mytenant` | The base path escaped in a way which is correct for combining into the URI representation. |
-| `Host` | `localhost:44300` | The unescaped `Host` header. May contain the port. |
-| `UriHost` | `localhost:44300` | The `Host` header properly formatted and encoded for use in a URI in a HTTP header. |
-| `IsHttps` | `true` | True if the scheme of the request is `https`. |
-| `Scheme` | `https` | The scheme of the request. |
-| `Method` | `GET` | The HTTP method. |
-| `Route` | Usage: `Request.Route.controller` | The route values for this request. |
+| `QueryString` | `?sort=name&page=1` | 带有前导'?'字符的转义查询字符串。|
+| `UriQueryString` | `?sort=name&page=1` | 以正确的方式转义的查询字符串，以便合并到URI表示中。|
+| `ContentType` | `application/x-www-form-urlencoded; charset=UTF-8` | `Content-Type` 标头。|
+| `ContentLength` | `600` | `Content-Length` 标头。|
+| `Cookies` | 用法：`Request.Cookies.orchauth_Default` | 此请求的 cookie 集合。|
+| `Headers` | 用法：`Request.Headers.accept` | 请求标头。每个属性值都是值数组。|
+| `Query` | 用法：`Request.Query.sort` | 从 `QueryString` 解析的查询值集合。每个属性值都是值数组。|
+| `Form` | 用法：`Request.Form.value` | 表单值的集合。|
+| `Protocol` | `https` | 此请求的协议。|
+| `Path` | `/OrchardCore.ContentPreview/Preview/Render` | 请求的未转义路径。|
+| `UriPath` | `/OrchardCore.ContentPreview/Preview/Render` | 以正确的方式转义的路径，以便合并到URI表示中。|
+| `PathBase` | `/mytenant` | 此请求的未转义基本路径。|
+| `UriPathBase` | `/mytenant` | 以正确的方式转义的基本路径，以便合并到URI表示中。|
+| `Host` | `localhost:44300` | 未转义的 `Host` 标头。可能包含端口。|
+| `UriHost` | `localhost:44300` | 适用于在HTTP标头中使用的URI格式化和编码的 `Host` 标头。|
+| `IsHttps` | `true` | 如果请求的方案为 `https`，则为 True。|
+| `Scheme` | `https` | 请求的方案。|
+| `Method` | `GET` | HTTP 方法。|
+| `Route` | 用法：`Request.Route.controller` | 此请求的路由值。|
+文化。
 
-### Culture
+以下属性可在 `Culture` 对象上使用。
 
-Represents the current culture.
-
-The following properties are available on the `Culture` object.
-
-| Property | Example | Description |
+| 属性 | 示例 | 描述 |
 | --------- | ---- |------------ |
-| `Name` | `en-US` | The request's culture as an ISO language code. |
-| `Dir` | `rtl` | The text writing direction. |
+| `Name` | `en-US` | 请求的区域设置作为 ISO 语言代码。|
+| `Dir` | `rtl` | 文本书写方向。|
 
 
 ### HttpContext
 
-Represents the HttpContext of the current request.
+表示当前请求的 HttpContext。
 
-The following properties are available on the `HttpContext` object.
+以下属性可在 `HttpContext` 对象上使用。
 
-| Property | Example | Description |
+| 属性 | 示例 | 描述 |
 | --------- | ---- |------------ |
-| `Items` | `HttpContext.Items["Item1"]` | Returns an item with key Item1 |
+| `Items` | `HttpContext.Items["Item1"]` | 返回具有键 Item1 的项。|
 
 
 #### httpcontext_add_items
-Adds key/value to HttpContext.Items collection
+将键/值添加到 HttpContext.Items 集合中
 
 `{% httpcontext_add_items Item1:"value 1", Item2:"Value2"  %}`
 
 #### httpcontext_remove_items
-Removes key from HttpContext.Items collection
+从 HttpContext.Items 集合中删除键
 
 `{% httpcontext_remove_items "Item1" %}`
 
 
 ## Shape Filters
 
-These filters let you create and filter shapes.
+这些过滤器允许您创建和过滤形状。
 
 ### `shape_new`
 
-Returns a shape with the specified name as input.
+返回具有指定名称的形状作为输入。
 
-Input
+输入
 
 ```liquid
 {% assign date_time = "DateTime" | shape_new %}
 ```
 
-You can also pass properties when creating the shape.  
-Property names get converted to PascalCase. Ex: `prop_name1` can be accessed via `Model.PropName1` in the shape template.
+创建形状时，还可以传递属性。  
+属性名称会转换为 PascalCase。例如：`prop_name1` 可以通过形状模板中的 `Model.PropName1` 访问。
 
 ```liquid
 {{ Model.Content | shape_new: prop_value1: "some value", prop_value2: 5 }}
@@ -551,7 +541,7 @@ Property names get converted to PascalCase. Ex: `prop_name1` can be accessed via
 
 ### `shape_render`
 
-Renders a shape.
+呈现形状。
 
 ```liquid
 {{ Model.Content | shape_render }}
@@ -559,17 +549,16 @@ Renders a shape.
 
 ### `shape_stringify`
 
-Converts a shape to its string representation. Unlike `shape_render`, the result of this filter will
-be encoded if rendered in the output.
+将形状转换为其字符串表示形式。与 `shape_render` 不同，此过滤器的结果将被编码，如果在输出中呈现，则会被编码。
 
-Input
+输入
 
 ```liquid
 {{ "DateTime" | shape_new | shape_stringify }}
 
 ```
 
-Output
+输出
 
 ```text
 Monday, September 11, 2017 3:29:26 PM
@@ -577,10 +566,10 @@ Monday, September 11, 2017 3:29:26 PM
 
 ### `shape_properties`
 
-Returns a shape with the added properties.
-Property names get converted to PascalCase. Ex: `prop_name1` can be accessed via `Model.PropName1` in the shape template.
+返回具有添加的属性的形状。
+属性名称会转换为 PascalCase。例如：`prop_name1` 可以通过形状模板中的 `Model.PropName1` 访问。
 
-Input
+输入
 
 ```liquid
 {% assign my_shape = "MyCustomShape" | shape_new | shape_properties: prop_value1: "some value", prop_value2: 5 %}
@@ -590,21 +579,21 @@ Input
 
 ### `layout`
 
-Sets the layout of a view.
+设置视图的布局。
 
-Input
+输入
 
 ```liquid
 {% layout "CustomLayout" %}
 ```
 
-Internally an alternate is added to the current theme `Layout` shape.
+在当前主题的 `Layout` 形状中内部添加了一个替代项。
 
 ### `render_body`
 
-In a layout, renders the body of the current view.
+在布局中，呈现当前视图的正文。
 
-Input
+输入
 
 ```liquid
 {% render_body %}
@@ -612,9 +601,9 @@ Input
 
 ### `render_section`
 
-In a layout, renders the section with the specified name.
+在布局中，呈现具有指定名称的部分。
 
-Input
+输入
 
 ```liquid
 {% render_section "Header", required: false %}
@@ -622,25 +611,25 @@ Input
 
 ### `page_title`
 
-Alters and renders the title of the current page.
+更改并呈现当前页面的标题。
 
-Input
+输入
 
 ```liquid
 {% page_title Site.SiteName, position: "before", separator: " - " %}
 ```
 
-The default parameter is a text that is appended to the current value of the title.  
-`position` is where the value is appended, in this example at the beginning.  
-`separator` is a string that is used to separate all the fragments of the title.
+默认参数是附加到标题当前值的文本。  
+`position` 是将值附加的位置，在此示例中在开头。  
+`separator` 是用于分隔标题所有片段的字符串。
 
 ## Shape Tags
 
 ### `shape_clear_alternates`
 
-Removes any alternates from a shape.
+从形状中删除任何替代项。
 
-Input
+输入
 
 ```liquid
 {% shape_clear_alternates my_shape %}
@@ -648,9 +637,9 @@ Input
 
 ### `shape_add_alternates`
 
-Adds alternates to a shape.
+向形状添加替代项。
 
-Input
+输入
 
 ```liquid
 {% shape_add_alternates my_shape "alternate1 alternate2" %}
@@ -661,19 +650,18 @@ Input
 
 ### `shape_clear_wrappers`
 
-Removes any wrappers from a shape.
+从形状中删除任何包装器。
 
-Input
+输入
 
 ```liquid
 {% shape_clear_wrappers my_shape %}
-```
 
 ### `shape_add_wrappers`
 
-Adds wrappers to a shape.
+向形状添加包装器。
 
-Input
+输入
 
 ```liquid
 {% shape_add_wrappers my_shape "wrapper1 wrapper2" %}
@@ -684,9 +672,9 @@ Input
 
 ### `shape_clear_classes`
 
-Removes any classes from a shape.
+从形状中删除任何类。
 
-Input
+输入
 
 ```liquid
 {% shape_clear_classes my_shape %}
@@ -694,9 +682,9 @@ Input
 
 ### `shape_add_classes`
 
-Adds classes to a shape.
+向形状添加类。
 
-Input
+输入
 
 ```liquid
 {% shape_add_classes my_shape "class1 class2" %}
@@ -707,9 +695,9 @@ Input
 
 ### `shape_clear_attributes`
 
-Removes any attributes from a shape.
+从形状中删除任何属性。
 
-Input
+输入
 
 ```liquid
 {% shape_clear_attributes my_shape %}
@@ -717,9 +705,9 @@ Input
 
 ### `shape_add_attributes`
 
-Adds attributes to a shape.
+向形状添加属性。
 
-Input
+输入
 
 ```liquid
 {% shape_add_attributes my_shape attr_name1: "value1", attr_name2: "value2" ... %}
@@ -727,11 +715,11 @@ Input
 
 ### `shape_add_properties`
 
-Adds properties to a shape. This can be useful to pass values from a parent shape.  
-Property names get converted to PascalCase.  
-Ex: `prop_name1` can be accessed via `Model.Properties["PropName1"]` or `Model.Properties.PropName1` in the shape template.
+向形状添加属性。这对于从父形状传递值很有用。
+属性名称转换为PascalCase。
+例如：`prop_name1`可以通过`Model.Properties["PropName1"]`或`Model.Properties.PropName1`在形状模板中访问。
 
-Input
+输入
 
 ```liquid
 {% shape_add_properties my_shape prop_name1: "value1", prop_name2: 2  %}
@@ -739,9 +727,9 @@ Input
 
 ### `shape_remove_property`
 
-Removes a property from a shape by name.
+按名称从形状中删除属性。
 
-Input
+输入
 
 ```liquid
 {% shape_remove_property my_shape "prop_name1" %}
@@ -749,33 +737,33 @@ Input
 
 ### `shape_type`
 
-Sets the type of a shape.
+设置形状的类型。
 
-Input
+输入
 
 ```liquid
 {% shape_type my_shape "MyType" %}
 ```
 
-Whenever the type is changed, it is recommended to clear the shape alternates before using the `shape_clear_alternates` tag.
+每当更改类型时，建议先使用`shape_clear_alternates`标记清除形状备用项。
 
 ### `shape_display_type`
 
-Sets the display type of a shape.
+设置形状的显示类型。
 
-Input
+输入
 
 ```liquid
 {% shape_display_type my_shape "Summary" %}
 ```
 
-Whenever the display type is changed, it is recommended to clear the shape alternates first.
+每当更改显示类型时，建议先清除形状备用项。
 
 ### `shape_position`
 
-Sets the position of a shape.
+设置形状的位置。
 
-Input
+输入
 
 ```liquid
 {% shape_position my_shape "Content:before" %}
@@ -783,9 +771,9 @@ Input
 
 ### `shape_tab`
 
-Sets the tab of a shape.
+设置形状的选项卡。
 
-Input
+输入
 
 ```liquid
 {% shape_tab my_shape "properties" %}
@@ -793,23 +781,23 @@ Input
 
 ### `shape_remove_item`
 
-Removes a shape by its name in a Zone.
+按名称从区域中删除形状。
 
-Input
+输入
 
 ```liquid
 {% shape_remove_item Model.Content "HtmlBodyPart" %}
 {{ Model.Content | shape_render }}
 ```
 
-In this example, the `Model.Content` property evaluates to a zone shape, typically from a Content Item shape template, which contains the `HtmlBodyPart` shape
-rendered for the Body Part element. This call will remove the specific shape named `HtmlBodyPart`.
+在此示例中，`Model.Content`属性计算为区域形状，通常来自内容项形状模板，其中包含为Body Part元素呈现的`HtmlBodyPart`形状。
+此调用将删除名为`HtmlBodyPart`的特定形状。
 
 ### `shape_pager`
 
-Replaces the properties of a Pager shape.
+替换Pager形状的属性。
 
-Input
+输入
 
 ```liquid
 {% shape_pager Model.Pager next_class: 'next', next_text: '>>' %}
@@ -817,26 +805,26 @@ Input
 
 ### `shape_build_display`
 
-Creates the display shape for a content item. It can be used in conjunction with `shape_render`
-to render a content item.
+创建内容项的显示形状。它可以与`shape_render`结合使用
+呈现内容项。
 
-Input
+输入
 
 ```liquid
 {{ mycontentitem | shape_build_display: "Detail" | shape_render }}
-```
+
 
 ### `shape`
 
-Creates and renders a new shape, with optional caching arguments.
+创建并呈现一个新的形状，带有可选的缓存参数。
 
-Input
+输入
 
 ```liquid
 {% shape "menu", alias: "alias:main-menu", cache_id: "main-menu", cache_expires_after: "00:05:00", cache_tag: "alias:main-menu" %}
 ```
 
-When using the shape tag a specific wrapper and / or alternate can be specified.
+使用形状标记时，可以指定特定的包装器和/或替代品。
 
 ```liquid
 {% shape "menu", alias: "alias:main-menu", alternate: "Menu_Footer" %}
@@ -844,21 +832,21 @@ When using the shape tag a specific wrapper and / or alternate can be specified.
 
 ### `shape_cache`
 
-Sets the caching parameters of a shape.
+设置形状的缓存参数。
 
-Input
+输入
 
 ```liquid
 {% shape_cache my_shape cache_id: "my-shape", cache_expires_after: "00:05:00" %}
 ```
 
-For more information about the available caching parameters please refer to [this section](../DynamicCache/README.md#shape-tag-helper-attributes)
+有关可用缓存参数的更多信息，请参见[此部分](../DynamicCache/README.md#shape-tag-helper-attributes)
 
 ### `zone`
 
-Renders some HTML content in the specified zone.
+在指定的区域中呈现一些HTML内容。
 
-Input
+输入
 
 ```liquid
 {% zone "Header" %}
@@ -866,16 +854,16 @@ Input
 {% endzone %}
 ```
 
-The content of this block can then be reused from the Layout using the `{% render_section "Header" %}` code.
+然后可以在布局中使用`{% render_section "Header" %}`代码重用此块的内容。
 
-## Tag Helper tags
+## 标签助手标记
 
-ASP.NET Core MVC provides a set of tag helpers to render predefined HTML outputs. The Liquid module provides a way to call into these Tag Helpers using custom liquid tags.
+ASP.NET Core MVC提供了一组标记助手来呈现预定义的HTML输出。 Liquid模块提供了一种使用自定义Liquid标记调用这些标记助手的方法。
 
 
 ### `form`
 
-Invokes the `form` tag helper of ASP.NET Core.
+调用ASP.NET Core的`form`标记助手。
 
 ```liquid
 {% form action:"Create", controller: "Todo", method: "post" %}
@@ -883,9 +871,9 @@ Invokes the `form` tag helper of ASP.NET Core.
 {% endform %}
 ```
 
-###  `input`
+### `input`
 
-Using `helper` invokes the `input` tag helper of ASP.NET Core and binds `Text` of the Model
+使用`helper`调用ASP.NET Core的`input`标记助手，并绑定模型的`Text`
 
 ```liquid
 {% helper "input", for: "Text", class: "form-control" %}
@@ -893,7 +881,7 @@ Using `helper` invokes the `input` tag helper of ASP.NET Core and binds `Text` o
 
 ### `label`
 
-Using `helper` invokes the `label` tag helper of ASP.NET Core and binds `Text` of the Model
+使用`helper`调用ASP.NET Core的`label`标记助手，并绑定模型的`Text`
 
 ```liquid
 {% helper "label", for: "Text" %}
@@ -901,7 +889,7 @@ Using `helper` invokes the `label` tag helper of ASP.NET Core and binds `Text` o
 
 ### `validation_summary`
 
-Using `helper` invokes the `validation_summary` tag helper of ASP.NET Core with `div`  
+使用`helper`调用带有`div`的ASP.NET Core的`validation_summary`标记助手
 
 ```liquid
 {% helper "div", validation_summary: "All" %}
@@ -909,7 +897,7 @@ Using `helper` invokes the `validation_summary` tag helper of ASP.NET Core with 
 
 ### `validation_for`
 
-Using `helper` invokes the `validation_for` tag helper of ASP.NET Core with `span` and binds `Text` of the Model
+使用`helper`调用带有`span`的ASP.NET Core的`validation_for`标记助手，并绑定模型的`Text`
 
 ```liquid
 {% helper "span", validation_for: "Text" %}
@@ -917,32 +905,32 @@ Using `helper` invokes the `validation_for` tag helper of ASP.NET Core with `spa
 
 ### `link`
 
-Invokes the `link` tag helper from the `Orchard.ResourceManagement` package. [See this section.](../Resources/README.md#link-tag)
+从`Orchard.ResourceManagement`包调用`link`标记助手。[请参见此部分。](../Resources/README.md#link-tag)
 
 ### `meta`
 
-Invokes the `meta` tag helper from the `Orchard.ResourceManagement` package. [See this section.](../Resources/README.md#meta-tags)
+从`Orchard.ResourceManagement`包调用`meta`标记助手。[请参见此部分。](../Resources/README.md#meta-tags)
 
 ### `resources`
 
-Invokes the `resources` tag helper from the `Orchard.ResourceManagement` package. [See this section.](../Resources/README.md#rendering)
+从`Orchard.ResourceManagement`包调用`resources`标记助手。[请参见此部分。](../Resources/README.md#rendering)
 
 ### `script`
 
-Invokes the `script` tag helper from the `Orchard.ResourceManagement` package. [See this section.](../Resources/README.md#inline-definition)
+从`Orchard.ResourceManagement`包调用`script`标记助手。[请参见此部分。](../Resources/README.md#inline-definition)
 
 ### `style`
 
-Invokes the `style` tag helper from the `Orchard.ResourceManagement` package. [See this section.](../Resources/README.md#inline-definition)
+从`Orchard.ResourceManagement`包调用`style`标记助手。[请参见此部分。](../Resources/README.md#inline-definition)
 
 ### `a`
 
-Invokes the `a` content link tag helper from the `OrchardCore.Contents` package.
+从`OrchardCore.Contents`包调用`a`内容链接标记助手。
 
 ### `route_*`
-Route data can be added using `route_*` to tag helper of ASP.NET Core that supports route data using `asp-route-*` attribute.
+可以使用`route_*`将路由数据添加到支持使用`asp-route-*`属性的ASP.NET Core标记助手中。
 
-In following example, `route_returnUrl` adds `returnUrl` to form action.
+在以下示例中，`route_returnUrl`将`returnUrl`添加到表单操作中。
 
 ```liquid
 {% form action: "Update", method: "post",  route_returnUrl: Request.Query["returnurl"] %}
@@ -950,7 +938,7 @@ In following example, `route_returnUrl` adds `returnUrl` to form action.
 {% endform %}
 ```
 
-In following example, `route_todoid` adds `Model.TodoId` to hyperlink.
+在以下示例中，`route_todoid`将`Model.TodoId`添加到超链接中。
 
 ```liquid
 {% a action: "Delete" , controller: "Todo", class: "btn btn-danger", route_todoid: Model.TodoId %}
@@ -961,59 +949,79 @@ In following example, `route_todoid` adds `Model.TodoId` to hyperlink.
 
 ### `antiforgerytoken`
 
-Renders a `<hidden>` element (antiforgery token) that will be validated when the containing `<form>` is submitted.
+呈现一个`<hidden>`元素（防伪标记），当包含的`<form>`提交时将进行验证。
 
-Example
+例子
 
 ```liquid
 {% antiforgerytoken %}
 ```
 
-### `helper` and `block`
+### `helper`和`block`
 
-Allows custom Razor [TagHelpers](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/intro?view=aspnetcore-3.0) to be called from liquid.
+允许从Liquid中调用自定义Razor [TagHelpers]（https://docs.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/intro?view=aspnetcore-3.0）。
 
-For attributes (HtmlAttributeName) use camel-case and replace all `-` with `_`.
+对于属性（HtmlAttributeName），请使用驼峰式命名法，并将所有`-`替换为`_`。
 
-Helper Tag example
+Helper标记示例
 
 ```liquid
 {% helper "mycustomtag", customAttribute: "foo" %}
 ```
 
-Block Tag example
+块标记示例
 
 ```liquid
 {% block "mycustomtag", customAttribute: "foo" %}
 {% endblock %}
 ```
 
-## Razor Helpers
+## Razor帮手
 
 ### `LiquidToHtmlAsync`
 
-To render a liquid string template as `IHtmlContent` within Razor use the `LiquidToHtmlAsync` helper extension method on the view's base `Orchard` property, e.g.:
+要在Razor中将Liquid字符串模板呈现为`IHtmlContent`，请使用视图的基本`Orchard`属性上的`LiquidToHtmlAsync`帮助程序扩展方法，例如：
 
-Input
+输入
 
 ```csharp
 @await Orchard.LiquidToHtmlAsync((string)Model.ContentItem.Content.Paragraph.Content.Html)
 ```
 
-In this example we assume that `Model.ContentItem.Content.Paragraph.Content` represents an `HtmlField`, and `Html` is the field value, and we cast to a string, as extension methods do not support dynamic dispatching.
+在此示例中，我们假设`Model.ContentItem.Content.Paragraph.Content`表示`HtmlField`，`Html`是字段值，并将其转换为字符串，因为扩展方法不支持动态分派。
 
-Output
+输出
 
 ```html
 <p> <img src="/media/kitten.jpg" /> </p>
 ```
 
-Optionally you can pass a class for model binding.
+可选地，您可以传递一个类进行模型绑定。
 
 ## CREDITS
 
 ### Fluid
 
 <https://github.com/sebastienros/fluid>  
-Copyright (c) 2017 Sebastien Ros  
-MIT License
+版权所有（c）2017 Sebastien Ros  
+MIT许可证
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

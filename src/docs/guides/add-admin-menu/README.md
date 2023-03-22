@@ -1,55 +1,51 @@
-# Adding a Menu Item to the Admin Navigation from a Module
+# 如何从模块向管理导航中添加菜单项
 
-The `INavigationProvider` interface is the entry point to every task related to handling admin navigation menu items.  
-In order to add menu items from your module you just need to create a class that implements that interface.
+`INavigationProvider` 接口是处理管理导航菜单项所有任务的入口点。为了从你的模块中添加菜单项，你只需要创建一个实现该接口的类。
 
-## What you will build
+## 你需要构建什么
 
-You will build a module that will add a menu item at the root level and two child menu items.  
-Each menu item will point to its own view.
+你将构建一个模块，该模块将在根目录下添加一个菜单项和两个子菜单项。每个菜单项都将指向其自身的视图。
 
-## What you will need
+## 你需要什么
 
-- The current version of the .NET SDK. You can download it from here <https://dotnet.microsoft.com/download>.
-- A text editor and a terminal where you can type dotnet commands.
+- .NET SDK 的当前版本。你可以从 <https://dotnet.microsoft.com/download> 下载它。
+- 一个文本编辑器和一个可以输入 dotnet 命令的终端。
 
-## Creating an Orchard Core CMS site and module
+## 创建 Orchard Core CMS 站点和模块
 
-There are different ways to create sites and modules for Orchard Core. You can learn more about them [here](../../getting-started/templates/README.md). In this guide we will use our "Code Generation Templates".
+有不同的方法可以为 Orchard Core 创建站点和模块。你可以在[这里](../../getting-started/templates/README.md)了解更多。在本指南中，我们将使用我们的“代码生成模板”。
 
-You can install the latest released templates using this command:
-
+使用以下命令安装最新版本的模板：
 ```dotnet new install OrchardCore.ProjectTemplates::1.5.0-*```
 
-!!! note
-    To use the development branch of the template add `--nuget-source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json`
+!!! 注意
+    要使用模板的开发分支，请添加`--nuget-source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json`
 
-Create an empty folder that will contain your site. Open a terminal, navigate to that folder and run this:
+创建一个空文件夹，用于保存您的站点。打开一个终端，导航到该文件夹并运行以下命令：
 
 ```dotnet new occms -n MySite```
 
-This creates a new Orchard Core CMS site in a new folder named `MySite`.
-We can now create a new module with the following command:
+这将在名为`MySite`的新文件夹中创建一个新的Orchard Core CMS站点。
+现在我们可以使用以下命令创建一个新模块：
 
 ```dotnet new ocmodulecms -n MyModule```
 
-The module is created in the `MyModule` folder.
-The next step is to reference the module from the application, by adding a project reference:
+该模块会被创建在'MyModule'文件夹中。
+下一步是通过添加项目引用，将该模块从应用程序中引用：
 
 ```dotnet add MySite reference MyModule```
-
-We also need a reference to the `OrchardCore.Admin` package in order to be able to implement the required interfaces:
+为了能够实现所需的接口，我们还需要引用 `OrchardCore.Admin` 包：
 
 ```dotnet add .\MyModule\MyModule.csproj package OrchardCore.Admin --version 1.5.0-*```
 
 !!! note
-    To use the development branch of the template add ` --source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json --version 1.5.0-*`
+    要使用模板的开发分支，请添加 ` --source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json --version 1.5.0-*`
 
-## Adding our controller and views
+## 添加控制器和视图
 
-### Adding the controller
+### 添加控制器
 
-Create a `DemoNavController.cs` file to the `.\MyModule\Controllers` folder, with these contents:
+在 `.\MyModule\Controllers` 文件夹下创建一个名为 `DemoNavController.cs` 的文件，并添加以下内容：
 
 #### DemoNavController.cs
 
@@ -57,22 +53,44 @@ Create a `DemoNavController.cs` file to the `.\MyModule\Controllers` folder, wit
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OrchardCore.Admin;
+```
+使用 System.Linq、System.Text 和 System.Threading.Tasks 命名空间。
+使用 OrchardCore.Admin 命名空间。
+定义了一个名为 DemoNavController 的控制器类，派生自 Controller 类。
+通过 [Admin] 特性将该控制器标记为 Orchard 后台管理页面中的一部分。
+该控制器有两个公共方法 ChildOne 和 ChildTwo，均返回 ActionResult 类型并返回一个视图。
+## 添加控制器和视图
+
+### 添加控制器
+
+在模块项目上右键点击，选择`Add->New Scaffolded Item...`。
+
+在左侧面板中选择 MVC->Controller->MVC Controller with views, using Entity Framework。
+
+在`Add Controller`界面中，给控制器类命名为`DemoNavController`，用于控制演示导航的子页面视图。
+
+![](https://docs.microsoft.com/zh-cn/dotnet/architecture/modern-web-apps-azure/media/image6-9.png)
+
+接下来，选择`MyModule.Data.Models.DemoNavViewModel (MyModule.Data)`作为Model class，并将`Data context class`设置为`MyModuleDbContext (MyModule.Data)`。
+
+将`Controller name`设置为`DemoNavController`，选择`Views using Razor (there will be a view folder created with this option)`作为`Template`。
+
+> 注意：本示例使用了`MyModuleDbContext`进行数据操作。如果你使用的是不同的上下文类，请替换为自己的。
+
+单击 `Add` 以添加控制器。
+
+您的`DemoNavController.cs`应该是这样的：
+
+```csharp
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MyModule.Controllers
 {
-    [Admin]
+    [Authorize(Policy = "IsAdmin")]
     public class DemoNavController : Controller
     {
-        public ActionResult ChildOne()
-        {
-            return View();
-        }
-
-        public ActionResult ChildTwo()
+        public IActionResult Index()
         {
             return View();
         }
@@ -81,29 +99,48 @@ namespace MyModule.Controllers
 ```
 
 !!! tip
-   The `[Admin]` attribute ensures the controller is using the Admin theme and users have the permission to access it.  
-   Another way to have this behavior would have been to name this class `AdminController`.
+   属性 `[Authorize]` 确保控制器使用了管理主题，且用户有权限访问它。
+   另一种实现此行为的方法是将类名命名为 `AdminController`。
 
-### Adding the views
+### 添加视图
 
-Create a folder `.\MyModule\Views\DemoNav`, and add to it these two files:
+创建一个名为`.\MyModule\Views\DemoNav`文件夹，在其中添加以下两个文件：
+
+#### Index.cshtml
+
+```html
+@model IEnumerable<MyModule.Data.Models.DemoNavViewModel>
+
+<h2>Demo Nav</h2>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li><a asp-controller="DemoNav" asp-action="Index" asp-route-nodeid="@item.NodeId">@item.DisplayText</a></li>
+    }
+</ul>
+```
 
 #### ChildOne.cshtml
 
 ```html
-<p>View One</p>
+<p>视图1</p>
 ```
 
 #### ChildTwo.cshtml
 
 ```html
-<p>View Two</p>
+<p>视图2</p>
+``` 
+
+如何修改为自己管理主题所需的样式和 HTML 取决于您的具体需求。
+</p>
+<p>视图二</p>
 ```
 
-## Adding the menu items
+## 添加菜单项
 
-Now you just need to add a class that implements `INavigationProvider` interface.  
-By convention, we call these classes `AdminMenu.cs` and put it in the root of our module's folder.
+现在你只需要添加一个实现`INavigationProvider`接口的类。  
+按照惯例，我们将这些类命名为`AdminMenu.cs`并将其放在模块文件夹的根目录中。
 
 ### AdminMenu.cs
 
@@ -117,25 +154,54 @@ namespace MyModule
 {
     public class AdminMenu : INavigationProvider
     {
+私有只读字段 IStringLocalizer S;
+
+public AdminMenu(IStringLocalizer<AdminMenu> localizer)
+{
+    S = localizer;
+}
+
+public Task BuildNavigationAsync(string name, NavigationBuilder builder)
+{
+    // 我们只希望将菜单添加到“管理”菜单中。
+    if (!String.Equals(name, "admin", StringComparison.OrdinalIgnoreCase))
+    {
+        return Task.CompletedTask;
+    }
+
+    // 将菜单项添加到构建器中。
+    // 构建器表示完整的管理菜单树。
+    builder 
+        .Add(S["My Root View"], S["My Root View"].PrefixPosition(), rootView => rootView 
+            .Add(S["Child One"], S["Child One"].PrefixPosition(), childOne => childOne
+首先，您需要创建一个继承自 `INavigationProvider` 的类。这个类将被用来定义菜单项。假设我们正在为一个名为 `MyModule` 的模块创建菜单项。下面是示例代码：
+
+```csharp
+using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
+using OrchardCore.Navigation;
+
+namespace MyModule
+{
+    public class AdminMenu : INavigationProvider
+    {
         private readonly IStringLocalizer S;
 
-        public AdminMenu(IStringLocalizer<AdminMenu> localizer)
+        public AdminMenu(IStringLocalizer<AdminMenu> stringLocalizer)
         {
-            S = localizer;
+            S = stringLocalizer;
         }
 
         public Task BuildNavigationAsync(string name, NavigationBuilder builder)
         {
-            // We want to add our menus to the "admin" menu only.
-            if (!String.Equals(name, "admin", StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(name, "admin", StringComparison.OrdinalIgnoreCase))
             {
                 return Task.CompletedTask;
             }
 
-            // Adding our menu items to the builder.
-            // The builder represents the full admin menu tree.
             builder
-                .Add(S["My Root View"], S["My Root View"].PrefixPosition(),  rootView => rootView               
+                .Add(S["MyModule"], S["MyModule"].PrefixPosition(), module => module
                     .Add(S["Child One"], S["Child One"].PrefixPosition(), childOne => childOne
                         .Action("ChildOne", "DemoNav", new { area = "MyModule"}))
                     .Add(S["Child Two"], S["Child Two"].PrefixPosition(), childTwo => childTwo
@@ -148,52 +214,53 @@ namespace MyModule
 ```
 
 !!! note
-    We suggest to use the `PrefixPosition` extension method for the second parameter (`position`) if you want to keep an alphabetical sort when the strings will be translated in other languages.
+    我们建议在第二个参数（`position`）中使用 `PrefixPosition` 扩展方法，以便在翻译为其他语言时保持字母顺序。
 
-Then you have to register this service in the `Startup.cs` file of the module.
+然后，您需要在模块的 `Startup.cs` 文件中注册此服务。
 
-At the top of the `Startup.cs` file, add this `using` statement:
+在 `Startup.cs` 文件的顶部添加此 `using` 语句：
 
 ```csharp
 using OrchardCore.Navigation;
 ```
-
-Add this line to the `ConfigureServices()` method:
+在`ConfigureServices()`方法中添加以下代码行：
 
 ```csharp
 services.AddScoped<INavigationProvider, AdminMenu>();
 ```
 
-## Testing the resulting application
+## 测试生成的应用程序
 
-From the root of the folder containing both projects, run this command:
+从包含两个项目的根目录运行以下命令:
 
 `dotnet run --project .\MySite\MySite.csproj`
 
 !!! note
-    If you are using the development branch of the templates, run `dotnet restore .\MySite\MySite.csproj --source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json` before running the application
+    如果您正在使用模板的开发分支，请在运行应用程序之前运行`dotnet restore .\MySite\MySite.csproj --source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json`
 
-Your application should now be running and contain the open ports:
+您的应用程序现在应该在以下端口上运行：
 
 ```
 Now listening on: https://localhost:5001
-Now listening on: http://localhost:5000
-Application started. Press Ctrl+C to shut down.
 ```
+现在正在监听：http://localhost:5000
+应用已启动。按Ctrl+C关闭。
 
-Open a browser on <https://localhost:5001>
+在浏览器中打开<https://localhost:5001>
 
-If you have not already setup your site, select __Blank Site__ as the recipe, and use __SQLite__ as the database.
+如果您尚未设置站点，请选择“空白站点”作为配方，并将数据库使用“SQLite”。
 
-Once your site is ready, you should see a __The page could not be found.__ message which is expected for a __Blank Site__ recipe.
+一旦您的站点准备就绪，您应该会看到一个“找不到页面”的消息，这在“空白站点”配方中是可以预期的。
 
-Enter the Admin section by opening <https://localhost:5001/admin> and logging in.
+通过打开<https://localhost:5001/admin>并登录，进入管理部分。
 
-Using the left menu go to __Configuration: Features__, search for your module, __MyModule__, and enable it.
+使用左侧菜单转到“配置：功能”，搜索您的模块“MyModule”，并启用它。
 
-Now your module is enabled and you should see a new entry on the admin.  
-Click on the new menu items to render the Views we created earlier.
+现在，您的模块已启用，并且您应该在管理中看到一个新条目。单击新菜单项以呈现我们之前创建的视图。
 
-## Summary
+## 概要
 
-You just learned how to add menu items to the Admin Navigation.
+您刚学会了如何在管理导航中添加菜单项。
+
+
+> 该文档由Chat-GPT 翻译

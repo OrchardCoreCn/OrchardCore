@@ -1,48 +1,46 @@
-# Tenants (`OrchardCore.Tenants`)
+# 租户 (`OrchardCore.Tenants`)
 
-The `Tenants` module allows to manage tenants from the admin.
+`Tenants` 模块允许从管理界面管理租户。
 
-## Static File Provider Feature
+## 静态文件提供程序功能
 
-This feature registers a file provider for each tenant in order to serve custom files per tenant, even if they have the same names.
+此功能为每个租户注册一个文件提供程序，以便为每个租户提供自定义文件，即使它们具有相同的名称。
 
-Once enabled on a tenant, a folder `wwwroot` is created in the `App_Data\Sites\[Tenant]` folder. Any file that is placed in this folder will be served under the same domain and prefix as the tenant.
+启用租户后，在 `App_Data\Sites\[Tenant]` 文件夹中创建一个 `wwwroot` 文件夹。将任何文件放置在此文件夹中，将在与租户相同的域和前缀下提供服务。
 
-Any static file that is placed in the content root folder of the website will be served
-first.
+任何放置在网站内容根文件夹中的静态文件都将首先提供服务。
 
-## robots.txt for Tenants
+## 租户的 robots.txt
 
-Static File Provider allows you to setup `robots.txt` per tenant. 
-To create `robots.txt` for each tenant, Place `robots.txt` under `App_Data\Sites\[Tenant]\wwwroot` folder 
+静态文件提供程序允许您为每个租户设置 `robots.txt`。
+要为每个租户创建 `robots.txt`，请将 `robots.txt` 放置在 `App_Data\Sites\[Tenant]\wwwroot` 文件夹下
 
-E.g.
+例如
 
 `App_Data\Sites\Tenant1\wwwroot\robots.txt`
 
 `App_Data\Sites\Tenant2\wwwroot\robots.txt`
 
-## Feature Profiles
+## 功能配置文件
 
-This feature allows the `Default` tenant to create Feature Profiles which can restrict the features available to a tenant with Feature Rules.
+此功能允许 `Default` 租户创建功能配置文件，可以使用功能规则限制可用于具有功能规则的租户的功能。
 
-### Creating a feature profile
+### 创建功能配置文件
 
-1. Enable the _Tenant Feature Profiles_ feature on the `Default` tenant.
-2. Go to the _Configuration -> Tenant Feature Profiles_ menu.
-3. Select _Add Feature Profile_.
-4. Add a _Name_ and a set of _Rules_.
+1. 在 `Default` 租户上启用 _Tenant Feature Profiles_ 功能。
+2. 转到 _Configuration -> Tenant Feature Profiles_ 菜单。
+3. 选择 _Add Feature Profile_。
+4. 添加一个 _Name_ 和一组 _Rules_。
 
-#### Rule Configuration
+#### 规则配置
 
-Rules are a JSON array of Rule Expressions. 
+规则是 Rule Expressions 的 JSON 数组。
 
-A rule consists of the Rule Name, and an Expression, which supports simple matching, i.e. characters, or the `*` or `?` modifier.
+规则由规则名称和表达式组成，支持简单匹配，即字符或 `*` 或 `?` 修饰符。
 
-By default the available rules are `Exclude` and `Include`
+默认情况下，可用规则为 `Exclude` 和 `Include`
 
-
-Consider the following
+考虑以下
 
 ``` json
 [
@@ -57,9 +55,9 @@ Consider the following
 ]
 ```
 
-In this rule we exclude the `OrchardCore.AdminTemplates` and `TheAgencyTheme` features
+在此规则中，我们排除了 `OrchardCore.AdminTemplates` 和 `TheAgencyTheme` 功能
 
-or we can use wild card matching
+或者我们可以使用通配符匹配
 
 ``` json
 [
@@ -74,13 +72,13 @@ or we can use wild card matching
 ]
 ```
 
-In this example we exclude all Features starting with `MyModules.Custom.`, and then specifically include `MyModules.Custom.IncludedModule`
+在此示例中，我们排除以 `MyModules.Custom.` 开头的所有功能，然后特别包括 `MyModules.Custom.IncludedModule`
 
-Rules are processed in the order they are supplied, so reversing the order of the above will cause the last rule, i.e. the `Exclude` rule to be applied, negating the `Include` rule.
+规则按提供的顺序处理，因此反转上述顺序将导致应用最后一个规则，即 `Exclude` 规则，否定 `Include` 规则。
 
-#### Defining Feature Profiles in Recipes
+#### 在配方中定义功能配置文件
 
-By using the `FeatureProfiles` recipe step, you can define profiles from recipes as well (don't forget to also enable the `OrchardCore.Tenants.FeatureProfiles` feature in the recipe too):
+通过使用 `FeatureProfiles` 配方步骤，您也可以从配方定义配置文件（不要忘记在配方中还启用 `OrchardCore.Tenants.FeatureProfiles` 功能）：
 
 ```json
 {
@@ -114,35 +112,37 @@ By using the `FeatureProfiles` recipe step, you can define profiles from recipes
 }
 ```
 
-### Selecting a feature profile
+### 选择功能配置文件
 
-1. Create a Feature Profile.
-2. Go to the _Configuration -> Tenants_ menu.
-3. Edit the tenant.
-4. Select a feature profile from the dropdown.
+1. 创建功能配置文件。
+2. 转到 _Configuration -> Tenants_ 菜单。
+3. 编辑租户。
+4. 从下拉列表中选择功能配置文件。
 
-The _Feature Profile_ drop down will only be available if at least one Feature Profile has been configured.
+只有在至少配置了一个功能配置文件时，才会提供 _Feature Profile_ 下拉列表。
 
-A feature profile can also be set when creating a tenant via the web API.
+还可以在通过 Web API 创建租户时设置功能配置文件。
 
-If you're using [Auto Setup](../AutoSetup/README.md), you can specify the `FeatureProfile` property for tenants as well; see the Auto Setup documentation for more information.
+如果您使用 [自动设置](../AutoSetup/README.md)，则还可以为租户指定 `FeatureProfile` 属性；有关详细信息，请参阅自动设置文档。
 
-## Tenant Removal
+## 租户删除
 
-Allows removing a tenant if it is not yet set up or is in the disabled state. By default, this feature is not allowed.
+允许删除尚未设置或处于禁用状态的租户。默认情况下，不允许此功能。
 
-Tenant Removal can be allowed from any configuration source (e.g. `appsettings.json`) under the `OrchardCore` section. See the [configuration documentation](../../core/Configuration/README.md) for details.
+可以从任何配置源（例如 `appsettings.json`）允许租户删除，在 `OrchardCore` 部分下。有关详细信息，请参见[配置文档](../../core/Configuration/README.md)。
 
 ```json
 {
   "OrchardCore": {
     "OrchardCore_Tenants": {
-      "TenantRemovalAllowed": false // Whether tenant removal is allowed or not. Default is false.
+      "TenantRemovalAllowed": false // 是否允许删除租户。默认值为 false。
     }
   }
 }
 ```
 
-## Video
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/aQAjTG2ma64" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+> 该文档由ChatGPT 4 翻译

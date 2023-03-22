@@ -1,32 +1,28 @@
-# Taxonomies (`OrchardCore.Taxonomies`)
+# 分类法 (`OrchardCore.Taxonomies`)
 
-This module provides a Taxonomy content type that is used to define managed vocabularies (categories) of any type.  
-Taxonomy content items are made of terms organized as a hierarchy. Using the Taxonomy Field allows any content item
-to be associated with one or many terms of a taxonomy.
+该模块提供了一个分类法内容类型，用于定义任何类型的受管理词汇表（类别）。分类法内容项由组织成层次结构的术语组成。使用分类法字段，可以将任何内容项与分类法的一个或多个术语相关联。
 
 ## Shapes
 
 ### TaxonomyPart
 
-Display for a taxonomy is routable by enabling `Container routing` feature on the `AutoroutePart` settings for the `Taxonomy`.
+启用 `AutoroutePart` 设置中的 `Container routing` 功能，可以使分类法的显示可路由。然后，`TaxonomyPart` 形状呈现分类法的显示。
 
-The display for the `Taxonomy` is then rendered by the `TaxonomyPart` shape.
-
-This uses the `TermShape` to display a hierarchy of the `Terms`
+这使用 `TermShape` 来显示 `Terms` 的层次结构。
 
 ### TermPart
 
-The `TermPart` is rendered when a `Term` is displayed with the `Container routing` feature of the `AutoroutePart`.
+当使用 `AutoroutePart` 的 `Container routing` 功能显示 `Term` 时，将呈现 `TermPart`。
 
-It renders a list of all content items that have been categorized by the `TaxonomyField` as part of that `Term` hierarchy.
+它呈现了由 `TaxonomyField` 分类为该 `Term` 层次结构的所有内容项的列表。
 
 ### Term Shape
 
-The `TermShape` is used by the `TaxonomyPart` display to render the list of term hierarchies for the `Taxonomy`.
+`TermShape` 由 `TaxonomyPart` 显示使用，以呈现 `Taxonomy` 的术语层次结构的列表。
 
-It is a reusable shape which may also be called from a content item, similar to that of a `MenuShape`, to render either the entire `Taxonomy` and term hierarchy, or a part of the `Term` hierarchy.
+它是一个可重用的形状，也可以从内容项中调用，类似于 `MenuShape`，以呈现整个 `Taxonomy` 和术语层次结构，或 `Term` 层次结构的一部分。
 
-You might invoke the `TermShape` from a content template to render a sidebar of associated taxonomy terms.
+您可以从内容模板中调用 `TermShape`，以呈现相关分类法术语的侧边栏。
 
 === "Liquid"
 
@@ -40,7 +36,7 @@ You might invoke the `TermShape` from a content template to render a sidebar of 
     <shape type="Term" alias="alias:Categories" />
     ```
 
-You can also specify a `TermContentItemId` to render a part of the term hierarchy.
+您还可以指定 `TermContentItemId` 以呈现术语层次结构的一部分。
 
 === "Liquid"
 
@@ -54,16 +50,16 @@ You can also specify a `TermContentItemId` to render a part of the term hierarch
     <shape type="Term" TaxonomyContentItemId="taxonomyContentItemId" TermContentItemId="termContentItemId" />
     ```
 
-| Property | Description |
+| 属性 | 描述 |
 | --------- | ------------ |
-| `Model.TaxonomyContentItemId` | If defined, contains the content item identifier of the taxonomy to render. |
-| `Model.Items` | The list of term items shapes for the taxonomy. These are shapes of type `TermItem`. |
-| `Model.Differentiator` | If defined, contains the formatted name of the taxonomy (display text). For instance `Categories`. |
-| `Model.TermContentItemId` | If defined, contains the content item identifier of the term to start rendering the hierarchy. |
+| `Model.TaxonomyContentItemId` | 如果定义，则包含要呈现的分类法的内容项标识符。 |
+| `Model.Items` | 用于分类法的术语项形状的列表。这些是类型为 `TermItem` 的形状。 |
+| `Model.Differentiator` | 如果定义，则包含分类法的格式化名称（显示文本）。例如 `Categories`。 |
+| `Model.TermContentItemId` | 如果定义，则包含要开始呈现层次结构的术语的内容项标识符。 |
 
 #### Term Alternates
 
-| Definition | Template | Filename|
+| 定义 | 模板 | 文件名 |
 | ---------- | --------- | ------------ |
 | `Term__[Differentiator]` | `Term__Categories` | `Term-Categories.cshtml` |
 | `Term__[ContentType]` | `Term__Category` | `Term-Category.cshtml` |
@@ -104,24 +100,24 @@ You can also specify a `TermContentItemId` to render a part of the term hierarch
 
 ### TermItem
 
-The `TermItem` shape is used to render a term item.
+`TermItem` 形状用于呈现术语项。
 
-| Property | Description |
+| 属性 | 描述 |
 | --------- | ------------ |
-| `Model.Term` | The `Term` shape owning this item. |
-| `Model.TaxonomyContentItem` | The `TaxonomyContentItem`. |
-| `Model.TermContentItem` | The `TermContentItem` for this item. |
-| `Model.Level` | The level of the term item. `0` for top level term items. |
-| `Model.Items` | The list of sub term items shapes. These are shapes of type `TermItem`. |
-| `Model.Terms` | The list of term content items for the lower items in the hierarchy. |
-| `Model.Differentiator` | If defined, contains the formatted name of the taxonomy. For instance `Categories`. |
+| `Model.Term` | 拥有此项的 `Term` 形状。 |
+| `Model.TaxonomyContentItem` | `TaxonomyContentItem`。 |
+| `Model.TermContentItem` | 此项的 `TermContentItem`。 |
+| `Model.Level` | 术语项的级别。顶级术语项为 `0`。 |
+| `Model.Items` | 子术语项形状的列表。这些是类型为 `TermItem` 的形状。 |
+| `Model.Terms` | 层次结构中较低项的术语内容项列表。 |
+| `Model.Differentiator` | 如果定义，则包含分类法的格式化名称。例如 `Categories`。 |
 
 !!! note
-    When rendering a partial hierarchy of terms using the `TermContentItemId` property, the level is always based of the taxonomy root.
+    使用 `TermContentItemId` 属性呈现术语的部分层次结构时，级别始终基于分类法根。
 
 #### TermItem Alternates
 
-| Definition | Template | Filename|
+| 定义 | 模板 | 文件名 |
 | ---------- | --------- | ------------ |
 | `TermItem__level__[level]` | `TermItem__level__2` | `TermItem-level-2.cshtml` |
 | `TermItem__[ContentType]` | `TermItem__Category` | `TermItem-Category.cshtml` |
@@ -176,23 +172,23 @@ The `TermItem` shape is used to render a term item.
 
 ### TermContentItem
 
-The `TermContentItem` shape is used to render the term content item.
-This shape is created by morphing a `TermItem` shape into a `TermContentItem`. Hence all the properties
-available on the `TermItem` shape are still available.
+`TermContentItem` 形状用于呈现术语内容项。
+此形状通过将 `TermItem` 形状变形为 `TermContentItem` 来创建。因此，所有属性
+在 `TermItem` 形状上可用。
 
-| Property | Description |
+| 属性 | 描述 |
 | --------- | ------------ |
-| `Model.Term` | The `Term` shape owning this item. |
-| `Model.TaxonomyContentItem` | The `TaxonomyContentItem`. |
-| `Model.TermContentItem` | The `TermContentItem` for this item. |
-| `Model.Level` | The level of the term item. `0` for top level term items. |
-| `Model.Items` | The list of sub term items shapes. These are shapes of type `TermItem`. |
-| `Model.Terms` | The list of term content items for the lower items in the hierarchy. |
-| `Model.Differentiator` | If defined, contains the formatted name of the term. For instance `Travel`. |
+| `Model.Term` | 拥有此项的 `Term` 形状。 |
+| `Model.TaxonomyContentItem` | `TaxonomyContentItem`。 |
+| `Model.TermContentItem` | 此项的 `TermContentItem`。 |
+| `Model.Level` | 术语项的级别。顶级术语项为 `0`。 |
+| `Model.Items` | 子术语项形状的列表。这些是类型为 `TermItem` 的形状。 |
+| `Model.Terms` | 层次结构中较低项的术语内容项列表。 |
+| `Model.Differentiator` | 如果定义，则包含术语的格式化名称。例如 `Travel`。 |
 
 #### TermContentItem Alternates
 
-| Definition | Template | Filename|
+| 定义 | 模板 | 文件名 |
 | ---------- | --------- | ------------ |
 | `TermContentItem__level__[level]` | `TermContentItem__level__2` | `TermContentItem-level-2.cshtml` |
 | `TermContentItem__[ContentType]` | `TermContentItem__Category` | `TermContentItem-Category.cshtml` |
@@ -220,33 +216,32 @@ available on the `TermItem` shape are still available.
 
 ### TaxonomyField
 
-This shape is rendered when a `TaxonomyField` is attached to a content part.
-The shape base class is of type `DisplayTaxonomyFieldViewModel`.
+当 `TaxonomyField` 附加到内容部分时，将呈现此形状。
+形状基类的类型为 `DisplayTaxonomyFieldViewModel`。
 
-The following properties are available on the `TaxonomyField` class.
-
-| Property | Type | Description |
+在 `TaxonomyField` 类上可用以下属性。
+| 属性 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `TaxonomyContentItemId` | `string` | The Content Item id of the taxonomy associated with the field. |
-| `TermContentItemIds` | `string[]` | The list of Content Item ids of the terms selected for this field. |
+| `TaxonomyContentItemId` | `string` | 与字段关联的分类法的内容项 ID。 |
+| `TermContentItemIds` | `string[]` | 为此字段选择的术语的内容项 ID 列表。 |
 
 ### DisplayTaxonomyFieldViewModel
 
-This class is used when displaying a field.
+此类用于显示字段。
 
-The following properties are available on the `DisplayTaxonomyFieldViewModel` class.
+`DisplayTaxonomyFieldViewModel` 类上可用以下属性。
 
-| Property | Type | Description |
+| 属性 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Field` | `TaxonomyField` | The `TaxonomyField` instance|
-| `Part` | `ContentPart` | The part this field attached to |
-| `PartFieldDefinition` | `ContentPartFieldDefinition` | The part field definition |
+| `Field` | `TaxonomyField` | `TaxonomyField` 实例 |
+| `Part` | `ContentPart` | 附加到此字段的部分 |
+| `PartFieldDefinition` | `ContentPartFieldDefinition` | 部分字段定义 |
 
-## Orchard Helpers
+## Orchard 帮助程序
 
 ### GetTaxonomyTermAsync
 
-Returns a term from its content item id and taxonomy.
+按其内容项 ID 和分类法返回术语。
 
 ```csharp
 @foreach(var termId in Model.TermContentItemIds)
@@ -257,7 +252,7 @@ Returns a term from its content item id and taxonomy.
 
 ### GetInheritedTermsAsync
 
-Returns the list of terms including their parents.
+返回包括其父项的术语列表。
 
 ```csharp
 @foreach(var termId in Model.TermContentItemIds)
@@ -273,12 +268,11 @@ Returns the list of terms including their parents.
 
 ### QueryCategorizedContentItemsAsync
 
-Provides a way to query content items that are categorized with specific terms.
+提供一种查询已分类为特定术语的内容项的方法。
 
-#### QueryCategorizedContentItemsAsync Example 
+#### QueryCategorizedContentItemsAsync 示例 
 
-The following example queries content items that are related to the current content item 
-by the term category, but excluding the current content item.
+以下示例查询与当前内容项相关的内容项，但排除当前内容项的术语类别。
 
 ```csharp
 @using YesSql.Services
@@ -295,16 +289,15 @@ by the term category, but excluding the current content item.
 }
 ```
 
-## Liquid Tags
+## Liquid 标签
 
 ### taxonomy_terms
 
-The `taxonomy_terms` filter loads the specified term content items.
+`taxonomy_terms` 过滤器加载指定的术语内容项。
 
-#### taxonomy_terms Example 
+#### taxonomy_terms 示例 
 
-The following example lists all the terms related to the **Colors** field on the **BlogPost**
-content type, then renders them.
+以下示例列出与 **BlogPost** 内容类型上的 **Colors** 字段相关的所有术语，然后呈现它们。
 
 ```liquid
 {% assign colors = Model.ContentItem.Content.BlogPost.Colors | taxonomy_terms %}
@@ -313,12 +306,11 @@ content type, then renders them.
 {% endfor %}
 ```
 
-The `taxonomy_terms` also accepts term content item ids as input, as long as the first
-argument is a taxonomy content item id.
+只要第一个参数是分类法内容项 ID，`taxonomy_terms` 也接受术语内容项 ID 作为输入。
 
-#### Example
+#### 示例
 
-The following example displays all the colors and their hierarchy:
+以下示例显示所有颜色及其层次结构：
 
 ```liquid
 {% assign taxonomyId = Model.ContentItem.Content.BlogPost.Colors.TaxonomyContentItemId %}
@@ -335,33 +327,33 @@ The following example displays all the colors and their hierarchy:
 
 ### inherited_terms
 
-The `inherited_terms` filter loads all the parents of a given term.  
-The input must be a term content item or content item id.  
-The first argument must be the taxonomy content item or content item id.
+`inherited_terms` 过滤器加载给定术语的所有父项。  
+输入必须是术语内容项或内容项 ID。  
+第一个参数必须是分类法内容项或内容项 ID。
 
-## Taxonomy Index
+## 分类法索引
 
-The `TaxonomyIndex` SQL table contains a list of all content items that are associated with a Taxonomy field.  
-Each record corresponds to a selected term for a field.
+`TaxonomyIndex` SQL 表包含与分类法字段关联的所有内容项的列表。  
+每个记录对应于字段的选择术语。
 
-| Column | Type | Description |
+| 列 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| TaxonomyContentItemId | `string` | The content item id of the Taxonomy |
-| ContentItemId | `string` | The content item id of the categorized content |
-| ContentType | `string` | The content type of the categorized content |
-| ContentPart | `string` | The content part containing the field |
-| ContentField | `string` | The name of the field in the content part |
-| TermContentItemId | `string` | The content item id of the categorized Term |
+| TaxonomyContentItemId | `string` | 分类法的内容项 ID |
+| ContentItemId | `string` | 分类的内容的内容项 ID |
+| ContentType | `string` | 分类的内容的内容类型 |
+| ContentPart | `string` | 包含字段的内容部分 |
+| ContentField | `string` | 内容部分中字段的名称 |
+| TermContentItemId | `string` | 分类术语的内容项 ID |
 
-For instance if a field has two selected terms, there will be two records with all identical column values except for the `TermContentItemId`.
+例如，如果字段有两个选择的术语，则将有两个记录，所有列值都相同，除了 `TermContentItemId`。
 
-## Tags
+## 标签
 
-Tags are a editor and display mode option for taxonomies to allow tagging of content items while editing.
+标签是用于允许在编辑时对内容项进行标记的编辑器和显示模式。
 
-When using the `Tags` mode the display text property of the tag is stored as well as the `TermContentItemId`.
+使用 `Tags` 模式时，存储标签的显示文本属性以及 `TermContentItemId`。
 
-You can access the `TagNames` property directly with the following accessor:
+您可以使用以下访问器直接访问 `TagNames` 属性：
 
 === "Liquid"
 
@@ -384,18 +376,14 @@ You can access the `TagNames` property directly with the following accessor:
     ```
 
 !!! note
-    If the display text property of the term is updated any content items will need to be republished to reflect this change.
+    如果术语的显示文本属性已更新，则需要重新发布任何内容项才能反映此更改。
 
-## Taxonomies Contents List Filters
+## 分类法内容列表过滤器
 
-Provides taxonomy filters in the admin contents list.
+在管理内容列表中提供分类法过滤器。
 
 ## Videos
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/DpaN02c2sDI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/nyPgQMwizbU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/G9lkGRD9G_E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/NVjRz5ru7N4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

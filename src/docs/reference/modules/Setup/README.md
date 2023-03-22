@@ -1,31 +1,31 @@
-# Setup (`OrchardCore.Setup`)
+# 安装 (`OrchardCore.Setup`)
 
-When you begin with an empty site, a start screen allows you to setup the different parameters as the Title, the selected database, or the recipe that will be used to generate the site. This is done by the Setup module.
+当您开始使用空站点时，启动屏幕允许您设置不同的参数，如标题、选择的数据库或将用于生成站点的配方。这是通过安装模块完成的。
 
-## Recipe Parameters
+## 配方参数
 
-During setup, all recipes have access to the setup screen values using these parameters:
+在安装过程中，所有配方都可以使用这些参数访问设置屏幕值：
 
-| Parameter | Description |
+| 参数 | 描述 |
 | --- | --- |
-| `SiteName` | The name of the site. |
-| `AdminUserId` | The user id of the super user. |
-| `AdminUsername` | The username of the super user. |
-| `AdminEmail` | The email of the super user. |
-| `AdminPassword` | The password of the super user. |
-| `DatabaseProvider` | The database provider. |
-| `DatabaseConnectionString` | The connection string. |
-| `DatabaseTablePrefix` | The database table prefix. |
+| `SiteName` | 站点名称。 |
+| `AdminUserId` | 超级用户的用户ID。 |
+| `AdminUsername` | 超级用户的用户名。 |
+| `AdminEmail` | 超级用户的电子邮件。 |
+| `AdminPassword` | 超级用户的密码。 |
+| `DatabaseProvider` | 数据库提供程序。 |
+| `DatabaseConnectionString` | 连接字符串。 |
+| `DatabaseTablePrefix` | 数据库表前缀。 |
 
-These parameters can be used in the recipe using a scripted value like `[js: parameters('AdminUserId')]`.
+这些参数可以在配方中使用脚本化值，例如`[js: parameters('AdminUserId')]`。
 
-### Recipe Configuration Keys
+### 配方配置键
 
-Custom configuration keys can also be used in the recipe, using a scripted key value like `[js: configuration('CustomConfigurationKey')]`.
+还可以使用自定义配置键在配方中使用脚本化键值，例如`[js: configuration('CustomConfigurationKey')]`。
 
-The key will be retrieved from the current [IShellConfiguration](../../core/Configuration/README.md). 
+该键将从当前的[IShellConfiguration](../../core/Configuration/README.md)中检索。
 
-For example to provide a key for a tenant
+例如，为租户提供密钥
 
 ```json
     {
@@ -36,11 +36,11 @@ For example to provide a key for a tenant
     }
 ```
 
-Other configuration keys can also be used, i.e. from the hosts `appsettings.json` 
+还可以使用其他配置键，例如来自主机的`appsettings.json`
 
 `[js: configuration('OrchardCore_Admin:AdminUrlPrefix', 'Admin')]`
 
-In this example we also provide a default value, which will be used if the key is not found.
+在此示例中，我们还提供了一个默认值，如果未找到该键，则将使用该默认值。
 
 ```json
     {
@@ -50,13 +50,13 @@ In this example we also provide a default value, which will be used if the key i
     }
 ```
 
-## Setup Configuration
+## 安装配置
 
-The following configuration values are used by default and can be customized:
+默认情况下使用以下配置值，可以进行自定义：
 
 ```json
     "OrchardCore_Setup": {
-      "DefaultCulture": "", // When using "" the system OS culture will be used
+      "DefaultCulture": "", // 当使用""时，将使用系统OS文化
       "SupportedCultures": [
         "ar", 
         "cs", 
@@ -91,28 +91,30 @@ The following configuration values are used by default and can be customized:
         "vi", 
         "zh-CN", 
         "zh-TW"
-      ] // "" value (InvariantCulture) is not supported for these
+      ] // ""值（InvariantCulture）不支持这些
     }
 ```
 
-| Key | Description |
+| 键 | 描述 |
 | --- | --- |
-| `DefaultCulture` | The default culture that will be used for the setup screen. |
-| `SupportedCultures` | The list of the supported cultures for the setup screen. |
+| `DefaultCulture` | 将用于设置屏幕的默认文化。 |
+| `SupportedCultures` | 设置屏幕支持的文化列表。 |
 
-## CDN disabled by default
+## CDN默认禁用
 
-The `UseCdn` option, configured in the _Configuration -> Settings -> General_ section, is disabled by default.
-This is to allow access to resources when an internet connection is not available or in countries like China, where CDNs are not always accessible.  
+默认情况下禁用了在“配置->设置->常规”部分配置的`UseCdn`选项。
+这是为了在没有互联网连接或在像中国这样的国家中无法访问CDN时允许访问资源。
 
-!!! note
-    It is recommended to enable the CDN setting after setup.
-    
-## Additional information
-Please refer to separate sections for additional information on setup:
+!!! 注意
+    建议在安装后启用CDN设置。
 
-- [Auto Setup - how to predefine setup parameters when deploying an empty site](../AutoSetup/README.md)
+## 其他信息
+有关设置的其他信息，请参阅单独的部分：
 
-## Video
+- [自动设置-如何在部署空站点时预定义设置参数](../AutoSetup/README.md)
+
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/usjGbjwbmNo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+> 该文档由ChatGPT 4 翻译

@@ -1,79 +1,79 @@
-# Shortcodes (`OrchardCore.Shortcodes`)
+# 短代码 (`OrchardCore.Shortcodes`)
 
-Adds Shortcode capabilities. 
+添加短代码功能。
 
-Shortcodes are small pieces of code wrapped into \[brackets\] that can add some behavior to content editors, like embedding media files.
+短代码是一小段代码，用方括号括起来，可以为内容编辑器添加一些行为，例如嵌入媒体文件。
 
-Shortcodes can be implemented by enabling the Shortcode Templates feature or through code.
+可以通过启用短代码模板功能或通过代码实现短代码。
 
-## Shortcode Templates
+## 短代码模板
 
-Shortcode templates with [Liquid](../Liquid/) are created through the _Design -> Shortcodes_ menu.
+使用 [Liquid](../Liquid/) 创建带有短代码模板的短代码通过 _Design -> Shortcodes_ 菜单创建。
 
-Shortcode templates are designed to be able to override a code based Shortcode of the same name.
+短代码模板旨在能够覆盖同名的基于代码的短代码。
 
-| Parameter | Description |
+| 参数 | 描述 |
 | --------- | ----------- |
-| `Name` | The name of your Shortcode, without brackets. |
-| `Hint` | The hint to display for your Shortcode.
-| `Usage` | An html string to describe the usage and arguments for your Shortcode. |
-| `Categories` | The categories your Shortcode falls under. |
-| `Return Shortcode` | The Shortcode value to return from the Shortcode picker when selected. Defaults to Name. |
-| `Content` | The Liquid template for your Shortcode. |
+| `Name` | 您的短代码名称，不带方括号。 |
+| `Hint` | 要显示的短代码提示。 |
+| `Usage` | 用于描述短代码的用法和参数的 html 字符串。 |
+| `Categories` | 您的短代码所属的类别。 |
+| `Return Shortcode` | 选择短代码时从短代码选择器返回的短代码值。默认为名称。 |
+| `Content` | 您的短代码的 Liquid 模板。 |
 
-### Template Arguments
+### 模板参数
 
-| Parameter | Description |
+| 参数 | 描述 |
 | --------- | ----------- |
-| `Args` | The arguments provided the user, if any. |
-| `Content` | The inner content provided by the user, if any.
-| `Context` | The context made available to the Shortcode from the caller, e.g. an `HtmlBodyPart`. |
+| `Args` | 如果有，则提供给用户的参数。 |
+| `Content` | 如果有，则由用户提供的内部内容。
+| `Context` | 调用者提供给短代码的上下文，例如 `HtmlBodyPart`。 |
 
-### Example Shortcode Templates :
+### 示例短代码模板：
 
 #### `[display_text]`
 
-| Parameter | Value |
+| 参数 | 值 |
 | --------- | ----------- |
 | `Name` | display_text |
-| `Hint` | Returns the display text of the content item. |
+| `Hint` | 返回内容项的显示文本。 |
 | `Usage` | [display_text] |
 | `Content` | `{{ Context.ContentItem.DisplayText }}`<br>`{{ More }}` |
 
-!!! note
-    The `ContentItem` `Context` is only available when the caller, i.e. an `HtmlBodyPart`, has passed the `ContentItem` value to the `Context`. 
+!!! 注意
+    当调用者（即 `HtmlBodyPart`）将 `ContentItem` 值传递给 `Context` 时，才能使用 `ContentItem` `Context`。
 
 #### `[site_name]`
 
-| Parameter | Value |
+| 参数 | 值 |
 | --------- | ----------- |
 | `Name` | site_name |
-| `Hint` | Returns the site name. |
+| `Hint` | 返回站点名称。 |
 | `Usage` | [site_name] |
 | `Content` | `{{ Site.SiteName }}` |
 
-####  `[primary]`
+#### `[primary]`
 
-| Parameter | Value |
+| 参数 | 值 |
 | --------- | ----------- |
 | `Name` | primary |
-| `Hint` | Formats text in the themes primary color. |
+| `Hint` | 以主题的主要颜色格式化文本。 |
 | `Usage` | [primary text]&lt;br&lt;[primary]text[/primary] |
 | `Content` | `{% capture output %}`<br>`{% if Args.Text != nil %}`<br>`<span class="text-primary">{{Args.Text}}</span>`<br>`{% else %}`<br>`<span class="text-primary">{{Content}}</span>`<br>`{% endif %}`<br>`{% endcapture %}`<br>`{{ output | sanitize | raw }}` |
 
-## Shortcodes via code
+## 通过代码的短代码
 
-### Shortcode Delegate
+### 短代码委托
 
-Shortcodes can be registered in code via a `ShortcodeDelegate` using the `AddShortcode` extension method.
+可以使用 `AddShortcode` 扩展方法通过 `ShortcodeDelegate` 在代码中注册短代码。
 
-| Parameter | Type | Description |
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Name` | `string` | The name of the Shortcode. |
-| `Shortcode` | `ShortcodeDelegate` | The Shortcode Delegate. |
-| `Describe` | `Action<ShortcodeOption>` | Optionally a Description of the Shortcode. |
+| `Name` | `string` | 短代码的名称。 |
+| `Shortcode` | `ShortcodeDelegate` | 短代码委托。 |
+| `Describe` | `Action<ShortcodeOption>` | 可选的短代码描述。 |
 
-In this example, we register a `[bold]` Shortcode Delegate and describe the Shortcode.
+在此示例中，我们注册了一个 `[bold]` 短代码委托并描述了短代码。
 
 ``` csharp
 services.AddShortcode("bold", (args, content, ctx) => {
@@ -95,9 +95,9 @@ services.AddShortcode("bold", (args, content, ctx) => {
 
 ### `IShortcodeProvider`
 
-Shortcodes may also be used by implementing the `IShortcodeProvider` interface and registered with the `AddShortcode` extension method.
+还可以通过实现 `IShortcodeProvider` 接口并使用 `AddShortcode` 扩展方法注册短代码。
 
-In this example we register an `ImageShortcodeProvider` as `[image]` and describe the Shortcode.
+在此示例中，我们将 `ImageShortcodeProvider` 注册为 `[image]` 并描述短代码。
 
 ``` csharp
 services.AddShortcode<ImageShortcodeProvider>("image", describe => {
@@ -120,81 +120,82 @@ services.AddShortcode<ImageShortcodeProvider>("image", describe => {
 });
 ```
 
-!!! note
-    When upgrading from version `1.0.0-rc2-13450` you may need to re-enable the Shortcodes feature, through _Configuration -> Features_
+!!! 注意
+    从版本 `1.0.0-rc2-13450` 升级时，您可能需要重新启用短代码功能，通过 _Configuration -> Features_
 
-    The Shortcode Templates feature is only available from the [Preview Feed](../../../getting-started/preview-package-source)
+    短代码模板功能仅在 [Preview Feed](../../../getting-started/preview-package-source) 中可用
 
-## Available Shortcodes
+## 可用的短代码
 
 ### `[image]`
 
-The [image] shortcode renders an image from the site's media library.
+[image] 短代码从站点的媒体库中呈现图像。
 
-Example
+示例
 ```
 [image alt="My lovely image"]my-image.jpg[/image]
 ```
-This will render an image tag for the file `my-image.jpg` in the site's media folder.
+这将为站点媒体文件夹中的文件 `my-image.jpg` 渲染图像标记。
 
-The following parameters can be used:
+可以使用以下参数：
 
-- **alt:** Adds alternative text to your image for the benefit of readers who can't see the image and also good for SEO.
-- **class:** Adds an html class attribute to the image tag for styling.
-- **format:** Change the file format from the original file. Can be jpeg, png, gif or bmp.
-- **quality:** Sets the encoding quality to use for jpeg images. The higher the quality, the larger the file size will be. The value can be from 0 to 100 and defaults to 75.
-- **width, height:** The width and height can be set to resize the image. The possible values are limited to prevent malicious clients from creating too many variations of the same image. The values can be 16, 32, 50, 100, 160, 240, 480, 600, 1024, 2048.
-- **mode:** The resize mode controls how the image is resized.  
-   The options are:
-  - **pad:** Pads the resized image to fit the bounds of its container. If only one dimension is passed, the original aspect ratio will be maintained.
-  - **boxpad:** Pads the image to fit the bounds of the container without resizing the original source. When downscaling, performs the same functionality as pad.
-  - **max** (Default): Constrains the resized image to fit the bounds of its container maintaining the original aspect ratio.
-  - **min:** Resizes the image until the shortest side reaches the given dimension. Upscaling is disabled in this mode and the original image will be returned if attempted.
-  - **stretch:** Stretches the resized image to fit the bounds of its container.
-  - **crop:** Resizes the image using the same functionality as max then removes any image area falling outside the bounds of its container.
+- **alt：** 为无法看到图像的读者添加替代文本，并且对于 SEO 也很好。
+- **class：** 为图像标记添加 html class 属性以进行样式设置。
+- **format：** 更改文件格式以从原始文件开始。可以是 jpeg、png、gif 或 bmp。
+- **quality：** 设置用于 jpeg 图像的编码质量。质量越高，文件大小越大。该值可以从 0 到 100，并默认为 75。
+- **width、height：** 可以设置宽度和高度以调整图像大小。可能的值受到限制，以防止恶意客户端创建太多相同图像的变体。值可以是 16、32、50、100、160、240、480、600、1024、2048。
+- **mode：** 调整模式控制如何调整图像。  
+   选项为：
+  - **pad：** 将调整大小的图像填充到其容器的边界以适合。如果只传递一个维度，则将保持原始纵横比。
+  - **boxpad：** 将图像填充到容器的边界，而不调整原始源。当缩小时，执行与 pad 相同的功能。
+  - **max**（默认）：将调整大小的图像限制为适合其容器的边界，保持原始纵横比。
+  - **min：** 调整图像大小，直到最短边达到给定尺寸。在此模式下禁用放大，并且如果尝试，则将返回原始图像。
+  - **stretch：** 将调整大小的图像拉伸到适合其容器的边界。
+  - **crop：** 使用与 max 相同的功能调整图像大小，然后删除任何落在其容器边界之外的图像区域。
 
 ### `[asset_url]`
 
-The [asset_url] shortcode returns a relative url from the site's media library.
+[asset_url] 短代码从站点的媒体库返回相对 URL。
 
-Example
+示例
 ```
 [asset_url]my-image.jpg[/asset_url]
 ```
-This will return a relative url of `/my-tenant/media/my-image.jpg` for the file `my-image.jpg` in the site's media folder.
+这将返回文件 `my-image.jpg` 在站点媒体文件夹中的相对 URL `/my-tenant/media/my-image.jpg`。
 
-The following parameters can be used:
+可以使用以下参数：
 
-- **format:** Change the file format from the original file. Can be jpeg, png, gif or bmp.
-- **quality:** Sets the encoding quality to use for jpeg images. The higher the quality, the larger the file size will be. The value can be from 0 to 100 and defaults to 75.
-- **width, height:** The width and height can be set to resize the image. The possible values are limited to prevent malicious clients from creating too many variations of the same image. The values can be 16, 32, 50, 100, 160, 240, 480, 600, 1024, 2048.
-- **mode:** The resize mode controls how the image is resized.  
-   The options are:
-  - **pad:** Pads the resized image to fit the bounds of its container. If only one dimension is passed, the original aspect ratio will be maintained.
-  - **boxpad:** Pads the image to fit the bounds of the container without resizing the original source. When downscaling, performs the same functionality as pad.
-  - **max** (Default): Constrains the resized image to fit the bounds of its container maintaining the original aspect ratio.
-  - **min:** Resizes the image until the shortest side reaches the given dimension. Upscaling is disabled in this mode and the original image will be returned if attempted.
-  - **stretch:** Stretches the resized image to fit the bounds of its container.
-  - **crop:** Resizes the image using the same functionality as max then removes any image area falling outside the bounds of its container.
+- **format：** 更改文件格式以从原始文件开始。可以是 jpeg、png、gif 或 bmp。
+- **quality：** 设置用于 jpeg 图像的编码质量。质量越高，文件大小越大。该值可以从 0 到 100，并默认为 75。
+- **width、height：** 可以设置宽度和高度以调整图像大小。可能的值受到限制，以防止恶意客户端创建太多相同图像的变体。值可以是 16、32、50、100、160、240、480、600、1024、2048。
+- **mode：** 调整模式控制如何调整图像。  
+   选项为：
+  - **pad：** 将调整大小的图像填充到其容器的边界以适合。如果只传递一个维度，则将保持原始纵横比。
+  - **boxpad：** 将图像填充到容器的边界，而不调整原始源。当缩小时，执行与 pad 相同的功能。
+  - **max**（默认）：将调整大小的图像限制为适合其容器的边界，保持原始纵横比。
+  - **min：** 调整图像大小，直到最短边达到给定尺寸。在此模式下禁用放大，并且如果尝试，则将返回原始图像。
+  - **stretch：** 将调整大小的图像拉伸到适合其容器的边界。
+  - **crop：** 使用与 max 相同的功能调整图像大小，然后删除任何落在其容器边界之外的图像区域。
 
 ### `[locale]`
 
-The `locale` shortcode conditionally renders content in the specified language. Output is based on the current thread culture.
-This shortcode is only available when the `OrchardCore.Localization` module is enabled. 
+`locale` 短代码在指定的语言中有条件地呈现内容。输出基于当前线程文化。
 
-Example
+仅当启用了 `OrchardCore.Localization` 模块时，才可用此短代码。
+
+示例
 ```
 [locale en]English Text[/locale][locale fr]French Text[/locale]
 ```
 
-By default, the shortcode will render the content if the current locale is a parent of the specified language. 
-For example, if the current locale is `en-CA` and you specified this shortcode: `[locale en]English Text[/locale]` The output will be `English Text`.
-You can disable this behavior by passing `false` as the second argument of the shortcode. 
-`[locale en false]English Text[/locale]` would render nothing if the current culture is not exactly `en`.
+默认情况下，如果当前区域设置是指定语言的父级，则短代码将呈现内容。 
+例如，如果当前区域设置为 `en-CA`，并且您指定了此短代码：`[locale en]English Text[/locale]` 输出将为 `English Text`。
+您可以通过将短代码的第二个参数传递为 `false` 来禁用此行为。 
+`[locale en false]English Text[/locale]` 如果当前文化不是 `en`，则不会呈现任何内容。
 
-## Rendering Shortcodes
+## 渲染短代码
 
-Shortcodes are automatically rendered when using a `Shape` produced by a display driver that supports Shortcodes.
+当使用支持短代码的显示驱动程序生成的 `Shape` 时，会自动呈现短代码。
 
 - `HtmlBodyPart`
 - `HtmlField`
@@ -213,7 +214,7 @@ Shortcodes are automatically rendered when using a `Shape` produced by a display
     @await DisplayAsync(Model.Content.HtmlBodyPart)
     ```
 
-Shortcodes can also be rendered via a liquid filter or html helper
+短代码也可以通过Liquid过滤器或 html 帮助程序呈现
 
 === "Liquid"
 
@@ -227,7 +228,7 @@ Shortcodes can also be rendered via a liquid filter or html helper
     @Html.Raw(@await Orchard.ShortcodesToHtmlAsync((string)Model.ContentItem.Content.RawHtml.Content.Html))
     ```
 
-## Videos
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/hsTJSIxUmZo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 

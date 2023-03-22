@@ -1,41 +1,24 @@
-# Integrate Facebook Social Plugins
+# 集成 Facebook 社交插件
 
-In order to integrate Social plugins from Facebook, you must enable and configure The `OrchardCore.Facebook.Widgets` module. You can learn more about [here](../../reference/modules/Facebook/README.md)
+要集成 Facebook 的社交插件，必须启用和配置 `OrchardCore.Facebook.Widgets` 模块。您可以在 [此处](../../reference/modules/Facebook/README.md) 了解更多信息。
 
-## What you will build
+## 您将构建什么
 
-You will build a Blog and give the ability to your readers to share quotes using the [Quote Plugin](https://developers.facebook.com/docs/plugins/quote).
+您将构建一个博客，并让您的读者能够使用 [引用插件](https://developers.facebook.com/docs/plugins/quote) 分享引用。
 
-## What you will need
+## 您需要什么
 
-Follow the guide to [create a new Orchard Core CMS website](../../guides/create-cms-application/README.md)
+按照指南来 [创建一个新的 Orchard Core CMS 网站](../../guides/create-cms-application/README.md)
 
-## Login to admin and enable Facebook Social Plugins Widgets Feature
+## 登录管理面板并启用 Facebook 社交插件小部件功能
 
-Navigate to <https://localhost:5001/admin> and enable the Facebook Social Plugins Widgets.
+导航至 <https://localhost:5001/admin> 并启用 Facebook 社交插件小部件功能。
 
 ![image](assets/enable-facebook-widgets.jpg)
 
-Create a new application at <https://developers.facebook.com/apps/> and copy the appid and app secret to <https://localhost:5001/Admin/Settings/OrchardCore.Facebook>
+在 <https://developers.facebook.com/apps/> 上创建一个新的应用，并将应用程序 ID 和应用程序密钥复制到 <https://localhost:5001/Admin/Settings/OrchardCore.Facebook>。
+在页面底部添加Facebook引用小部件。在Orchard Core的管理界面“层”（Layers）中添加“Facebook引用”部件，并发布。然后在博客文章页面上，通过选择文章的标题，即可将其作为Facebook引用内容分享。
+你刚刚将“Facebook 引用”社交插件集成到你的博客！
 
-![image](assets/update-facebook-settings.jpg)
 
-## Add the Facebook Quote widget to Footer Layer
-
-Navigate to <https://localhost:5001/OrchardCore.Layers/Admin/Index>. At the Footer Zone Press Add Widget and Select `Facebook Quote` from the list.
-
-![image](assets/add-fb-widget.jpg)
-
-Give a title and publish the widget.
-
-![image](assets/configure-fb-widget.jpg)
-
-## Check the result
-
-Navigate to a blog post eg. <https://localhost:5001/blog/post-1> and select the title. Now you can share is as a Quote.
-
-![image](assets/share-post-1-title.jpg)
-
-## Summary
-
-You just integrated the "Facebook Quote" Social Plugin to your Blog!
+> 该文档由Chat-GPT 翻译

@@ -1,7 +1,9 @@
-# Publish Later (`OrchardCore.PublishLater`)
+# 发布后 (`OrchardCore.PublishLater`)
 
-Adds the ability to schedule content items to be published at a given future date and time. Attach the Publish Later Part to any content type where you want the feature to be available.
+添加了在给定的未来日期和时间发布内容项的功能。将“发布后”部分附加到要使用该功能的任何内容类型。
 
-## Video
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/E7UH8R14EUA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+> 该文档由ChatGPT 4 翻译

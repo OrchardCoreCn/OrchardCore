@@ -1,39 +1,41 @@
-# Roles (`OrchardCore.Roles`)
+# 角色 (`OrchardCore.Roles`)
 
-Enabling the `OrchardCore.Roles` module will allow you to manage the user roles.
+启用 `OrchardCore.Roles` 模块将允许您管理用户角色。
 
-## Predefined Roles
+## 预定义角色
 
-Orchard Core come up with the following predefined permission stereotypes:
+Orchard Core 提供了以下预定义的权限原型：
 
-| Name | Description |
+| 名称 | 描述 |
 | --- | --- |
-| `Administrator` | Contains all the administrator users. |
-| `Anonymous` | Contains all the non authenticated users. |
-| `Authenticated` | Contains all the authenticated users. |
-| `Author` | Contains all the users who have the ability to author contents. |
-| `Contributor` | Contains all the users who have the ability to contribute to the contents. |
-| `Editor` | Contains all the users who have the ability to edit the contents. |
-| `Moderator` | Contains all the users who have the ability to moderate the contents. |
+| `Administrator` | 包含所有管理员用户。 |
+| `Anonymous` | 包含所有未经身份验证的用户。 |
+| `Authenticated` | 包含所有经过身份验证的用户。 |
+| `Author` | 包含所有具有编写内容能力的用户。 |
+| `Contributor` | 包含所有具有对内容进行贡献的能力的用户。 |
+| `Editor` | 包含所有具有编辑内容能力的用户。 |
+| `Moderator` | 包含所有具有审核内容能力的用户。 |
 
-## Roles Configuration
+## 角色配置
 
-Roles can be created and configured through the roles menu in the admin dashboard, but also through a recipe step. Note that roles for features are not predefined. They are created out of predefined permission stereotypes.
+角色可以通过管理仪表板中的角色菜单创建和配置，也可以通过配方步骤创建。请注意，功能的角色未预定义。它们是从预定义的权限原型创建的。
 
-A sample of a roles configuration step:
+角色配置步骤示例：
 
 ```json
 {
     "name": "roles",
     "Roles": [
         {
-            "Name": "Journalist",
+            "Name": "记者",
             "Permissions": [ "PublishContent", "EditContent" ]
         },
         {
-            "Name": "Subscriber",
+            "Name": "订阅者",
             "Permissions": [ ]
         },
     ]
 }
 ```
+
+> 该文档由ChatGPT 4 翻译

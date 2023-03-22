@@ -1,66 +1,64 @@
-# Navigation (`OrchardCore.Navigation`)
+# 导航 (`OrchardCore.Navigation`)
 
-## Purpose
+## 目的
 
-Provides the `Navigation`, `Pager` and `PagerSlim` shapes.
+提供 `Navigation`、`Pager` 和 `PagerSlim` 形状。
 
-## Theming
+## 主题
 
-Navigation can be themed by adding the appropriate partial view files to your theme's views folder.
-A good example can be found in the [`TheAdmin` theme project](https://github.com/OrchardCMS/OrchardCore/tree/dev/src/OrchardCore.Themes/TheAdmin).
+可以通过将适当的局部视图文件添加到主题的视图文件夹来为导航设置主题。
+[`TheAdmin` 主题项目](https://github.com/OrchardCMS/OrchardCore/tree/dev/src/OrchardCore.Themes/TheAdmin)提供了一个很好的示例。
 
-That theme creates the standard, vertical navigation menu that is found on the admin dashboard of any OrchardCore application.
-The `TheAdmin` theme provides the following alternates to the default ones provided in the `Navigation` module:  
+该主题创建了标准的垂直导航菜单，该菜单可以在任何 OrchardCore 应用程序的管理仪表板上找到。
+`TheAdmin` 主题提供了以下替代默认提供的 `Navigation` 模块的选项：
 
-- `Navigation-admin.cshtml`  
-- `NavigationItem-admin.cshtml`  
-- `NavigationItemLink-admin.cshtml`  
+- `Navigation-admin.cshtml`
+- `NavigationItem-admin.cshtml`
+- `NavigationItemLink-admin.cshtml`
 
-The theme developer has full control over how and where navigation is displayed in their OrchardCore application.
+主题开发人员可以完全控制导航在其 OrchardCore 应用程序中的显示位置和方式。
 
 ### Pager
 
-This is a multi-purpose pagination component that renders links to specific page numbers.
-It can optionally render _First_ and _Last_ links.
+这是一个多用途的分页组件，用于呈现到特定页面编号的链接。
+它可以选择性地呈现“第一个”和“最后一个”链接。
 
-| Parameter | Type | Description |
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Page` | `int` | Active page number. |
-| `PageSize` | `int` | Number of items per page. |
-| `TotalItemCount` | `double` | Total number of items (used to calculate the number of the last page). |
-| `Quantity` | `int?` | Number of pages to show, 7 if not specified. |
-| `FirstText` | `object` | Text of the "First" link, default: `S["<<"]` .|
-| `PreviousText` | `object` | Text of the "Previous" link, default: `S["<"]`. |
-| `NextText` | `object` | Text of the "Next" link, default: `S[">"]` .|
-| `LastText` | `object` | Text of the "Last" link, default: `S[">>"]`. |
-| `GapText` | `object` | Text of the "Gap" element, default: `S["..."]`. |
-| `PagerId` | `string` | An identifier for the pager. Used to create alternate like `Pager__[PagerId]`. |
-| `ShowNext` | `bool` | If true, the "Next" link is always displayed. |
+| `Page` | `int` | 活动页面编号。 |
+| `PageSize` | `int` | 每页的项目数。 |
+| `TotalItemCount` | `double` | 项目的总数（用于计算最后一页的编号）。 |
+| `Quantity` | `int?` | 要显示的页面数，如果未指定，则为 7。 |
+| `FirstText` | `object` | “第一个”链接的文本，默认值：`S["<<"]`。|
+| `PreviousText` | `object` | “上一页”链接的文本，默认值：`S["<"]`。 |
+| `NextText` | `object` | “下一页”链接的文本，默认值：`S[">"]`。|
+| `LastText` | `object` | “最后一页”链接的文本，默认值：`S[">>"]`。 |
+| `GapText` | `object` | “间隔”元素的文本，默认值：`S["..."]`。 |
+| `PagerId` | `string` | 分页器的标识符。用于创建类似 `Pager__[PagerId]` 的替代。 |
+| `ShowNext` | `bool` | 如果为 true，则始终显示“下一页”链接。 |
 
-Properties inherited from the `List` shape:
+从 `List` 形状继承的属性：
 
-| Parameter | Type | Description |
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `ItemTagName` | `string` | The HTML tag used for the pages, default: `li`. |
-| `ItemClasses` | `List<string>` | Classes that are assigned to the pages, default: _none_. |
-| `ItemAttributes` | `Dictionary<string, string>` | Attributes that are assigned to the pages. |
-| `FirstClass` | `string` | The HTML class used for the first page, default: `first`. |
-| `LastClass` | `string` | The HTML tag used for last page, default: `last`. |
+| `ItemTagName` | `string` | 用于页面的 HTML 标记，默认值：`li`。 |
+| `ItemClasses` | `List<string>` | 分配给页面的类，默认值：_none_。 |
+| `ItemAttributes` | `Dictionary<string, string>` | 分配给页面的属性。 |
+| `FirstClass` | `string` | 用于第一页的 HTML 类，默认值：`first`。 |
+| `LastClass` | `string` | 用于最后一页的 HTML 标记，默认值：`last`。 |
 
-Properties inherited from the base Shape class:
+从基本 Shape 类继承的属性：
 
-| Parameter | Type | Description |
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Id` | `string` | The HTML id used for the pager, default: _none_. |
-| `TagName` | `string` | The HTML tag used for the pager, default: `ul`. |
-| `Attributes` | `Dictionary<string, string>` | Attributes that are assigned to the main container. |
-| `Classes` | `Dictionary<string, string>` | CSS classes to add to the main Tag element. |
+| `Id` | `string` | 用于分页器的 HTML id，默认值：_none_。 |
+| `TagName` | `string` | 用于分页器的 HTML 标记，默认值：`ul`。 |
+| `Attributes` | `Dictionary<string, string>` | 分配给主容器的属性。 |
+| `Classes` | `Dictionary<string, string>` | 要添加到主 Tag 元素的 CSS 类。 |
 
-The `PagerId` property is used to create templates for specific instances. For instance, assigning
-the value `MainBlog` to `PagerId` and then rendering the pager will look for a template named 
-`Pager-MainBlog.cshtml`.
+`PagerId` 属性用于为特定实例创建模板。例如，将值 `MainBlog` 分配给 `PagerId`，然后呈现分页器将查找名为 `Pager-MainBlog.cshtml` 的模板。
 
-A pager can be further customized by defining templates for the following shapes:
+可以通过为以下形状定义模板来进一步自定义分页器：
 
 - `Pager_Gap`
 - `Pager_First`
@@ -69,47 +67,46 @@ A pager can be further customized by defining templates for the following shapes
 - `Pager_Last`
 - `Pager_CurrentPage`
 
-Each of these shapes are ultimately morphed into `Pager_Link`.
-Alternates for each of these shapes are created using the `PagerId` like `Pager_Previous__[PagerId]` which
-would in turn look for the template `Pager-MainBlog.Previous.cshtml`.
+这些形状中的每一个最终都会变形为 `Pager_Link`。
+每个这些形状的替代品都使用 `PagerId` 创建，例如 `Pager_Previous__[PagerId]`，它将依次查找模板 `Pager-MainBlog.Previous.cshtml`。
 
 ### `PagerSlim`
 
-This shape renders a pager that is comprised of two links: _Previous_ and _Next_.
+此形状呈现由两个链接组成的分页器：_Previous_ 和 _Next_。
 
-| Parameter | Type | Description |
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `PreviousClass` | `string` | The HTML class used for the _Previous_ link, default: _none_. |
-| `NextClass` | `string` | The HTML class used for the _Next_ link, default: _none_. |
-| `PreviousText` | `object` | Text of the "Previous" link, default: `S["<"]`. |
-| `NextText` | `object` | Text of the "Next" link, default: `S[">"]`. |
-| `UrlParams` | `Dictionary<string, string>` | QueryString params to pass to the pager. Parameter name and value in that order |
+| `PreviousClass` | `string` | 用于“上一页”链接的 HTML 类，默认值：_none_。 |
+| `NextClass` | `string` | 用于“下一页”链接的 HTML 类，默认值：_none_。 |
+| `PreviousText` | `object` | “上一页”链接的文本，默认值：`S["<"]`。 |
+| `NextText` | `object` | “下一页”链接的文本，默认值：`S[">"]`。 |
+| `UrlParams` | `Dictionary<string, string>` | 要传递给分页器的查询字符串参数。参数名称和值按顺序排列 |
 
-Properties inherited from the `List` shape:
+从 `List` 形状继承的属性：
 
-| Parameter | Type | Description |
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `ItemTagName` | `string` | The HTML tag used for the pages, default: `li`. |
-| `ItemClasses` | `List<string>` | Classes that are assigned to the pages, default: _none_. |
-| `ItemAttributes` | `Dictionary<string, string>` | Attributes that are assigned to the pages. |
-| `FirstClass` | `string` | The HTML class used for the first page, default: `first`. |
-| `LastClass` | `string` | The HTML tag used for last page, default: `last`. |
+| `ItemTagName` | `string` | 用于页面的 HTML 标记，默认值：`li`。 |
+| `ItemClasses` | `List<string>` | 分配给页面的类，默认值：_none_。 |
+| `ItemAttributes` | `Dictionary<string, string>` | 分配给页面的属性。 |
+| `FirstClass` | `string` | 用于第一页的 HTML 类，默认值：`first`。 |
+| `LastClass` | `string` | 用于最后一页的 HTML 标记，默认值：`last`。 |
 
-Properties inherited from the base Shape class:
+从基本 Shape 类继承的属性：
 
-| Parameter | Type | Description |
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Id` | `string` | The HTML id used for the pager, default: _none_. |
-| `TagName` | `string` | The HTML tag used for the pager, default: `ul`. |
-| `Attributes` | `Dictionary<string, string>` | Attributes that are assigned to the main container. |
-| `Classes` | `Dictionary<string, string>` | CSS classes to add to the main Tag element. |
+| `Id` | `string` | 用于分页器的 HTML id，默认值：_none_。 |
+| `TagName` | `string` | 用于分页器的 HTML 标记，默认值：`ul`。 |
+| `Attributes` | `Dictionary<string, string>` | 分配给主容器的属性。 |
+| `Classes` | `Dictionary<string, string>` | 要添加到主 Tag 元素的 CSS 类。 |
 
-A slim pager can be further customized by defining templates for the following shapes:
+可以通过为以下形状定义模板来进一步自定义紧凑型分页器：
 
 - `Pager_Previous`
 - `Pager_Next`
 
-Examples of Liquid alternates or templates for `Pager_Next` and `Pager_Previous`:
+`Pager_Next` 和 `Pager_Previous` 的 Liquid 替代品或模板示例：
 
 ```liquid
 {% shape_clear_alternates Model %}
@@ -118,13 +115,12 @@ Examples of Liquid alternates or templates for `Pager_Next` and `Pager_Previous`
 {{ Model | shape_render }}
 ```
 
-Each of these shapes are ultimately morphed into `Pager_Link`.
-Alternates for each of these shapes are created using the `PagerId` like `Pager_Previous` `[PagerId]` which
-would in turn look for the template `Pager-MainBlog.Previous.cshtml`.
+这些形状中的每一个最终都会变形为 `Pager_Link`。
+每个这些形状的替代品都使用 `PagerId` 创建，例如 `Pager_Previous` `[PagerId]`，它将依次查找模板 `Pager-MainBlog.Previous.cshtml`。
 
 ## SEO
 
-In order to block search engines from crawling all your pagers links, it is possible to override the Pager anchors "rel" attributes with "no-follow". To achieve this, you can simply do this: 
+为了阻止搜索引擎爬取所有分页器链接，可以使用“no-follow”覆盖分页器锚点的“rel”属性。为此，您可以简单地执行以下操作：
 
 === "Liquid"
 
@@ -139,11 +135,11 @@ In order to block search engines from crawling all your pagers links, it is poss
     @await DisplayAsync(Model.Pager)
     ```
 
-## Extending Navigation
+## 扩展导航
 
-Navigation can be extended, through code, by implementing `INavigationProvider` and registering it in the extending module (or theme) `Startup.cs` file.
+可以通过实现 `INavigationProvider` 并在扩展模块（或主题）的 `Startup.cs` 文件中注册它来扩展导航。
 
-Below is a sample implementation of an `INavigationProvider` used to extend the "main" navigation section of the site.
+以下是用于扩展站点“主”导航部分的 `INavigationProvider` 的示例实现。
 
 ```csharp
 public class MainMenu : INavigationProvider
@@ -157,7 +153,7 @@ public class MainMenu : INavigationProvider
 
         public async Task BuildNavigation(string name, NavigationBuilder builder)
         {
-            //Only interact with the "main" navigation menu here.
+            //仅在此处与“main”导航菜单交互。
             if (!String.Equals(name, "main", StringComparison.OrdinalIgnoreCase))
             {
                 return;
@@ -172,17 +168,17 @@ public class MainMenu : INavigationProvider
     }
 ```  
 
-This provider will be called as long as the site is using a theme that includes a line similar to the following, which causes the navigation menu to be rendered by your theme at the location specified:
+只要站点使用包含类似于以下行的主题，该提供程序就会被调用，该行导致导航菜单在您的主题中的位置呈现：
 `@await DisplayAsync(await New.Navigation(MenuName: "main", RouteData: @ViewContext.RouteData))`
 
-Examples of extending the admin navigation can be found in various OrchardCore modules. Searching the repository for `AdminMenu` will locate various settings. Below is a partial list:
+在各种 OrchardCore 模块中可以找到扩展管理导航的示例。在 OrchardCore git 存储库中搜索 `AdminMenu` 将定位各种设置。以下是部分列表：
 
 - `OrchardCore.Modules/OrchardCore.Admin/AdminFilter.cs`
 - `OrchardCore.Modules/OrchardCore.Media/AdminMenu.cs`
 
-At this time, the Admin Menu is the only navigation with code dynamically adding items in the OrchardCore git repository. However, as the example above shows, the pattern can be used to control any named navigation.
+目前，管理菜单是唯一在 OrchardCore git 存储库中动态添加项目的导航。但是，如上面的示例所示，该模式可用于控制任何命名的导航。
 
-## Pager Code examples
+## 分页器代码示例
 
 === "Liquid"
 
@@ -224,3 +220,4 @@ At this time, the Admin Menu is the only navigation with code dynamically adding
         return View(viewModel);
     }
     ```
+> 该文档由ChatGPT 4 翻译

@@ -1,10 +1,11 @@
-# Auto Setup (`OrchardCore.AutoSetup`)
+# 自动设置 (`OrchardCore.AutoSetup`)
 
-The auto-setup module allows to automatically install the application/tenants on the first request.
+自动设置模块允许在第一次请求时自动安装应用程序/租户。
 
-## JSON Configuration Parameters
+## JSON 配置参数
 
-Auto-Setup parameters are defined in appsettings.json. Example excerpt:
+自动设置参数在 appsettings.json 中定义。示例摘录：
+
 ```json
 "OrchardCore": {
     "OrchardCore_AutoSetup": {
@@ -42,36 +43,36 @@ Auto-Setup parameters are defined in appsettings.json. Example excerpt:
 }
 ```
 
-| Parameter | Description |
+| 参数 | 描述 |
 | --- | --- |
-| `AutoSetupPath` | The URL To Trigger AutoSetup For Each Tenant. If empty, auto-setup will be triggered on first tenant request e.g: /, /tenant-prefix |
-| `Tenants` | The list of the tenants to install. |
+| `AutoSetupPath` | 触发每个租户的自动设置的 URL。如果为空，则会在第一个租户请求时触发自动设置，例如： /，/tenant-prefix |
+| `Tenants` | 要安装的租户列表。 |
 
-| Parameter | Description |
+| 参数 | 描述 |
 | --- | --- |
-| `ShellName` | The technical shell / tenant name. It can not be empty and must contain characters only. Use "Default" for the default tenant. |
-| `SiteName` | The name of the site. |
-| `AdminUsername` | The tenant username of the super user. |
-| `AdminEmail` | The email of the tenant super user. |
-| `AdminPassword` | The password of the tenant super user. |
-| `DatabaseProvider` | The database provider. |
-| `DatabaseConnectionString` | The connection string. |
-| `DatabaseTablePrefix` | The database table prefix. Can be used to install a tenant on the same database. |
-| `RecipeName` | The tenant installation Recipe name. |
-| `RequestUrlHost` | The tenant host url. |
-| `RequestUrlPrefix` | The tenant url prefix. |
-| `FeatureProfile` | Optionally, the name of the feature profile used by default. Only applicable if the "Feature Profiles" feature is used. See the [documentation of the Tenants module](../Tenants/README.md#feature-profiles) for details. |
+| `ShellName` | 技术 shell/租户名称。它不能为空，且必须仅包含字符。对于默认租户，请使用“Default”。 |
+| `SiteName` | 站点名称。 |
+| `AdminUsername` | 超级用户的租户用户名。 |
+| `AdminEmail` | 租户超级用户的电子邮件。 |
+| `AdminPassword` | 租户超级用户的密码。 |
+| `DatabaseProvider` | 数据库提供程序。 |
+| `DatabaseConnectionString` | 连接字符串。 |
+| `DatabaseTablePrefix` | 数据库表前缀。可用于在同一数据库上安装租户。 |
+| `RecipeName` | 租户安装配方名称。 |
+| `RequestUrlHost` | 租户主机 URL。 |
+| `RequestUrlPrefix` | 租户 URL 前缀。 |
+| `FeatureProfile` | 可选地，用于默认情况下使用的功能配置文件的名称。仅适用于使用“功能配置文件”功能。有关详细信息，请参阅租户模块的[文档](../Tenants/README.md#feature-profiles)。 |
 
-!!! note
-    Tenants array must contain the root tenant with `ShellName` equals to `Default`.  
-    Each tenant will be installed on demand (on the first tenant request).  
-    If AutoSetupPath is provided, it must be used to trigger the installation for each tenant e.g:
-    `/autosetup` - trigger installation of the Root tenant.
-    `/mytenant/autosetup` - auto-install mytenant.
+!!! 注意
+    租户数组必须包含 `ShellName` 等于 `Default` 的根租户。  
+    每个租户都将按需安装（在第一个租户请求时）。  
+    如果提供了 AutoSetupPath，则必须使用它来触发每个租户的安装，例如：
+    `/autosetup` - 触发根租户的安装。
+    `/mytenant/autosetup` - 自动安装 mytenant。
 
-### Environment Variables
+### 环境变量
 
-Since JSON configuration contains admin-sensitive information, it is recommended to use environment variables instead.
+由于 JSON 配置包含敏感信息，建议改用环境变量。
 
 ```
 "OrchardCore__OrchardCore_AutoSetup__AutoSetupPath": ""
@@ -101,16 +102,16 @@ Since JSON configuration contains admin-sensitive information, it is recommended
 "OrchardCore__OrchardCore_AutoSetup__Tenants__1__RequestUrlPrefix": "tenant"
 ```
 
-For testing purposes, you may add the above environment variables into a "web" profile in the launchSettings.json file of the OrchardCore.Cms.Web project.  
-Then, start the web app project with the following command:
+为了测试目的，您可以将上述环境变量添加到 OrchardCore.Cms.Web 项目的 launchSettings.json 文件中的“web”配置文件中。  
+然后，使用以下命令启动 Web 应用程序项目：
 
 ```
 dotnet run --launch-profile web
 ```
 
-## Enabling Auto Setup Feature
+## 启用自动设置功能
 
-To enable the Auto Setup feature, it is necessary to add it in the Web project's Startup file:
+要启用自动设置功能，必须在 Web 项目的 Startup 文件中添加它：
 
 ```csharp
     public void ConfigureServices(IServiceCollection services)
@@ -121,15 +122,13 @@ To enable the Auto Setup feature, it is necessary to add it in the Web project's
     }
 ```
 
-This feature is enabled by default in the default project included in the source code, but
-is not with the application templates to prevent any unexpected behavior when a custom project
-is created.
+此功能在源代码中包含的默认项目中默认启用，但是在创建自定义项目时不会使用应用程序模板，以防止出现任何意外行为。
 
-## Using Distributed Lock For Auto Setup
+## 使用分布式锁进行自动设置
 
-If multiple OrchardCore instances sharing the same database are launched, you might need a distributed lock for an atomic auto setup.
-![Use case](./assets/lock-use-case.png)
-You should enable the Redis Lock feature in the startup file.
+如果启动了共享同一数据库的多个 OrchardCore 实例，则可能需要分布式锁来进行原子自动设置。
+![用例](./assets/lock-use-case.png)
+您应该在启动文件中启用 Redis Lock 功能。
 
 ```csharp
     public void ConfigureServices(IServiceCollection services)
@@ -139,27 +138,28 @@ You should enable the Redis Lock feature in the startup file.
             .AddSetupFeatures("OrchardCore.Redis.Lock", "OrchardCore.AutoSetup");
     }
 ```
-Make sure you set the Redis configuration string via an environment variable or a configuration file.
+确保通过环境变量或配置文件设置 Redis 配置字符串。
 
 ```
 "OrchardCore__OrchardCore_Redis__Configuration": "192.168.99.100:6379,allowAdmin=true"
 ```
 
-Optional Distributed Lock Parameters.
+可选的分布式锁参数。
 
-| Parameter | Description | Default Value |
+| 参数 | 描述 | 默认值 |
 | --- | --- |
-| `LockTimeout` | The timeout in milliseconds to acquire a distributed auto setup lock. | 60 seconds |
-| `LockExpiration` | The expiration in milliseconds of the distributed setup lock. | 60 seconds |
+| `LockTimeout` | 获取分布式自动设置锁的超时时间（以毫秒为单位）。 | 60 秒 |
+| `LockExpiration` | 分布式设置锁的过期时间（以毫秒为单位）。 | 60 秒 |
 
-Lock configuration parameters are optional and can be set via environment variables or a configuration file.
+锁定配置参数是可选的，可以通过环境变量或配置文件设置。
 
 ```
 "OrchardCore__OrchardCore_AutoSetup__LockOptions__LockTimeout": "10000"
 "OrchardCore__OrchardCore_AutoSetup__LockOptions__LockExpiration": "10000"
 ```
 
-## Additional information
-Please refer to separate sections for additional information on setup:
+## 其他信息
+有关设置的其他信息，请参阅单独的部分：
 
-- [OrchardCore.Setup - setting up an empty site](../Setup/README.md)
+- [OrchardCore.Setup - 设置空站点](../Setup/README.md)
+> 该文档由ChatGPT 4 翻译

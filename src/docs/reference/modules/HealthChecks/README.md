@@ -1,11 +1,13 @@
-# Health Check (`OrchardCore.HealthChecks`)
+# 健康检查 (`OrchardCore.HealthChecks`)
 
-This module enables the health checks feature from ASP.NET Core.
+该模块启用了ASP.NET Core的健康检查功能。
 
-## Health check endpoint
+## 健康检查端点
 
-The health check endpoint is available at `/health/live` for each  tenant that needs to be checked.
+健康检查端点在需要检查的每个租户的`/health/live`可用。
 
-## Extending health checks
+## 扩展健康检查
 
-More information about health checks in ASP.NET Core can be found here: <https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks>
+有关ASP.NET Core中健康检查的更多信息，请参见此处：<https://docs.microsoft.com/zh-cn/aspnet/core/host-and-deploy/health-checks>
+
+> 该文档由ChatGPT 4 翻译

@@ -1,137 +1,137 @@
-# Scripting (`OrchardCore.Scripting`)
+# 脚本 (`OrchardCore.Scripting`)
 
-## Purpose
+## 目的
 
-The scripting module provides an API allowing you to evaluate custom scripts in different languages.
+脚本模块提供了一个API，允许您在不同的语言中评估自定义脚本。
 
-## Usage
+## 用法
 
-### Executing some script
+### 执行一些脚本
 
-The main interface is [IScriptingManager](https://github.com/OrchardCMS/OrchardCore/blob/main/src/OrchardCore/OrchardCore.Infrastructure.Abstractions/Scripting/IScriptingManager.cs)
+主要接口是 [IScriptingManager](https://github.com/OrchardCMS/OrchardCore/blob/main/src/OrchardCore/OrchardCore.Infrastructure.Abstractions/Scripting/IScriptingManager.cs)
 
-To evaluate an expression using a scripting engine, you must know which ones are available in the system.  
-For instance, a JavaScript one is available by default and its prefix is `js`.  
-To return the current date and time as an object we could do something like this:
+要使用脚本引擎评估表达式，必须知道系统中可用的引擎。  
+例如，默认情况下提供了JavaScript引擎，其前缀为`js`。  
+要将当前日期和时间作为对象返回，我们可以这样做：
 
 ```csharp
 var scriptingManager = serviceProvider.GetService<IScriptingManager>();
 
-// Find the javascript engine by its prefix
+// 通过前缀查找javascript引擎
 var engine = scriptingManager.GetScriptingEngine("js");
 
-// Find all global methods in the system. Here you could add more methods to the scope as needed
+// 查找系统中的所有全局方法。在此，您可以根据需要向范围添加更多方法
 var globalMethods = _scriptingManager.GlobalMethodProviders.SelectMany(x => x.GetMethods());
 
-// Create scope for the engine
+// 为引擎创建范围
 var scope = engine.CreateScope(globalMethods, serviceProvider, null, null);
 
-// Evaluate the given script
+// 评估给定的脚本
 var date = engine.Evaluate("js: new Date().toISOString()");
 ```
 
-The `js:` prefix is used to describe in which language the code is written. Any module can provide
-a new scripting engine by implementing the `IScriptingEngine` interface.
+`js:`前缀用于描述代码所编写的语言。任何模块都可以提供
+通过实现`IScriptingEngine`接口来提供新的脚本引擎。
 
-### Customizing the scripting environment
+### 自定义脚本环境
 
-Any module can provide custom methods for scripts independently of the chosen language.  
-For instance the `Contents` module provides a `uuid()` helper method that computes a unique content item identifier.
+任何模块都可以独立于所选语言提供自定义脚本方法。  
+例如，`Contents`模块提供了一个`uuid()`辅助方法，用于计算唯一的内容项标识符。
 
-To create a global method, implement the `IGlobalMethodProvider`. Then, add it to the current `IScriptingManager` instance by registering it as a singleton in your Module's `Startup`
+要创建全局方法，请实现`IGlobalMethodProvider`。然后，通过在模块的`Startup`中将其注册为单例，将其添加到当前的`IScriptingManager`实例中
 
 ```csharp
  services.AddSingleton<IGlobalMethodProvider, MyGlobalMethodProvider>();
 ```
 
-## File
+## 文件
 
-The File scripting engine provides methods to read file contents.
+文件脚本引擎提供了读取文件内容的方法。
 
-| Name | Example | Description |
+| 名称 | 示例 | 描述 |
 | ---- | ---- | -------- |
-| `text` | `file:text('../wwwroot/template.html')` | Returns the content of a text file. |
-| `base64` | `file:base64('../wwwroot/image.jpg')` | Returns the base64 encoded content of a file. |
+| `text` | `file:text('../wwwroot/template.html')` | 返回文本文件的内容。 |
+| `base64` | `file:base64('../wwwroot/image.jpg')` | 返回文件的Base64编码内容。 |
 
 
 ## JavaScript `OrchardCore.Scripting.JavaScript`
 
-The JavaScript scripting module implements a `IScriptingEngine` that uses [Esprima.NET](https://github.com/sebastienros/esprima-dotnet) to evaluate scripts.
+JavaScript脚本模块实现了一个`IScriptingEngine`，它使用[Esprima.NET](https://github.com/sebastienros/esprima-dotnet)来评估脚本。
 
-### Methods
+### 方法
 
-Here is a list of javascript methods provided by Orchard Modules.
+以下是Orchard模块提供的JavaScript方法列表。
 
-#### Generic functions
+#### 通用函数
 
-| Function | Description 
+| 函数 | 描述 
 | -------- | ----------- |
-| `log(level: String, text: String, param: Object): void` | Formats and writes a log message at the specified log level. |
-| `uuid(): String` | Generates a unique identifier for a content item. |
-| `base64(String): String` | Decodes the specified string from Base64 encoding. Use https://www.base64-image.de/ to convert your files to base64. |
-| `html(String): String` | Decodes the specified string from HTML encoding. |
-| `gzip(String): String` | Decodes the specified string from gzip/base64 encoding. Use http://www.txtwizard.net/compression to gzip your strings. |
+| `log(level: String, text: String, param: Object): void` | 格式化并写入指定日志级别的日志消息。 |
+| `uuid(): String` | 为内容项生成唯一标识符。 |
+| `base64(String): String` | 解码指定的Base64编码字符串。使用https://www.base64-image.de/将文件转换为base64。 |
+| `html(String): String` | 解码指定的HTML编码字符串。 |
+| `gzip(String): String` | 从gzip / base64编码中解码指定的字符串。使用http://www.txtwizard.net/compression对字符串进行gzip。 |
 
-#### Content (`OrchardCore.Contents`)
+#### 内容 (`OrchardCore.Contents`)
 
-| Function | Description 
+| 函数 | 描述 
 | -------- | ----------- |
-| `newContentItem(contentTypeName: String): IContent`| Creates a new instance of a ContentType (does not persist)|
-| `createContentItem(contentTypeName: String, publish: Boolean, properties: Object): IContent`| Creates and persists a new ContentItem. Conditionally publishes it. |
-| `updateContentItem(contentItem: IContent, properties: Object)`| Updates an existing content item with the properties |
-| `deleteContentItem(contentItem: IContent)`| Deletes an existing content item |
-| `getUrlPrefix(path: String): String `| Prefixes the path with the Tenant prefix (if specified) |
+| `newContentItem(contentTypeName: String): IContent`| 创建ContentType的新实例（不持久化）|
+| `createContentItem(contentTypeName: String, publish: Boolean, properties: Object): IContent`| 创建并持久化新的ContentItem。有条件地发布它。 |
+| `updateContentItem(contentItem: IContent, properties: Object)`| 使用属性更新现有内容项 |
+| `deleteContentItem(contentItem: IContent)`| 删除现有内容项 |
+| `getUrlPrefix(path: String): String `| 使用租户前缀（如果指定）为路径添加前缀 |
 
-#### Layers (`OrchardCore.Layers`)
+#### 层 (`OrchardCore.Layers`)
 
-| Function | Description 
+| 函数 | 描述 
 | -------- | ----------- |
-| `isHomepage(): Boolean` | Returns true if the current request Url is the current homepage |
-| `isAnonymous(): Boolean` | Returns true if there is no authenticated user on the current request |
-| `isAuthenticated(): Boolean` | Returns true if there is an authenticated user on the current request |
-| `url(url: String): Boolean` | Returns true if the current url matches the provided url. Add a `*` to the end of the url parameter to match any url that start with  |
-| `culture(name: String): Boolean` | Returns true if the current culture name or the current culture's parent name matches the `name` argument |
+| `isHomepage(): Boolean` | 如果当前请求URL是当前主页，则返回true |
+| `isAnonymous(): Boolean` | 如果当前请求中没有经过身份验证的用户，则返回true |
+| `isAuthenticated(): Boolean` | 如果当前请求中有经过身份验证的用户，则返回true |
+| `url(url: String): Boolean` | 如果当前URL与提供的URL匹配，则返回true。在url参数末尾添加`*`以匹配以任何url开头的任何url |
+| `culture(name: String): Boolean` | 如果当前文化名称或当前文化的父名称与`name`参数匹配，则返回true |
 
-#### Queries (`OrchardCore.Queries`)
+#### 查询 (`OrchardCore.Queries`)
 
-| Function | Description 
+| 函数 | 描述 
 | -------- | ----------- |
-| `executeQuery(name: String, parameters: Dictionary<string,object>): IEnumerable<object>` | Returns the result of the query. |
+| `executeQuery(name: String, parameters: Dictionary<string,object>): IEnumerable<object>` | 返回查询的结果。 |
 
 
 #### HTTP (`OrchardCore.Workflows.Http`)
 
-| Function | Description 
+| 函数 | 描述 
 | -------- | ----------- |
-| `httpContext(): HttpContext` | Returns the `HttpContext` which encapsulates all HTTP-specific information about an individual HTTP request. |
-| `queryString(name: String): String | Array` | Returns the entire query string (including the leading `?`) when invoked with no arguments, or the value(s) of the parameter name passed in as an argument. |
-| `responseWrite(text: String): void` | Writes the argument string directly to the HTTP response stream. |
-| `absoluteUrl(relativePath: String): String` | Returns the absolute URL for the relative path argument.  |
-| `readBody(): String` | Returns the raw HTTP request body.  |
-| `requestForm(name: String): String | Array` | Returns the value(s) of the form field name passed in as an argument. |
-| `deserializeRequestData(): Dictionary<string, object>` | Deserializes the request data as a Dictionary<string, object> for requests that send JSON or form data. Replaces deprecated queryStringAsJson and requestFormAsJson methods |
+| `httpContext(): HttpContext` | 返回封装有关单个HTTP请求的所有特定于HTTP的信息的`HttpContext`。 |
+| `queryString(name: String): String | Array` | 在没有参数的情况下调用时返回整个查询字符串（包括前导`?`），或者返回传递的参数名称的值。 |
+| `responseWrite(text: String): void` | 将参数字符串直接写入HTTP响应流。 |
+| `absoluteUrl(relativePath: String): String` | 返回相对路径参数的绝对URL。  |
+| `readBody(): String` | 返回原始HTTP请求正文。  |
+| `requestForm(name: String): String | Array` | 返回传递的表单字段名称的值。 |
+| `deserializeRequestData(): Dictionary<string, object>` | 将请求数据反序列化为Dictionary<string, object>，用于发送JSON或表单数据的请求。替换了queryStringAsJson和requestFormAsJson方法 |
 
-#### Recipes (`OrchardCore.Recipes`)
+#### 配方 (`OrchardCore.Recipes`)
 
-| Function | Description 
+| 函数 | 描述 
 | -------- | ----------- |
-| `variables()` | Declare variables at the root of a recipe. Ex: `"variables": { "blogContentItemId": "[js:uuid()]" }`  Retrieve a variable value like this: `"ContentItemId": "[js: variables('blogContentItemId')]"` |
-| `parameters()` | Retrieves the parameters specified during the setup. Ex: `"Owner": "[js: parameters('AdminUserId')]"` See the available [Setup Recipe parameters](../Setup/#recipe-parameters) |
-| `configuration(key: String, defaultValue: String)` | Retrieves the specified configuration setting by its key, optionally providing a default. Ex: `[js: configuration('OrchardCore_Admin:AdminUrlPrefix', 'Admin')]` See [IShellConfiguration](../../core/Configuration/README.md) |
+| `variables()` | 在配方的根部声明变量。例如：`"variables": { "blogContentItemId": "[js:uuid()]" }` 通过这样的方式检索变量值：`"ContentItemId": "[js: variables('blogContentItemId')]"` |
+| `parameters()` | 检索设置期间指定的参数。例如：`"Owner": "[js: parameters('AdminUserId')]"` 参见可用的[设置配方参数](../Setup/#recipe-parameters) |
+| `configuration(key: String, defaultValue: String)` | 按其键检索指定的配置设置，可选择提供默认值。例如：`[js: configuration('OrchardCore_Admin:AdminUrlPrefix', 'Admin')]` 参见[IShellConfiguration](../../core/Configuration/README.md) |
 
-#### Workflows (`OrchardCore.Workflows.Http`)
+#### 工作流 (`OrchardCore.Workflows.Http`)
 
-The following JavaScript functions are available by default to any workflow activity that supports script expressions:
+任何支持脚本表达式的工作流活动默认提供以下JavaScript函数：
 
-| Function | Description |
+| 函数 | 描述 |
 | -------- | ----------- |
-| `workflow(): WorkflowExecutionContext` | Returns the `WorkflowExecutionContext` which provides access to all information related to the current workflow execution context. |
-| `workflowId(): String` | Returns the unique workflow ID. |
-| `input(name: String): Any` | Returns the input parameter with the specified name. Input to the workflow is provided when the workflow is executed by the workflow manager. |
-| `output(name: String, value: Any): void` | Sets an output parameter with the specified name. Workflow output can be collected by the invoker of the workflow. |
-| `property(name: String): Any` | Returns the property value with the specified name. Properties are a dictionary that workflow activities can read and write information from and to. |
-| `lastResult(): Any` | Returns the value that the previous activity provided, if any. |
-| `correlationId(): String` | Returns the correlation value of the workflow instance. |
-| `signalUrl(signal: String): String` | Returns workflow trigger URL with a protected SAS token into which the specified signal name is encoded. Use this to generate URLs that can be shared with trusted parties to trigger the current workflow if it is blocked on the Signal activity that is configured with the same signal name. |
-| `setOutcome(outcome: String): void` | Adds the provided outcome to the list of outcomes of the current activity |
-| `createWorkflowToken(workflowTypeId: String, activityId: String, expiresInDays: Integer): String` | Generates a workflow SAS token for the specidied workflowTypeid, activityId. You can also set the expiration date in number of days. |
+| `workflow(): WorkflowExecutionContext` | 返回提供有关当前工作流执行上下文的所有信息的`WorkflowExecutionContext`。 |
+| `workflowId(): String` | 返回唯一的工作流ID。 |
+| `input(name: String): Any` | 返回具有指定名称的输入参数。在工作流由工作流管理器执行时，提供工作流的输入。 |
+| `output(name: String, value: Any): void` | 使用指定的名称设置输出参数。工作流输出可以由工作流的调用者收集。 |
+| `property(name: String): Any` | 返回具有指定名称的属性值。属性是工作流活动可以从中读取和写入信息的字典。 |
+| `lastResult(): Any` | 返回前一个活动提供的值（如果有）。 |
+| `correlationId(): String` | 返回工作流实例的相关值。 |
+| `signalUrl(signal: String): String` | 返回带有受保护的SAS令牌的工作流触发器URL，其中编码了指定的信号名称。如果当前工作流被配置为使用相同的信号名称的Signal活动阻塞，则使用此功能生成可以与受信任的方共享的URL以触发当前工作流。 |
+| `setOutcome(outcome: String): void` | 将提供的结果添加到当前活动的结果列表中 |
+| `createWorkflowToken(workflowTypeId: String, activityId: String, expiresInDays: Integer): String` | 为指定的workflowTypeid、activityId生成工作流SAS令牌。您还可以设置过期日期（以天为单位）。 |
