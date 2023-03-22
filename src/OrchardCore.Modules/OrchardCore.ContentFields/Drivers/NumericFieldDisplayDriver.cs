@@ -10,6 +10,7 @@ using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
+using OrchardCore.Mvc.ModelBinding;
 
 namespace OrchardCore.ContentFields.Drivers
 {
@@ -39,7 +40,22 @@ namespace OrchardCore.ContentFields.Drivers
             return Initialize<EditNumericFieldViewModel>(GetEditorShapeType(context), model =>
             {
                 var settings = context.PartFieldDefinition.GetSettings<NumericFieldSettings>();
-                model.Value = context.IsNew ? settings.DefaultValue : Convert.ToString(field.Value, CultureInfo.CurrentUICulture);
+
+                // The default value of a field is intended for the editor when a new content item
+                // is created (not for APIs). Since we may want to render the editor of a content
+                // item that was created by code, we only set the default value in the <input>
+                // of the field if it doesn't already have a value.
+
+                if (field.Value.HasValue)
+                {
+                    model.Value = Convert.ToString(field.Value, CultureInfo.CurrentUICulture);
+                }
+                else if (context.IsNew)
+                {
+                    // The content item is new and the field is not initialized, we can 
+                    // use the default value from the settings in the editor.
+                    model.Value = settings.DefaultValue;
+                }
 
                 model.Field = field;
                 model.Part = context.ContentPart;
@@ -51,26 +67,22 @@ namespace OrchardCore.ContentFields.Drivers
         {
             var viewModel = new EditNumericFieldViewModel();
 
-            bool modelUpdated = await updater.TryUpdateModelAsync(viewModel, Prefix, f => f.Value);
-
-            if (modelUpdated)
+            if (await updater.TryUpdateModelAsync(viewModel, Prefix, f => f.Value))
             {
-                decimal value;
-
                 var settings = context.PartFieldDefinition.GetSettings<NumericFieldSettings>();
 
                 field.Value = null;
 
-                if (string.IsNullOrWhiteSpace(viewModel.Value))
+                if (String.IsNullOrWhiteSpace(viewModel.Value))
                 {
                     if (settings.Required)
                     {
-                        updater.ModelState.AddModelError(Prefix, S["The {0} field is required.", context.PartFieldDefinition.DisplayName()]);
+                        updater.ModelState.AddModelError(Prefix, nameof(field.Value), S["The {0} field is required.", context.PartFieldDefinition.DisplayName()]);
                     }
                 }
-                else if (!decimal.TryParse(viewModel.Value, NumberStyles.Any, CultureInfo.CurrentUICulture, out value))
+                else if (!Decimal.TryParse(viewModel.Value, NumberStyles.Any, CultureInfo.CurrentUICulture, out var value))
                 {
-                    updater.ModelState.AddModelError(Prefix, S["{0} is an invalid number.", context.PartFieldDefinition.DisplayName()]);
+                    updater.ModelState.AddModelError(Prefix, nameof(field.Value), S["{0} is an invalid number.", context.PartFieldDefinition.DisplayName()]);
                 }
                 else
                 {
@@ -78,24 +90,24 @@ namespace OrchardCore.ContentFields.Drivers
 
                     if (settings.Minimum.HasValue && value < settings.Minimum.Value)
                     {
-                        updater.ModelState.AddModelError(Prefix, S["The value must be greater than {0}.", settings.Minimum.Value]);
+                        updater.ModelState.AddModelError(Prefix, nameof(field.Value), S["The value must be greater than {0}.", settings.Minimum.Value]);
                     }
 
                     if (settings.Maximum.HasValue && value > settings.Maximum.Value)
                     {
-                        updater.ModelState.AddModelError(Prefix, S["The value must be less than {0}.", settings.Maximum.Value]);
+                        updater.ModelState.AddModelError(Prefix, nameof(field.Value), S["The value must be less than {0}.", settings.Maximum.Value]);
                     }
 
-                    // checking the number of decimals
+                    // Check the number of decimals.
                     if (Math.Round(value, settings.Scale) != value)
                     {
                         if (settings.Scale == 0)
                         {
-                            updater.ModelState.AddModelError(Prefix, S["The {0} field must be an integer.", context.PartFieldDefinition.DisplayName()]);
+                            updater.ModelState.AddModelError(Prefix, nameof(field.Value), S["The {0} field must be an integer.", context.PartFieldDefinition.DisplayName()]);
                         }
                         else
                         {
-                            updater.ModelState.AddModelError(Prefix, S["Invalid number of digits for {0}, max allowed: {1}.", context.PartFieldDefinition.DisplayName(), settings.Scale]);
+                            updater.ModelState.AddModelError(Prefix, nameof(field.Value), S["Invalid number of digits for {0}, max allowed: {1}.", context.PartFieldDefinition.DisplayName(), settings.Scale]);
                         }
                     }
                 }

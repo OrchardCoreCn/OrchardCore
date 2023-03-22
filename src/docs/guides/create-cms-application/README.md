@@ -4,22 +4,21 @@
 
 ## 您需要什么
 
-- NET Core SDK 的最新版本。你可以从这里下载 [https://www.microsoft.com/net/download/core](https://www.microsoft.com/net/download/core).
-- 一个文本编辑器和终端，您可以在其中键入 dotnet 命令。
+- The current version of the .NET SDK. You can download it from here <https://dotnet.microsoft.com/download>.
+- A text editor and a terminal where you can type dotnet commands.
 
 ## 创建项目
 
-有不同的方式为Orchard Core创建网站和模块。你可以在这里了解更多 [here](../../getting-started/templates/README.md).  
-在本指南中，我们将使用我们的"代码生成模板"。
+There are different ways to create sites and modules for Orchard Core. You can learn more about them [here](../../getting-started/templates/README.md).  
 
-您可以使用以下命令安装最新发布的模板：
+In this guide we will use our "Code Generation Templates". You can install the latest stable release of the templates using this command:
 
-```dotnet new -i OrchardCore.ProjectTemplates::1.0.0-*```
+```dotnet new install OrchardCore.ProjectTemplates::1.5.0-*```
 
 !!! 注意
     要使用开发分支请添加 `--nuget-source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json`
 
-创建包含网站的空文件夹。打开终端，导航到该文件夹并运行此操作：
+Create an empty folder that will contain your site. Open a terminal, navigate to that folder and run the following command:
 
 ```dotnet new occms -n MySite```
 
@@ -36,7 +35,7 @@
 !!! note
     如果使用模板的开发分支，请先执行 `dotnet restore .\MySite\MySite.csproj --source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json` before running the application
 
-应用程序现在应该正在运行，并包含打开的端口：
+Your application should now be running and listening on the following ports:
 
 ```
 Now listening on: https://localhost:5001
@@ -44,13 +43,11 @@ Now listening on: http://localhost:5000
 Application started. Press Ctrl+C to shut down.
 ```
 
-浏览器打开<https://localhost:5001>，它应该显示设置页面。 Open a browser on , it should display the setup screen.
+Open a browser and navigate to <https://localhost:5001> to display the setup screen.
 
+For demonstration purposes, we will create the website using the __Blog__ recipe. The __Blog__ recipe is a [starter recipe](../../getting-started/starter-recipes.md) included with Orchard Core that contains a list of features and steps to configure an Orchard Core website.
 
-为了建立一个网站与CMS的所有功能，将使用 _Blog_ 配方 。食谱包含配置Orchard Core网站的模块和步骤的列表。
-
-
-填写表单并选择 __Blog__ 配方和 __SQLite__ 数据库.
+Complete the setup form and select the __Blog__ recipe and __SQLite__ for the database.
 
 ![image](assets/setup-screen.jpg)
 

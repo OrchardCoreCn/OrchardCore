@@ -192,12 +192,12 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | `LandingPage_Summary__Services__CustomShape` | `LandingPage-Services-CustomShape.Summary.cshtml` |
 
 ### Content Parts Display Mode
-支持不同显示模式的内容部分，还提供以下显示模式替代。
->Content parts that supports different display modes, also provides following display mode alternates.
+
+Content parts that supports different display modes, also provides following display mode alternates.
 
 ### `[ShapeType]_[DisplayType]__[DisplayMode]_Display`
-当以给定的内容部件类型、给定的显示模式和显示类型呈现内容部件时，将调用此模板。
->This template is called when a content part is rendered for a given content part type, with given display mode, with a display type.
+
+This template is called when a content part is rendered for a given content part type, with given display mode, with a display type.
 
 #### Display mode with Shape type Examples
 
@@ -208,8 +208,7 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 
 ### `[ContentType]_Display__[PartType]__[DisplayMode]`
 
-当为给定的内容类型(使用给定的显示模式，而不使用显示类型)呈现内容部分时，将调用此模板。
->This template is called when a content part is rendered for a given content type, with given display mode, without a display type.
+This template is called when a content part is rendered for a given content type, with given display mode, without a display type.
 
 #### Display mode with Part type without Display type Examples
 
@@ -219,8 +218,7 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 
 ### `[ContentType]_[DisplayType]__[PartType]__[DisplayMode]_Display`
 
-当为给定的内容类型、给定的显示模式和显示类型呈现内容部分时，将调用此模板。
->This template is called when a content part is rendered for a given content type, with given display mode, with a display type.
+This template is called when a content part is rendered for a given content type, with given display mode, with a display type.
 
 #### Display mode with Part type with Display type Examples
 
@@ -230,8 +228,7 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 
 ### `[ContentType]_Display__[PartName]__[DisplayMode]`
 
-当为给定的内容类型、给定的显示模式而不是给定的显示类型呈现内容部件名称时，将调用此模板。
->This template is called when a content part name is rendered for a given content type, for given display mode, without a given display type.
+This template is called when a content part name is rendered for a given content type, for given display mode, without a given display type.
 
 #### Display mode with Part name without Display type Examples
 
@@ -240,8 +237,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | `LandingPage_Display__Services__CustomMode` | `LandingPage-Services-CustomMode.Display.cshtml` |
 
 ### `[ContentType]_[DisplayType]__[PartName]__[DisplayMode]_Display`
-当为给定的内容类型、给定的显示模式、给定的显示类型呈现内容部件名称时，将调用此模板。
->This template is called when a content part name is rendered for a given content type, for given display mode, with a given display type.
+
+This template is called when a content part name is rendered for a given content type, for given display mode, with a given display type.
 
 #### Display mode with Part name with Display type Examples
 
@@ -251,8 +248,7 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 
 ### `[ContentType]_Display__[PartType]__[ShapeType]__[DisplayMode]`
 
-对于没有给定显示类型的给定显示模式，在给定内容类型的给定内容部件类型中呈现形状类型时，将调用此模板。
->This template is called when a shape type is rendered in a given content part type for a given content type, for given display mode without a given display type.
+This template is called when a shape type is rendered in a given content part type for a given content type, for given display mode without a given display type.
 
 #### Display mode with Part Type and Shape without Display type Examples
 
@@ -262,8 +258,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 
 
 ### `[ContentType]_[DisplayType]__[PartType]__[ShapeType]__[DisplayMode]_Display`
-对于具有给定显示类型的给定显示模式，当在给定内容类型的给定内容部件类型中呈现形状类型时，将调用该模板。
->This template is called when a shape type is rendered in a given content part type for a given content type, for given display mode with a given display type.
+
+This template is called when a shape type is rendered in a given content part type for a given content type, for given display mode with a given display type.
 
 #### Display mode with Part Type and Shape with Display type Examples
 
@@ -272,8 +268,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | `Blog_Summary__ListPart__ListPartFeed__CustomMode_Display` | `Blog-ListPart-ListPartFeed-CustomMode.Display.Summary.cshtml` |
 
 ### `[ContentType]_Display__[PartName]__[ShapeType]__[DisplayMode]`
-当在给定内容类型的给定内容部件名称中呈现形状类型时，将调用此模板，但没有给定的显示类型。
->This template is called when a shape type is rendered in a given content part name for a given content type, without a given display type.
+
+This template is called when a shape type is rendered in a given content part name for a given content type, without a given display type.
 
 #### Display mode with Part Name and Custom Shape without Display type Examples
 
@@ -283,8 +279,7 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 
 ### `[ContentType]_[DisplayType]__[PartName]__[ShapeType]__[DisplayMode]_Display`
 
-当以给定内容部件名称呈现具有给定显示类型的给定内容类型的形状类型时，将调用此模板。
->This template is called when a shape type is rendered in a given content part name for a given content type, with a given display type.
+This template is called when a shape type is rendered in a given content part name for a given content type, with a given display type.
 
 #### Display mode with Part Name and Custom Shape with Display type Examples
 
@@ -296,14 +291,11 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 
 ### Widget parts / Stereotype parts
 
-原型的内容类型附带的内容部分(如`Widget`、`Menu`)也有以下备选。
-这适用于除`Content`之外的任何构造型。
->Content Part attached to Content type of the stereotype (e.g. `Widget`, `Menu`) also has following alternates. This applies to any stereotype other than `Content`.
+Content Part attached to Content type of the stereotype (e.g. `Widget`, `Menu`) also has following alternates. This applies to any stereotype other than `Content`.
 
 ### `[Stereotype]_[DisplayType]__[PartType]`
 
-当为给定的立体声类型呈现内容部分时，无论是否具有给定的显示类型，都会调用该模板。
->This template is called when a content part is rendered for a given stereo type, with or without a given display type.
+This template is called when a content part is rendered for a given stereo type, with or without a given display type.
 
 #### Stereotype with Part Name Examples
 
@@ -314,8 +306,7 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 
 ### `[Stereotype]_[DisplayType]__[PartType]__[PartName]`
 
-当一个内容部件是一个可重用的命名部件并为给定的构造型呈现时，这个模板就会被调用，不管有没有给定的显示类型。
->This template is called when a content part is a re-usable named part and rendered for a given stereotype, with or without a given display type.
+This template is called when a content part is a re-usable named part and rendered for a given stereotype, with or without a given display type.
 
 #### Stereotype with Part Type Examples
 
@@ -325,8 +316,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | `Widget_Summary__ServicePart__Services` | `Widget-ServicePart-Services.Summary.cshtml` |
 
 ### `[Stereotype]_[DisplayType]__[PartType]__[ShapeType]`
-当为给定的构造型类型呈现自定义形状类型时，无论是否具有给定的显示类型，都会调用该模板。
->This template is called when a custom shape type is rendered  for a given stereotype type, with or without a given display type.
+
+This template is called when a custom shape type is rendered  for a given stereotype type, with or without a given display type.
 
 #### Stereotype with Part Name and Shape Examples
 
@@ -336,8 +327,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | `Widget_Summary__ListPart__ListPartFeed` | `Widget-ListPart-ListPartFeed.Summary.cshtml` |
 
 ### `[Stereotype]_[DisplayType]__[PartType]__[PartName]__[ShapeType]`
-该模板为具有自定义形状类型的可重用命名内容部件调用，并为给定的构造型类型(具有或不具有给定的显示类型)呈现。
->This template is called for re-usable named content part with  custom shape type and rendered for a given stereotype type, with or without a given display type.
+
+This template is called for re-usable named content part with  custom shape type and rendered for a given stereotype type, with or without a given display type.
 
 #### Stereotype with Part Name and Custom Shape Examples
 
@@ -345,12 +336,12 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | --------- | ------------ |
 | `Widget__ServicePart__Services__CustomShape` | `Widget-ServicePart-Services-CustomShape.cshtml` |
 | `Widget_Summary__ServicePart__Services__CustomShape` | `Widget-ServicePart-Services-CustomShape.Summary.cshtml` |
-以下备选方案可用于支持不同显示模式并附加到构造型内容类型的内容部分。
->Following alternates are available to Content parts that supports different display modes and are attached to content type of stereotype.
+
+Following alternates are available to Content parts that supports different display modes and are attached to content type of stereotype.
 
 ### `[Stereotype]_Display__[PartType]__[DisplayMode]`
-当为给定stereo type、具有给定显示模式、没有显示类型的内容部分呈现时，调用该模板。
->This template is called when a content part is rendered for a given stereo type, with given display mode, without a display type.
+
+This template is called when a content part is rendered for a given stereo type, with given display mode, without a display type.
 
 #### Display mode with Part type without Display type Examples
 
@@ -360,8 +351,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 
 
 ### `[Stereotype]_[DisplayType]__[PartType]__[DisplayMode]_Display`
-当为给定stereo type、具有给定显示模式、具有显示类型的内容部分呈现时，调用该模板。
->This template is called when a content part is rendered for a given stereo type, with given display mode, with a display type.
+
+This template is called when a content part is rendered for a given stereo type, with given display mode, with a display type.
 
 #### Display mode with Stereotype with Display type Examples
 
@@ -370,8 +361,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | `Widget_Summary__TitlePart__CustomMode_Display` | `Widget-TitlePart-CustomMode.Display.Summary.cshtml` |
 
 ### `[Stereotype]_Display__[PartType]__[PartName]__[DisplayMode]`
-当为给定的构造型、给定的显示模式、没有给定的显示类型呈现内容部件名称时，将调用该模板。
->This template is called when a content part name is rendered for a given stereotype, for given display mode, without a given display type.
+
+This template is called when a content part name is rendered for a given stereotype, for given display mode, without a given display type.
 
 #### Display mode with Part name without Display type Examples
 
@@ -380,8 +371,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | `Widget_Display__ServicePart__Services__CustomMode` | `Widget-ServicePart-Services-CustomMode.Display.cshtml` |
 
 ### `[Stereotype]_[DisplayType]__[PartType]__[PartName]__[DisplayMode]_Display`
-当为给定的构造型、给定的显示模式、给定的显示类型呈现内容部件名称时，将调用该模板。
->This template is called when a content part name is rendered for a given stereotype, for given display mode, with a given display type.
+
+This template is called when a content part name is rendered for a given stereotype, for given display mode, with a given display type.
 
 #### Display mode with Part name with Display type Examples
 
@@ -390,8 +381,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | `Widget_Summary__ServicePart__Services__CustomMode_Display` | `Widget-ServicePart-Services-CustomMode.Display.Summary.cshtml` |
 
 ### `[Stereotype]_Display__[PartType]__[ShapeType]__[DisplayMode]`
-对于没有给定显示类型的给定显示模式，当在给定的内容部件类型中为给定的构造型呈现形状类型时，将调用该模板。
->This template is called when a shape type is rendered in a given content part type for a given stereotype, for given display mode without a given display type.
+
+This template is called when a shape type is rendered in a given content part type for a given stereotype, for given display mode without a given display type.
 
 #### Display mode with Part Type and Shape without Display type Examples
 
@@ -400,8 +391,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | `Widget_Display__ListPart__ListPartFeed__CustomMode` | `Widget-ListPart-ListPartFeed-CustomMode.Display.cshtml` |
 
 ### `[Stereotype]_[DisplayType]__[PartType]__[ShapeType]__[DisplayMode]_Display`
-对于具有给定显示类型的给定显示模式，当在给定构造型的给定内容部件类型中呈现形状类型时，将调用该模板。
->This template is called when a shape type is rendered in a given content part type for a given stereotype, for given display mode with a given display type.
+
+This template is called when a shape type is rendered in a given content part type for a given stereotype, for given display mode with a given display type.
 
 #### Display mode with Part Type and Shape with Display type Examples
 
@@ -410,8 +401,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | `Widget_Summary__ListPart__ListPartFeed__CustomMode_Display` | `Widget-ListPart-ListPartFeed-CustomMode.Display.Summary.cshtml` |
 
 ### `[Stereotype]_Display__[PartType]__[PartName]__[ShapeType]__[DisplayMode]`
-当在没有给定显示类型的给定构造型的给定内容部件名称中呈现形状类型时，将调用该模板。
->This template is called when a shape type is rendered in a given content part name for a given stereotype, without a given display type.
+
+This template is called when a shape type is rendered in a given content part name for a given stereotype, without a given display type.
 
 #### Display mode with Part Name and Custom Shape without Display type Examples
 
@@ -420,8 +411,8 @@ Shape 包含一系列可接受的模板名称（替代名称），并将查找�
 | `Widget_Display__ListPart__Services__ListPartFeed__CustomMode` | `Widget-ListPart-Services-ListPartFeed-CustomMode.Display.cshtml` |
 
 ### `[Stereotype]_[DisplayType]__[PartType]__[PartName]__[ShapeType]__[DisplayMode]_Display`
-当在给定构造型的给定内容部件名中呈现具有给定显示类型的形状类型时，将调用该模板。
->This template is called when a shape type is rendered in a given content part name for a given stereotype, with a given display type.
+
+This template is called when a shape type is rendered in a given content part name for a given stereotype, with a given display type.
 
 #### Display mode with Part Name and Custom Shape with Display type Examples
 
@@ -615,8 +606,8 @@ Display a specific shape by name:
 ## Zone templates
 
 ### `Zone__[ZoneName]`
-显示布局区域时调用此模板。
->This template is called when displaying a Layout zone.
+
+This template is called when displaying a Layout zone.
 
 #### Zone Examples
 
@@ -624,21 +615,19 @@ Display a specific shape by name:
 | --------- | ------------ |
 | `Zone__Footer` | `Zone-Footer.cshtml` |
 | `Zone__Content` | `Zone-Content.cshtml` |
-可用的区域取决于当前主题。
->Which zones are available depends on the current theme.
 
-注意： “Zone_Content”替代为名为“内容”的布局区域，哪个（根据主题）通常是页面的主要内容区域。 它与内容项形状无关。
+Which zones are available depends on the current theme.
 
->!!! note    
+!!! note
     The `Zone__Content` alternate is for the Layout zone called "Content", which (depending on the theme) is usually the main content area of the page. It has nothing to do with content item shapes.
 
 #### Zone Available properties
 
 | Property | Description |
 | --------- | ------------ |
-| `Model.Items` | 虽然属性不是区域形状所独有的，但请记住“模型”。Items '包含应该从区域中显示的子形状。在 Razor 中，而不是在 Liquid 中，迭代“模型”也会直接产生子形状。 While the property is not unique to zone shapes keep in mind that `Model.Items` contains the child shapes that should be displayed from the zone. In Razor but not in Liquid iterating over `Model` directly yields the child shapes too. |
-| `Model.Parent` |一个区域形状，它是当前区域的父区域。对于根区域，这将是Layout形状。 A zone shape that's the parent of the current zone. For root-level zones this will be the Layout shape. |
-| `Model.ZoneName` | 区域的“字符串”名称，例如。“页脚”和“内容”。The `string` name of the zone, e.g. "Footer" and "Content". |
+| `Model.Items` | While the property is not unique to zone shapes keep in mind that `Model.Items` contains the child shapes that should be displayed from the zone. In Razor but not in Liquid iterating over `Model` directly yields the child shapes too. |
+| `Model.Parent` | A zone shape that's the parent of the current zone. For root-level zones this will be the Layout shape. |
+| `Model.ZoneName` | The `string` name of the zone, e.g. "Footer" and "Content". |
 
 === "Liquid"
 

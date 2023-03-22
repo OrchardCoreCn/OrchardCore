@@ -1,7 +1,5 @@
-using Newtonsoft.Json.Linq;
 using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
-using Xunit;
 
 namespace OrchardCore.Tests.Data
 {
@@ -43,7 +41,7 @@ namespace OrchardCore.Tests.Data
             Assert.Equal(actual.Field?.Text, value);
         }
 
-        [Fact] 
+        [Fact]
         public void MergeReflectsChangesToWellKnownProperties()
         {
             // Setup

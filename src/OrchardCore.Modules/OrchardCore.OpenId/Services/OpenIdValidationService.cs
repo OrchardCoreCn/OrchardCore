@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
+using OpenIddict.Server;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Environment.Shell.Descriptor.Models;
 using OrchardCore.OpenId.Abstractions.Managers;
@@ -39,6 +41,17 @@ namespace OrchardCore.OpenId.Services
         public async Task<OpenIdValidationSettings> GetSettingsAsync()
         {
             var container = await _siteService.GetSiteSettingsAsync();
+            return GetSettingsFromContainer(container);
+        }
+
+        public async Task<OpenIdValidationSettings> LoadSettingsAsync()
+        {
+            var container = await _siteService.LoadSiteSettingsAsync();
+            return GetSettingsFromContainer(container);
+        }
+
+        private OpenIdValidationSettings GetSettingsFromContainer(ISite container)
+        {
             if (container.Properties.TryGetValue(nameof(OpenIdValidationSettings), out var settings))
             {
                 return settings.ToObject<OpenIdValidationSettings>();
@@ -97,16 +110,44 @@ namespace OrchardCore.OpenId.Services
                     }));
                 }
 
-                if (!string.IsNullOrEmpty(settings.Authority.Query) || !string.IsNullOrEmpty(settings.Authority.Fragment))
+                if (!String.IsNullOrEmpty(settings.Authority.Query) || !string.IsNullOrEmpty(settings.Authority.Fragment))
                 {
                     results.Add(new ValidationResult(S["The authority cannot contain a query string or a fragment."], new[]
                     {
                         nameof(settings.Authority)
                     }));
                 }
+
             }
 
-            if (!string.IsNullOrEmpty(settings.Tenant) && !string.IsNullOrEmpty(settings.Audience))
+            if (settings.MetadataAddress != null)
+            {
+                if (!settings.MetadataAddress.IsAbsoluteUri || !settings.MetadataAddress.IsWellFormedOriginalString())
+                {
+                    results.Add(new ValidationResult(S["The specified metadata address is not valid."], new[]
+                    {
+                        nameof(settings.MetadataAddress)
+                    }));
+                }
+
+                if (!String.IsNullOrEmpty(settings.MetadataAddress.Query) || !string.IsNullOrEmpty(settings.MetadataAddress.Fragment))
+                {
+                    results.Add(new ValidationResult(S["The metadata address cannot contain a query string or a fragment."], new[]
+                    {
+                        nameof(settings.MetadataAddress)
+                    }));
+                }
+
+                if (!String.IsNullOrEmpty(settings.Tenant))
+                {
+                    results.Add(new ValidationResult(S["No metatada address can be set when using another tenant."], new[]
+                    {
+                        nameof(settings.MetadataAddress)
+                    }));
+                }
+            }
+
+            if (!String.IsNullOrEmpty(settings.Tenant) && !string.IsNullOrEmpty(settings.Audience))
             {
                 results.Add(new ValidationResult(S["No audience can be set when using another tenant."], new[]
                 {
@@ -122,7 +163,15 @@ namespace OrchardCore.OpenId.Services
                 }));
             }
 
-            if (!string.IsNullOrEmpty(settings.Audience) &&
+            if (settings.Authority == null && settings.DisableTokenTypeValidation)
+            {
+                results.Add(new ValidationResult(S["Token type validation can only be disabled for remote servers."], new[]
+                {
+                    nameof(settings.DisableTokenTypeValidation)
+                }));
+            }
+
+            if (!String.IsNullOrEmpty(settings.Audience) &&
                 settings.Audience.StartsWith(OpenIdConstants.Prefixes.Tenant, StringComparison.OrdinalIgnoreCase))
             {
                 results.Add(new ValidationResult(S["The audience cannot start with the special 'oct:' prefix."], new[]
@@ -133,8 +182,8 @@ namespace OrchardCore.OpenId.Services
 
             // If a tenant was specified, ensure it is valid, that the OpenID server feature
             // was enabled and that at least a scope linked with the current tenant exists.
-            if (!string.IsNullOrEmpty(settings.Tenant) &&
-                !string.Equals(settings.Tenant, _shellSettings.Name))
+            if (!String.IsNullOrEmpty(settings.Tenant) &&
+                !String.Equals(settings.Tenant, _shellSettings.Name))
             {
                 if (!_shellHost.TryGetSettings(settings.Tenant, out var shellSettings))
                 {
@@ -146,6 +195,15 @@ namespace OrchardCore.OpenId.Services
 
                     await shellScope.UsingAsync(async scope =>
                     {
+                        var options = scope.ServiceProvider.GetRequiredService<IOptionsMonitor<OpenIddictServerOptions>>().CurrentValue;
+                        if (options.UseReferenceAccessTokens)
+                        {
+                            results.Add(new ValidationResult(S["Selecting a server tenant for which reference access tokens are enabled is currently not supported."], new[]
+                            {
+                                nameof(settings.Tenant)
+                            }));
+                        }
+
                         var manager = scope.ServiceProvider.GetService<IOpenIdScopeManager>();
                         if (manager == null)
                         {
@@ -157,8 +215,7 @@ namespace OrchardCore.OpenId.Services
                         else
                         {
                             var resource = OpenIdConstants.Prefixes.Tenant + _shellSettings.Name;
-                            var scopes = await manager.FindByResourceAsync(resource);
-                            if (scopes.IsDefaultOrEmpty)
+                            if (!await manager.FindByResourceAsync(resource).AnyAsync())
                             {
                                 results.Add(new ValidationResult(S["No appropriate scope was found."], new[]
                                 {

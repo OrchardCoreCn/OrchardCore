@@ -22,7 +22,13 @@ QQ 群：877196442
 [![Documentation](https://readthedocs.org/projects/orchardcore/badge/)](https://docs.orchardcore.net/zh_CN/dev/)
 [![Crowdin](https://badges.crowdin.net/orchard-core/localized.svg)](https://crowdin.com/project/orchard-core)
 
-## 使用Orchard Core Framework 构建软件服务 （SaaS） 解决方案 
+## Local communities
+
+中文资源
+
+[![Orchard Core CN 中文讨论组](docs/assets/images/orchard-core-cn-community-logo.png)](https://shang.qq.com/wpa/qunwpa?idkey=48721591a71ee7586316604a7a4ee99d26fd977c6120370a06585085a5936f62)
+
+## Building Software as a Service (SaaS) solutions with the Orchard Core Framework
 
 了解Orchard Core Framework是独立于nuget.org上的CMS分发的，这一点非常重要。我们在 <https://github.com/OrchardCMS/OrchardCore.Samples> 提供了一些示例程序，它将指导您如何仅使用Orchard Core Framework来构建**模块化** 和 **多租户** 的应用程序，而无需任何 CMS 特定功能。
 
@@ -66,18 +72,16 @@ Orchard Core CMS支持所有主要的网站建设策略：
 
 - **无头 CMS(Headless CMS)**. 该网站只管理内容，您创建一个单独的应用程序，该应用程序将使用 GraphQL 或 REST API 获取托管内容。参考： [B站](https://www.bilibili.com/video/BV15E411s7kz?from=search&seid=16124424122784013302)，[油管](https://www.youtube.com/watch?v=4o9zG17cfa0)
 
-## 项目状态
-
-Orchard Core的最新发行版本是 `1.0.0-rc2`。
-发行说明可以在这里找到： <https://github.com/OrchardCMS/OrchardCore/releases/tag/1.0.0-rc2>
+The latest released version of Orchard Core is `1.5.0`.
+The release notes can be found on <https://github.com/OrchardCMS/OrchardCore/releases/tag/v1.5.0>
 
 该软件几乎已准备好最终发布。 不进行功能开发或软件增强； 在此阶段仅允许严格限定范围的错误修复，除非出现重大的错误。
 
 这是一个更详细的[路线图](https://github.com/OrchardCMS/OrchardCore/wiki/Roadmap).
 
-## 从这里开始
+- Clone the repository using the command `git clone https://github.com/OrchardCMS/OrchardCore.git` and checkout the `main` branch for the latest release, or the `dev` branch for the cutting-edge version.
 
-- 使用命令 `git clone https://github.com/OrchardCMS/OrchardCore.git` 克隆此仓库，并切换到 `dev` 分支。
+- 使用命令 `git clone https://github.com/OrchardCMS/OrchardCore.git` 克隆此仓库，并切换到 `main` 分支。
 - 按照这个教程 [Training Demo Module](https://github.com/Lombiq/Orchard-Training-Demo-Module) 你将学习如何开发Orchard Core模块。（这里是包含中文翻译的版本：[码云仓库,含全部中文注释](https://gitee.com/OrchardCore/Orchard-Training-Demo-Module/)）
 - 观看Orchard Core演示的ASP.NET社区站立视频:[B站](https://www.bilibili.com/video/BV1Sz411e7eY/)  [youtube](https://www.youtube.com/watch?v=HeDjv3blBjQ&t=2246s&list=PL1rZQsJPBU2StolNg0aqvQswETPcYnNKL&index=24)
 - 参考这个示例 <https://github.com/OrchardCMS/OrchardCore.Samples> 它将引导你如何构建一个 **模块化** 和 **多租户** 的应用程序。
@@ -86,22 +90,29 @@ Orchard Core的最新发行版本是 `1.0.0-rc2`。
 
 ### 命令行
 
-- 从这个页面安装最新版的 .NET Core SDK  <https://www.microsoft.com/net/download/core>
-- 接下来,导航到 `D:\OrchardCore\src\OrchardCore.Cms.Web` 或你的文件夹，在管理员模式下命令行。
-- 执行 `dotnet run`
-- 然后在浏览器中打开 `http://localhost:5000` 
+- Install the latest version of the .NET SDK from this page <https://dotnet.microsoft.com/download>
+- Next, navigate to `D:\OrchardCore\src\OrchardCore.Cms.Web` or wherever your folder is on the commandline in Administrator mode.
+- Call `dotnet run`.
+- Then open the `http://localhost:5000` URL in your browser.
 
 你也可以参考 [代码生成模板文档](docs/getting-started/templates/README.md) 从预定义的模板创建新的应用程序。
 
 ### Visual Studio
 
-- 从 https://www.visualstudio.com/downloads/ 下载 Visual Studio 2019 (任何版本) 
-- 打开解决方案： `OrchardCore.sln`，然后等待恢复所有包
-- 确保启动项目为： `OrchardCore.Cms.Web` ，然后运行
-- 可选安装 [Lombiq Orchard Visual Studio Extension](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension) 它可以帮助您向您的Visual Studio添加一些有用的实用程序，例如错误日志监视程序或依赖项注入器。
+For more details on the various development tools we recommend for using with Orchard Core check out [the Development Tools documentation page](docs/resources/development-tools/README.md).
+
+- Download Visual Studio 2022 (any edition) from <https://www.visualstudio.com/downloads/>.
+- Open `OrchardCore.sln` and wait for Visual Studio to restore all Nuget packages.
+- Ensure `OrchardCore.Cms.Web` is the startup project and run it.
+- Optionally install the [Lombiq Orchard Visual Studio Extension](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension) to add some useful utilities to your Visual Studio such as an error log watcher or a dependency injector.
+- Optionally install the [code snippets from the Orchard Dojo Library](https://orcharddojo.net/orchard-resources/CoreLibrary/Utilities/VisualStudioSnippets/) to quickly generate code in some common scenarios during module and theme development.
 
 ### Docker
 
 - 运行 `docker run --name orchardcms orchardproject/orchardcore-cms-linux:latest`
 
-Docker 镜像和参数可以到这里查看 <https://hub.docker.com/u/orchardproject/>
+Docker images and parameters can be found at <https://hub.docker.com/u/orchardproject/>
+
+## Showcasing Orchard Core CMS
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Gfy5SCACyL8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

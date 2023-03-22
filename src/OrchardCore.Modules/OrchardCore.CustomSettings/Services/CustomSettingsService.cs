@@ -8,7 +8,6 @@ using Newtonsoft.Json.Linq;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Models;
-using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Settings;
 
 namespace OrchardCore.CustomSettings.Services
@@ -37,7 +36,7 @@ namespace OrchardCore.CustomSettings.Services
             _settingsTypes = new Lazy<IDictionary<string, ContentTypeDefinition>>(
                 () => _contentDefinitionManager
                      .ListTypeDefinitions()
-                     .Where(x => x.GetSettings<ContentTypeSettings>().Stereotype == "CustomSettings")
+                     .Where(x => x.GetStereotype() == "CustomSettings")
                      .ToDictionary(x => x.Name));
         }
 
@@ -72,11 +71,11 @@ namespace OrchardCore.CustomSettings.Services
             return settingsType;
         }
 
-        public async Task<bool> CanUserCreateSettingsAsync(ContentTypeDefinition settingsType)
+        public Task<bool> CanUserCreateSettingsAsync(ContentTypeDefinition settingsType)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
-            return await _authorizationService.AuthorizeAsync(user, Permissions.CreatePermissionForType(settingsType));
+            return _authorizationService.AuthorizeAsync(user, Permissions.CreatePermissionForType(settingsType));
         }
 
         public Task<ContentItem> GetSettingsAsync(string settingsTypeName, Action isNew = null)
@@ -104,8 +103,11 @@ namespace OrchardCore.CustomSettings.Services
 
             if (site.Properties.TryGetValue(settingsType.Name, out property))
             {
-                // Create existing content item
-                contentItem = property.ToObject<ContentItem>();
+                var existing = property.ToObject<ContentItem>();
+
+                // Create a new item to take into account the current type definition.
+                contentItem = await _contentManager.NewAsync(existing.ContentType);
+                contentItem.Merge(existing);
             }
             else
             {

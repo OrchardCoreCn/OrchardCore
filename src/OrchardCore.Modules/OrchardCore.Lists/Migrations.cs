@@ -3,12 +3,13 @@ using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Data.Migration;
 using OrchardCore.Lists.Indexes;
 using OrchardCore.Lists.Models;
+using YesSql.Sql;
 
 namespace OrchardCore.Lists
 {
     public class Migrations : DataMigration
     {
-        private IContentDefinitionManager _contentDefinitionManager;
+        private readonly IContentDefinitionManager _contentDefinitionManager;
 
         public Migrations(IContentDefinitionManager contentDefinitionManager)
         {
@@ -21,17 +22,32 @@ namespace OrchardCore.Lists
                 .Attachable()
                 .WithDescription("Add a list behavior."));
 
-            SchemaBuilder.CreateMapIndexTable(nameof(ContainedPartIndex), table => table
-                .Column<string>("ListContentItemId", c => c.WithLength(26))
+            SchemaBuilder.CreateMapIndexTable<ContainedPartIndex>(table => table
+                .Column<string>("ContentItemId", column => column.WithLength(26))
+                .Column<string>("ListContentItemId", column => column.WithLength(26))
+                .Column<string>("DisplayText")
                 .Column<int>("Order")
+                .Column<string>("ListContentType")
+                .Column<bool>("Published")
+                .Column<bool>("Latest")
+
             );
 
-            SchemaBuilder.AlterTable(nameof(ContainedPartIndex), table => table
-                .CreateIndex("IDX_ContainedPartIndex_ListContentItemId", "ListContentItemId")
+            SchemaBuilder.AlterIndexTable<ContainedPartIndex>(table => table
+                .CreateIndex("IDX_ContainedPartIndex_DocumentId",
+                    "Id",
+                    "DocumentId",
+                    "ContentItemId",
+                    "ListContentItemId",
+                    "DisplayText",
+                    "Order",
+                    "ListContentType",
+                    "Published",
+                    "Latest")
             );
 
-            // Return 2 to shortcut the second migration on new content definition schemas.
-            return 2;
+            // Shortcut other migration steps on new content definition schemas.
+            return 4;
         }
 
         // Migrate PartSettings. This only needs to run on old content definition schemas.
@@ -41,6 +57,58 @@ namespace OrchardCore.Lists
             _contentDefinitionManager.MigratePartSettings<ListPart, ListPartSettings>();
 
             return 2;
+        }
+
+        // This code can be removed in a later version.
+        public int UpdateFrom2()
+        {
+            SchemaBuilder.AlterIndexTable<ContainedPartIndex>(table => table
+                .CreateIndex("IDX_ContainedPartIndex_DocumentId", "DocumentId", "ListContentItemId", "Order")
+            );
+
+            return 3;
+        }
+
+        // This code can be removed in a later version.
+        public int UpdateFrom3()
+        {
+            SchemaBuilder.AlterIndexTable<ContainedPartIndex>(table => table
+                .AddColumn<string>("ContentItemId", column => column.WithLength(26))
+            );
+
+            SchemaBuilder.AlterIndexTable<ContainedPartIndex>(table => table
+                .AddColumn<string>("ListContentType")
+            );
+
+            SchemaBuilder.AlterIndexTable<ContainedPartIndex>(table => table
+                .AddColumn<string>("DisplayText")
+            );
+
+            SchemaBuilder.AlterIndexTable<ContainedPartIndex>(table => table
+                .AddColumn<bool>("Published")
+            );
+
+            SchemaBuilder.AlterIndexTable<ContainedPartIndex>(table => table
+                .AddColumn<bool>("Latest")
+            );
+            SchemaBuilder.AlterIndexTable<ContainedPartIndex>(table => table
+                .DropIndex("IDX_ContainedPartIndex_DocumentId")
+            );
+
+            SchemaBuilder.AlterIndexTable<ContainedPartIndex>(table => table
+                .CreateIndex("IDX_ContainedPartIndex_DocumentId",
+                    "Id",
+                    "DocumentId",
+                    "ContentItemId",
+                    "ListContentItemId",
+                    "DisplayText",
+                    "Order",
+                    "ListContentType",
+                    "Published",
+                    "Latest")
+            );
+
+            return 4;
         }
     }
 }

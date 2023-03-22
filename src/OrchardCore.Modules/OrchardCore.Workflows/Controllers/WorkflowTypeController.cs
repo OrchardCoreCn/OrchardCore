@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -17,7 +18,6 @@ using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Notify;
 using OrchardCore.Navigation;
 using OrchardCore.Routing;
-using OrchardCore.Settings;
 using OrchardCore.Workflows.Activities;
 using OrchardCore.Workflows.Helpers;
 using OrchardCore.Workflows.Indexes;
@@ -32,7 +32,7 @@ namespace OrchardCore.Workflows.Controllers
     [Admin]
     public class WorkflowTypeController : Controller
     {
-        private readonly ISiteService _siteService;
+        private readonly PagerOptions _pagerOptions;
         private readonly ISession _session;
         private readonly IActivityLibrary _activityLibrary;
         private readonly IWorkflowManager _workflowManager;
@@ -50,7 +50,7 @@ namespace OrchardCore.Workflows.Controllers
 
         public WorkflowTypeController
         (
-            ISiteService siteService,
+            IOptions<PagerOptions> pagerOptions,
             ISession session,
             IActivityLibrary activityLibrary,
             IWorkflowManager workflowManager,
@@ -65,7 +65,7 @@ namespace OrchardCore.Workflows.Controllers
             IHtmlLocalizer<WorkflowTypeController> h,
             IUpdateModelAccessor updateModelAccessor)
         {
-            _siteService = siteService;
+            _pagerOptions = pagerOptions.Value;
             _session = session;
             _activityLibrary = activityLibrary;
             _workflowManager = workflowManager;
@@ -89,8 +89,7 @@ namespace OrchardCore.Workflows.Controllers
                 return Forbid();
             }
 
-            var siteSettings = await _siteService.GetSiteSettingsAsync();
-            var pager = new Pager(pagerParameters, siteSettings.PageSize);
+            var pager = new Pager(pagerParameters, _pagerOptions.GetPageSize());
 
             if (options == null)
             {
@@ -108,7 +107,7 @@ namespace OrchardCore.Workflows.Controllers
 
             if (!string.IsNullOrWhiteSpace(options.Search))
             {
-                query = query.Where(w => w.Name.Contains(options.Search));
+                query = query.Where(x => x.Name.Contains(options.Search));
             }
 
             switch (options.Order)
@@ -164,7 +163,7 @@ namespace OrchardCore.Workflows.Controllers
         [FormValueRequired("submit.Filter")]
         public ActionResult IndexFilterPOST(WorkflowTypeIndexViewModel model)
         {
-            return RedirectToAction("Index", new RouteValueDictionary {
+            return RedirectToAction(nameof(Index), new RouteValueDictionary {
                 { "Options.Search", model.Options.Search }
             });
         }
@@ -194,7 +193,7 @@ namespace OrchardCore.Workflows.Controllers
                             if (workflowType != null)
                             {
                                 await _workflowTypeStore.DeleteAsync(workflowType);
-                                _notifier.Success(H["Workflow {0} has been deleted.", workflowType.Name]);
+                                await _notifier.SuccessAsync(H["Workflow {0} has been deleted.", workflowType.Name]);
                             }
                         }
                         break;
@@ -204,7 +203,7 @@ namespace OrchardCore.Workflows.Controllers
                 }
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> EditProperties(int? id, string returnUrl = null)
@@ -232,6 +231,8 @@ namespace OrchardCore.Workflows.Controllers
                     Name = workflowType.Name,
                     IsEnabled = workflowType.IsEnabled,
                     IsSingleton = workflowType.IsSingleton,
+                    LockTimeout = workflowType.LockTimeout,
+                    LockExpiration = workflowType.LockExpiration,
                     DeleteFinishedWorkflows = workflowType.DeleteFinishedWorkflows,
                     ReturnUrl = returnUrl
                 });
@@ -272,15 +273,17 @@ namespace OrchardCore.Workflows.Controllers
             workflowType.Name = viewModel.Name?.Trim();
             workflowType.IsEnabled = viewModel.IsEnabled;
             workflowType.IsSingleton = viewModel.IsSingleton;
+            workflowType.LockTimeout = viewModel.LockTimeout;
+            workflowType.LockExpiration = viewModel.LockExpiration;
             workflowType.DeleteFinishedWorkflows = viewModel.DeleteFinishedWorkflows;
 
             await _workflowTypeStore.SaveAsync(workflowType);
 
             return isNew
-                ? RedirectToAction("Edit", new { workflowType.Id })
+                ? RedirectToAction(nameof(Edit), new { workflowType.Id })
                 : Url.IsLocalUrl(viewModel.ReturnUrl)
-                   ? (IActionResult)Redirect(viewModel.ReturnUrl)
-                   : RedirectToAction("Index");
+                   ? (IActionResult)this.Redirect(viewModel.ReturnUrl, true)
+                   : RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Duplicate(int id, string returnUrl = null)
@@ -301,6 +304,8 @@ namespace OrchardCore.Workflows.Controllers
             {
                 Id = id,
                 IsSingleton = workflowType.IsSingleton,
+                LockTimeout = workflowType.LockTimeout,
+                LockExpiration = workflowType.LockExpiration,
                 Name = "Copy-" + workflowType.Name,
                 IsEnabled = workflowType.IsEnabled,
                 ReturnUrl = returnUrl
@@ -327,13 +332,15 @@ namespace OrchardCore.Workflows.Controllers
             workflowType.Name = viewModel.Name?.Trim();
             workflowType.IsEnabled = viewModel.IsEnabled;
             workflowType.IsSingleton = viewModel.IsSingleton;
+            workflowType.LockTimeout = viewModel.LockTimeout;
+            workflowType.LockExpiration = viewModel.LockExpiration;
             workflowType.DeleteFinishedWorkflows = viewModel.DeleteFinishedWorkflows;
             workflowType.Activities = existingWorkflowType.Activities;
             workflowType.Transitions = existingWorkflowType.Transitions;
 
             await _workflowTypeStore.SaveAsync(workflowType);
 
-            return RedirectToAction("Edit", new { workflowType.Id });
+            return RedirectToAction(nameof(Edit), new { workflowType.Id });
         }
 
         public async Task<IActionResult> Edit(int id, string localId)
@@ -354,7 +361,7 @@ namespace OrchardCore.Workflows.Controllers
 
             var workflow = _workflowManager.NewWorkflow(workflowType);
             var workflowContext = await _workflowManager.CreateWorkflowExecutionContextAsync(workflowType, workflow);
-            var activityContexts = await Task.WhenAll(workflowType.Activities.Select(async x => await _workflowManager.CreateActivityExecutionContextAsync(x, x.Properties)));
+            var activityContexts = await Task.WhenAll(workflowType.Activities.Select(x => _workflowManager.CreateActivityExecutionContextAsync(x, x.Properties)));
             var workflowCount = await _session.QueryIndex<WorkflowIndex>(x => x.WorkflowTypeId == workflowType.WorkflowTypeId).CountAsync();
 
             var activityThumbnailShapes = new List<dynamic>();
@@ -453,8 +460,8 @@ namespace OrchardCore.Workflows.Controllers
             }
 
             await _workflowTypeStore.SaveAsync(workflowType);
-            await _session.CommitAsync();
-            _notifier.Success(H["Workflow type has been saved."]);
+            await _notifier.SuccessAsync(H["Workflow has been saved."]);
+
             return RedirectToAction(nameof(Edit), new { id = model.Id });
         }
 
@@ -474,9 +481,9 @@ namespace OrchardCore.Workflows.Controllers
             }
 
             await _workflowTypeStore.DeleteAsync(workflowType);
-            _notifier.Success(H["Workflow type {0} deleted", workflowType.Name]);
+            await _notifier.SuccessAsync(H["Workflow {0} deleted", workflowType.Name]);
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         private async Task<dynamic> BuildActivityDisplay(IActivity activity, int index, int workflowTypeId, string localId, string displayType)

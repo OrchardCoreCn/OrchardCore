@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OrchardCore.ContentManagement;
+using OrchardCore.ContentPreview;
 using OrchardCore.Data;
 using OrchardCore.Environment.Shell;
 using OrchardCore.Environment.Shell.Scope;
@@ -23,41 +25,43 @@ namespace OrchardCore.Indexing.Services
     public class IndexingTaskManager : IIndexingTaskManager
     {
         private readonly IClock _clock;
+        private readonly IStore _store;
         private readonly IDbConnectionAccessor _dbConnectionAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger _logger;
 
-        private readonly string _tablePrefix;
         private readonly List<IndexingTask> _tasksQueue = new List<IndexingTask>();
 
         public IndexingTaskManager(
             IClock clock,
-            ShellSettings shellSettings,
+            IStore store,
             IDbConnectionAccessor dbConnectionAccessor,
+            IHttpContextAccessor httpContextAccessor,
             ILogger<IndexingTaskManager> logger)
         {
             _clock = clock;
+            _store = store;
             _dbConnectionAccessor = dbConnectionAccessor;
+            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
-
-            _tablePrefix = shellSettings["TablePrefix"];
-
-            if (!String.IsNullOrEmpty(_tablePrefix))
-            {
-                _tablePrefix += '_';
-            }
         }
 
         public Task CreateTaskAsync(ContentItem contentItem, IndexingTaskTypes type)
         {
             if (contentItem == null)
             {
-                throw new ArgumentNullException("contentItem");
+                throw new ArgumentNullException(nameof(contentItem));
+            }
+
+            // Do not index a preview content item.
+            if (_httpContextAccessor.HttpContext?.Features.Get<ContentPreviewFeature>()?.Previewing == true)
+            {
+                return Task.CompletedTask;
             }
 
             if (contentItem.Id == 0)
             {
-                // Ignore that case, when Update is called on a content item which has not be "created" yet
-
+                // Ignore that case, when Update is called on a content item which has not be "created" yet.
                 return Task.CompletedTask;
             }
 
@@ -81,22 +85,16 @@ namespace OrchardCore.Indexing.Services
             return Task.CompletedTask;
         }
 
-        private static async Task FlushAsync(ShellScope scope, IEnumerable<IndexingTask> tasks)
+        private async Task FlushAsync(ShellScope scope, IEnumerable<IndexingTask> tasks)
         {
             var localQueue = new List<IndexingTask>(tasks);
 
             var serviceProvider = scope.ServiceProvider;
 
-            var session = serviceProvider.GetService<ISession>();
+            var session = serviceProvider.GetService<YesSql.ISession>();
             var dbConnectionAccessor = serviceProvider.GetService<IDbConnectionAccessor>();
             var shellSettings = serviceProvider.GetService<ShellSettings>();
             var logger = serviceProvider.GetService<ILogger<IndexingTaskManager>>();
-            var tablePrefix = shellSettings["TablePrefix"];
-
-            if (!String.IsNullOrEmpty(tablePrefix))
-            {
-                tablePrefix += '_';
-            }
 
             var contentItemIds = new HashSet<string>();
 
@@ -117,7 +115,7 @@ namespace OrchardCore.Indexing.Services
 
             // At this point, content items ids should be unique in localQueue
             var ids = localQueue.Select(x => x.ContentItemId).ToArray();
-            var table = $"{tablePrefix}{nameof(IndexingTask)}";
+            var table = $"{session.Store.Configuration.TablePrefix}{nameof(IndexingTask)}";
 
             using (var connection = dbConnectionAccessor.CreateConnection())
             {
@@ -125,7 +123,7 @@ namespace OrchardCore.Indexing.Services
 
                 using (var transaction = connection.BeginTransaction(session.Store.Configuration.IsolationLevel))
                 {
-                    var dialect = SqlDialectFactory.For(transaction.Connection);
+                    var dialect = session.Store.Configuration.SqlDialect;
 
                     try
                     {
@@ -137,7 +135,7 @@ namespace OrchardCore.Indexing.Services
                         // Page delete statements to prevent the limits from IN sql statements
                         var pageSize = 100;
 
-                        var deleteCmd = $"delete from {dialect.QuoteForTableName(table)} where {dialect.QuoteForColumnName("ContentItemId")} {dialect.InOperator("@Ids")};";
+                        var deleteCmd = $"delete from {dialect.QuoteForTableName(table, _store.Configuration.Schema)} where {dialect.QuoteForColumnName("ContentItemId")} {dialect.InOperator("@Ids")};";
 
                         do
                         {
@@ -150,7 +148,7 @@ namespace OrchardCore.Indexing.Services
                             }
                         } while (ids.Any());
 
-                        var insertCmd = $"insert into {dialect.QuoteForTableName(table)} ({dialect.QuoteForColumnName("CreatedUtc")}, {dialect.QuoteForColumnName("ContentItemId")}, {dialect.QuoteForColumnName("Type")}) values (@CreatedUtc, @ContentItemId, @Type);";
+                        var insertCmd = $"insert into {dialect.QuoteForTableName(table, _store.Configuration.Schema)} ({dialect.QuoteForColumnName("CreatedUtc")}, {dialect.QuoteForColumnName("ContentItemId")}, {dialect.QuoteForColumnName("Type")}) values (@CreatedUtc, @ContentItemId, @Type);";
                         await transaction.Connection.ExecuteAsync(insertCmd, localQueue, transaction);
 
                         transaction.Commit();
@@ -174,11 +172,11 @@ namespace OrchardCore.Indexing.Services
 
                 try
                 {
-                    var dialect = SqlDialectFactory.For(connection);
-                    var sqlBuilder = dialect.CreateBuilder(_tablePrefix);
+                    var dialect = _store.Configuration.SqlDialect;
+                    var sqlBuilder = dialect.CreateBuilder(_store.Configuration.TablePrefix);
 
                     sqlBuilder.Select();
-                    sqlBuilder.Table(nameof(IndexingTask));
+                    sqlBuilder.Table(nameof(IndexingTask), alias: null, _store.Configuration.Schema);
                     sqlBuilder.Selector("*");
 
                     if (count > 0)
@@ -186,7 +184,8 @@ namespace OrchardCore.Indexing.Services
                         sqlBuilder.Take(count.ToString());
                     }
 
-                    sqlBuilder.WhereAlso($"{dialect.QuoteForColumnName("Id")} > @Id");
+                    sqlBuilder.WhereAnd($"{dialect.QuoteForColumnName("Id")} > @Id");
+                    sqlBuilder.OrderBy($"{dialect.QuoteForColumnName("Id")}");
 
                     return await connection.QueryAsync<IndexingTask>(sqlBuilder.ToSqlString(), new { Id = afterTaskId });
                 }

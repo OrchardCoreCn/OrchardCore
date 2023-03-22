@@ -1,4 +1,4 @@
-using Ganss.XSS;
+using Ganss.Xss;
 using Microsoft.Extensions.Options;
 
 namespace OrchardCore.Infrastructure.Html
@@ -9,7 +9,7 @@ namespace OrchardCore.Infrastructure.Html
 
         public HtmlSanitizerService(IOptions<HtmlSanitizerOptions> options)
         {
-            foreach(var action in options.Value.Configure)
+            foreach (var action in options.Value.Configure)
             {
                 action?.Invoke(_sanitizer);
             }

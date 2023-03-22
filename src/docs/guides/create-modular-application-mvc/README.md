@@ -2,51 +2,59 @@
 
 ## 你将构建什么
 
-您将构建一个由模块组成的应用程序。该模块将提供一个控制器和一个视图，而布局将由主应用程序项目提供。
+You will build a modular ASP.NET Core MVC web application similar to the sample "Hello World" application included with Orchard Core. It includes a web application and a module. The web application provides the layout while the module registers a route and responds to homepage requests. You can refer to the following projects in [Orchard Core](https://github.com/OrchardCMS/OrchardCore) for more information.
+
+- src/OrchardCore.Mvc.Web
+- src/OrchardCore.Modules/OrchardCore.Mvc.HelloWorld
 
 ## 你需要准备什么
 
-- .NET Core SDK的当前版本。你可以从这里下载 [https://www.microsoft.com/net/download/core](https://www.microsoft.com/net/download/core).
-- 一个文本编辑器和一个可以键入dotnet命令的终端。
+- The current version of the .NET SDK. You can download it from here <https://dotnet.microsoft.com/download>.
+- A text editor and a terminal where you can run dotnet CLI commands.
 
 ## Creating an Orchard Core site and module
 
-有不同的方法来创建网站和模块的Orchard Core。了解更多 [here](../../getting-started/templates/README.md).  
-在本指南中，我们将使用我们的“代码生成模板”.
+There are different ways to create sites and modules for Orchard Core. You can learn more about them [here](../../getting-started/templates/README.md).
 
-可以使用以下命令安装最新发布的模板：
+In this guide we will use our [Code Generation Templates](../../getting-started/templates/). You can install the latest stable release of the templates using this command:
 
-```dotnet new -i OrchardCore.ProjectTemplates::1.0.0-*```
+```dotnet new install OrchardCore.ProjectTemplates::1.5.0-*```
 
 !!! 注意
     使用模板的开发版分支需要添加 `--nuget-source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json`
 
-创建一个包含站点的空文件夹。打开终端，导航到该文件夹并运行以下命令：
+Create an empty folder, called `OrchardCore.Mvc`, that will contain our projects. Open a terminal, navigate to that folder and run the following command to create the web application:
 
-```dotnet new ocmvc -n MySite```
+```dotnet new ocmvc -n OrchardCore.Mvc.Web```
 
-这将创建一个新的ASP.NETMVC应用程序在一个名为 `MySite`.  
-现在可以使用以下命令创建新模块：
+Next, create the "Hello World" module.
 
-```dotnet new ocmodulemvc -n MyModule```
+```dotnet new ocmodulemvc -n OrchardCore.Mvc.HelloWorld```
+ 
+Add a project reference to the web application that points to the module.
 
-该模块在“MyModule”文件夹中创建。
-下一步是通过添加项目引用从应用程序引用模块：
+```dotnet add OrchardCore.Mvc.Web reference OrchardCore.Mvc.HelloWorld```
 
-```dotnet add MySite reference MyModule```
+Optionally, you can add a solution file that references both the web application and module in case you want to open a solution in Visual Studio.
+
+```
+dotnet new sln -n OrchardCore.Mvc
+dotnet sln add OrchardCore.Mvc.Web\OrchardCore.Mvc.Web.csproj
+dotnet sln add OrchardCore.Mvc.HelloWorld\OrchardCore.Mvc.HelloWorld.csproj
+```
 
 ## 测试生成的应用程序
 
-从包含两个项目的文件夹根目录中，运行以下命令：
+From the `OrchardCore.Mvc` root folder containing both projects, run the following command to start the web application:
 
-`dotnet run --project .\MySite\MySite.csproj`
+`dotnet run --project .\OrchardCore.Mvc.Web\OrchardCore.Mvc.Web.csproj`
 
 !!! 注意
     如果您使用的是模板的开发分支, 运行程序前，先执行：
     
      `dotnet restore .\MySite\MySite.csproj --source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json` 
 
-您的应用程序现在应该运行在以下端口：
+Your application should now be running and listening on the following ports:
 
 ```
 Now listening on: https://localhost:5001
@@ -54,32 +62,36 @@ Now listening on: http://localhost:5000
 Application started. Press Ctrl+C to shut down.
 ```
 
-打开浏览器 <https://localhost:5001/MyModule/Home/Index>  
-它应该显示 __Hello from MyModule__
+Open a browser and navigate to <https://localhost:5001/OrchardCore.Mvc.HelloWorld/Home/Index>. It should display __Hello from OrchardCore.Mvc.HelloWorld__.
 
-> 布局来自主应用程序项目，而控制器、操作和视图来自模块项目。
+> The Layout is from the main web application project, while the controller, action and view are from the module project.
 
 ## 注册自定义路由
 
-默认情况下，模块中的所有路由都为`{area}/{controller}/{action}`其中`{area}`是模块的名称。
-我们将更改此模块中视图的路径以处理主页。
+By default, all routes in modules follow the pattern `{area}/{controller}/{action}`, where `{area}` is the name of the module. We will change the route of the view in the module to respond to homepage requests.
 
-在 `Startup.cs` 文件 `MyModule` ，请将此代码添加到 `Configure()` 方法中。
+In the `Startup.cs` file of `OrchardCore.Mvc.HelloWorld`, add a custom route in the `Configure()` method.
 
 ```csharp
     routes.MapAreaControllerRoute(
         name: "Home",
-        areaName: "MyModule",
+        areaName: "OrchardCore.Mvc.HelloWorld",
         pattern: "",
         defaults: new { controller = "Home", action = "Index" }
     );
 ```
 
-重新启动应用程序并打开主页，该主页应显示与之前的url相同的结果。
+You can also change the `Index.cshtml` file in the module's `Views` -> `Home` folder so that it displays __Hello World__ similar to the project in Orchard Core.
+
+```html
+<h1>Hello World</h1>
+```
+
+Restart the application and navigate to the homepage at <https://localhost:5001> to display the __Hello World__ message.
 
 ## 摘要
 
-你刚刚创造了一个ASP.NET具有包含控制器和视图的模块的核心应用程序。
+You just created a modular ASP.NET Core MVC web application using Orchard Core. It includes a web application that supplies the layout and a custom module that responds to homepage requests.
 
 ## 视频讲解
 

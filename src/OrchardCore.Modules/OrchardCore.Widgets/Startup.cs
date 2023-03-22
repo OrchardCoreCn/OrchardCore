@@ -33,11 +33,11 @@ namespace OrchardCore.Widgets
             services.AddScoped<IShapeTableProvider, ContentCardShapes>();
             // Widgets List Part
             services.AddContentPart<WidgetsListPart>()
-                .UseDisplayDriver<WidgetsListPartDisplay>();
+                .UseDisplayDriver<WidgetsListPartDisplayDriver>();
 
             services.AddScoped<IContentTypePartDefinitionDisplayDriver, WidgetsListPartSettingsDisplayDriver>();
             services.AddContentPart<WidgetMetadata>();
-            services.AddScoped<IDataMigration, Migrations>();
+            services.AddDataMigration<Migrations>();
         }
 
         public override void Configure(IApplicationBuilder app, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)

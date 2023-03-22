@@ -4,7 +4,8 @@ namespace OrchardCore.Users.ViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required]
-        public string UserIdentifier { get; set; }
+        [Required(ErrorMessage = "Email is required.")]
+        [Email.EmailAddress(ErrorMessage = "Invalid Email.")]
+        public string Email { get; set; }
     }
 }

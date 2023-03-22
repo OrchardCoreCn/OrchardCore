@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using GraphQL.Resolvers;
 using GraphQL.Types;
+using Newtonsoft.Json.Linq;
 using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentFields.GraphQL.Types;
 using OrchardCore.ContentManagement;
@@ -45,16 +46,6 @@ namespace OrchardCore.ContentFields.GraphQL.Fields
                 }
             },
             {
-                nameof(HtmlField),
-                new FieldTypeDescriptor
-                {
-                    Description = "Html field",
-                    FieldType = typeof(StringGraphType),
-                    UnderlyingType = typeof(HtmlField),
-                    FieldAccessor = field => field.Content.Html
-                }
-            },
-            {
                 nameof(NumericField),
                 new FieldTypeDescriptor
                 {
@@ -71,7 +62,7 @@ namespace OrchardCore.ContentFields.GraphQL.Fields
                     Description = "Text field",
                     FieldType = typeof(StringGraphType),
                     UnderlyingType = typeof(TextField),
-                    FieldAccessor = field => field.Content.Text
+                    FieldAccessor = field => (string)field.Content.Text
                 }
             },
             {
@@ -82,6 +73,16 @@ namespace OrchardCore.ContentFields.GraphQL.Fields
                     FieldType = typeof(TimeSpanGraphType),
                     UnderlyingType = typeof(TimeField),
                     FieldAccessor = field => (TimeSpan?)field.Content.Value
+                }
+            },
+            {
+                nameof(MultiTextField),
+                new FieldTypeDescriptor
+                {
+                    Description = "Multi text field",
+                    FieldType = typeof(ListGraphType<StringGraphType>),
+                    UnderlyingType = typeof(MultiTextField),
+                    FieldAccessor = field => ((JArray)field.Content.Values)?.ToObject<string[]>()
                 }
             }
         };

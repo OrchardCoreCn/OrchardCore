@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using OrchardCore.Admin;
 using OrchardCore.Deployment.Indexes;
 using OrchardCore.Deployment.ViewModels;
@@ -16,7 +17,6 @@ using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Notify;
 using OrchardCore.Navigation;
 using OrchardCore.Routing;
-using OrchardCore.Settings;
 using YesSql;
 using YesSql.Services;
 
@@ -29,7 +29,7 @@ namespace OrchardCore.Deployment.Controllers
         private readonly IDisplayManager<DeploymentStep> _displayManager;
         private readonly IEnumerable<IDeploymentStepFactory> _factories;
         private readonly ISession _session;
-        private readonly ISiteService _siteService;
+        private readonly PagerOptions _pagerOptions;
         private readonly INotifier _notifier;
         private readonly IUpdateModelAccessor _updateModelAccessor;
         private readonly IStringLocalizer S;
@@ -41,7 +41,7 @@ namespace OrchardCore.Deployment.Controllers
             IDisplayManager<DeploymentStep> displayManager,
             IEnumerable<IDeploymentStepFactory> factories,
             ISession session,
-            ISiteService siteService,
+            IOptions<PagerOptions> pagerOptions,
             IShapeFactory shapeFactory,
             IStringLocalizer<DeploymentPlanController> stringLocalizer,
             IHtmlLocalizer<DeploymentPlanController> htmlLocalizer,
@@ -52,7 +52,7 @@ namespace OrchardCore.Deployment.Controllers
             _factories = factories;
             _authorizationService = authorizationService;
             _session = session;
-            _siteService = siteService;
+            _pagerOptions = pagerOptions.Value;
             _notifier = notifier;
             _updateModelAccessor = updateModelAccessor;
             New = shapeFactory;
@@ -60,7 +60,7 @@ namespace OrchardCore.Deployment.Controllers
             H = htmlLocalizer;
         }
 
-        public async Task<IActionResult> Index(DeploymentPlanIndexOptions options, PagerParameters pagerParameters)
+        public async Task<IActionResult> Index(ContentOptions options, PagerParameters pagerParameters)
         {
             if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageDeploymentPlan))
             {
@@ -72,25 +72,19 @@ namespace OrchardCore.Deployment.Controllers
                 return Forbid();
             }
 
-            var siteSettings = await _siteService.GetSiteSettingsAsync();
-            var pager = new Pager(pagerParameters, siteSettings.PageSize);
-
-            // default options
-            if (options == null)
-            {
-                options = new DeploymentPlanIndexOptions();
-            }
+            var pager = new Pager(pagerParameters, _pagerOptions.GetPageSize());
 
             var deploymentPlans = _session.Query<DeploymentPlan, DeploymentPlanIndex>();
 
             if (!string.IsNullOrWhiteSpace(options.Search))
             {
-                deploymentPlans = deploymentPlans.Where(dp => dp.Name.Contains(options.Search));
+                deploymentPlans = deploymentPlans.Where(x => x.Name.Contains(options.Search));
             }
 
             var count = await deploymentPlans.CountAsync();
 
             var results = await deploymentPlans
+                .OrderBy(p => p.Name)
                 .Skip(pager.GetStartIndex())
                 .Take(pager.PageSize)
                 .ListAsync();
@@ -109,7 +103,7 @@ namespace OrchardCore.Deployment.Controllers
             };
 
             model.Options.DeploymentPlansBulkAction = new List<SelectListItem>() {
-                new SelectListItem() { Text = S["Delete"], Value = nameof(DeploymentPlansBulkAction.Delete) }
+                new SelectListItem() { Text = S["Delete"], Value = nameof(ContentsBulkAction.Delete) }
             };
 
             return View(model);
@@ -126,22 +120,26 @@ namespace OrchardCore.Deployment.Controllers
 
         [HttpPost, ActionName(nameof(Index))]
         [FormValueRequired("submit.BulkAction")]
-        public async Task<ActionResult> IndexBulkActionPOST(DeploymentPlanIndexOptions options, IEnumerable<int> itemIds)
+        public async Task<ActionResult> IndexBulkActionPOST(ContentOptions options, IEnumerable<int> itemIds)
         {
+            if (!await _authorizationService.AuthorizeAsync(User, Permissions.ManageDeploymentPlan))
+            {
+                return Forbid();
+            }
+
             if (itemIds?.Count() > 0)
             {
                 var checkedItems = await _session.Query<DeploymentPlan, DeploymentPlanIndex>().Where(x => x.DocumentId.IsIn(itemIds)).ListAsync();
                 switch (options.BulkAction)
                 {
-                    case DeploymentPlansBulkAction.None:
+                    case ContentsBulkAction.None:
                         break;
-                    case DeploymentPlansBulkAction.Delete:
+                    case ContentsBulkAction.Delete:
                         foreach (var item in checkedItems)
                         {
                             _session.Delete(item);
-
-                            _notifier.Success(H["Deployment plan {0} successfully deleted.", item.Name]);
                         }
+                        await _notifier.SuccessAsync(H["Deployment plans successfully deleted."]);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -218,6 +216,12 @@ namespace OrchardCore.Deployment.Controllers
                 {
                     ModelState.AddModelError(nameof(CreateDeploymentPlanViewModel.Name), S["The name is mandatory."]);
                 }
+
+                var count = await _session.QueryIndex<DeploymentPlanIndex>(x => x.Name == model.Name).CountAsync();
+                if (count > 0)
+                {
+                    ModelState.AddModelError(nameof(CreateDeploymentPlanViewModel.Name), S["A deployment plan with the same name already exists."]);
+                }
             }
 
             if (ModelState.IsValid)
@@ -277,6 +281,14 @@ namespace OrchardCore.Deployment.Controllers
                 {
                     ModelState.AddModelError(nameof(EditDeploymentPlanViewModel.Name), S["The name is mandatory."]);
                 }
+                if (!String.Equals(model.Name, deploymentPlan.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    var count = await _session.QueryIndex<DeploymentPlanIndex>(x => x.Name == model.Name && x.DocumentId != model.Id).CountAsync();
+                    if (count > 0)
+                    {
+                        ModelState.AddModelError(nameof(CreateDeploymentPlanViewModel.Name), S["A deployment plan with the same name already exists."]);
+                    }
+                }
             }
 
             if (ModelState.IsValid)
@@ -285,7 +297,7 @@ namespace OrchardCore.Deployment.Controllers
 
                 _session.Save(deploymentPlan);
 
-                _notifier.Success(H["Deployment plan updated successfully"]);
+                await _notifier.SuccessAsync(H["Deployment plan updated successfully."]);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -311,7 +323,7 @@ namespace OrchardCore.Deployment.Controllers
 
             _session.Delete(deploymentPlan);
 
-            _notifier.Success(H["Deployment plan deleted successfully"]);
+            await _notifier.SuccessAsync(H["Deployment plan deleted successfully."]);
 
             return RedirectToAction(nameof(Index));
         }

@@ -18,125 +18,68 @@ QQ 群：877196442
 
 [![Orchard Core CN 中文官方](https://pub.idqqimg.com/wpa/images/group.png)](//shang.qq.com/wpa/qunwpa?idkey=48721591a71ee7586316604a7a4ee99d26fd977c6120370a06585085a5936f62)
 [![Join the chat at https://gitter.im/OrchardCMS/OrchardCore](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/OrchardCMS/OrchardCore?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![BSD-3-Clause License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](https://github.com/OrchardCMS/OrchardCore/blob/master/LICENSE)
+[![BSD-3-Clause License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
 [![Documentation](https://readthedocs.org/projects/orchardcore/badge/)](https://docs.orchardcore.net/)
 [![Crowdin](https://badges.crowdin.net/orchard-core/localized.svg)](https://crowdin.com/project/orchard-core)
 
-## 使用Orchard Core Framework 构建软件服务 （SaaS） 解决方案 
+## Local communities
 
-了解Orchard Core Framework是独立于nuget.org上的CMS分发的，这一点非常重要。我们在 <https://github.com/OrchardCMS/OrchardCore.Samples> 提供了一些示例程序，它将指导您如何仅使用Orchard Core Framework来构建**模块化** 和 **多租户** 的应用程序，而无需任何 CMS 特定功能。
+中文资源
 
-我们的目标之一是启用托管应用程序的基于社区的生态系统，这些生态系统可以通过模块（如电子商务系统、博客引擎等）进行扩展。Orchard Core Framework支持模块化环境，允许不同的团队处理应用程序的不同部分，并使组件跨项目可重用。
-
-## 使用Orchard Core CMS 构建网站 
-
-Orchard Core CMS 是基于Orchard CMS 使用ASP.NET Core 重写的。它不仅仅是一个端口，因为我们希望大幅提高性能，并尽可能与的ASP.NET Core 的开发模型一致。
-
-- **性能**. 这可能是开始使用Orchard Core CMS时最明显的变化。这对CMS来说是非常快的。速度如此之快，以至于我们甚至都没有关心输出缓存模块的工作。让你体验一下，没有缓存的Orchard Core CMS比以前的版本快了20倍。
-
-- **跨平台**. 现在，您可以在 Windows、Linux 和 macOS 上开发和部署Orchard Core CMS。我们也有 Docker 映像可供使用。
-
-- **文档数据库** 抽象化. Orchard Core CMS仍然需要一个关系数据库，并且兼容SQL Server, MySQL, PostgreSQL和SQLite，但是它现在使用的是一个抽象化文档数据库(YesSql)，它提供了一个文档数据库API来存储和查询文档。对于CMS系统来说，这是一种更好的方法，可以显著提高性能。
-
-- **NuGet 包**. 模块和主题现在作为NuGet包共享。用Orchard Core CMS创建一个新网站其实很简单，只需从NuGet gallery引用一个元包。它还意味着更新到一个新的版本只涉及更新这个包的版本号。
-
-- **实时预览**. 在编辑内容项时，甚至在保存内容之前，就可以实时看到它在站点上的样子。它也适用于模板，您可以浏览任何页面，在您键入更改时检查更改对模板的影响。
-
-- **Liquid 模板支持**. 编辑者可以使用Liquid模板语言安全地更改HTML模板。 选择它的原因在于它有据可查（Jekyll，Shopify等），又非常安全。
-
-- **自定义查询**. 我们希望为开发人员提供一种尽可能简单地访问他们所有数据的方式。我们创建了一个模块，允许您创建自定义临时 SQL 和 Lucene 查询，这些查询可用于重新显示自定义内容或公开为 API 终结点。您可以使用它创建高效的查询，或将数据公开给 SPA 应用程序。
-
-- **部署计划**. 部署计划是可以包含构建网站的内容和元数据的脚本。您现在可以包含二进制文件，甚至可以使用它们来远程部署站点，例如从准备环境部署到生产环境。它们也可以是NuGet软件包的一部分，允许你发送预定义的网站。
-
-- **可伸缩性**. 由于 Orchard Core 是一个多租户系统，因此您可以通过单个部署托管尽可能多的网站。然后，典型的云计算机可以并行承载数千个站点，包括数据库、内容、主题和用户隔离。
-
-- **工作流**. 创建内容审批工作流、响应 Webhook、在提交表单时执行操作，以及要使用用户友好的 UI 实现的任何其他流程。
-
-- **GraphQL**.我们提供非常灵活的 GraphQL API，以便任何授权的外部应用程序都可以重用您的内容，如 SPA 应用程序或静态站点生成器。
-
-### 不同的网站构建策略
-
-Orchard Core CMS支持所有主要的网站建设策略：
-
-- **完整 CMS**. 在此模式下，网站使用主题和模板来呈现您的内容，旨在实现很少或完全没有自定义开发。
-
-- **解耦 CMS(Decoupled CMS)**. 除了内容管理端之外，网站从空白开始。您可以使用 Razor Pages 或 MVC 操作创建所需的所有模板，并通过内容服务访问您的内容。参考:[B站](https://www.bilibili.com/video/BV1nE411M7FV?from=search&seid=808810272737390403)  ，[油管](https://www.youtube.com/watch?v=yWpz8p-oaKg)
-
-- **无头 CMS(Headless CMS)**. 该网站只管理内容，您创建一个单独的应用程序，该应用程序将使用 GraphQL 或 REST API 获取托管内容。参考： [B站](https://www.bilibili.com/video/BV15E411s7kz?from=search&seid=16124424122784013302)，[油管](https://www.youtube.com/watch?v=4o9zG17cfa0)
-
-## 项目状态
-
-Orchard Core的最新发行版本是 `1.0.0-rc2`。
-发行说明可以在这里找到： <https://github.com/OrchardCMS/OrchardCore/releases/tag/1.0.0-rc2>
-
-该软件几乎已准备好最终发布。 不进行功能开发或软件增强； 在此阶段仅允许严格限定范围的错误修复，除非出现重大的错误。
-
-这是一个更详细的[路线图](https://github.com/OrchardCMS/OrchardCore/wiki/Roadmap).
-
-## 从这里开始
-
-- 使用命令 `git clone https://github.com/OrchardCMS/OrchardCore.git` 克隆此仓库，并切换到 `dev` 分支。
-
-- 观看Orchard Core演示的ASP.NET社区站立视频: <https://www.youtube.com/watch?v=HeDjv3blBjQ&t=2246s&list=PL1rZQsJPBU2StolNg0aqvQswETPcYnNKL&index=24>
-
-- 参考这个示例 <https://github.com/OrchardCMS/OrchardCore.Samples> 它将引导你如何构建一个 **模块化** 和 **多租户** 的应用程序。
-
-- 按照这个教程 [Training Demo Module](https://github.com/Lombiq/Orchard-Training-Demo-Module) 你将学习如何开发Orchard Core模块。（这里是包含中文翻译的版本：[码云仓库](https://gitee.com/hyzx86/Orchard-Training-Demo-Module/)）
-
-### 命令行
-
-- 从这个页面安装最新版的 .NET Core SDK  <https://www.microsoft.com/net/download/core>
-- 接下来,导航到 `D:\OrchardCore\src\OrchardCore.Cms.Web` 或你的文件夹，在管理员模式下命令行。
-- 执行 `dotnet run`
-- 然后在浏览器中打开 `http://localhost:5000` 
-
-你也可以参考 [代码生成模板文档](docs/getting-started/templates/README.md) 从预定义的模板创建新的应用程序。
-
-### Visual Studio
-
-- 从 https://www.visualstudio.com/downloads/ 下载 Visual Studio 2019 (任何版本) 
-- 打开解决方案： `OrchardCore.sln`，然后等待恢复所有包
-- 确保启动项目为： `OrchardCore.Cms.Web` ，然后运行
-- 可选安装 [Lombiq Orchard Visual Studio Extension](https://marketplace.visualstudio.com/items?itemName=LombiqVisualStudioExtension.LombiqOrchardVisualStudioExtension) 它可以帮助您向您的Visual Studio添加一些有用的实用程序，例如错误日志监视程序或依赖项注入器。
-
-### Docker
-
-- 运行 `docker run --name orchardcms orchardproject/orchardcore-cms-linux:latest`
-
-Docker 镜像和参数可以到这里查看 <https://hub.docker.com/u/orchardproject/> 
+[![Orchard Core CN 中文讨论组](https://docs.orchardcore.net/en/latest/docs/assets/images/orchard-core-cn-community-logo.png)](https://shang.qq.com/wpa/qunwpa?idkey=48721591a71ee7586316604a7a4ee99d26fd977c6120370a06585085a5936f62)
 
 ## Build Status
 
-稳定版 (master): 
+Stable (release/1.5): 
 
-[![Build Status](https://api.travis-ci.org/OrchardCMS/OrchardCore.svg?branch=master)](https://travis-ci.org/OrchardCMS/OrchardCore/branches)
-[![Build status](https://img.shields.io/appveyor/ci/alexbocharov/orchardcore/master.svg?label=appveyor&style=flat-square)](https://ci.appveyor.com/project/alexbocharov/orchardcore/branch/master)
+[![Build status](https://github.com/OrchardCMS/OrchardCore/actions/workflows/release_ci.yml/badge.svg)](https://github.com/OrchardCMS/OrchardCore/actions?query=workflow%3A%22Release+-+CI%22)
 [![NuGet](https://img.shields.io/nuget/v/OrchardCore.Application.Cms.Targets.svg)](https://www.nuget.org/packages/OrchardCore.Application.Cms.Targets)
 
-每日更新 (dev): 
+Nightly (main): 
 
-[![Build Status](https://api.travis-ci.org/OrchardCMS/OrchardCore.svg?branch=dev)](https://travis-ci.org/OrchardCMS/OrchardCore/branches)
-[![Build status](https://img.shields.io/appveyor/ci/alexbocharov/orchardcore/dev.svg?label=appveyor&style=flat-square)](https://ci.appveyor.com/project/alexbocharov/orchardcore/branch/dev)
+[![Build status](https://github.com/OrchardCMS/OrchardCore/actions/workflows/preview_ci.yml/badge.svg)](https://github.com/OrchardCMS/OrchardCore/actions?query=workflow%3A%22Preview+-+CI%22)
 [![Cloudsmith](https://api-prd.cloudsmith.io/badges/version/orchardcore/preview/nuget/OrchardCore.Application.Cms.Targets/latest/x/?render=true&badge_token=gAAAAABey9hKFD_C-ZIpLvayS3HDsIjIorQluDs53KjIdlxoDz6Ntt1TzvMNJp7a_UWvQbsfN5nS7_0IbxCyqHZsjhmZP6cBkKforo-NqwrH5-E6QCrJ3D8%3D)](https://cloudsmith.io/~orchardcore/repos/preview/packages/detail/nuget/OrchardCore.Application.Cms.Targets/latest/)
 
 ## 现状
 
-### RC 2
+### 1.5.0
 
-该软件几乎已准备好最终发布。 不进行功能开发或软件增强； 在此阶段仅允许严格限定范围的错误修复，除非出现重大的错误。
+The software is finished -- and by finished, we mean there are no show-stopping, little-children-killing bugs in it. That we know of. There are probably numerous lower-priority bugs triaged into the next point release or service pack, as well.
 
 这是一个更详细的 [路线图](https://github.com/OrchardCMS/OrchardCore/wiki/Roadmap).
 
 ### 文档
 
-可以从这里访问文档: <https://docs.orchardcore.net/>
+- Clone the repository using the command `git clone https://github.com/OrchardCMS/OrchardCore.git` and checkout the `main` branch.
 
 官方手册：[简体中文](https://docs.orchardcore.net/zh_CN/dev/) | [English](https://docs.orchardcore.net/en/dev/)
 
-## 编码规范
+- Install the latest version of the .NET SDK from this page <https://dotnet.microsoft.com/download>
+- Next, navigate to `./OrchardCore/src/OrchardCore.Cms.Web`.
+- Call `dotnet run`.
+- Then open the `http://localhost:5000` URL in your browser.
 
 看这里 [编码规范](./CODE-OF-CONDUCT.md)
 
-## .NET 基金会
+- Download Visual Studio 2022 (v17.5+) from https://www.visualstudio.com/downloads/
+- Open `OrchardCore.sln` and wait for Visual Studio to restore all Nuget packages.
+- Ensure `OrchardCore.Cms.Web` is the startup project and run it.
 
-这个项目受[.NET 基金会](http://www.dotnetfoundation.org)支持.
+### Docker
+
+- Run `docker run --name orchardcms -p 8080:80 orchardproject/orchardcore-cms-linux:latest`
+
+Docker images and parameters can be found at <https://hub.docker.com/u/orchardproject/>  
+See [Docker documentation](https://docs.docker.com/engine/reference/commandline/run/#publish-or-expose-port--p---expose) to expose different port.
+
+### Documentation
+
+The documentation can be accessed here: <https://docs.orchardcore.net/>
+
+## Code of Conduct
+
+See [CODE-OF-CONDUCT](./CODE-OF-CONDUCT.md)
+
+## .NET Foundation
+
+This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).

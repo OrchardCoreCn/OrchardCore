@@ -1,19 +1,19 @@
-# 如何实现网站全文检索
+# How to implement a website full-text search
 
-Orchard Core提供了一个Lucene模块/功能，允许在您的网站上进行全文搜索。
-大多数时候，当你运行一个博客或一个简单的代理网站时，你需要在你的页面内容中进行搜索。
-在Orchard Core中，可以通过使用Liquid在内容类型配置中配置要索引的文本/数据。
+Orchard Core provides a [Lucene](../../reference/modules/Lucene/README.md) and [Elasticsearch](../../reference/modules/Elasticsearch/README.md) module/feature that allows you to do full-text search on your websites. Most of the time, when building a website you will require to search mostly within your pages content. Though, in Orchard Core it is also possible to configure which text/data you want to index in the `Content Type` configuration by using `Liquid`. The steps in this guide have been written for `Lucene` but the same goal is also achievable with `Elasticsearch`.
 
-在进一步讨论之前，我想指定 `TheBlogTheme` 包含一个配方，它将在不需要任何必要知识的情况下为您默认配置所有这些。
-让我们一步一步地为您提供这些信息。
+Before going further, please notice that `TheBlogTheme` includes a recipe which will configure all of this for you without any required knowledge.
+
+Let's see how to make this available for you step by step.
+
+## 1st step : Enable the Lucene or Elasticsearch feature in Orchard Core.
 
 ## 第一步：在Orchard Core启用Lucene功能。
 ![Features configuration](images/1.jpg)
 
-正如你在这里看到的，我们有3个不同的Lucene 功能 在Orchard Core。
-您需要启用“Lucene”功能才能创建Lucene索引。
+There are 3 different `Lucene` and `Elasticsearch` features in Orchard Core. You will require to enable the `Lucene` feature in order to create `Lucene` indices. You will require to enable the `Elasticsearch` feature in order to create `Elasticsearch` indices.
 
-## 第二步：创建Lucene索引
+## 2nd step : Create a `Lucene` or `Elasticsearch` index
 
 ![Indices list](images/2.jpg)
 
@@ -21,29 +21,29 @@ Orchard Core提供了一个Lucene模块/功能，允许在您的网站上进行�
 
 ![Create index form](images/3.jpg)
 
-让我们在这里暂停一下，看看在Lucene索引上有哪些选项。
+Options that are available on a `Lucene` Index:
 
-*Index Name*将是用于标识索引的名称。它将在“/App_Data/Sites/{YourTenantName}/Lucene/{IndexName}”中创建一个同名文件夹，其中包含Lucene在索引时创建的所有文件。
+The *Index Name* is used for identifying your index.  
+It will create a folder in `/App_Data/Sites/{YourTenantName}/Lucene/{IndexName}` which will contain all the files created by `Lucene` when indexing. 
 
-第二个选项是用于该索引的*Analyzer Name*。这里的分析器对于高级用户来说是一个更复杂的特性。
-它允许您在索引文本时微调文本的词干。例如，当您搜索“Car”时，您可能希望在人们键入小写的“Car”时也有结果。
-在这种情况下，分析仪可以用一个小写过滤器编程，它将索引所有小写文本。
-更多详情请参考分析仪Lucene.NET网站文档。默认情况下，Orchard Core中的*Analyzer Name*只有*standardanalyzer*可用，
-它针对“英语”文化字符进行了优化。Orchard Core使分析器具有可扩展性，因此您可以使用Lucene.NET或者通过实现你自己的。参见：
+The second option is the *Analyzer Name* used for this Index.  
+The analyzer is a more complex feature for advanced users. It allows you to fine tune how your text is stemmed when it is indexed. For example, when you are searching for "Car", you might also want to have results when people are typing "car" which is in lower case. In that case the Analyzer could be programmed with a Lower case filter which will index all text in lower case. For more details about analyzers, please refer to Lucene.NET documentation. By default, the *Analyzer Name* in Orchard Core has only the *standardanalyzer* available which is optimized for "English" culture chars. Analyzers are extensible so that you can add your own by using one of the provided analyzers in Lucene.NET or by implementing your own.  
+
+See:
 
 https://github.com/apache/lucenenet/tree/master/src/Lucene.Net.Analysis.Common/Analysis
 
-例如，您可以使用Startup.cs来自定义模块中的文件：
+You can register for example a custom analyzer with the DI using this example from a startup.cs file in your custom module: 
 
-```C#
+```csharp
 using Microsoft.Extensions.DependencyInjection;
-using OrchardCore.Lucene.Model;
-using OrchardCore.Lucene.Services;
+using OrchardCore.Search.Lucene.Model;
+using OrchardCore.Search.Lucene.Services;
 using OrchardCore.Modules;
 
-namespace OrchardCore.Lucene.FrenchAnalyzer
+namespace OrchardCore.Search.Lucene.FrenchAnalyzer
 {
-    [Feature("OrchardCore.Lucene.FrenchAnalyzer")]
+    [Feature("OrchardCore.Search.Lucene.FrenchAnalyzer")]
     public class Startup : StartupBase
     {
         public override void ConfigureServices(IServiceCollection services)
@@ -56,53 +56,74 @@ namespace OrchardCore.Lucene.FrenchAnalyzer
 }
 ```
 
+The third option is the *Culture*.  
+By default, *Any culture* will be selected. Here, the option is made for being able to define that this index should be only indexing content items of a specific culture or any of them.
 
-第三个选项是文化。默认情况下，将选择“任意区域性”。在这里，可以选择定义这个索引是应该只索引特定区域性的内容项还是其中任何一个。
+*Content Types* : You can pick any content types that should be parsed by this index.
 
-*contenttypes*：您可以选择希望看到这个索引解析的任何内容类型。
+*Index latest version* : This option will allow you to index only published items or also index drafts which could be useful if you want to search for content items in a custom frontend dashboard or even in an admin backend custom module.  
+By default, if we don't check this option, it will only index published content items.
 
-*索引最新版本*：此选项将允许您仅索引已发布的项目或还索引草稿，如果您希望在自定义前端仪表板中甚至在管理后端自定义模块中搜索内容项，这可能非常有用。默认情况下，如果不选中此选项，它将只索引已发布的内容项。
+*Store source data* (Elasticsearch only): This option will by default set to true so that the "_source" data in Elasticsearch be stored. Unchecking this will allow to disable storing any data in the "_source" field by disabling it. [See documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-source-field.html#disable-source-field)
 
-## 第三步：配置搜索设置
+## 3rd step : Configure search settings
 
 ![Search settings](images/4.jpg)
 
-通过之前启用的Lucene模块，我们还添加了一个新的路由映射到“/search”，这需要一些设置才能正常工作。创建新的Lucene索引后要做的第一件事是在Orchard Core中配置搜索设置。在这里，我们可以定义网站上的“/search”页面应该使用哪个索引，也可以定义这个搜索页面应该使用哪些索引字段。默认情况下，我们通常使用`Content.ContentItem.FullText`. 我稍后解释原因。
+By enabling the `Lucene` module, we also added a new route mapping to `/search` which will require some settings to work properly. First thing to do after creating a new Lucene index is to go configure the search settings in Orchard Core. Here, we can define which index should be used for the `/search` page on our website and also define which Index fields should be used by this search page. Usually, we are using by default `Content.ContentItem.FullText`.
 
-## 第四步：设置索引权限
+## 4th step : Set index permissions
 
 ![Anonymous user role settings](images/5.jpg)
 
-默认情况下，每个索引都是受权限保护的，因此如果不设置哪些索引应该是公共的，就没有人可以查询它们。
-要使“搜索”Lucene索引可用于您网站上的*匿名*用户，您将需要去编辑此用户角色并向其添加权限。每个索引都会在这里列出`OrchardCore.Lucene Feature`section。
+By default, each indexes are permission protected so that no one can query them if you don't set which ones should be public. To make the "Search" `Lucene` index available for *Anonymous* users on your website, you will require to go and edit this user role and add the permission to it. Each index will be listed here in that `OrchardCore.Search.Lucene Feature` section.
 
-## 第六步：测试搜索页面
+## 5th step : Set your search provider
+
+![Set search provider](images/8.jpg)
+
+Starting from OC 1.5 you can now use the "Search" feature to enable your website frontend search. By enabling this feature it will add a new admin menu option to select which indexing provider you want to use for your frontend search. Orchard Core will allow to use `Lucene` or `Elasticsearch`.
+
+## 6th step : Test search page
 
 ![Search page](images/6.jpg)
 
-在这个例子中，我使用blogtheme配方自动配置所有东西。所以上面的截图是这个主题的搜索页面结果的一个例子。
+Here for this example I used `TheBlogTheme` recipe to automatically configure everything. So the above screenshot is an example of a search page result from that theme.
 
-## 第七步：微调全文搜索
+## 7th step : Fine tune full-text search
 
 ![Content type indexing settings](images/7.jpg)
 
+Here, we are seeing the `Blog Post` content type definition. We have now a section for every content type to define which part of this content item should be indexed as part of the `FullText`. By default, content items will index the "display text" and "body part" but we also added an option for you to customize the values that you would like to index as part of this `FullText` index field. By clicking on the "Use custom full-text", we allow you to set any Liquid script. As the example states, you could add `{{ Model.Content.BlogPost.Subtitle.Text }}` if you would like to also find this content item by its *Subtitle* field. You can do many things with this Liquid field: Index identifiers, fixed text or numeric values, etc.
+
+We can use the "Use custom full-text" to include the content of widgets or bags inside the full-text search index. For example, for widgets inside a FlowPart we should use this Liquid script:
+
+```html
+{% for contentItem in Model.Content.FlowPart.Widgets %}
+  {{ contentItem | full_text_aspect }}
+{% endfor %}
+```
+
+Or simply use:
+
+```html
+{{ Model.Content.FlowPart.Widgets | full_text_aspect }}
+```
 
 这里我们可以看到Blog Post内容类型的定义。现在每个内容类型都有一个部分，用于定义此内容项的哪个部分应作为`FullText` 的一部分进行索引。
 默认情况下，内容项将索引“Display text”和“body part”，但我们还为您添加了一个选项，用于自定义要作为`FullText` 索引字段一部分索引的值。
 通过单击“使用自定义全文”，我们允许您设置任何Liquid脚本。因此，正如示例所述，
 您可以添加`{{ Model.Content.BlogPost.Subtitle.Text }}`如果您还想通过它的*Subtitle*字段找到这个内容项。对于剩下的部分，我们让您想象一下您可以用这个Liquid字段做些什么：索引标识符、固定文本或数值等等！
 
-## 可选：搜索模板自定义
+Also, you can customize these templates for your specific needs in your theme by overriding these files : 
 
-此外，您还可以通过重写以下内容，根据主题中的特定需要自定义这些模板：
+`/Views/Shared/Search.liquid or .cshtml` (general layout)  
+`/Views/Search-Form.liquid or .cshtml` (form layout)  
+`/Views/Search-Results.liquid or .cshtml` (results layout)   
 
-`/Views/Shared/Search.liquid or .cshtml` (常规布局)  
-`/Views/SearchForm.liquid or .cshtml` (表单布局)  
-`/Views/SearchResults.liquid or .cshtml` (结果布局)   
+For example, you could simply customize the search result template to suit your needs by changing "Summary" to "SearchSummary" and create the corresponding shape templates.
 
-例如，这里的一个想法可以是通过将 “Summary” 更改为“SearchSummary”并创建相应的形状模板，来定制搜索结果模板以满足您的需要。
-
-SearchResults.liquid : 
+SearchResults.liquid: 
 ```html
 {% if Model.ContentItems != null and Model.ContentItems.size > 0 %}
     <ul class="list-group">

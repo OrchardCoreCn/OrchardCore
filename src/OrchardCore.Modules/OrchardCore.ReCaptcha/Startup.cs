@@ -3,10 +3,13 @@ using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.Modules;
 using OrchardCore.Navigation;
+using OrchardCore.ReCaptcha.Configuration;
 using OrchardCore.ReCaptcha.Core;
 using OrchardCore.ReCaptcha.Drivers;
 using OrchardCore.ReCaptcha.Users.Handlers;
+using OrchardCore.Security.Permissions;
 using OrchardCore.Settings;
+using OrchardCore.Settings.Deployment;
 using OrchardCore.Users.Events;
 
 namespace OrchardCore.ReCaptcha
@@ -20,6 +23,17 @@ namespace OrchardCore.ReCaptcha
 
             services.AddScoped<IDisplayDriver<ISite>, ReCaptchaSettingsDisplayDriver>();
             services.AddScoped<INavigationProvider, AdminMenu>();
+            services.AddScoped<IPermissionProvider, Permissions>();
+        }
+    }
+
+    [Feature("OrchardCore.ReCaptcha")]
+    [RequireFeatures("OrchardCore.Deployment")]
+    public class DeploymentStartup : StartupBase
+    {
+        public override void ConfigureServices(IServiceCollection services)
+        {
+            services.AddSiteSettingsPropertyDeploymentStep<ReCaptchaSettings, DeploymentStartup>(S => S["ReCaptcha settings"], S => S["Exports the ReCaptcha settings."]);
         }
     }
 

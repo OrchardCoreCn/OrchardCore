@@ -1,17 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Newtonsoft.Json.Linq;
 using OrchardCore.DisplayManagement;
+using OrchardCore.Locking.Distributed;
 using OrchardCore.Modules;
 using OrchardCore.Scripting;
 using OrchardCore.Scripting.JavaScript;
@@ -21,7 +9,6 @@ using OrchardCore.Workflows.Evaluators;
 using OrchardCore.Workflows.Models;
 using OrchardCore.Workflows.Services;
 using OrchardCore.Workflows.WorkflowContextProviders;
-using Xunit;
 
 namespace OrchardCore.Tests.Workflows
 {
@@ -42,6 +29,7 @@ namespace OrchardCore.Tests.Workflows
             var workflowType = new WorkflowType
             {
                 Id = 1,
+                WorkflowTypeId = IdGenerator.GenerateId(),
                 Activities = new List<ActivityRecord>
                 {
                     new ActivityRecord { ActivityId = "1", IsStart = true, Name = addTask.Name, Properties = JObject.FromObject( new
@@ -110,6 +98,8 @@ namespace OrchardCore.Tests.Workflows
             var workflowTypeStore = new Mock<IWorkflowTypeStore>();
             var workflowStore = new Mock<IWorkflowStore>();
             var workflowIdGenerator = new Mock<IWorkflowIdGenerator>();
+            workflowIdGenerator.Setup(x => x.GenerateUniqueId(It.IsAny<Workflow>())).Returns(IdGenerator.GenerateId());
+            var distributedLock = new Mock<IDistributedLock>();
             var workflowManagerLogger = new Mock<ILogger<WorkflowManager>>();
             var workflowContextLogger = new Mock<ILogger<WorkflowExecutionContext>>();
             var missingActivityLogger = new Mock<ILogger<MissingActivity>>();
@@ -121,6 +111,7 @@ namespace OrchardCore.Tests.Workflows
                 workflowStore.Object,
                 workflowIdGenerator.Object,
                 workflowValueSerializers,
+                distributedLock.Object,
                 workflowManagerLogger.Object,
                 missingActivityLogger.Object,
                 missingActivityLocalizer.Object,

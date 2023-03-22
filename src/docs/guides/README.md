@@ -14,11 +14,13 @@
 
 这些指南特定于Orchard Core CMS
 
-- [创建一个Orchard Core CMS网站](create-cms-application/README.md)
-- [将菜单项添加到管理导航](add-admin-menu/README.md)
-- [安装本地化文件](install-localization-files/README.md)
-- [集成Facebook插件](integrate-facebook-plugins/README.md)
-- [实现全文搜索](implement-fulltext-search/README.md)
+- [Creating an Orchard Core CMS website](create-cms-application/README.md)
+- [Adding a Menu Item to the Admin Navigation](add-admin-menu/README.md)
+- [Installing Localization Files](install-localization-files/README.md)
+- [How to use the assets transpiler/bundler/minifier pipeline](gulp-pipeline/README.md)
+- [Integrate facebook plugins](integrate-facebook-plugins/README.md)
+- [Implement Full Text search](implement-fulltext-search/README.md)
+- [Integrate AzureAD as external provider](azuread-integration/README.md)
 
 ## 教程
 

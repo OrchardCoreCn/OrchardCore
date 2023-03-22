@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
-using OrchardCore.Environment.Extensions.Utility;
 using OrchardCore.Environment.Shell.Configuration.Internal;
 
 namespace OrchardCore.Environment.Shell.Configuration
@@ -54,7 +53,7 @@ namespace OrchardCore.Environment.Shell.Configuration
             if (configuration._configuration != null)
             {
                 _configurationProviders = configuration._configuration.Providers
-                    .Where(p => !(p is UpdatableDataProvider)).ToArray();
+                    .Where(p => p is not UpdatableDataProvider).ToArray();
 
                 _initialData = configuration._updatableData.ToArray();
 

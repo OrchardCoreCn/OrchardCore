@@ -1,11 +1,8 @@
 # Orchard Core的NuGet包使用 入门篇
 
-在这篇文章中，我们将看到使用Orchard Core的NuGet包创建一个CMS网站应用有多简单。
- 
-Chris Payne撰写的原文链接如下：
-<http://ideliverable.com/blog/getting-started-with-orchard-core-as-a-nuget-package>
+In this article, we are going to see how easy it is to create a CMS Web application using the NuGet packages provided by Orchard Core.
 
-## 创建一个Orchard Core CMS网站应用
+## Create an Orchard Core CMS application
 
 使用Visual Studio，创建一个名为Cms.Web空的.NET Core网站应用。在配置新项目界面，不要勾选`将解决方案和项目放在同一目录中`选项，因为稍后创建模块和主题时，你可能希望它们在解决方案的同级目录中。
 
@@ -14,22 +11,69 @@ Chris Payne撰写的原文链接如下：
 
     为项目添加包引用,在项目里的 `依赖项` 上右击然后选择 `管理NuGet程序包` , 勾选 `包括发行版` (如果需要的话) 。 如果你配置了上面的预览地址，点击右上角的 `程序包源` 并选择刚才配置的预览地址。在 `浏览` 选项卡中，搜索 `OrchardCore.Application.Cms.Targets` ，然后选中并 `安装` 这个包。
 
-打开 `Startup.cs` 并修改 `ConfigureServices` 方法，添加以下代码：
+### Getting Started with `Program.cs` Only Using .NET 6 Framework?
+!!! tip
+    When starting a new project using `.NET 6` framework, you'll notice that the created project does not have a `Startup` class as it did in previous versions of the .NET framework.
+
+Open `Program.cs` file. Remove the following line "if exists"
 
 ```csharp
-services.AddOrchardCms();
+builder.Services.AddRazorPages();
 ```
 
-在 `Configure` 方法中, 选中以下代码:
+Add the following line 
 
 ```csharp
-app.UseEndpoints(endpoints =>
+builder.Services.AddOrchardCms()
+```
+
+Additionally, remove the following lines
+
+```csharp
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseAuthorization();
+app.MapRazorPages();
+```
+Lastly, add the following line to the request pipeline
+
+```csharp
+app.UseOrchardCore();
+```
+
+When you are done, the `Program.cs` file will something like this
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddOrchardCms();
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
 {
-    endpoints.MapGet("/", async context =>
-    {
-        await context.Response.WriteAsync("Hello World!");
-    });
-});
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+app.UseStaticFiles();
+app.UseOrchardCore();
+
+app.Run();
+```
+
+### Getting Started Using `Program.cs` file?
+
+Open `Program.cs` file, then add the OrchardCore CMS services by adding this line:
+
+```csharp
+builder.Services.AddOrchardCms();
+```
+
+After building the `WebApplication`, replace this line:
+
+```csharp
+app.MapGet("/", () => "Hello World!");
 ```
 
 然后使用以下代码替换:
@@ -38,7 +82,9 @@ app.UseEndpoints(endpoints =>
 app.UseOrchardCore();
 ```
 
-## 编译生成应用
+Finally, remove the default `Pages` and/or `Views` folder to allow OrchardCore to render the views from the active theme.
+
+## Setup your application
 
 运行项目 (Ctrl+F5)。浏览器显示了 安装界面。
 

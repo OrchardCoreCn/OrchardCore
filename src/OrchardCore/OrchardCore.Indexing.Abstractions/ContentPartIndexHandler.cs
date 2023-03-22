@@ -7,11 +7,11 @@ namespace OrchardCore.Indexing
 {
     /// <summary>
     /// An implementation of <see cref="ContentPartIndexHandler&lt;TPart&gt;"/> is able to take part in the rendering of
-    /// a <see cref="TPart"/> instance.
+    /// a <see typeparamref="TPart"/> instance.
     /// </summary>
     public abstract class ContentPartIndexHandler<TPart> : IContentPartIndexHandler where TPart : ContentPart
     {
-        Task IContentPartIndexHandler.BuildIndexAsync(ContentPart contentPart, ContentTypePartDefinition typePartDefinition, BuildIndexContext context, ContentIndexSettings settings)
+        Task IContentPartIndexHandler.BuildIndexAsync(ContentPart contentPart, ContentTypePartDefinition typePartDefinition, BuildIndexContext context, IContentIndexSettings settings)
         {
             var part = contentPart as TPart;
 

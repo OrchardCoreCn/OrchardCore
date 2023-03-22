@@ -1,9 +1,5 @@
-using System;
-using J2N.Collections.Generic;
 using Markdig;
-using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.Markdown.Services;
-using Xunit;
 
 namespace OrchardCore.Tests.Modules.OrchardCore.Markdown
 {

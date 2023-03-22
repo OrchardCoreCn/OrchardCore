@@ -10,8 +10,8 @@
 
 ## 你需要什么
 
-- .NET Core SDK的当前版本。你可以从这里下载 <https://www.microsoft.com/net/download/core>.
-- 一个文本编辑器和一个可以键入dotnet命令的终端。
+- The current version of the .NET SDK. You can download it from here <https://dotnet.microsoft.com/download>.
+- A text editor and a terminal where you can type dotnet commands.
 
 ## 创建一个Orchard CoreCMS网站和模块
 
@@ -19,7 +19,7 @@
 
 可以使用以下命令安装最新发布的模板：
 
-```dotnet new -i OrchardCore.ProjectTemplates::1.0.0-*```
+```dotnet new install OrchardCore.ProjectTemplates::1.5.0-*```
 
 !!! note
     要使用模板的开发分支请添加 `--nuget-source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json`
@@ -40,10 +40,10 @@
 
 我们还需要参考`OrchardCore.Admin`包以便能够实现所需的接口：
 
-```dotnet add .\MyModule\MyModule.csproj package OrchardCore.Admin --version 1.0.0-*```
+```dotnet add .\MyModule\MyModule.csproj package OrchardCore.Admin --version 1.5.0-*```
 
 !!! note
-    要使用模板的开发分支请添加 ` --source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json --version 1.0.0-*`
+    To use the development branch of the template add ` --source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json --version 1.5.0-*`
 
 ## 添加控制器和视图
 

@@ -17,7 +17,7 @@ namespace OrchardCore.ContentTypes.Deployment
 
         public async Task ProcessDeploymentStepAsync(DeploymentStep step, DeploymentPlanResult result)
         {
-            if (!(step is ContentDefinitionDeploymentStep contentDefinitionStep))
+            if (step is not ContentDefinitionDeploymentStep contentDefinitionStep)
             {
                 return;
             }
@@ -39,8 +39,6 @@ namespace OrchardCore.ContentTypes.Deployment
                 new JProperty("ContentTypes", JArray.FromObject(contentTypes)),
                 new JProperty("ContentParts", JArray.FromObject(contentParts))
             ));
-
-            return;
         }
     }
 }

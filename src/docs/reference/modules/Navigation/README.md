@@ -122,7 +122,24 @@
 Alternates for each of these shapes are created using the `PagerId` like `Pager_Previous` `[PagerId]` which would in turn look for the template `Pager-MainBlog.Previous.cshtml`.
 这些形状的替换项是使用`PagerId`创建的，比如`Pager_Previous` `[PagerId]`，后者将依次查找模板`Pager-MainBlog.Previous.cshtml`.
 
-## 扩展导航
+## SEO
+
+In order to block search engines from crawling all your pagers links, it is possible to override the Pager anchors "rel" attributes with "no-follow". To achieve this, you can simply do this: 
+
+=== "Liquid"
+
+    ``` liquid
+    {% shape_pager Model.Pager attributes: "{\"rel\": \"no-follow\"}" %}
+    ```
+
+=== "C#"
+
+    ``` html
+    Model.Pager.Attributes["rel"] = "no-follow;
+    @await DisplayAsync(Model.Pager)
+    ```
+
+## Extending Navigation
 
 导航可以通过代码进行扩展，方法是实现`INavigationProvider`并将其注册到扩展模块（或主题）中`Startup.cs`文件。
 
@@ -168,39 +185,43 @@ public class MainMenu : INavigationProvider
 
 ## 分页代码示例
 
-``` liquid tab="Liquid"
-{% assign previousText = "← Newer Posts" | t %}
-{% assign nextText = "Older Posts →" | t %}
-{% assign previousClass = "previous" | t %}
-{% assign nextClass = "next" | t %}
-{% assign itemClasses = "itemclass1 itemclass2" | split: " " %}
+=== "Liquid"
 
-{% shape_pager Model.Pager previous_text: previousText, next_text: nextText,
-    previous_class: previousClass, next_class: nextClass, tag_name: "div", item_tag_name: "div", attributes: "{\"key1\": \"value1\",\"key2\":\"value2\"}", item_attributes: "{\"key1\": \"value1\",\"key2\":\"value2\"}", classes: "class1 class2", item_classes: itemClasses %}
+    ``` liquid
+    {% assign previousText = "← Newer Posts" | t %}
+    {% assign nextText = "Older Posts →" | t %}
+    {% assign previousClass = "previous" | t %}
+    {% assign nextClass = "next" | t %}
+    {% assign itemClasses = "itemclass1 itemclass2" | split: " " %}
 
-{{ Model.Pager | shape_render }}
-```
+    {% shape_pager Model.Pager previous_text: previousText, next_text: nextText,
+        previous_class: previousClass, next_class: nextClass, tag_name: "div", item_tag_name: "div", attributes: "{\"key1\": \"value1\",\"key2\":\"value2\"}", item_attributes: "{\"key1\": \"value1\",\"key2\":\"value2\"}", classes: "class1 class2", item_classes: itemClasses %}
 
-``` html tab="C#"
-public async Task<IActionResult> List(MyViewModel viewModel, PagerParameters pagerParameters)
-{
-    var siteSettings = await _siteService.GetSiteSettingsAsync();
-    var pager = new Pager(pagerParameters, siteSettings.PageSize);
-    var query = _session.Query<ContentItem, ContentItemIndex>();
-    var maxPagedCount = siteSettings.MaxPagedCount;
-    
-    if (maxPagedCount > 0 && pager.PageSize > maxPagedCount)
-        pager.PageSize = maxPagedCount;
-                
-    var pagerShape = (await New.Pager(pager)).TotalItemCount(maxPagedCount > 0 ? maxPagedCount : await query.CountAsync()).RouteData(routeData).TagName("div").ItemTagName("div").Classes("class1 class2").ItemClasses(new List<string>(){ "itemclass1", "itemclass2" }).Attributes(new Dictionary<string, string>() { { "attribute", "value" } }).ItemAttributes(new Dictionary<string, string>() { { "itemattribute", "value" } });
+    {{ Model.Pager | shape_render }}
+    ```
 
-    // 也可以通过以下方式设置形状基础属性：
-    pagerShape.Id = "myid";
-    pagerShape.TagName = "span";
-    pagerShape.Attributes.Add("myattribute", "value");
-    pagerShape.Classes.Add("myclassname");
+=== "C#"
 
-    model.Pager = pagerShape;
-    return View(viewModel);
-}
-```
+    ``` html
+    public async Task<IActionResult> List(MyViewModel viewModel, PagerParameters pagerParameters)
+    {
+        var siteSettings = await _siteService.GetSiteSettingsAsync();
+        var pager = new Pager(pagerParameters, siteSettings.PageSize);
+        var query = _session.Query<ContentItem, ContentItemIndex>();
+        var maxPagedCount = siteSettings.MaxPagedCount;
+        
+        if (maxPagedCount > 0 && pager.PageSize > maxPagedCount)
+            pager.PageSize = maxPagedCount;
+                    
+        var pagerShape = (await New.Pager(pager)).TotalItemCount(maxPagedCount > 0 ? maxPagedCount : await query.CountAsync()).RouteData(routeData).TagName("div").ItemTagName("div").Classes("class1 class2").ItemClasses(new List<string>(){ "itemclass1", "itemclass2" }).Attributes(new Dictionary<string, string>() { { "attribute", "value" } }).ItemAttributes(new Dictionary<string, string>() { { "itemattribute", "value" } });
+
+        // Or you can also set the Shape base properties this way too :
+        pagerShape.Id = "myid";
+        pagerShape.TagName = "span";
+        pagerShape.Attributes.Add("myattribute", "value");
+        pagerShape.Classes.Add("myclassname");
+
+        model.Pager = pagerShape;
+        return View(viewModel);
+    }
+    ```

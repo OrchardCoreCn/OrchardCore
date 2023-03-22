@@ -58,8 +58,7 @@ __解耦__ 是一种开发模型，其中站点的前端和前端（管理）托
 
 ```xml
 <PropertyGroup>
-  <TargetFramework>netcoreapp3.1</TargetFramework>
-  <PreserveCompilationReferences>true</PreserveCompilationReferences>
+  <TargetFramework>net6.0</TargetFramework>
 </PropertyGroup>
 ```
 
@@ -69,27 +68,24 @@ __解耦__ 是一种开发模型，其中站点的前端和前端（管理）托
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="OrchardCore.Application.Cms.Core.Targets" Version="1.0.0-rc2-13450" />
+  <PackageReference Include="OrchardCore.Application.Cms.Core.Targets" Version="1.5.0" />
 </ItemGroup>
 ```
 这将添加来自Orchard Core CMS 的包
 
-- 编辑 `Startup.cs` 的 `ConfigureServices` 方法:
+- Edit the `Program.cs` file to configure OrchardCore CMS services like this:
 
-```cs
-public void ConfigureServices(IServiceCollection services)
-{
-    services.AddOrchardCms();
-}
+```csharp
+builder.Services.AddOrchardCms();
 ```
 
 !!! 注意 "Razor Pages"
     `AddRazorPages` 不需要直接调用，因为已在`services.AddOrchardCms()`内部调用它。 
 
-- 编辑Configure
-- 删除之后的所有内容，然后按此内容进行替换： 
+- Edit the `Program.cs` file
+- Remove everything after `app.UseStaticFiles();` and replace it by `app.UseOrchardCore();` like this:
 
-```cs
+```csharp
    ...
    
    app.UseHttpsRedirection();
@@ -391,9 +387,13 @@ CMS不知道在呈现内容项时使用什么Razor页面，而是使用通用页
 
 In this tutorial we have learned how to
 
-- 启动新的Orchard CoreCMS项目
-- 创建自定义内容类型
-- 编辑内容项
-- 创建具有自定义路由的剃须刀页面，然后呈现内容
-- 加载具有不同标识符的内容项
-- 编辑内容时呈现所见即所得（wysiwyg）预览屏幕
+- Start a new Orchard Core CMS project
+- Create custom content types
+- Edit content items
+- Create Razor Pages with custom routes to render then content
+- Load content items with different identifiers
+- Render wysiwyg preview screens while editing the content
+
+## Video
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/yWpz8p-oaKg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using Cysharp.Text;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Models;
 using OrchardCore.Indexing;
@@ -18,13 +20,19 @@ namespace OrchardCore.Contents.Indexing
         {
             var result = await _contentManager.PopulateAspectAsync<FullTextAspect>(context.ContentItem);
 
-            // Index each segment as a new value to prevent from allocation a new string
+            using var stringBuilder = ZString.CreateStringBuilder();
+
             foreach (var segment in result.Segments)
+            {
+                stringBuilder.Append(segment + " ");
+            }
+
+            if (!String.IsNullOrEmpty(stringBuilder.ToString()))
             {
                 context.DocumentIndex.Set(
                     IndexingConstants.FullTextKey,
-                    segment,
-                    DocumentIndexOptions.Analyze | DocumentIndexOptions.Sanitize);
+                    stringBuilder.ToString(),
+                    DocumentIndexOptions.Sanitize);
             }
         }
     }

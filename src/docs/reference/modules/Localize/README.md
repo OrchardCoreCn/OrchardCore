@@ -42,6 +42,9 @@ Add the following configurations to your `[Web Project].csproj` file to include 
   </ItemGroup>
 ```
 
+!!! note
+    Translation files can be provided by a module, in that case they are embedded automatically in the module assembly unless Visual Studio added some bad item groups in the project file.
+
 ## Recipe Step
 
 Cultures can be added during recipes using the settings step. Here is a sample step:
@@ -150,16 +153,16 @@ T.Plural(count, "1 book", "{0} books")
 
 ### Extract translations to PO files
 
-In order to generate the .po files, you can use [this tool](https://github.com/lukaskabrt/PoExtractor).
+In order to generate the .po files, you can use [this tool](https://github.com/OrchardCoreContrib/OrchardCoreContrib.PoExtractor).
 
 The simpler way to use it is to install it with this command:
 
 ```bash
-dotnet tool install --global PoExtractor.OrchardCore
+dotnet tool install --global OrchardCoreContrib.PoExtractor
 ```
 
 Then, you will be able to run this command to generate the .po files:
 
 ``` bash
-extractpo-oc C:\Path\OrchardCore C:\temp\OrchardCore --liquid
+extractpo <INTPUT_PATH> <OUTPUT_PATH> [-l|--language {"C#"|"VB"}] [-t|--template {"razor"|"liquid"}]
 ```
