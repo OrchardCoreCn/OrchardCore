@@ -11,6 +11,7 @@
 - .NET SDK 的当前版本。你可以从 <https://dotnet.microsoft.com/download> 下载它。
 - 一个文本编辑器和一个可以输入 dotnet 命令的终端。
 
+
 ## 创建 Orchard Core CMS 站点和模块
 
 有不同的方法可以为 Orchard Core 创建站点和模块。你可以在[这里](../../getting-started/templates/README.md)了解更多。在本指南中，我们将使用我们的“代码生成模板”。
@@ -35,6 +36,7 @@
 
 ```dotnet add MySite reference MyModule```
 为了能够实现所需的接口，我们还需要引用 `OrchardCore.Admin` 包：
+ 
 
 ```dotnet add .\MyModule\MyModule.csproj package OrchardCore.Admin --version 1.5.0-*```
 
@@ -46,6 +48,7 @@
 ### 添加控制器
 
 在 `.\MyModule\Controllers` 文件夹下创建一个名为 `DemoNavController.cs` 的文件，并添加以下内容：
+
 
 #### DemoNavController.cs
 
@@ -138,6 +141,7 @@ namespace MyModule.Controllers
 ```
 
 ## 添加菜单项
+
 
 现在你只需要添加一个实现`INavigationProvider`接口的类。  
 按照惯例，我们将这些类命名为`AdminMenu.cs`并将其放在模块文件夹的根目录中。
@@ -263,4 +267,3 @@ Now listening on: https://localhost:5001
 您刚学会了如何在管理导航中添加菜单项。
 
 
-> 该文档由Chat-GPT 翻译

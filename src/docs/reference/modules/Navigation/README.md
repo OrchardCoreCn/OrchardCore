@@ -18,7 +18,9 @@
 
 主题开发人员可以完全控制导航在其 OrchardCore 应用程序中的显示位置和方式。
 
-### Pager
+
+### 分页
+
 
 这是一个多用途的分页组件，用于呈现到特定页面编号的链接。
 它可以选择性地呈现“第一个”和“最后一个”链接。
@@ -114,6 +116,7 @@
 {% shape_add_classes Model "page-link" %}
 {{ Model | shape_render }}
 ```
+
 
 这些形状中的每一个最终都会变形为 `Pager_Link`。
 每个这些形状的替代品都使用 `PagerId` 创建，例如 `Pager_Previous` `[PagerId]`，它将依次查找模板 `Pager-MainBlog.Previous.cshtml`。

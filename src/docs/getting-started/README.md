@@ -1,4 +1,4 @@
-# 通过NuGet包入门Orchard Core
+# Orchard Core的NuGet包使用 入门篇
 
 在这篇文章中，我们将看到使用Orchard Core提供的NuGet包创建CMS Web应用程序有多么简单。
 
@@ -67,7 +67,7 @@ builder.Services.AddOrchardCms();
 app.MapGet("/", () => "Hello World!");
 ```
 
-替换为以下行代码： 
+然后使用以下代码替换:
 
 ```csharp
 app.UseOrchardCore().Run();
@@ -77,17 +77,19 @@ app.UseOrchardCore().Run();
 
 ## 设置你的应用程序
 
-启动你的应用程序 (Ctrl+F5)。设置页面将显示。
+运行项目 (Ctrl+F5)。浏览器显示了 安装界面。
 
-输入有关该网站的必要信息：
+在安装界面输入需要的信息：
 
-- 网站名称。例如： `Orchard Core`。
-- 用于的主题配方。例如： `Agency`。
-- 网站时区。例如： `(+01:00) Europe/Paris`。
-- 要使用的 Sql 提供程序。例如： `SqLite`。
-- 管理员用户名。例如： `admin`。
-- 管理员的电子邮件。例如： `foo@bar.com`。
-- 密码和密码确认。提交表单后，几秒钟后您的网站将生成。
+- 站点名字。 比如： `Orchard Core`.
+- 配方。 比如： `Agency`.
+- 默认时区。 比如： `(+01:00) Europe/Paris`.
+- 数据库类型。 比如： `SqLite`.
+- 超级用户名。 比如： `admin`.
+- 超级用户的电子邮箱。 比如： `foo@bar.com`
+- 超级用户的密码以及确认密码。
 
-然后，您可以通过`/admin` URL访问管理员页面。享受吧。
-$END_OF_FILE$
+提交表单，你的网站在几秒后将会生成。
+
+然后，你就可以使用 `/admin` 地址访问管理界面了。开始享受成果吧。
+

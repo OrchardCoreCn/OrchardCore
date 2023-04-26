@@ -10,6 +10,7 @@ Orchard Core提供了一个Lucene和Elasticsearch模块/功能，可以在您的
 
 ![特性配置](images/1.jpg)
 
+
 Orchard Core有3种不同的Lucene和Elasticsearch功能。您需要启用Lucene功能以创建Lucene索引。您需要启用Elasticsearch功能才能创建Elasticsearch索引。
 
 ## 第二步：创建Lucene或Elasticsearch索引
@@ -17,6 +18,7 @@ Orchard Core有3种不同的Lucene和Elasticsearch功能。您需要启用Lucene
 ![索引列表](images/2.jpg)
 
 单击“添加索引”按钮。
+
 
 
 ![创建索引表单](images/3.jpg)
@@ -87,6 +89,7 @@ using OrchardCore.Search.Lucene.Model;
 ```
 
 ## 可选项：搜索模板定制
+
 
 您也可以通过覆盖下列文件为您的主题定制这些模板以满足特定需要：
 

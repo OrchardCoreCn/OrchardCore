@@ -1,3 +1,3 @@
 # 响应压缩 (`OrchardCore.ResponseCompression`)
 
-启用此功能后，使用gzip压缩HTTP响应。
+启用此功能后，HTTP响应使用gzip压缩。

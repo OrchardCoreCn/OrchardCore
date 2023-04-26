@@ -1,3 +1,4 @@
+
 # 创建一个新的解耦CMS网站
 
 ## 介绍
@@ -8,7 +9,7 @@ __解耦__ 是一种开发模型，其中站点的前端和后端(管理)托管�
 
 !!! 注意
      虽然本指南从一个新项目开始，并使用Razor页面，但您可以在任何现有的ASP.NET Core应用程序中使用本指南的大部分内容将Orchard Core作为内容管理后端添加到中。
-
+     
 ![最终结果](images/custom-preview.jpg)
 
 ## 先决条件
@@ -66,6 +67,7 @@ __解耦__ 是一种开发模型，其中站点的前端和后端(管理)托管�
   <PackageReference Include="OrchardCore.Application.Cms.Core.Targets" Version="1.5.0" />
 </ItemGroup>
 ```
+
 这将添加来自Orchard Core CMS的包
 
 - 编辑`Program.cs`文件以配置OrchardCore CMS服务，如下所示：
@@ -75,6 +77,7 @@ builder.Services.AddOrchardCms();
 
 !!! 注意 "Razor Pages"
     不要直接调用 `AddRazorPages`，因为 `services.AddOrchardCms()` 已在内部调用它。
+
 
 - 编辑 `Program.cs` 文件
 - 删除 `app.UseStaticFiles()` 后面的所有内容，并将其替换为 `app.UseOrchardCore()`，如下所示：
@@ -120,6 +123,7 @@ builder.Services.AddOrchardCms();
 !!! 提示 "对于开发人员"
     内容类型类似于一个类，其中内容项可以看作是内容类型的实例。
 
+
 ### 创建博客文章内容类型
 
 Orchard 预先配置了一组称为 __内容部分__ 的可组合数据管理元素，可以像LEGO一样用于创建自定义类型。例如，__标题部件__ 将提供一个漂亮的编辑器来输入内容项的标题，并将其设置为屏幕上默认显示的文本。另一个重要的内容部件是 __Markdown 正文部件__，它提供了一种存储和呈现Markdown作为内容项主要文本的方法。这对于博客文章也非常有用。
@@ -144,10 +148,12 @@ Orchard 预先配置了一组称为 __内容部分__ 的可组合数据管理元
 
 - 在下一页中，将__Parts__按以下方式重新排序：
 
+
 ![Edit Content Type](images/edit-content-type.jpg)
 - 然后点击 __保存__
 
 你可以发现每个内容部分前都有一个 __编辑__ 按钮。这使我们可以为每个部分定义一些可能仅适用于此类型的设置。
+
 
 - 在 `MarkdownBody` 部分，点击 __编辑__。
 - 选择 __`所见即所得编辑器`__ 作为要使用的编辑器类型，然后点击 __保存__：
@@ -161,6 +167,7 @@ __Blog Post__ 内容类型已经可以使用了。
 - 在左侧菜单中，选择 __新建__，然后点击 __Blog Post__，以显示新创建的 `BlogPost` 内容类型的编辑器。
 
 ![编辑Blog Post](images/edit-blogpost.jpg)
+
 
 - 使用一些内容填写 __标题__ 和 __MarkdownBody__ 表单元素，然后点击 __发布__。为了举例，我们将使用 `This is a new day` 和一些 Lorem Ipsum 文本。
 - 在菜单中，点击 __内容 > 内容项__，以显示所有可用的内容项。
@@ -225,18 +232,16 @@ __Blog Post__ 内容类型已经可以使用了。
 
 ### 访问内容项的其他属性
 
+
 在前面一节中，`DisplayText` 属性用于呈现博客文章的标题，该属性通常适用于每个内容项，例如 `ContentItemId` 或 `Author`。 然而，每个内容类型定义了一组独特的动态属性，例如我们在 **内容建模** 部分添加的  __Markdown 部分__。
 
 内容项的动态属性以 Json 文档的方式在 `Content` 属性中提供。
 
 - 在标题后添加以下行以编辑 Razor 页面：
-
 ```html hl_lines="4"
-...
 <h1>This is the blog post: @blogPost.DisplayText</h1>
 
 @Orchard.ConsoleLog(blogPost)
-...
 ```
 - 重新打开具有内容项ID的博客文章页面，然后按下__F12__以可视化浏览器的调试工具，然后打开__控制台__。内容项的状态应该显示如下：
 
@@ -249,13 +254,13 @@ __Blog Post__ 内容类型已经可以使用了。
 - 编辑Razor页面以注入此代码：
 
 ```html hl_lines="4"
-...
+
 <h1>@blogPost.DisplayText</h1>
 
 <p>@blogPost.Content.MarkdownBodyPart.Markdown</p>
 
 @Orchard.ConsoleLog(blogPost)
-...
+
 ```
 - 刷新博客文章页面以显示Markdown文本。
 - 最后，我们可以使用以下代码处理Markdown内容并将其转换为HTML：
@@ -338,6 +343,7 @@ CMS不知道渲染内容项时要使用哪个Razor页面，因此会使用通用
 
 ![自定义预览](images/custom-preview.jpg)
 
+
 正如您所看到的，预览现在使用我们为显示博客文章设置的特定路由，编辑者在编辑内容时可以获得完整的体验。
 !!! hint “建议”
     也可以使用专门的模板进行预览，该模板可以为编辑器提供提示，或检测错误，并在预览窗口中呈现它们。用户还可以更改窗口大小，以测试在不同客户端上的呈现效果。
@@ -358,4 +364,3 @@ CMS不知道渲染内容项时要使用哪个Razor页面，因此会使用通用
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/yWpz8p-oaKg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
-> 该文档由Chat-GPT 翻译

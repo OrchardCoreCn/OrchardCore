@@ -1,3 +1,4 @@
+
 # 创建Orchard Core CMS网站
 
 在本指南中，您将使用项目模板将Orchard Core设置为内容管理系统。
@@ -16,6 +17,7 @@
 ```dotnet new install OrchardCore.ProjectTemplates::1.5.0-*```
 
 !!! 注意
+
     要使用模板的开发分支，请添加 `--nuget-source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json`
 创建一个空文件夹来存放你的网站。打开终端，进入该文件夹并运行以下命令：
 
@@ -33,6 +35,7 @@
 
 !!! note
     如果你正在使用模板的开发分支，请在运行应用程序之前运行`dotnet restore .\MySite\MySite.csproj --source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json`。
+
 
 现在您的应用程序应该正在运行，并监听以下端口：
 现在监听 on: https://localhost:5001 和 on: http://localhost:5000。应用已经启动，按 Ctrl+C 可以关闭应用。
@@ -54,5 +57,3 @@
 
 您刚刚创建了一个由Orchard Core CMS驱动的博客引擎。
 
-
-> 该文档由Chat-GPT 翻译

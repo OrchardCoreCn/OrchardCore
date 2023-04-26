@@ -9,10 +9,13 @@
 
 为了能够从Visual Studio使用__预览__源，打开NuGet包管理器下的Tools菜单-->包管理器设置。该源网址为<https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json>
 
+
 ![image](assets/add-preview-package-source.png)
 
 
-## 使用 NuGet.config 添加 Orchard Core 预览 Feed
+## 使用 NuGet.config 添加 Orchard Core 预览源
+
+您也可以通过 `NuGet.config` 文件添加包源，将 该文件添加到你的解决方案中，并放置于sln 相同目录：
 
 您还可以使用NuGet.config文件添加软件包源：
 ```xml

@@ -202,12 +202,14 @@ $mypwd = ConvertTo-SecureString -String "MySecretPassword123" -Force -AsPlainTex
 Export-PfxCertificate -FilePath C:\securelocation\connect.example.com.pfx cert:\localMachine\my\thumbprintfromnewselfsignedcertificate -Password $mypwd
 
 # 参见 https://technet.microsoft.com/en-us/itpro/powershell/windows/pkiclient/import-pfxcertificate
+
 # 在目标节点上运行此命令：
 
 $mypwd = ConvertTo-SecureString -String "MySecretPassword123" -Force -AsPlainText
 
 Import-PfxCertificate -FilePath C:\securelocation\connect.example.com.pfx cert:\localMachine\my -Password $mypwd
 ```
+
 
 **重要提示：**为了使 `OrchardCore.OpenId` 模块使用证书的密钥进行签名，它需要对存储中的证书具有 `Read` 访问权限。这可以通过各种方式授予，例如：
 

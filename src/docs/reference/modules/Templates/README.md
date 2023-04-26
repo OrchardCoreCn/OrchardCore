@@ -1,3 +1,4 @@
+
 # 模板 (`OrchardCore.Templates`)
 
 模板模块允许编辑器创建自定义的Liquid模板。
@@ -19,6 +20,7 @@ Orchard Core可以与同一形状匹配许多模板。 这些潜在的模板称�
 ## 内容模板
 
 ### `Content__[ContentType]`
+
 
 显示类型为“Detail”时，例如从其自己的URL访问时，将调用此模板以显示内容项。
 
@@ -54,6 +56,7 @@ Orchard Core可以与同一形状匹配许多模板。 这些潜在的模板称�
 ### `Widget__[ContentType]`
 
 在页面上呈现小部件时，将调用此模板。
+
 
 #### 小部件示例
 
@@ -111,6 +114,7 @@ Orchard Core可以与同一形状匹配许多模板。 这些潜在的模板称�
 
 在给定内容类型中呈现给定内容部分类型时，具有或不具有给定显示类型时，将调用此模板。
 
+
 #### 具有部分类型的内容示例
 
 | 模板 | 文件名|
@@ -124,6 +128,7 @@ Orchard Core可以与同一形状匹配许多模板。 这些潜在的模板称�
 
 在给定内容类型中呈现给定内容部分名称时，具有或不具有给定显示类型时，将调用此模板。
 
+
 #### 具有部分名称的内容示例
 
 | 模板 | 文件名|
@@ -135,6 +140,7 @@ Orchard Core可以与同一形状匹配许多模板。 这些潜在的模板称�
 
 在给定内容类型中呈现给定内容部分类型的形状类型时，具有或不具有给定显示类型时，将调用此模板。
 
+
 #### 具有部分类型和形状的内容示例
 
 | 模板 | 文件名|
@@ -145,6 +151,7 @@ Orchard Core可以与同一形状匹配许多模板。 这些潜在的模板称�
 ### `[ContentType]_[DisplayType]__[PartName]__[ShapeType]`
 
 在给定内容类型中呈现给定内容部分名称的形状类型时，具有或不具有给定显示类型时，将调用此模板。
+
 
 #### 具有部分名称和自定义形状的内容示例
 
@@ -401,8 +408,8 @@ Orchard Core可以与同一形状匹配许多模板。 这些潜在的模板称�
 | `TextField_Summary` | `TextField.Summary.cshtml` |
 
 ### `[PartType]__[FieldName]`
-
 该模板在给定的内容部件类型中呈现内容字段名称时，在形状类型与字段类型匹配的情况下，具有或没有给定的显示类型。
+
 
 #### 部件类型和字段示例
 
@@ -414,6 +421,7 @@ Orchard Core可以与同一形状匹配许多模板。 这些潜在的模板称�
 ### `[ContentType]__[PartName]__[FieldName]`
 
 该模板在给定的内容类型和内容部件名称中呈现内容字段名称时，在形状类型与字段类型匹配的情况下，具有或没有给定的显示类型。
+
 
 #### 内容类型、部件名称和字段名称示例
 
@@ -447,6 +455,7 @@ Orchard Core可以与同一形状匹配许多模板。 这些潜在的模板称�
 | `CustomField_Summary__CustomFieldSummary` | `CustomField-CustomFieldSummary.Summary.cshtml` |
 
 ### `[PartType]__[FieldName]__[ShapeType]`
+
 
 当为给定内容部件类型中的给定内容字段名称呈现内容字段形状类型时，带或不带给定的显示类型时，调用此模板。
 
@@ -494,6 +503,7 @@ Orchard Core可以与同一形状匹配许多模板。 这些潜在的模板称�
 
 ### 内容字段区分器
 
+
 如果形状类型与内容字段名称相同，则形状将命名为`[PartName]-[FieldName]`，例如`HtmlBodyPart-Description`，`Services-Image`。
 如果形状类型与内容字段名称不同，则为`[PartName]-[FieldName]-[ShapeType]`，例如`HtmlBodyPart-Description-CustomFieldSummary`，`Services-Image-ImageFieldSummary`
 
@@ -516,6 +526,7 @@ Model.Content.Remove("HtmlBodyPart");
 
 删除特定名称的形状后显示形状：
 
+
 ```liquid
 {% shape_remove_item Model.Content "HtmlBodyPart" %}
 {{ Model.Content | shape_render }}
@@ -526,6 +537,8 @@ Model.Content.Remove("HtmlBodyPart");
 ```liquid
 {{ Model.Content.HtmlBodyPart | shape_render }}
 ```
+要访问或呈现要直接添加到内容类型的字段的形状，`[partname]`等于内容类型。
+>To access or render the shapes for a field that is added to the content type directly, the `[PartName]` is equal to the content type.  
 
 
 要访问或呈现直接添加到内容类型的字段的形状，`[PartName]`等于内容类型。
@@ -534,6 +547,7 @@ Model.Content.Remove("HtmlBodyPart");
 ```liquid
 {{ Model.Content["Article-Description"] | shape_render }}
 ```
+
 
 在此示例中，需要使用索引语法，因为不同iator的名称与Liquid语言不兼容。
 
@@ -610,4 +624,3 @@ Views/Shared/{0}.cshtml
 对于此特定文件，您还需要在管理中选择“配置->登录”页面下的“使用站点主题作为登录页面”选项。
 
 
-> 该文档由ChatGPT 4 翻译

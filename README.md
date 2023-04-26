@@ -1,10 +1,22 @@
-# Orchard Core 
+# Orchard Core 中文文档
 
-Orchard Core consists of two distinct projects:
+文档中心： [简体中文](https://docs.orchardcore.net/zh_CN/dev/) | [English](https://docs.orchardcore.net/en/dev/)
 
-- __Orchard Core Framework__: An application framework for building modular, multi-tenant applications on ASP.NET Core.
-- __Orchard Core CMS__: A Web Content Management System (CMS) built on top of the Orchard Core Framework.
+由于目前中文文档翻译工作刚刚起步，欢迎小伙伴们踊跃报名参加文档翻译工作。
 
+
+Orchard Core 是基于 [Orchard CMS](https://github.com/OrchardCMS/Orchard) 使用 [ASP.NET Core](https://docs.microsoft.com/aspnet/core/) 重新构建的。
+
+Orchard Core 由两个不同的目标组成:
+
+- **Orchard Core Framework**: 一个应用程序框架，用于构建**模块化**、**多租户** 的ASP.NET Core应用程序。
+- **Orchard Core CMS**: 一个建立在Orchard Core Framework之上的网络内容管理系统（CMS)。
+
+需要注意框架和 CMS 之间的差异非常重要。一些想要开发 SaaS 应用程序的开发人员只会对模块化框架感兴趣。其他想要构建可管理网站的用户将专注于 CMS 并构建模块来增强其网站或整个生态系统。
+
+QQ 群：877196442
+
+[![Orchard Core CN 中文官方](https://pub.idqqimg.com/wpa/images/group.png)](//shang.qq.com/wpa/qunwpa?idkey=48721591a71ee7586316604a7a4ee99d26fd977c6120370a06585085a5936f62)
 [![Join the chat at https://gitter.im/OrchardCMS/OrchardCore](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/OrchardCMS/OrchardCore?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![BSD-3-Clause License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
 [![Documentation](https://readthedocs.org/projects/orchardcore/badge/)](https://docs.orchardcore.net/)
@@ -28,26 +40,26 @@ Nightly (main):
 [![Build status](https://github.com/OrchardCMS/OrchardCore/actions/workflows/preview_ci.yml/badge.svg)](https://github.com/OrchardCMS/OrchardCore/actions?query=workflow%3A%22Preview+-+CI%22)
 [![Cloudsmith](https://api-prd.cloudsmith.io/badges/version/orchardcore/preview/nuget/OrchardCore.Application.Cms.Targets/latest/x/?render=true&badge_token=gAAAAABey9hKFD_C-ZIpLvayS3HDsIjIorQluDs53KjIdlxoDz6Ntt1TzvMNJp7a_UWvQbsfN5nS7_0IbxCyqHZsjhmZP6cBkKforo-NqwrH5-E6QCrJ3D8%3D)](https://cloudsmith.io/~orchardcore/repos/preview/packages/detail/nuget/OrchardCore.Application.Cms.Targets/latest/)
 
-## Status
+## 现状
 
 ### 1.5.0
 
 The software is finished -- and by finished, we mean there are no show-stopping, little-children-killing bugs in it. That we know of. There are probably numerous lower-priority bugs triaged into the next point release or service pack, as well.
 
-Here is a more detailed [roadmap](https://github.com/OrchardCMS/OrchardCore/wiki/Roadmap).
+这是一个更详细的 [路线图](https://github.com/OrchardCMS/OrchardCore/wiki/Roadmap).
 
-## Getting Started
+### 文档
 
 - Clone the repository using the command `git clone https://github.com/OrchardCMS/OrchardCore.git` and checkout the `main` branch.
 
-### Command line
+官方手册：[简体中文](https://docs.orchardcore.net/zh_CN/dev/) | [English](https://docs.orchardcore.net/en/dev/)
 
 - Install the latest version of the .NET SDK from this page <https://dotnet.microsoft.com/download>
 - Next, navigate to `./OrchardCore/src/OrchardCore.Cms.Web`.
 - Call `dotnet run`.
 - Then open the `http://localhost:5000` URL in your browser.
 
-### Visual Studio
+看这里 [编码规范](./CODE-OF-CONDUCT.md)
 
 - Download Visual Studio 2022 (v17.5+) from https://www.visualstudio.com/downloads/
 - Open `OrchardCore.sln` and wait for Visual Studio to restore all Nuget packages.

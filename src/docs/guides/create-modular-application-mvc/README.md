@@ -9,6 +9,7 @@
 
 ## 所需材料
 
+
 - 当前版本的 .NET SDK。您可以从此处下载: <https://dotnet.microsoft.com/download>.
 - 一个文本编辑器和一个终端，您可以在其中运行 dotnet CLI 命令。
 
@@ -18,6 +19,7 @@
 
 在本指南中，我们将使用我们的[代码生成模板](../../getting-started/templates/)。您可以使用以下命令安装模板的最新稳定版本：
 ```dotnet new install OrchardCore.ProjectTemplates::1.5.0-*```
+
 
 !!! note
     如果想使用模板的开发分支，请添加 `--nuget-source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json`
@@ -48,6 +50,7 @@ dotnet sln add OrchardCore.Mvc.HelloWorld\OrchardCore.Mvc.HelloWorld.csproj
 `dotnet run --project .\OrchardCore.Mvc.Web\OrchardCore.Mvc.Web.csproj`
 
 !!! 注意
+
     如果您正在使用模板的开发分支，请在运行应用程序之前运行`dotnet restore .\MySite\MySite.csproj source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json`
 
 现在，您的应用程序应该在以下端口上运行和侦听：
@@ -86,6 +89,7 @@ dotnet sln add OrchardCore.Mvc.HelloWorld\OrchardCore.Mvc.HelloWorld.csproj
 * Visual Studio 2019或更高版本。
 
 ## 步骤
+
 
 ### 1. 创建一个新的网站
 
@@ -181,6 +185,7 @@ namespace YourModuleName.Controllers
 
 * 重启应用程序并导航到 <https://localhost:5001> 将显示 __Hello World__ 消息。
 
+
 ## 总结
 
 您刚刚创建了一个使用Orchard Core的模块化ASP.NET Core MVC web应用程序。 它包括一个提供布局的Web应用程序和一个响应主页请求的自定义模块。
@@ -190,4 +195,3 @@ namespace YourModuleName.Controllers
 <https://www.youtube.com/watch?v=LoPlECp31Oo>
 
 
-> 该文档由Chat-GPT 翻译
