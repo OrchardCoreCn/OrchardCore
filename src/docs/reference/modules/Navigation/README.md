@@ -1,66 +1,66 @@
-# Navigation (`OrchardCore.Navigation`)
+# 导航 (`OrchardCore.Navigation`)
 
 ## 目的
 
-提供了 `Navigation`, `Pager` 和 `PagerSlim`形状。
+提供 `Navigation`、`Pager` 和 `PagerSlim` 形状。
 
-## 支持主题
+## 主题
 
-通过将适当的局部视图文件添加到主题的“视图”文件夹中，可以对导航进行主题化。
-一个很好的例子可以在该项目找到： [`TheAdmin` theme project](https://github.com/OrchardCMS/OrchardCore/tree/dev/src/OrchardCore.Themes/TheAdmin).
+可以通过将适当的局部视图文件添加到主题的视图文件夹来为导航设置主题。
+[`TheAdmin` 主题项目](https://github.com/OrchardCMS/OrchardCore/tree/dev/src/OrchardCore.Themes/TheAdmin)提供了一个很好的示例。
 
-这个主题创建了标准的垂直导航菜单，可以在任何OrchardCore应用程序的管理仪表板上找到。
-“TheAdmin”主题与“Navigation”模块中提供的默认主题相比提供了以下备选方案：
+该主题创建了标准的垂直导航菜单，该菜单可以在任何 OrchardCore 应用程序的管理仪表板上找到。
+`TheAdmin` 主题提供了以下替代默认提供的 `Navigation` 模块的选项：
 
-- `Navigation-admin.cshtml`  
-- `NavigationItem-admin.cshtml`  
-- `NavigationItemLink-admin.cshtml`  
+- `Navigation-admin.cshtml`
+- `NavigationItem-admin.cshtml`
+- `NavigationItemLink-admin.cshtml`
 
-主题开发人员可以完全控制如何以及在他们的OrchardCore应用程序中显示导航。
+主题开发人员可以完全控制导航在其 OrchardCore 应用程序中的显示位置和方式。
+
 
 ### 分页
 
 
-这是一个多用途分页组件，它呈现指向特定页码的链接。
-它可以选择性地呈现首个链接和最后一个链接。
+这是一个多用途的分页组件，用于呈现到特定页面编号的链接。
+它可以选择性地呈现“第一个”和“最后一个”链接。
 
-| 参数 | 类型 | 说明 |
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Page` | `int` | 页码。 |
+| `Page` | `int` | 活动页面编号。 |
 | `PageSize` | `int` | 每页的项目数。 |
-| `TotalItemCount` | `double` |项目总数（用于计算最后一页的数量）。 |
-| `Quantity` | `int?` | 要显示的页数，如果未指定，则为7。 |
-| `FirstText` | `object` | “第一个”链接的文本，默认值： `S["<<"]` .|
-| `PreviousText` | `object` |“上一个”链接的文本，默认值：`S["<"]`. |
-| `NextText` | `object` |“下一个”链接的文本，默认值： `S[">"]` .|
-| `LastText` | `object` | 最后一个链接的文本，默认值： `S[">>"]`. |
-| `GapText` | `object` | “间隙”元素的文本，默认值：`S["..."]`. |
-| `PagerId` | `string` | 分页控件标识符。可以这样使用： `Pager__[PagerId]`. |
-| `ShowNext` | `bool` | 如果为true，则始终显示“Next”链接。 |
+| `TotalItemCount` | `double` | 项目的总数（用于计算最后一页的编号）。 |
+| `Quantity` | `int?` | 要显示的页面数，如果未指定，则为 7。 |
+| `FirstText` | `object` | “第一个”链接的文本，默认值：`S["<<"]`。|
+| `PreviousText` | `object` | “上一页”链接的文本，默认值：`S["<"]`。 |
+| `NextText` | `object` | “下一页”链接的文本，默认值：`S[">"]`。|
+| `LastText` | `object` | “最后一页”链接的文本，默认值：`S[">>"]`。 |
+| `GapText` | `object` | “间隔”元素的文本，默认值：`S["..."]`。 |
+| `PagerId` | `string` | 分页器的标识符。用于创建类似 `Pager__[PagerId]` 的替代。 |
+| `ShowNext` | `bool` | 如果为 true，则始终显示“下一页”链接。 |
 
-从`List`形状继承的属性：
+从 `List` 形状继承的属性：
 
-| 参数 | 类型 | 说明 |
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `ItemTagName` | `string` | 用于页面的HTML标记，默认值： `li`. |
-| `ItemClasses` | `List<string>` | 分配给页面的类，默认值： _none_. |
-| `ItemAttributes` | `Dictionary<string, string>` |分配给页面的属性。 |
-| `FirstClass` | `string` | 用于第一页的HTML类，默认值： `first`. |
-| `LastClass` | `string` | 用于最后一页的HTML标记，默认值： `last`. |
+| `ItemTagName` | `string` | 用于页面的 HTML 标记，默认值：`li`。 |
+| `ItemClasses` | `List<string>` | 分配给页面的类，默认值：_none_。 |
+| `ItemAttributes` | `Dictionary<string, string>` | 分配给页面的属性。 |
+| `FirstClass` | `string` | 用于第一页的 HTML 类，默认值：`first`。 |
+| `LastClass` | `string` | 用于最后一页的 HTML 标记，默认值：`last`。 |
 
-从基形状类继承的属性：
+从基本 Shape 类继承的属性：
 
-|参数|类型|说明|
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Id` | `string` | 用于寻呼机的HTML id，默认值：_none_. |
-| `TagName` | `string` | 用于寻呼机的HTML标记，默认值： `ul`. |
-| `Attributes` | `Dictionary<string, string>` | 分配给主容器的属性。|
-| `Classes` | `Dictionary<string, string>` | 要添加到主标记元素的CSS类。 |
+| `Id` | `string` | 用于分页器的 HTML id，默认值：_none_。 |
+| `TagName` | `string` | 用于分页器的 HTML 标记，默认值：`ul`。 |
+| `Attributes` | `Dictionary<string, string>` | 分配给主容器的属性。 |
+| `Classes` | `Dictionary<string, string>` | 要添加到主 Tag 元素的 CSS 类。 |
 
-`PagerId`属性用于为特定实例创建模板。
-例如，将值`MainBlog` 赋值给 `PagerId`，然后呈现分页器将查找并使用这个模板：`Pager-MainBlog.cshtml`
+`PagerId` 属性用于为特定实例创建模板。例如，将值 `MainBlog` 分配给 `PagerId`，然后呈现分页器将查找名为 `Pager-MainBlog.cshtml` 的模板。
 
-通过为以下形状定义模板，可以进一步自定义分页：
+可以通过为以下形状定义模板来进一步自定义分页器：
 
 - `Pager_Gap`
 - `Pager_First`
@@ -69,47 +69,46 @@
 - `Pager_Last`
 - `Pager_CurrentPage`
 
-每一个形状最终都会变形成 `Pager_Link`.
-这些形状的替换项都是使用 `PagerId` 创建的，比如`Previous\uuyu[PagerId]`，将查找模板`Pager-MainBlog.Previous.cshtml`。
+这些形状中的每一个最终都会变形为 `Pager_Link`。
+每个这些形状的替代品都使用 `PagerId` 创建，例如 `Pager_Previous__[PagerId]`，它将依次查找模板 `Pager-MainBlog.Previous.cshtml`。
 
 ### `PagerSlim`
 
-此形状呈现由两个链接组成的分页控件：“上一个”和“下一个”。
+此形状呈现由两个链接组成的分页器：_Previous_ 和 _Next_。
 
-|参数|类型|说明|
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `PreviousClass` | `string` | 用于上一个链接的HTML类，默认值：_none_. |
-| `NextClass` | `string` | 用于“下一个链接”的HTML类，默认值： _none_. |
-| `PreviousText` | `object` | “上一个”链接的文本，默认值： `S["<"]`. |
-| `NextText` | `object` | “下一个”链接的文本，默认值： `S[">"]`. |
-| `UrlParams` | `Dictionary<string, string>` | 查询要传递给寻呼机的参数。按顺序排列的参数名称和值 |
+| `PreviousClass` | `string` | 用于“上一页”链接的 HTML 类，默认值：_none_。 |
+| `NextClass` | `string` | 用于“下一页”链接的 HTML 类，默认值：_none_。 |
+| `PreviousText` | `object` | “上一页”链接的文本，默认值：`S["<"]`。 |
+| `NextText` | `object` | “下一页”链接的文本，默认值：`S[">"]`。 |
+| `UrlParams` | `Dictionary<string, string>` | 要传递给分页器的查询字符串参数。参数名称和值按顺序排列 |
 
+从 `List` 形状继承的属性：
 
-从`List`形状继承的属性：
-
-|参数|类型|说明|
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `ItemTagName` | `string` | 用于页面的HTML标记，默认值： `li`. |
-| `ItemClasses` | `List<string>` | 分配给页面的类，默认值： _none_. |
+| `ItemTagName` | `string` | 用于页面的 HTML 标记，默认值：`li`。 |
+| `ItemClasses` | `List<string>` | 分配给页面的类，默认值：_none_。 |
 | `ItemAttributes` | `Dictionary<string, string>` | 分配给页面的属性。 |
-| `FirstClass` | `string` | 用于第一页的HTML类，默认值： `first`. |
-| `LastClass` | `string` | 用于最后一页的HTML标记，默认值： `last`. |
+| `FirstClass` | `string` | 用于第一页的 HTML 类，默认值：`first`。 |
+| `LastClass` | `string` | 用于最后一页的 HTML 标记，默认值：`last`。 |
 
-从基形状类继承的属性：
+从基本 Shape 类继承的属性：
 
-|参数|类型|说明|
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Id` | `string` |用于分页器的HTML id，默认值：_none_. |
-| `TagName` | `string` | 用于寻呼机的HTML标记，默认值： `ul`. |
+| `Id` | `string` | 用于分页器的 HTML id，默认值：_none_。 |
+| `TagName` | `string` | 用于分页器的 HTML 标记，默认值：`ul`。 |
 | `Attributes` | `Dictionary<string, string>` | 分配给主容器的属性。 |
-| `Classes` | `Dictionary<string, string>` | 要添加到主标记元素的CSS类。 |
+| `Classes` | `Dictionary<string, string>` | 要添加到主 Tag 元素的 CSS 类。 |
 
-通过为以下形状定义模板，可以进一步自定义简单分页：
+可以通过为以下形状定义模板来进一步自定义紧凑型分页器：
 
 - `Pager_Previous`
 - `Pager_Next`
 
-`Pager_Next` 和 `Pager_Previous` Liquid 模板:
+`Pager_Next` 和 `Pager_Previous` 的 Liquid 替代品或模板示例：
 
 ```liquid
 {% shape_clear_alternates Model %}
@@ -118,13 +117,13 @@
 {{ Model | shape_render }}
 ```
 
-每一个形状最终都会变形成`Pager_Link`.
-Alternates for each of these shapes are created using the `PagerId` like `Pager_Previous` `[PagerId]` which would in turn look for the template `Pager-MainBlog.Previous.cshtml`.
-这些形状的替换项是使用`PagerId`创建的，比如`Pager_Previous` `[PagerId]`，后者将依次查找模板`Pager-MainBlog.Previous.cshtml`.
+
+这些形状中的每一个最终都会变形为 `Pager_Link`。
+每个这些形状的替代品都使用 `PagerId` 创建，例如 `Pager_Previous` `[PagerId]`，它将依次查找模板 `Pager-MainBlog.Previous.cshtml`。
 
 ## SEO
 
-In order to block search engines from crawling all your pagers links, it is possible to override the Pager anchors "rel" attributes with "no-follow". To achieve this, you can simply do this: 
+为了阻止搜索引擎爬取所有分页器链接，可以使用“no-follow”覆盖分页器锚点的“rel”属性。为此，您可以简单地执行以下操作：
 
 === "Liquid"
 
@@ -139,12 +138,11 @@ In order to block search engines from crawling all your pagers links, it is poss
     @await DisplayAsync(Model.Pager)
     ```
 
-## Extending Navigation
+## 扩展导航
 
-导航可以通过代码进行扩展，方法是实现`INavigationProvider`并将其注册到扩展模块（或主题）中`Startup.cs`文件。
+可以通过实现 `INavigationProvider` 并在扩展模块（或主题）的 `Startup.cs` 文件中注册它来扩展导航。
 
-Below is a sample implementation of an `INavigationProvider` used to extend the "main" navigation section of the site.
-下面是一个`INavigationProvider`的示例实现，用于扩展站点的“main”导航部分。
+以下是用于扩展站点“主”导航部分的 `INavigationProvider` 的示例实现。
 
 ```csharp
 public class MainMenu : INavigationProvider
@@ -158,7 +156,7 @@ public class MainMenu : INavigationProvider
 
         public async Task BuildNavigation(string name, NavigationBuilder builder)
         {
-            //只与这里的“主”导航菜单交互。
+            //仅在此处与“main”导航菜单交互。
             if (!String.Equals(name, "main", StringComparison.OrdinalIgnoreCase))
             {
                 return;
@@ -173,17 +171,17 @@ public class MainMenu : INavigationProvider
     }
 ```  
 
-只要网站使用的主题包含类似于以下内容的行，则将调用此提供程序，该主题将在指定位置呈现导航菜单：
+只要站点使用包含类似于以下行的主题，该提供程序就会被调用，该行导致导航菜单在您的主题中的位置呈现：
 `@await DisplayAsync(await New.Navigation(MenuName: "main", RouteData: @ViewContext.RouteData))`
 
-扩展管理导航的例子可以在不同的Orchard Core模块中找到。在存储库中搜索“AdminMenu”将找到各种设置。以下是部分列表：
+在各种 OrchardCore 模块中可以找到扩展管理导航的示例。在 OrchardCore git 存储库中搜索 `AdminMenu` 将定位各种设置。以下是部分列表：
 
 - `OrchardCore.Modules/OrchardCore.Admin/AdminFilter.cs`
 - `OrchardCore.Modules/OrchardCore.Media/AdminMenu.cs`
 
-此时，“管理菜单”是唯一一个在OrchardCoreGit存储库中动态添加项目的代码导航。但是，正如上面的示例所示，模式可以用于控制任何命名导航。
+目前，管理菜单是唯一在 OrchardCore git 存储库中动态添加项目的导航。但是，如上面的示例所示，该模式可用于控制任何命名的导航。
 
-## 分页代码示例
+## 分页器代码示例
 
 === "Liquid"
 
@@ -225,3 +223,4 @@ public class MainMenu : INavigationProvider
         return View(viewModel);
     }
     ```
+> 该文档由ChatGPT 4 翻译

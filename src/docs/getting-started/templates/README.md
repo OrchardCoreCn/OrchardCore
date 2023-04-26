@@ -1,85 +1,81 @@
-# Code Generation Templates
+# 代码生成模板
 
-Orchard Core Templates uses `dotnet new` template configurations for creating new websites, themes and modules from the command shell.
+Orchard Core Templates使用 `dotnet new` 模板配置从命令行创建新的网站、主题和模块。
 
-More information about `dotnet new` can be found at <https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new>
+有关 `dotnet new` 的更多信息，请访问 <https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new>
 
-## Installing the Orchard CMS templates
+## 安装Orchard CMS模板
 
-Once the .NET Core SDK has been installed, type the following command to install the templates for creating Orchard Core web applications:
+一旦安装了.NET Core SDK，请输入以下命令以安装创建Orchard Core Web应用程序的模板：
 
 ```CMD
 dotnet new install OrchardCore.ProjectTemplates::1.5.0
 ```
 
-This will use the most stable release of Orchard Core. In order to use the latest `main` branch of Orchard Core, the following command can be used:
+这将使用Orchard Core的最稳定版本。为了使用Orchard Core最新的 `main` 分支，可以使用以下命令：
 
 ```CMD
 dotnet new install OrchardCore.ProjectTemplates::1.5.0-* --nuget-source https://nuget.cloudsmith.io/orchardcore/preview/v3/index.json  
 ```
+## 创建一个新网站
 
-## Create a new website
+### 从命令行 (自动化方式)
 
-### From Command Shell (automated way)
+#### 生成 Orchard Cms Web 应用程序
 
-#### Generate an Orchard Cms Web Application
-
-!!! warning
-    Due to a bug in the current published version, the following `dotnet new` commands will require the extra argument `--orchard-version 1.5.0`. For instance, instead of typing `dotnet new occms` use `dotnet new occms --orchard-version 1.5.0`
+!!! 警告
+    由于当前发布版本中存在一个缺陷，以下 `dotnet new` 命令将需要额外的参数 `--orchard-version 1.5.0`。例如，使用 `dotnet new occms` 代替 `dotnet new occms --orchard-version 1.5.0`
 
 ```CMD
 dotnet new occms
 ```
 
-The above command will use the default options.
+上面的命令将使用默认选项。
 
-You can pass the following CLI parameters to setup options:
+您可以传递以下 CLI 参数来设置选项：
 
 ```CMD
 Orchard Core Cms Web App (C#)
-Author: Orchard Project
-Options:
-  -lo|--logger           Configures the logger component.
-                             nlog       - Configures NLog as the logger component.
-                             serilog    - Configures Serilog as the logger component.
-                             none       - Do not use a logger.
-                         Default: nlog
+```
+作者:Orchard项目
+选项:
+  -lo|--logger          配置记录器组件。
+                             nlog       - 将NLog配置为记录器组件。
+                             serilog    - 将Serilog配置为记录器组件。
+                             none       - 不使用记录器。
+                         默认值:nlog
 
-  -ov|--orchard-version  Specifies which version of Orchard Core packages to use.
-                         string - Optional
-                         Default: 1.5.0
+  -ov|--orchard-version 指定要使用的Orchard Core软件包的版本。
+                         字符串-可选
+                         默认值:1.5.0
 ```
 
-Logging can be ignored with this command:
+使用以下命令可以忽略日志记录:
 
 ```CMD
 dotnet new occms --logger none
 ```
 
-#### Generate a modular ASP.NET MVC Core Web Application
-
+#### 生成一个模块化ASP.NET MVC Core Web应用程序
 ```CMD
 dotnet new ocmvc  
 ```
 
-### From Visual Studio (New Project dialog)
+### 从 Visual Studio (新建项目对话框)
 
-The templates can also be used from the New Project dialog in Visual Studio.
+这些模板也可以从 Visual Studio 的新建项目对话框中使用。
 
-### From Visual Studio (manual way)
+### 从 Visual Studio (手动方式)
 
-Fire up Visual Studio, create a new solution file (`.sln`) by creating a new ASP.NET Core Web Application:
+启动 Visual Studio，通过创建新的 ASP.NET Core Web 应用程序创建一个新的解决方案文件（`.sln`）：
 
 ![image](../assets/images/templates/orchard-screencast-1.gif)
 
-Now that we created a new Web Application we need to add proper dependencies so that this new Web Application be targeted as an Orchard Core application.
+既然我们已经创建了一个新的 Web 应用程序，我们需要添加正确的依赖项，让这个新的 Web 应用程序成为 Orchard Core 应用程序的目标。
 
-!!! note
-    If you want to use the `preview` packages, [configure the OrchardCore Preview url in your Package sources](../preview-package-source.md)
-
-![image](../assets/images/templates/orchard-screencast-2.gif)
-
-Finally, we will need to register Orchard CMS service in our `Program.cs` file like this:
+!!! 注意
+    如果您想要使用 `preview` 包，请[在包源中配置 OrchardCore Preview URL](../preview-package-source.md).
+最后，我们需要在 `Program.cs` 文件中注册 Orchard CMS 服务，如下所示：
 
 ```csharp
 using OrchardCore.Logging;
@@ -96,85 +92,105 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
-}
+```
 
+
+# 使用异常处理中间件
+
+```csharp
+app.UseExceptionHandler("/Error");
+```
+
+使用静态文件中间件
+
+```csharp
 app.UseStaticFiles();
+```
 
+使用OrchardCore中间件
+
+```csharp
 app.UseOrchardCore();
+```
 
+启动应用程序
+
+```csharp
 app.Run();
 ```
 
-## Create a new CMS module
+## 创建一个新的CMS模块
 
-### New module from Command Shell (automated way)
+### 从命令行Shell创建一个新模块（自动化方式）
 
-#### Module commands
+#### 模块命令
 
 ```CMD
 dotnet new ocmodulecms
 ```
+上面的命令将使用默认选项。
 
-The above command will use the default options.
-
-You can pass the following CLI parameters to setup options:
+您可以传递以下CLI参数来设置选项：
 
 ```CMD
-Orchard Core Module (C#)
-Author: Orchard Project
-Options:
-  -A|--AddPart           Add dependency injection for part in Program.cs. If PartName is not provided, default name will be used
-                         bool - Optional
-                         Default: false / (*) true
+Orchard Core模块（C#）
+作者：Orchard Project
+选项：
+  -A|--AddPart           在Program.cs中为部分添加依赖项注入。如果未提供PartName，则将使用默认名称
+                         bool - 可选
+                         默认值：false / (*) true
 
-  -P|--PartName          Add all files required for a part
-                         string - Optional
-                         Default: MyTest
+  -P|--PartName          添加所需的所有部分文件
+                         string - 可选
+                         默认值：MyTest
 
-  -ov|--orchard-version  Specifies which version of Orchard Core packages to use.
-                         string - Optional
-                         Default: 1.5.0
+  -ov|--orchard-version  指定要使用的Orchard Core软件包的版本。
+                         string - 可选
+                         默认值：1.5.0
 ```
 
 ```CMD
-dotnet new ocmodulecms -n ModuleName.OrchardCore
+dotnet new ocmodulecms -n 模块名称.OrchardCore
 
-dotnet new ocmodulecms -n ModuleName.OrchardCore --AddPart true
+dotnet new ocmodulecms -n 模块名称.OrchardCore --AddPart true
 
-dotnet new ocmodulecms -n ModuleName.OrchardCore --AddPart true --PartName Test 
+dotnet new ocmodulecms -n 模块名称.OrchardCore --AddPart true --PartName 测试
 ```
 
 !!! note
-    `Part` is appended automatically to the end of the supplied `PartName`.
+    `Part`会自动添加到提供的 `PartName`的末尾。
 
-### New module from Visual Studio (manual way)
+### Visual Studio 新建模块 (手动方式)
 
-Fire up Visual Studio, open Orchard Core solution file (`.sln`), select `OrchardCore.Modules` folder, right click and select "add --> new project" and create a new .NET Standard Class Library:
+打开Visual Studio，打开Orchard Core解决方案文件（`.sln`），选择 `OrchardCore.Modules` 文件夹，右击选择 “add --> new project（添加 --> 新建项目）”，创建一个新的 .NET Standard 类库：
 
 ![image](../assets/images/templates/38450533-6c0fbc98-39ed-11e8-91a5-d26a1105b91a.png)
 
-For marking this new Class Library as an Orchard Module, we will now need to reference `OrchardCore.Module.Targets` NuGet package.
+为了将这个新的类库标记为Orchard模块，我们现在需要引用 `OrchardCore.Module.Targets` NuGet软件包。
+!!! 注意
+    如果您想使用 `preview` 的包，[请在包源中配置OrchardCorePreview的URL](../preview-package-source.md)
 
-!!! note
-    If you want to use the `preview` packages, [configure the OrchardCore Preview url in your Package sources](../preview-package-source.md)
-
-Each of these `*.Targets` NuGet packages are used to mark a Class Library as a specific Orchard Core functionality.  
-`OrchardCore.Module.Targets` is the one we are interested in for now.  
-We will mark our new Class Library as a module by adding `OrchardCore.Module.Targets` as a dependency.  
-For doing so you will need to right click on `MyModule.OrchardCore` project and select "Manage NuGet Packages" option.  
-To find the packages in Nuget Package Manager you will need to check "include prerelease" and make sure you have Orchard Core feed that we added earlier selected.  
-Once you have found it, click on the Install button on the right panel next to Version : Latest prerelease x.x.x.x
+这些 `*.Targets` NuGet 包用于将类库标记为特定的Orchard Core功能。  
+现在，我们对 `OrchardCore.Module.Targets` 情有独钟。  
+我们将向新的类库添加 `OrchardCore.Module.Targets` 作为依赖项来标记它为模块。  
+为此，您需要右键单击 `MyModule.OrchardCore` 项目，然后选择 "Manage NuGet Packages" 选项。  
+在 Nuget 包管理器中查找包，您需要勾选 "include prerelease" 然后确保您之前添加的 Orchard Core feed 被选择。  
+找到它后，在版本: 最新预发布 x.x.x.x 右侧的面板中单击“安装”按钮。
 
 ![image](../assets/images/templates/38450558-f4b83098-39ed-11e8-93c7-0fd9e5112dff.png)
 
-Once done, your new module will look like this:
+安装完成后，您的新模块将如下所示：
 
 ![image](../assets/images/templates/38450628-31c8e2b0-39ef-11e8-9de7-c15f0c6544c5.png)
 
-For Orchard Core to identify this module it will now require a `Manifest.cs` file. Here is an example of that file:
+为了让Orchard Core识别这个模块，现在需要一个 `Manifest.cs` 文件。这是该文件的示例： 
 
 ```csharp
+使用OrchardCore.Module.Manifest创建新模块
+
+在你的Orchard Core项目中，创建一个新的文件夹来存储你的自定义模块。在此文件夹中，添加一个名为`Manifest.cs`的新文件，并添加下面的代码：
+
+```
 using OrchardCore.Modules.Manifest;
 
 [assembly: Module(
@@ -184,27 +200,26 @@ using OrchardCore.Modules.Manifest;
     Version = "0.0.1",
     Description = "Template module."
 )]
-
 ```
 
-For this module to start, we now will need to add a `Startup.cs` file to our new module. See this file as an example:  
-[`OrchardCore.Templates.Cms.Module/Startup.cs`](https://github.com/OrchardCMS/OrchardCore/tree/dev/src/Templates/OrchardCore.ProjectTemplates/content/OrchardCore.Templates.Cms.Module/Startup.cs)
+为了让这个模块开始工作，我们现在需要在我们的新模块中添加一个`Startup.cs`文件。可以参考这个文件: [`OrchardCore.Templates.Cms.Module/Startup.cs`](https://github.com/OrchardCMS/OrchardCore/tree/dev/src/Templates/OrchardCore.ProjectTemplates/content/OrchardCore.Templates.Cms.Module/Startup.cs)
 
-Last step is to add our new module to the `OrchardCore.Cms.Web` project as a reference for including it as part as our website modules. After that, you should be all set for starting building your custom module. You can refer to our [template module](https://github.com/OrchardCMS/OrchardCore/tree/dev/src/Templates/OrchardCore.ProjectTemplates/content/OrchardCore.Templates.Cms.Module/) for examples of what's basically needed normally.
+最后一步是将我们的新模块添加到`OrchardCore.Cms.Web`项目中作为引用，以便将其包含为网站模块。之后，你就可以开始构建自定义模块了。你可以参考我们的 [模板模块](https://github.com/OrchardCMS/OrchardCore/tree/dev/src/Templates/OrchardCore.ProjectTemplates/content/OrchardCore.Templates.Cms.Module/) 来了解通常所需的基本内容。
 
-## Create a new theme
+创建一个新的主题
 
-### New theme From Command Shell (automated way)
+### 通过命令行 Shell 创建新主题（自动化方式）
 
-#### Theme commands
+
+#### 主题命令
 
 ```CMD
 dotnet new octheme -n "ThemeName.OrchardCore"
 ```
 
-### New theme from Visual Studio (manual way)
+### 从 Visual Studio 新建主题（手动方式）
 
-Should be the same procedure as with modules but instead, we need to reference `OrchardCore.Theme.Targets` and the `Manifest.cs` file differs slightly:
+与模块的操作应该是一样的，但我们需要引用 `OrchardCore.Theme.Targets` ，且 `Manifest.cs` 文件略有不同：
 
 ```csharp
 using OrchardCore.DisplayManagement.Manifest;
@@ -215,5 +230,7 @@ using OrchardCore.DisplayManagement.Manifest;
     Website = "https://orchardproject.net",
     Version = "0.0.1",
     Description = "The TemplateTheme."
-)]
-```
+这是一个不完整的代码块，缺少开头的反引号（`）。请提供完整的代码块以获取帮助。
+
+
+> 该文档由Chat-GPT 翻译

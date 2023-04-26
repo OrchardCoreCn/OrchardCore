@@ -1,59 +1,62 @@
-# Installing Localization Files
+# 安装本地化文件
 
-In this guide you will download and install community managed localization files to localize the Admin of Orchard Core CMS.
+在这个指南中，您将下载和安装由社区管理的本地化文件，以本地化Orchard Core CMS的管理界面。
 
-## What you will need
+## 你需要什么
 
-- The current version of the .NET SDK. You can download it from here <https://dotnet.microsoft.com/download>.
-- A text editor and a terminal where you can type dotnet commands.
-- An already running Orchard Core CMS website. You can follow the guide [Creating an Orchard Core CMS website](../create-cms-application/README.md) if you haven't done it yet.
+- 当前版本的.NET SDK。您可以从这里下载：<https://dotnet.microsoft.com/download>.
+- 一个文本编辑器和一个终端，您可以在其中输入dotnet命令。
+- 已经运行的Orchard Core CMS网站。如果您还没有完成，请按照指南[创建Orchard Core CMS网站](../create-cms-application/README.md)进行操作。
 
-## Downloading the localization files
+## 下载本地化文件
 
-Localization files are managed by the community on the [Crowdin](https://crowdin.com/project/orchard-core) website. Anyone can provide custom languages or contribute to existing ones.
+本地化文件由社区在[Crowdin](https://crowdin.com/project/orchard-core)网站上管理。任何人都可以提供自定义语言或为现有语言做贡献。
 
 ![image](assets/crowdin-languages.jpg)
 
-For this guide we will download the French language.
+对于这个指南，我们将下载法语语言。
 
-- Click on __French__, a page with the list of all `.pot` files should appear.
-- Click on the __Download or Upload__ button on the top right of the page.
-- Select __Download__, a zip file named `fr.zip` will be downloaded by your browser.
+- 单击__French__，将显示一个包含所有`.pot`文件列表的页面。
+- 单击页面右上角的__下载或上传__按钮。
+- 选择 __下载__，你的浏览器将下载一个名为 `fr.zip` 的压缩文件。
 
 ![image](assets/crowdin-download.jpg)
 
-## Extracting the localization files
+## 提取本地化文件
 
-The zip file that you downloaded needs to be extracted in the `Localization` folder of your Orchard Core CMS website.
+你下载的压缩文件需要在你的 Orchard Core CMS 网站的“本地化”文件夹中解压缩。
 
-- Create a folder named `[your_site_root]/Localization` where `your_site_root` is the location of your website.
-- Extract the file `fr.zip` in `Localization`
+- 创建一个名为 `[your_site_root]/Localization` 的文件夹，其中 `your_site_root` 是你的网站位置。
+- 将文件 `fr.zip` 解压缩到“本地化”文件夹中。
 
-The result should look like this:
+结果应该类似于这样：
 
 ![image](assets/localization-folder.jpg)
 
-## Configuring the supported cultures
+## 配置支持的区域设置
 
-By default a new Orchard Core CMS website will only accept the default system culture. This step will configure it to accept French as an alternate language.
+默认情况下，新的 Orchard Core CMS 网站只接受默认系统区域设置。这一步将配置它接受法语作为备用语言。
 
-- Open the Admin section of Orchard Core CMS by opening the browser on <https://localhost:5001/admin>.
-- In the __Configuration__ > __Settings__ > __Cultures__ section, select `fr | French` then click __Add culture__.
-- Click on __Save__, the site is reloaded.
+- 打开 Orchard Core CMS 的管理部分，通过在 <https://localhost:5001/admin> 中打开浏览器。
+- 在__Configuration__ > __Settings__ > __Cultures__部分中，选择 `fr | French` 然后点击__Add culture__。
+- 点击__Save__，网站会重新加载。
 
-## Enabling localization and testing the site
+## 启用本地化并测试网站
 
-To enable Orchard Core CMS to use these new files, we need to enable the Localization feature.
+为了使Orchard Core CMS使用这些新文件，我们需要启用本地化功能。
 
-- In the __Modules__ page search for __Localization__ and click __Enable__. If the feature is already enabled you don't need to do anything.
-- In the current url, add `?culture=fr`, the link should look like <https://localhost:44300/blog/OrchardCore.Features/Admin/Features?culture=fr>.
+- 在__Modules__页面搜索__Localization__并点击 __Enable__。如果该功能已经启用，则无需进行任何操作。
+- 在当前的URL中，添加`?culture=fr`，链接应如下所示：<https://localhost:44300/blog/OrchardCore.Features/Admin/Features?culture=fr>。
 
-At that point most texts should be displayed in French.  
-From now on if a browser is configured with French as its default culture, the Admin will be displayed using the French text translations we downloaded.  
-The `?culture=fr` is just one way to simulate that the current request should use French as the UI culture.
+此时大多数文本应该显示为法语。  
+从现在开始，如果浏览器将法语配置为其默认的区域设置，则管理界面将使用我们下载的法语文本翻译显示。  
+`?culture=fr`只是一种模拟当前请求应使用法语作为UI文化的方式之一。
 
 ![image](assets/localized-french.jpg)
 
-## Summary
+## 总结
 
-You just downloaded and enabled a new localization in Orchard Core CMS.
+您刚刚在Orchard Core CMS中下载并启用了新的本地化。
+
+
+> 该文档由Chat-GPT 翻译

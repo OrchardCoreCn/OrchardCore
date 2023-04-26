@@ -1,25 +1,26 @@
 # Placements (`OrchardCore.Placements`)
 
-The placements module allows editors to add custom placement logic.
+Placements模块允许编辑器添加自定义放置逻辑。
 
-## General concepts
+## 一般概念
 
-Custom placements can be provided by themes and modules using a `placement.json` file.
+主题和模块可以使用`placement.json`文件提供自定义放置。
 
-The placements module provides a way to define placements from the admin site.
+放置模块提供了一种从管理站点定义放置的方法。
 
-### Placement precedence
+### 放置优先级
 
-Placements defined in placements module override placements defined by theme and modules.
+放置模块中定义的放置会覆盖主题和模块中定义的放置。
 
-### Placements storage
+### 放置存储
 
-Placements defined with this module are stored in the database by default.
+使用此模块定义的放置默认存储在数据库中。
 
-You can also choose to store placements in a file by enabling 'Placements file storage' (`OrchardCore.Placements.FileStorage`) feature.
+您还可以选择通过启用“放置文件存储”(`OrchardCore.Placements.FileStorage`)功能将放置存储在文件中。
 
-### Shape placements format
+### 形状放置格式
 
-Placements are defined by shape name.
-For each shape you can define a set of placements rules.
-Placements rules is a JSON array, similar to a `placement.json` file entry, as defined in the [Placement documentation](../../core/Placement/README.md#format).
+放置由形状名称定义。
+对于每个形状，您可以定义一组放置规则。
+放置规则是一个JSON数组，类似于`placement.json`文件条目中定义的内容，如[放置文档](../../core/Placement/README.md#format)中所定义的内容。
+> 该文档由ChatGPT 4 翻译

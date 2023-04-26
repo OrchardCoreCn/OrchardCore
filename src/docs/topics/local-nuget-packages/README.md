@@ -1,26 +1,25 @@
-# Using a local copy of Orchard Core source code as nuget packages
+# 使用 Orchard Core 源代码的本地副本作为 nuget 包
 
-In this article, we are going to create our own local nuget feed from our copy of the Orchard Core source code and add a new package source pointing to the local packages.  
+在本文中，我们将创建自己的本地 nuget feed，从我们的 Orchard Core 源代码副本中添加新的包源指向本地包。
 
-## Create NuGet packages from your local source code.
+## 从您的本地源代码创建NuGet包。
 
-For more information on dotnet pack see: <https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-pack>
+有关 dotnet pack 的更多信息，请参见：<https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-pack>
 
-- From the command line, go to the root folder of your fork/branch of the Orchard Core source code.
-- Pack all of the NuGet packages to one output folder of your choice.  
-Example: `dotnet pack -c Release -o c:\OrchardCoreNuget`
+- 从命令行转到 Orchard Core 源代码的分支/主目录的根文件夹。
+- 将所有 NuGet 包打包到一个您选择的输出文件夹中。  
+例如：`dotnet pack -c 发布 -o c:\OrchardCoreNuget`
 
-## Publish to your NuGet feed
-For this example, we are going to use the Local Feed method.  For more information on this see: <https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds>
+## 发布到您的 NuGet feed
+对于此示例，我们将使用本地 Feed 方法。有关此的更多信息，请参见：<https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds>
 
-- Create a folder for your NuGet Feed.  
-For this example we are using `\\{YourServer}\NuGetServer`
-- Add the NuGet packages to your local feed.  
-Example: `nuget init c:\OrchardCoreNuget \\{YourServer}\NuGetServer`
+- 创建一个文件夹用于您的 NuGet Feed。  
+对于此示例，我们使用 `\\{YourServer}\NuGetServer`
+- 将 NuGet 包添加到本地 feed 中。  
+例如：`nuget init c:\OrchardCoreNuget \\{YourServer}\NuGetServer`
+## 更新项目以使用 NuGet 源
 
-## Update your project to use your NuGet feed
-
-- Update your nuget.config file so it points to your local feed.  
+- 更新 nuget.config 文件，使其指向您的本地源。
 https://docs.microsoft.com/en-us/nuget/reference/nuget-config-file#packagesources
 ```xml
     <?xml version="1.0" encoding="utf-8"?>
@@ -33,4 +32,7 @@ https://docs.microsoft.com/en-us/nuget/reference/nuget-config-file#packagesource
       <disabledPackageSources />
     </configuration>
 ```
-- Make sure all of your projects are referencing the OrchardCore version in your local feed.
+- 确保所有的项目都是使用本地源中的 OrchardCore 版本。
+
+
+> 该文档由Chat-GPT 翻译

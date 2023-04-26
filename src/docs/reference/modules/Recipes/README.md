@@ -2,13 +2,13 @@
 
 ## Recipe file
 
-A recipe is a json file used to execute different import and configuration steps.
+一个recipe是一个json文件，用于执行不同的导入和配置步骤。
 
-You can add it in a `Recipes` folder with a name like this `{RecipeName}.recipe.json` and it will be available in the Configuration > Recipes admin page.
+您可以将其添加到`Recipes`文件夹中，名称为`{RecipeName}.recipe.json`，然后它将在Configuration > Recipes管理页面中可用。
 
-## Recipe format
+## Recipe格式
 
-A recipe file should look like this:
+一个recipe文件应该长这样：
 
 ```json
 {
@@ -32,26 +32,26 @@ A recipe file should look like this:
 ```
 
 !!! note
-    if `issetuprecipe` is equal to true, the recipe will be available in the Recipes list during the setup.
+    如果`issetuprecipe`等于true，则在安装期间，该recipe将在Recipes列表中可用。
 
 !!! note
-    Recipes, despite being JSON files, may contain comments:
+    Recipe虽然是JSON文件，但可能包含注释：
     ```json
     // This is a comment.
     ```
 
-## Recipe steps
+## Recipe步骤
 
-A recipe can execute multiple steps.
+一个recipe可以执行多个步骤。
 
-In order to create a new Recipe step, you need to implement the `IRecipeStepHandler` interface and the `ExecuteAsync` method:
+为了创建新的Recipe步骤，您需要实现`IRecipeStepHandler`接口和`ExecuteAsync`方法：
 `public async Task ExecuteAsync(RecipeExecutionContext context)`
 
-Here are the available recipe steps:
+以下是可用的recipe步骤：
 
 ### Feature Step
 
-The Feature step allows you to disable/enable some features.
+Feature步骤允许您禁用/启用某些功能。
 
 ```json
     {
@@ -66,11 +66,11 @@ The Feature step allows you to disable/enable some features.
 ```
 
 !!! warning
-    If you want to use your own theme (Ex: `YourTheme`), do not forget to enable its feature or else, the theme layout will not be working after the execution of the recipe.
+    如果要使用自己的主题（例如`YourTheme`），请不要忘记启用其功能，否则，主题布局在recipe执行后将无法工作。
 
 ### Themes Step
 
-The Themes step allows you to set the admin and the site themes.
+Themes步骤允许您设置管理和站点主题。
 
 ```json
     {
@@ -82,7 +82,7 @@ The Themes step allows you to set the admin and the site themes.
 
 ### Settings Step
 
-The Settings step allows you to set multiple settings.
+Settings步骤允许您设置多个设置。
 
 ```json
     {
@@ -101,7 +101,7 @@ The Settings step allows you to set multiple settings.
 
 ### ContentDefinition Step
 
-The Content step allows you to import some content types.
+Content步骤允许您导入某些内容类型。
 
 ```json
     {
@@ -116,8 +116,8 @@ The Content step allows you to import some content types.
 
 ### Lucene Step
 
-The Lucene index step allows you to run the Lucene indexation of content types.  
-You can also set the default Lucene Settings.
+Lucene索引步骤允许您运行内容类型的Lucene索引。  
+您还可以设置默认的Lucene设置。
 
 ```json
     {
@@ -150,11 +150,11 @@ You can also set the default Lucene Settings.
 
 ### Reset Lucene Search Index Step
 
-This Reset Lucene Index Step resets a lucene index.
-Restarts the indexing process from the beginning in order to update current content items.
-It doesn't delete existing entries from the index.
+此Reset Lucene Index Step重置lucene索引。
+从头开始重新启动索引过程，以更新当前内容项。
+它不会删除索引中的现有条目。
 
-The `includeAll` property indicates whether to include all available Lucene indices. When set to `true`, the `Indices` property can be omitted.
+`includeAll`属性指示是否包括所有可用的Lucene索引。当设置为`true`时，可以省略`Indices`属性。
 
 ```json
     {
@@ -175,10 +175,10 @@ The `includeAll` property indicates whether to include all available Lucene indi
 
 ### Rebuild Lucene Search Index Step
 
-This Rebuild Lucene Index Step rebuilds a lucene index.
-Deletes and recreates the full index content.
+此Rebuild Lucene Index Step重建lucene索引。
+删除并重新创建完整的索引内容。
 
-The `includeAll` property indicates whether to include all available Lucene indices. When set to `true`, the `Indices` property can be omitted.
+`includeAll`属性指示是否包括所有可用的Lucene索引。当设置为`true`时，可以省略`Indices`属性。
 
 ```json
     {
@@ -199,7 +199,7 @@ The `includeAll` property indicates whether to include all available Lucene indi
 
 ### Content Step
 
-The Content step allows you to create content items.
+Content步骤允许您创建内容项。
 
 ```json
      {
@@ -215,11 +215,11 @@ The Content step allows you to create content items.
 ```
 
 !!! note
-    There is also `QueryBasedContentDeploymentStep` which produces exactly the same output as the Content Step, but based on a provided Query.
+    还有`QueryBasedContentDeploymentStep`，它产生与Content Step完全相同的输出，但基于提供的查询。
 
 ### Media Step
 
-The Media step allows you to import media files to the tenant Media folder.
+Media步骤允许您将媒体文件导入到租户媒体文件夹中。
 
 ```json
     {
@@ -239,7 +239,7 @@ The Media step allows you to import media files to the tenant Media folder.
 
 ### Layers Step
 
-The Layers step allows you to create multiple layers.
+Layers步骤允许您创建多个图层。
 
 ```json
     {
@@ -261,7 +261,7 @@ The Layers step allows you to create multiple layers.
 
 ### Queries Step
 
-The Queries step allows you to create multiple Lucene or SQL queries.
+Queries步骤允许您创建多个Lucene或SQL查询。
 
 ```json
     {
@@ -281,7 +281,7 @@ The Queries step allows you to create multiple Lucene or SQL queries.
 
 ### AdminMenu Step
 
-The AdminMenu step allows you to create multiple admin menus.
+AdminMenu步骤允许您创建多个管理菜单。
 
 ```json
     {
@@ -301,7 +301,7 @@ The AdminMenu step allows you to create multiple admin menus.
 
 ### Roles Step
 
-The Roles step allows you to set permissions to specific roles.
+Roles步骤允许您为特定角色设置权限。
 
 ```json
     {
@@ -320,11 +320,11 @@ The Roles step allows you to set permissions to specific roles.
 ```
 
 !!! warning
-    As of version 1.6, the default roles are no longer auto created. Setup recipe must define the default roles to be used. The `Roles` feature will automatically map all known permissions to the defined roles each time a feature is enabled.
+    从版本1.6开始，默认角色不再自动创建。Setup recipe必须定义要使用的默认角色。`Roles`功能将在每次启用功能时自动将所有已知权限映射到定义的角色。
 
 ### Template and AdminTemplate Step
 
-The Template and AdminTemplate steps allow you to create Liquid Templates.
+Template和AdminTemplate步骤允许您创建Liquid模板。
 
 ```json
     {
@@ -340,7 +340,7 @@ The Template and AdminTemplate steps allow you to create Liquid Templates.
 
 ### Workflow Step
 
-The WorkflowType step allows you to create a Workflow.
+WorkflowType步骤允许您创建工作流。
 
 ```json
     {
@@ -357,7 +357,7 @@ The WorkflowType step allows you to create a Workflow.
 
 ### Deployment Step
 
-The Deployment step allows you to create a deployment plan with deployment steps. Also see [Deployment](../Deployment/README.md).
+Deployment步骤允许您创建具有部署步骤的部署计划。另请参见[Deployment](../Deployment/README.md)。
 
 ```json
     {
@@ -388,7 +388,7 @@ The Deployment step allows you to create a deployment plan with deployment steps
 
 ### CustomSettings Step
 
-The CustomSettings step allows you to populate your custom settings with initial values.
+CustomSettings步骤允许您使用初始值填充自定义设置。
 
 ```json
     {
@@ -416,7 +416,7 @@ The CustomSettings step allows you to populate your custom settings with initial
 
 ### Recipes Step
 
-The Recipes step allows you to execute other recipes from the current recipe. You can use this to modularize your recipes. E.g. instead of having a single large setup recipe you can put content into multiple smaller ones and execute them from the setup recipe.
+Recipes步骤允许您从当前recipe执行其他recipes。您可以使用此功能将您的recipes模块化。例如，您可以将内容放入多个较小的recipes中，并从setup recipe中执行它们。
 
 ```json
     {
@@ -434,11 +434,11 @@ The Recipes step allows you to execute other recipes from the current recipe. Yo
     }
 ```
 
-As `executionid` use a custom identifier to distinguish these recipe executions from others. As `name` use the `name` field from the given recipe's head (this is left blank when you export to recipes).
+使用自定义标识符作为`executionid`以区分这些recipe执行与其他执行。使用给定recipe头中的`name`字段（导出到recipes时留空）作为`name`。
 
 ### Other settings Step
 
-Here are other available steps:
+这里有其他可用的步骤：
 
 - `Command`
 - `FacebookLoginSettings`
@@ -455,7 +455,7 @@ Here are other available steps:
 
 ## Recipe helpers
 
-Recipes can use script helpers like this:
+Recipes可以使用脚本助手，如下所示：
 
 ```json
 {
@@ -463,22 +463,22 @@ Recipes can use script helpers like this:
 }
 ```
 
-| Name | Description |
+| 名称 | 描述 |
 | --- | --- |
-| `uuid()` | Generates a unique identifier for a content item. |
-| `base64(string)` | Decodes the specified string from Base64 encoding. Use https://www.base64-image.de/ to convert your files to base64. |
-| `html(string)` | Decodes the specified string from HTML encoding. |
-| `gzip(string)` | Decodes the specified string from gzip/base64 encoding. Use http://www.txtwizard.net/compression to gzip your strings. |
+| `uuid()` | 为内容项生成唯一标识符。 |
+| `base64(string)` | 从Base64编码中解码指定的字符串。使用https://www.base64-image.de/将文件转换为base64。 |
+| `html(string)` | 从HTML编码中解码指定的字符串。 |
+| `gzip(string)` | 从gzip/base64编码中解码指定的字符串。使用http://www.txtwizard.net/compression对字符串进行gzip。 |
 
 ## Recipe Migrations
 
-A recipe migration is a way to perform updates via a recipe file. The most common uses for this would be to update metadata like content types or workflows, but one could update anything that is updateable via a recipe.
+recipe migration是通过recipe文件执行更新的一种方式。最常见的用途是更新元数据，如内容类型或工作流，但可以更新任何可以通过recipe进行更新的内容。
 
-Let's consider a simple scenario: adding a new asset. Now one could do this via the admin UI interface, but the purpose here is to demonstrate all the moving parts involved in a recipe migration.
+让我们考虑一个简单的场景：添加新资产。现在可以通过管理UI界面来完成此操作，但是这里的目的是演示涉及recipe迁移的所有移动部件。
 
-In your module or theme project, create a class that inherits from `OrchardCore.Data.Migration.DataMigration` (found in the `OrchardCore.Data.Abstractions` package). Add a dependency for the `IRecipeMigrator` service to this class. Provide `CreateAsync()` and/or `UpdateAsync()` methods that return `Task<int>` to provide the migration steps. The class can placed anywhere in your project, but the recipe JSON files must be placed in a folder named `Migrations`.
+在您的模块或主题项目中，创建一个类，该类继承自`OrchardCore.Data.Migration.DataMigration`（在`OrchardCore.Data.Abstractions`包中找到）。向此类添加对`IRecipeMigrator`服务的依赖项。提供`CreateAsync()`和/或`UpdateAsync()`方法，这些方法返回`Task<int>`以提供迁移步骤。该类可以放置在项目的任何位置，但是recipe JSON文件必须放置在名为`Migrations`的文件夹中。
 
-Here is an example of how initial and subsequent migrations can be authored. Use the `CreateAsync()` method to provide the very first migration that runs and ensure that this method always returns 1. Use the `UpdateFrom<version>Async()` to provide subsequent migrations; in this example, we have a migration that updates from version 1 to 2. The method names are case-sensitive and the naming convention must be followed for the migrations to be discovered and executed.
+以下是如何编写初始和后续迁移的示例。使用`CreateAsync()`方法提供第一个运行的迁移，并确保此方法始终返回1。使用`UpdateFrom<version>Async()`提供后续迁移；在此示例中，我们有一个从版本1更新到2的迁移。方法名称区分大小写，必须遵循命名约定才能发现和执行迁移。
 
 ```csharp
 public class Migrations : DataMigration
@@ -506,7 +506,7 @@ public class Migrations : DataMigration
 }
 ```
 
-And here are the migration recipes referenced in the code above:
+以下是上面代码中引用的迁移recipe：
 
 **Migrations/migration.recipe.json**
 
@@ -556,10 +556,12 @@ And here are the migration recipes referenced in the code above:
 }
 ```
 
-## Videos
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/uJobH9izfLI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/qPCBgHQYz1g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/A13Li0CblK8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+> 该文档由ChatGPT 4 翻译

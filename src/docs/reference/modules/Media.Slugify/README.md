@@ -1,16 +1,18 @@
-# Media Slugify (`OrchardCore.Media.Slugify`)
+# 媒体Slugify (`OrchardCore.Media.Slugify`)
 
-The Media Slugify feature enables _slugifying_ assets in the Media Library.
+媒体Slugify功能使媒体库中的资产变得更加友好。
 
-## Purpose
+## 目的
 
-By default the Media Library does not restrict the naming of folders and files. For example having a file `The team (2020).jpg` in folder `Images & docs` is allowed. The URL of this asset would be `/media/Images%20&%20docs/The%20team%20(2020).jpg`.
+默认情况下，媒体库不限制文件夹和文件的命名。例如，在文件夹“Images＆docs”中拥有文件“ The team（2020）.jpg”是允许的。此资产的URL将是`/media/Images%20&%20docs/The%20team%20(2020).jpg`。
 
-This is obviously not a very SEO-friendly URL.
+这显然不是一个非常友好的URL。
 
-Folders and files can be _slugified_ automatically by enabling the Media Slugify feature. Doing this will rename the example above to `the-team-2020.jpg` in folder `images-docs`. The URL would be `/media/images-docs/the-team-2020.jpg`.
+通过启用Media Slugify功能，可以自动将文件夹和文件的名称转换为slug。这将把上面的示例重命名为`the-team-2020.jpg`，并将其放在文件夹`images-docs`中。URL将是`/media/images-docs/the-team-2020.jpg`。
 
-Different files can have the same slug, making it impossible to upload both without renaming one (e.g. `The team (2020).jpg` and `The Team 2020.jpg`).
+不同的文件可以具有相同的slug，这使得无法上传两个文件而不重命名其中一个（例如`The team（2020）.jpg`和`The Team 2020.jpg`）。
 
-!!! note
-    Enabling the Media Slugify feature will not rename existing folders and files, only new folders and files will be _slugified_.
+!!! 注意
+    启用Media Slugify功能不会重命名现有的文件夹和文件，只有新文件夹和文件才会被slugify。
+
+> 该文档由ChatGPT 4 翻译

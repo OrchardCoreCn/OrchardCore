@@ -1,99 +1,101 @@
-# Using Docker with Orchard Core
+# 使用Docker与Orchard Core
 
-Our source code repository includes a `Dockerfile` which will allow you to create your own Docker images and containers. It can be quite useful for Orchard Core developers when needing to test PR's. It allows them to deploy locally quickly some testing environments. Here my examples will be shown for that context. Docker can also be used for more complex usage (ex: production deployment) but this documentation doesn't aim to explain that in detail. For more advanced examples I strongly suggest reading `docker` and `docker-compose` documentation.
+我们的源代码仓库包含一个 `Dockerfile`，可以让你创建自己的Docker镜像和容器。当Orchard Core开发人员需要测试PR时，这非常有用。它允许他们快速部署本地一些测试环境。这里的例子将展示如何在这种情况下使用Docker。 Docker也可以用于更复杂的用途（如：生产部署），但本文档并不旨在详细解释这些内容。对于更高级的示例，我强烈建议阅读 `docker` 和 `docker-compose` 文档。
 
-*Alternately, for those using a Nuget package solution ; you can copy directly the Dockerfile and .dockerignore file from the source code to the root folder of your solution to do the same kind of thing. Though, it might get tricky depending if you did not use the same folder structure than the source code solution.*
+*或者，对于使用Nuget包解决方案的人们；您可以直接从源代码复制Dockerfile和.dockerignore文件到您的解决方案的根文件夹中，以执行相同的操作。但是，这可能会变得复杂，具体取决于您是否使用了与源代码解决方案不同的文件夹结构。*
 
-## What you will need
+## 你需要什么
 
-For Windows users : 
-https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-containers
+对于Windows用户：https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-containers
 
-For Ubuntu/Linux users : https://docs.docker.com/engine/install/ubuntu/
+对于Ubuntu / Linux用户：https://docs.docker.com/engine/install/ubuntu/
 
-## What you will build
+## 你将要构建什么
 
-You will build Docker images and containers from command shell using `docker` and `docker-compose` commands. Images are built from Orchard Core source code targeting a specific OS. Then we can deploy "containers" from them. This allow you to see how Orchard Core respond in different environments or also deploy Orchard Core on a production server eventually.
+你将使用 `docker` 和 `docker-compose` 命令从命令行构建Docker镜像和容器。图像是从Orchard Core源代码构建的，针对特定操作系统。然后我们可以从它们部署"容器"。这允许您查看Orchard Core在不同环境下的响应方式，或者在生产服务器上部署Orchard Core。
 
 ## Dockerfile
 
-The Dockerfile that is provided in the Orchard Core source code is using an intermediate image to build Orchard Core in a specific environment which contains the .NET SDK. Then we create the "real" image by using only the ASP.NET core runtime.
-
+Orchard Core源代码中提供的Dockerfile使用中间镜像在包含.NET SDK的特定环境中构建Orchard Core。然后，我们使用仅使用ASP.NET Core运行时的方式创建“真正的”镜像。
 ```dockerfile
-# Create an intermediate image using .NET Core SDK
+# 使用 .NET Core SDK 创建一个临时镜像
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 LABEL stage=build-env
 WORKDIR /app
 
-# Copy and build in the intermediate image
+# 在临时镜像中复制并构建应用程序
 COPY ./src /app
 RUN dotnet publish /app/OrchardCore.Cms.Web -c Release -o ./build/release
 
-# Build runtime image
+# 构建运行时镜像
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 EXPOSE 80
 ENV ASPNETCORE_URLS http://+:80
 WORKDIR /app
 COPY --from=build-env /app/build/release .
 ENTRYPOINT ["dotnet", "OrchardCore.Cms.Web.dll"]
-```
+``` 
 
-## Dockerignore file ".dockerignore"
+
+忽略Docker文件 ".dockerignore"
 
 ```yml
-# ignore all
+# 忽略所有
 **
 
-# Except src for building
+# 除了用于构建的src
 !./src/*
 
-# Ignore any App_Data folder
+# 忽略任何App_Data文件夹
 **/App_Data/
 
-# Ignore all prebuild
+# 忽略所有预构建文件
 **/[b|B]in/
 **/[O|o]bj/
 ```
 
 ## Docker
 
-First example is a simple one. Use Docker to build an image and run it (inside a container). 
 
-```cmd
-REM Folder where the Dockerfile stands
+第一个例子很简单。使用Docker构建镜像并运行它（在容器内）。
+
+````cmd
+REM Dockerfile所在的文件夹
 cd /orchardcore
 
-REM Build image from Dockerfile
+REM 从Dockerfile构建映像
 docker build -t oc .
 
-REM Creates a container, runs it and expose its service on port 80
+REM 创建容器，运行它并将其服务暴露在端口80上
 docker run -p 80:80 oc
-```
+````
 
-## Prune intermediate images
+## 删除中间镜像
 
-### When using `docker` command : 
-
+### 当使用 `docker` 命令时：
 ```cmd
-REM Prunes intermediate containers created while building by using --rm
+REM 删除构建过程中创建的中间容器，使用 --rm 参数
 docker build -t oc --rm .
 
-REM Prunes all intermediate images
+REM 删除所有中间镜像
 docker image prune -f --filter label=stage=build-env
 
-REM Creates a container, runs it and expose its service on port 80
+REM 创建一个容器，运行它，并将其服务暴露在 80 端口上
 docker run -p 80:80 oc
+
 ```
 
-Using these commands should get you a fully functional Docker container running on port 80 so that you can access it with your browser by simply going to http://localhost. Though, we assume that this will only allow you to use SQLite. In order to avoid needing to install anything directly on your Docker host computer and to get everything running quickly you should use `docker-compose`.
 
-## Docker compose
 
-Docker Compose will allow you to generate multiple containers locally by doing simply `docker-compose up` command in the root folder of Orchard Core source code. Of course it requires that you have a docker-compose.yml file standing in that folder first. In the example shown below, we will create services for each of the database providers Orchard Core "officially supports".
+使用这些命令将使您得到一个在端口80上完全运行的Docker容器，这样您就可以通过浏览器只需访问http://localhost就能访问到它。不过，我们假设这将仅允许您使用SQLite。为了避免需要直接在Docker主机计算机上安装任何东西并快速启动所有东西，您应该使用`docker-compose`。
 
-[Docker Compose documentation](https://docs.docker.com/compose/)
+## Docker Compose
 
-docker-compose.yml file example :  
+Docker Compose 允许您通过在Orchard Core源代码的根文件夹中执行`docker-compose up`命令来生成多个本地容器。当然，首先需要有一个docker-compose.yml文件。在下面示例中，我们将为Orchard Core“官方支持”的每个数据库提供程序创建服务。
+
+[Docker Compose 文档](https://docs.docker.com/compose/)
+
+docker-compose.yml 文件示例:
 
 ```YML
 version: '3.3'
@@ -142,9 +144,16 @@ volumes:
     postgresql-data:
 
 ```
-## Prune intermediate images
 
-### When using `docker-compose` command : 
+该文档为Docker Compose文件，其中定义了两个服务，一个为MySQL数据库服务，另一个为PostgreSQL数据库服务。MySQL服务将其默认端口3306映射到主机的3306端口，并暴露了该端口。通过定义的MySQL配置创建一个名为"orchardcore_database"的数据库，并创建名为"orchardcore_user"的用户。此外，该服务也定义了MYSQL_ROOT_PASSWORD环境变量作为root用户的密码，并将数据保存在名为“mysql-data”的数据卷中。 PostgreSQL服务同样进行了类似的操作，将默认端口5432映射到主机的5432端口，并暴露了该端口。它通过定义的POSTGRES_USER和POSTGRES_PASSWORD环境变量创建具有给定用户名和密码的PostgreSQL数据库用户，并将数据保存在名为“postgresql-data”的数据卷中。
+这是一个使用Docker和Docker Compose构建应用程序的示例。该应用程序使用MySQL和PostgreSQL数据库，并创建两个数据卷以保存它们的数据。
+
+在构建images之前，使用`docker-compose build`命令来构建images（如果它们尚未构建）。
+
+然后，使用`docker image prune`命令来清除使用标签“stage = build-env”标记的构建环境中的中间image。
+
+最后，使用`docker-compose up`命令启动所有的容器。
+我们在`Dockerfile`中添加了一些清理中间图像的命令示例，因为我们的`Dockerfile`使用中间图像对我们的源代码进行`dotnet publish`。 如果不清理中间图像，则随着时间的推移，它肯定会占用大量磁盘空间。 我们使用`stage = build-env`标记这些中间图像，以便可以轻松地对其进行清理。
 
 ```cmd
 REM Builds images if they are not already built
@@ -157,47 +166,46 @@ REM Start all containers
 docker-compose up
 ```
 
-We added some commands examples to prune intermediate images because our `Dockerfile` uses an intermediate image to do a `dotnet publish` of our source code. If you don't prune your intermediate images ; over time it can certainly take some significant amount of disk space. We label those intermediate images with `stage=build-env` so that they can be pruned easily.
 
-## Create tenants automatically (Autosetup feature)
 
-TODO
 
-See :
+## 自动创建租户（自动设置功能）
 
-[Database shell configurations](../../reference/core/Shells/README.md#database-shells-configuration-provider)
+待办事项
 
-[Autosetup feature PR](https://github.com/OrchardCMS/OrchardCore/pull/4567)
+请参阅：
 
-## How can I run my Orchard Core Docker containers over HTTPS?
+[数据库 shell 配置](../../reference/core/Shells/README.md#database-shells-configuration-provider)
 
-[Hosting ASP.NET Core Images with Docker over HTTPS](https://github.com/dotnet/dotnet-docker/blob/master/samples/host-aspnetcore-https.md)
+[Autosetup 功能 PR](https://github.com/OrchardCMS/OrchardCore/pull/4567)
 
-## How can I target my Docker images against a specific environment?
+## 如何在HTTPS上运行我的Orchard Core Docker容器？
 
-Here you can find a list of different environments with a Dockerfile example for each of them.
+[使用Docker托管ASP.NET Core映像并支持HTTPS](https://github.com/dotnet/dotnet-docker/blob/master/samples/host-aspnetcore-https.md)
 
-[.NET Core SDK](https://hub.docker.com/_/microsoft-dotnet-sdk/)  
-[ASP.NET Core Runtime](https://hub.docker.com/_/microsoft-dotnet-aspnet/)  
+## 如何针对特定环境定位我的Docker映像？
 
-## Why does Orchard Core source code uses a different Dockerfile?
+在此，您可以找到不同环境的列表，每个环境都有一个Dockerfile示例。
+## 为什么Orchard Core源代码使用不同的Dockerfile？
 
-### Dockerfile-CI, Dockerfile-CI.gitignore
+### Dockerfile-CI、Dockerfile-CI.gitignore
 
-Github Actions is the Continuous Integration tool we use to build and test the different branches we have in our repository. It can allow us to create Docker images and containers but building Orchard Core on them would be slower than on the actual CI. So, for that matter, we don't use an intermediate image for building on the CI. Though, it perfectly makes sense to do this locally for yourself as performance should not be limited at all.
+Github Actions是我们用来构建和测试存储库中不同分支的持续集成工具。它可以让我们创建Docker镜像和容器，但在它们上构建Orchard Core比在实际CI上构建要慢。因此，对于这个问题，我们不在CI上使用中间镜像进行构建。不过，在本地进行这种构建完全没有性能限制，这完全是有意义的。
 
-## Can I use different Dockerfiles for myself?
+## 我可以使用不同的Dockerfile吗？
 
-You need to use at least Docker version 19.03 to be able to use Docker Buildkit so that it can parse your different .dockerignore files.
+您需要使用至少Docker版本19.03才能使用Docker Buildkit，以便它可以解析不同的.dockerignore文件。
 
-See : 
+参见：
 
-[Build images with BuildKit](https://docs.docker.com/develop/develop-images/build_enhancements/)  
-[What is Docker BuildKit and What can I use it for?](https://brianchristner.io/what-is-docker-buildkit/#:~:text=Docker%20BuildKit%20is%20a%20little,and%20increase%20productivity%20for%20free.)  
+[使用BuildKit构建镜像](https://docs.docker.com/develop/develop-images/build_enhancements/)  
+[Docker BuildKit是什么以及我能用它做什么？](https://brianchristner.io/what-is-docker-buildkit/#:~:text=Docker%20BuildKit%20is%20a%20little,and%20increase%20productivity%20for%20free.)  
 
-Github Actions currently supports Buildkit under Linux only.  
-
-See : 
+Github Actions目前仅在Linux下支持Buildkit。
+请查看：
 
 https://github.com/docker/setup-buildx-action#limitation  
-https://github.com/OrchardCMS/OrchardCore/issues/7651  
+https://github.com/OrchardCMS/OrchardCore/issues/7651
+
+
+> 该文档由Chat-GPT 翻译

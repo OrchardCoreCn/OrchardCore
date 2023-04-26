@@ -1,10 +1,13 @@
-# Data
+# 数据
 
-Orchard Core allows you to access your internal data with YesSql and expose them with GraphQL.
+Orchard Core让您可以使用YesSql访问内部数据并使用GraphQL公开它们。
 
-## Expose your Data
+## 公开您的数据
 
-- [Data](../../reference/core/Data/README.md)
+- [数据](../../reference/core/Data/README.md)
 - [GraphQL](../../reference/modules/Apis.GraphQL/README.md)
-- [GraphQL queries](../../reference/core/Apis.GraphQL.Abstractions/README.md)
-- TBD YesSql
+- [GraphQL查询](../../reference/core/Apis.GraphQL.Abstractions/README.md)
+- 待定 YesSql.
+
+
+> 该文档由Chat-GPT 翻译

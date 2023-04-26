@@ -1,19 +1,19 @@
 # OrchardCore.DisplayManagement
 
-This article is about Display management and placement files.
+本文介绍了显示管理和放置文件。
 
-## Placement files
+## 放置文件
 
-Any module or theme can contain an optional `placement.json` file providing custom placement logic.
+任何模块或主题都可以包含一个可选的 `placement.json` 文件，提供自定义放置逻辑。
 
-!!! note
-    The `placement.json` file must be added at the root of a module or a theme.
+!!! 注意
+    `placement.json` 文件必须添加到模块或主题的根目录中。
 
-### Format
+### 格式
 
-A `placement.json` file contains an object whose properties are shape types. Each of these properties is an array of placement rules.
+`placement.json` 文件包含一个对象，其属性是形状类型。 这些属性中的每一个都是放置规则的数组。
 
-In the following example, we describe the placement for the `TextField` and `Parts_Contents_Publish` shapes.
+在以下示例中，我们描述了 `TextField` 和 `Parts_Contents_Publish` 形状的放置。
 
 ```json
 {
@@ -22,43 +22,43 @@ In the following example, we describe the placement for the `TextField` and `Par
 }
 ```
 
-A placement rule contains two sets of data:
+放置规则包含两组数据：
 
-- **Filters** - defines what specific shapes are targeted.
-- **Placement information** - the placement information to apply when the filter is matched.
+- **过滤器** - 定义要针对哪些特定形状进行定位。
+- **放置信息** - 匹配过滤器时要应用的放置信息。
 
-Currently you can filter shapes by:
+目前，您可以按以下方式过滤形状：
 
-- Their original type, which is the property name of the placement rule, like `TextField` or `ContentPart`.
-- `displayType` (Optional): The display type, like `Summary` and `Detail` for the most common ones.
-- `differentiator` (Optional): The differentiator which is used to distinguish shape types that are reused for multiple elements, like field names.
+- 它们的原始类型，即放置规则的属性名称，例如 `TextField` 或 `ContentPart`。
+- `displayType`（可选）：显示类型，例如 `Summary` 和 `Detail` 是最常见的。
+- `differentiator`（可选）：区分用于多个元素重用的形状类型的差异器，例如字段名称。
 
-!!! note
-    Shape type (placement.json property name) DOES NOT necessarily align with with your part type. For instance, if you created a Content Part `GalleryPart` without a part driver, your shape type will be `ContentPart` with differentiator `GalleryPart`. So your placement.json would look like
+!!! 注意
+    形状类型（placement.json 属性名称）不一定与您的部件类型对齐。 例如，如果您创建了一个没有部件驱动程序的内容部件 `GalleryPart`，则其形状类型将是 `ContentPart`，差异器为 `GalleryPart`。 因此，您的 placement.json 将如下所示
 ```json
 {
   "ContentPart": [{
   "place":"SomeZone"
   "differentiator":"GalleryPart"
   }],
-  "GalleryPart": [{...}], //this wont work unless you registered a driver for the part
+  "GalleryPart": [{...}], //这不起作用，除非您为该部分注册了驱动程序
 }
 ```
 
-Additional custom filter providers can be added by implementing `IPlacementNodeFilterProvider`.
+可以通过实现 `IPlacementNodeFilterProvider` 来添加其他自定义过滤器提供程序。
 
-For shapes that are built from a content item, you can filter by the following built in filter providers:
+对于从内容项构建的形状，您可以通过以下内置过滤器提供程序进行过滤：
 
-- `contentType` (Optional): A single ContentType or Stereotype, or an array of ContentTypes and / or Stereotypes that the content item from which the shape was built should match. `*` maybe used to match all content types starting with the preceding value, i.e. `Art*`.
-- `contentPart` (Optional): A single ContentPart or an of array of ContentParts that the content item from which the shape was built should contain.
-- `path` (Optional): A single path or an of array of paths that should match the request path.
+- `contentType`（可选）：单个 ContentType 或 Stereotype，或与前面的值开头匹配的 ContentTypes 和/或 Stereotypes 的数组。 可以使用 `*` 匹配以前面的值开头的所有内容类型，例如 `Art*`。
+- `contentPart`（可选）：应该包含从中构建形状的内容项的单个 ContentPart 或 ContentParts 的数组。
+- `path`（可选）：应该匹配请求路径的单个路径或路径的数组。
 
-Placement information consists of:
+放置信息包括：
 
-- `place` (Optional): The actual location of the shape in the rendered zone. A value of `-` will hide the shape, and a value starting with `/` will move the shape to a layout zone.
-- `alternates` (Optional): An array of alternate shape types to add to the current shape's metadata.
-- `wrappers` (Optional): An array of shape types to use as wrappers for the current shape.
-- `shape` (Optional): A substitution shape type.
+- `place`（可选）：呈现区域中形状的实际位置。 值为 `-` 将隐藏形状，以 `/` 开头的值将将形状移动到布局区域。
+- `alternates`（可选）：要添加到当前形状元数据的备用形状类型数组。
+- `wrappers`（可选）：用于当前形状的包装器形状类型数组。
+- `shape`（可选）：替换形状类型。
 
 ```json
 {
@@ -78,34 +78,31 @@ Placement information consists of:
 }
 ```
 
-### Placement precedence
+### 放置优先级
 
-The placement info chosen for a shape is based on the following order:
+形状选择的放置信息基于以下顺序：
 
-1. The main startup project (This can act as a super theme)
-2. Active theme (This will be the active front end theme if you're viewing the front end, or the active admin theme if you're viewing the admin)
-3. Modules (Ordered by dependencies)
+1. 主启动项目（这可以充当超级主题）
+2. 活动主题（如果您正在查看前端，则为活动前端主题；如果您正在查看管理，则为活动管理主题）
+3. 模块（按依赖项排序）
 
-### Placing Fields
+### 放置字段
 
-Fields have a custom differentiator as their shape is used in many places.  
-It is built using the `Part` it's contained in, and the name of the `Field`.  
-For instance, if a field named `MyField` would be added to an `Article` content type, its differentiator would be `Article-MyField`.  
-If a field named `City` was added to an `Address` part then its differentiator would be `Address-City`.
+字段具有自定义差异器，因为它们的形状在许多地方使用。 它是使用它所包含的 `Part` 的名称和 `Field` 的名称构建的。 例如，如果将名为 `MyField` 的字段添加到 `Article` 内容类型中，则其差异器将为 `Article-MyField`。 如果将名为 `City` 的字段添加到 `Address` 部分中，则其差异器将为 `Address-City`。
 
-## Shape differentiators
+## 形状差异器
 
-You can find information about shape differentiators in the [Templates documentation](../../modules/Templates/README.md#content-field-differentiator)
+您可以在[模板文档](../../modules/Templates/README.md#content-field-differentiator)中找到有关形状差异器的信息。
 
-## Shapes
+## 形状
 
-### What is a shape?
+### 什么是形状？
 
-Everything you need to know about Shapes is in [this video](https://youtu.be/gKLjtCIs4GU).
+有关形状的所有信息都在[此视频](https://youtu.be/gKLjtCIs4GU)中。
 
-### Rendering a shape
+### 渲染形状
 
-You can use the `<shape>` tag helper to render any shape, even pass properties.
+您可以使用 `<shape>` 标记助手来呈现任何形状，甚至传递属性。
 
 === "Razor"
 
@@ -134,8 +131,8 @@ You can use the `<shape>` tag helper to render any shape, even pass properties.
     {% "MyShape" | shape_new | shape_properties: my_int: 3, my_string: "String Test 3" | shape_render %}
     ```
 
-For rendering content items, you could also use the following tag helper.
-Note: you need to add `@addTagHelper *, OrchardCore.Contents.TagHelpers` to your `_ViewImports.cshtml` file to load this tag helper. Ensure your project file also has a reference to OrchardCore.Contents.TagHelpers.
+要呈现内容项，您还可以使用以下标记助手。
+注意：您需要将 `@addTagHelper *，OrchardCore.Contents.TagHelpers` 添加到 `_ViewImports.cshtml` 文件中，以加载此标记助手。 确保您的项目文件还引用了 OrchardCore.Contents.TagHelpers。
 
 === "Razor"
 
@@ -149,15 +146,15 @@ Note: you need to add `@addTagHelper *, OrchardCore.Contents.TagHelpers` to your
     {% contentitem alias: "alias:main-menu", display_type: "Detail" %}
     ```
 
-#### Manipulating shape metadata
+#### 操作形状元数据
 
-It's possible to manipulate a shape's metadata by using the `metadata` tag helper as a child of the shape's tag helper. The metadata tag helper allows you to:
+可以使用 `metadata` 标记助手作为形状标记助手的子级来操作形状的元数据。 元数据标记助手允许您：
 
-- Change the display type
-- Add, remove, or clear alternates
-- Add, remove, or clear wrappers
+- 更改显示类型
+- 添加、删除或清除备用
+- 添加、删除或清除包装器
 
-Metadata tag helper example:
+元数据标记助手示例：
 
 ```xml
 <menu alias="alias:main-menu">
@@ -174,18 +171,18 @@ Metadata tag helper example:
 </menu>
 ```
 
-### Date Time shapes
+### 日期时间形状
 
 #### `DateTime`
 
-Renders a `Date` and `Time` value using the timezone of the request.
+使用请求的时区呈现 `Date` 和 `Time` 值。
 
-| Parameter | Type | Description |
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Utc` | `DateTime?` | The date and time to render. If not specified, the current time will be used. |
-| `Format` | `string` | The .NET format string. If not specified the long format `dddd, MMMM d, yyyy h:mm:ss tt` will be used. The accepted format can be found at <https://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx> |
+| `Utc` | `DateTime?` | 要呈现的日期和时间。 如果未指定，将使用当前时间。 |
+| `Format` | `string` | .NET 格式字符串。 如果未指定，则使用长格式 `dddd，MMMM d，yyyy h:mm:ss tt`。 可以在 <https://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx> 中找到接受的格式。 |
 
-Tag helper example:
+标记助手示例：
 
 ```html
 <datetime utc="@contentItem.CreatedUtc" />
@@ -193,54 +190,54 @@ Tag helper example:
 
 #### `TimeSpan`
 
-Renders a relative textual representation of a `Date` and `Time` interval.
+呈现 `Date` 和 `Time` 间隔的相对文本表示形式。
 
-| Parameter | Type | Description |
+| 参数 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Utc` | `DateTime?` | The initial date and time. If not specified, the current time will be used. |
-| `Origin` | `DateTime?` | The current date and time. If not specified, the current time will be used. |
+| `Utc` | `DateTime?` | 初始日期和时间。 如果未指定，将使用当前时间。 |
+| `Origin` | `DateTime?` | 当前日期和时间。 如果未指定，将使用当前时间。 |
 
-Tag helper example:
+标记助手示例：
 
 ```html
 <timespan utc="@contentItem.CreatedUtc" />
 ```
 
-Result:
+结果：
 
 ```text
-3 days ago
+3 天前
 ```
 
-## Editor shape placement
+## 编辑器形状放置
 
-Editor shapes support grouping placement, which allows you to group editor shapes, to create a variety of content editor layouts.
+编辑器形状支持分组放置，这允许您分组编辑器形状，以创建各种内容编辑器布局。
 
-### Supported groupings
+### 支持的分组
 
-- Tabs
-- Cards
-- Columns
+- 选项卡
+- 卡片
+- 列
 
-Each grouping works by itself, or can be progressive, so Tabs can support Cards, and / or Columns, and Cards can support Columns.
+每个分组都可以单独工作，也可以是渐进的，因此选项卡可以支持卡片和/或列，卡片可以支持列。
 
-Groupings are created by applying a modifier and a group name.
+通过应用修饰符和组名来创建分组。
 
-### Modifiers
+### 修饰符
 
-- The Tabs modifier is `#`
-- The Cards modifier is `%`
-- The Columns modifier is `|`
+- 选项卡修饰符为 `#`
+- 卡片修饰符为 `%`
+- 列修饰符为 `|`
 
-Each of these modifiers support a position modifier for the group, in the format `;` and Columns support an additional modifier for the column width, of `_`.
+每个修饰符都支持组的位置修饰符，格式为 `;`，列支持列宽度的附加修饰符，为 `_`。
 
-To apply a position modifier, or column width modifier, apply the appropriate value to every group name.
+要应用位置修饰符或列宽度修饰符，请将适当的值应用于每个组名。
 
-Fields or Parts which do not have a grouping will fall into the default `Content` group when other fields apply a grouping.
+没有分组的字段或部分将在其他字段应用分组时落入默认的 `Content` 组中。
 
-### Examples
+### 示例
 
-In the following example we place the `MediaField_Edit` shape in a tab called `Media`, and position the `Media` tab first, and the `Content` tab second.
+在以下示例中，我们将 `MediaField_Edit` 形状放置在名为 `Media` 的选项卡中，并将 `Media` 选项卡放在第一位，将 `Content` 选项卡放在第二位。
 
 ``` json
 
@@ -265,7 +262,7 @@ In the following example we place the `MediaField_Edit` shape in a tab called `M
 }
 ```
 
-In the following example we place the `MediaField_Edit` shape in a card called `Media`, and position the `Media` card first, and the `Content` card second.
+在以下示例中，我们将 `MediaField_Edit` 形状放置在名为 `Media` 的卡片中，并将 `Media` 卡片放在第一位，将 `Content` 卡片放在第二位。
 
 ``` json
 
@@ -290,8 +287,8 @@ In the following example we place the `MediaField_Edit` shape in a card called `
 }
 ```
 
-In the following example we place the `MediaField_Edit` shape in a column called `Media`, and position the `Media` column first, and the `Content` column second.
-We also specify that the `Content` column will take 9 columns, of the default 12 column grid.
+在以下示例中，我们将 `MediaField_Edit` 形状放置在名为 `Media` 的列中，并将 `Media` 列放在第一位，将 `Content` 列放在第二位。
+我们还指定 `Content` 列将占用默认 12 列网格的 9 列。
 
 ``` json
 
@@ -316,20 +313,20 @@ We also specify that the `Content` column will take 9 columns, of the default 12
 }
 ```
 
-!!! note
-    By default the columns will break responsively at the `md` breakpoint, and a modifier will be parsed to `col-md-9`.
-    If you want to change the breakpoint, you could also specifiy `Content_lg-9`, which is parsed to `col-lg-9`.
+!!! 注意
+    默认情况下，列将在 `md` 断点处响应式断开，并将修饰符解析为 `col-md-9`。
+    如果要更改断点，则还可以指定 `Content_lg-9`，它将解析为 `col-lg-9`。
     
-### Dynamic part placement
+### 动态部分放置
 
-In the following example we place a dynamic part (part without driver, i.e. created in json) `GalleryPart` in a zone called `MyGalleryZone`. When displaying that part inside Content template we would execute:
+在以下示例中，我们将动态部分（没有驱动程序的部分，即在 json 中创建的部分） `GalleryPart` 放置在名为 `MyGalleryZone` 的区域中。 在显示该部分内的内容模板时，我们将执行：
 
 === Content-Product.Detail.html
 ``` html
 @await DisplayAsync(Model.MyGalleryZone)
 ```
 
-Dynamic parts use `ContentPart` shape for detail display with differentiator of Part name, so the placement file would look like this:
+动态部分使用带有 Part 名称的不同分化器进行详细显示，因此放置文件如下所示：
 ``` json
 {
   "ContentPart": [
@@ -341,16 +338,16 @@ Dynamic parts use `ContentPart` shape for detail display with differentiator of 
 }
 ```
 
-This setup would then show your template (e.g. `GalleryPart.cshtml` or `GalleryPart.Detail.cshtml`) where `DisplayAsync` was called.
+此设置将在调用 `DisplayAsync` 的位置显示您的模板（例如 `GalleryPart.cshtml` 或 `GalleryPart.Detail.cshtml`）。
 
-If we would like to show the same part in a summary display content template (or any other that isn't `Detail` display type):
+如果我们想在摘要显示内容模板（或任何其他不是 `Detail` 显示类型的模板）中显示相同的部分：
 
 === Content-Product.Summary.html
 ``` html
 @await DisplayAsync(Model.MyGalleryZone)
 ```
 
-Our placement would look like this (note the `_Summary` suffix to ContentPart name; change your suffix accordingly):
+我们的放置将如下所示（请注意，ContentPart 名称的后缀为 `_Summary`；相应更改您的后缀）：
 
 ``` json
 {
@@ -363,8 +360,11 @@ Our placement would look like this (note the `_Summary` suffix to ContentPart na
 }
 ```
 
-This setup would then show your template  (e.g. `GalleryPart.cshtml` or `GalleryPart.Summary.cshtml`) where `DisplayAsync` was called.
+此设置将在调用 `DisplayAsync` 的位置显示您的模板（例如 `GalleryPart.cshtml` 或 `GalleryPart.Summary.cshtml`）。
 
-## Video
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/h0lZMQkUApo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+> 该文档由ChatGPT 4 翻译

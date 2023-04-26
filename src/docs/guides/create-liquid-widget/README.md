@@ -1,45 +1,43 @@
-# Create a Liquid Widget
+# 创建一个Liquid Widget
 
-A Widget is a reusable content type which can be used by multiple features, such as `Layers` and `Flows` to add widgets to your content.
+Widget是一种可重复使用的内容类型，可以被多个功能所使用，例如`Layers`和`Flows`，可以添加Widget到你的内容中。
 
-A Liquid Widget allows the editor to use the liquid templating language to write content, consisting of html, css, and javascript.
+Liquid Widget允许编辑使用liquid模板语言编写内容，包括html，css和javascript。
 
 !!! warning
-    Do not create this content type if, for security reasons, you do not want your editors to be able to craft javascript.
+    如果出于安全原因，不希望编辑器能够编写javascript，请勿创建此内容类型。
 
-## What you will build
+## 你将构建什么
 
-You will add a Liquid Widget to the Content Type Definitions and create a template.
+你将向内容类型定义添加一个Liquid Widget，并创建一个模板。
 
-## What you will need
+## 你需要什么
 
-- A working Orchard Core CMS website.
+- 一个运行的Orchard Core CMS网站。
 
-## Create the Liquid Widget
+## 创建Liquid Widget
 
-- Navigate to the Orchard Core CMS admin area <https://localhost:5001/admin>
+- 进入Orchard Core CMS管理区域<https://localhost:5001/admin>
+- 通过管理菜单选择_Content -> Content Definition -> Content Types_
 
-- Through the admin menu select _Content -> Content Definition -> Content Types_
+- 选择 `Create new type` 并输入显示名称 `Liquid Widget`。技术名称将自动填充，删除空格。然后选择`Create`
 
-- Select `Create new type` and enter the Display Name `Liquid Widget`. The technical name will auto populate, removing the spaces. Then select `Create`
+- 接下来将显示`Add content parts`视图，从中选择 `Liquid`，然后保存您的新内容类型。
 
-- The Add content parts view will display next, and from there, select `Liquid`, and save your new content type.
+- 当内容类型保存后，视图将返回到您的新Liquid Widget的定义。
 
-- When the content type has been saved the view will return to the definition of your new Liquid Widget.
+- 删除 `Creatable` 和 `Listable` 标志，因为这些标志是用于在内容管理列表中显示的内容类型。我们正在构建一个将被 `Layers` 和 `Flows` 功能使用的小部件。
 
-- Remove the `Creatable` and `Listable` flags as these are for content types that will be displayed in the contents admin list. We are building a widget which will be used by the `Layers` and `Flows` feature.
+- 将 `Widget` 添加到`Stereotype`，然后选择 `Save`。
 
-- Add `Widget` to the `Stereotype`, and select `Save`.
+现在，您的小部件可以从 `Layers` 模块中使用，方法是导航到 _Design -> Widgets_，也可以从 `Page` 内容类型中使用。
 
-Your Widget can now be used from within the `Layers` module, by navigating to _Design -> Widgets_ or from a `Page` content type.
+继续阅读以了解如何自定义模板。
 
-Read on to learn how to customize the template.
+##创建 Liquid Widget 模板
 
-## Create a Liquid Widget template
-
-By default this widget will use the standard Widget template.
-
-The standard template contains wrapper divs and you may wish to customize how this widget is rendered with your own html or css classes.
+默认情况下，此小部件将使用标准小部件模板。
+标准模板包含包装 div，您可能希望使用自己的 HTML 或 CSS 类定制此小部件的呈现方式。
 
 ``` html
 <div class="widget widget-liquid-widget widget-align-justify widget-size-100">
@@ -49,40 +47,41 @@ The standard template contains wrapper divs and you may wish to customize how th
 </div>
 ```
 
-To customize this template 
+要自定义此模板：
 
-- Navigate to _Design -> Templates_
+- 导航到“_设计->模板_”
 
-- Select `Add template` and name your template `Widget__LiquidWidget`
+- 选择 `添加模板` 并将模板命名为 `Widget__LiquidWidget`
 
-- Create a template with the following content
-
-``` liquid
+- 创建以下内容的模板
 {{ Model.Content.LiquidPart | shape_render }}
+
 ```
 
-This template will only render the `LiquidPart`, and will override the default widget template.
+此模板仅呈现“ LiquidPart”，并将覆盖默认的小部件模板。
 
-You could also choose to render the widget sizing classes.
+您还可以选择呈现小部件大小调整类。
 
-``` liquid
+```liquid
 <article class="{{ Model.Classes | join: " " }}">
     {{ Model.Content.LiquidPart | shape_render }}
 </article>
 ```
 
-A Razor template would be named `Widget-LiquidWidget.cshtml`
+Razor 模板的名称为 `Widget-LiquidWidget.cshtml`
 
-``` html
+```html
 <article class="@String.Join(" ", Model.Classes.ToArray())">
     @await DisplayAsync(Model.Content.LiquidPart)
 </article>
 ```
+## 笔记
 
-## Notes
+您可以使用此技术构建更复杂的小部件，其中可能包含多个字段或部分。
 
-You can use this technique to build more complex Widgets, which could contain multiple fields, or parts.
+## 摘要
 
-## Summary
+您刚学会了如何添加创建一个Liquid小部件和模板。
 
-You just learned how to add create a Liquid Widget and a template.
+
+> 该文档由Chat-GPT 翻译

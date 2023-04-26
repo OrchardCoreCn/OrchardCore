@@ -1,86 +1,81 @@
 # Markdown (`OrchardCore.Markdown`)
 
-## Theming
+## 主题
 
 ### Shapes
 
-The following shapes are rendered when the `MarkdownBodyPart` is attached to a content type:
+当将`MarkdownBodyPart`附加到内容类型时，将呈现以下形状：
 
-| Name | Display Type | Default Location | Model Type |
+| 名称 | 显示类型 | 默认位置 | 模型类型 |
 | ------| ------------ |----------------- | ---------- |
 | `MarkdownBodyPart` | `Detail` | `Content:5` | `MarkdownBodyPartViewModel` |
 | `MarkdownBodyPart` | `Summary` | `Content:10` | `MarkdownBodyPartViewModel` |
 
 ### `BodyPartViewModel`
 
-The following properties are available on the `MarkdownBodyPartViewModel` class.
+`MarkdownBodyPartViewModel`类上可用以下属性。
 
-| Property | Type | Description |
+| 属性 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Markdown` | `string` | The Markdown value after all tokens have been processed. |
-| `Html` | `string` | The HTML content resulting from the Markdown source. |
-| `ContentItem` | `ContentItem` | The content item of the part. |
-| `MarkdownBodyPart` | `MarkdownBodyPart` | The `MarkdownBodyPart` instance. |
-| `TypePartSettings` | `MarkdownBodyPartSettings` | The settings of the part. |
+| `Markdown` | `string` | 所有令牌处理后的Markdown值。 |
+| `Html` | `string` | Markdown源生成的HTML内容。 |
+| `ContentItem` | `ContentItem` | 部分的内容项。 |
+| `MarkdownBodyPart` | `MarkdownBodyPart` | `MarkdownBodyPart`实例。 |
+| `TypePartSettings` | `MarkdownBodyPartSettings` | 部分的设置。 |
 
 ### `MarkdownBodyPart`
 
-The following properties are available on `MarkdownBodyPart`:
+`MarkdownBodyPart`上可用以下属性：
 
-| Name | Type | Description |
+| 名称 | 类型 | 描述 |
 | -----| ---- |------------ |
-| `Markdown` | The Markdown content. It can contain Liquid tags so using it directly might result in unexpected results. Prefer rendering the `MarkdownBodyPart` shape instead. |
-| `Content` | The raw content of the part. |
-| `ContentItem` | The content item containing this part. |
+| `Markdown` | Markdown内容。它可以包含Liquid标记，因此直接使用它可能会导致意外结果。最好使用`MarkdownBodyPart`形状呈现。 |
+| `Content` | 部分的原始内容。 |
+| `ContentItem` | 包含此部分的内容项。 |
 
 ### `MarkdownField`
 
-This shape is rendered when a `MarkdownField` is attached to a content part.
-The shape base class is of type `MarkdownFieldViewModel`.
+当将`MarkdownField`附加到内容部分时，将呈现此形状。
+形状基类的类型为`MarkdownFieldViewModel`。
 
-The following properties are available on the `MarkdownFieldViewModel` class.
+`MarkdownFieldViewModel`类上可用以下属性。
 
-| Property | Type | Description |
+| 属性 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Markdown` | `string` | The Markdown value once all tokens have been processed. |
-| `Html` | `string` | The HTML content resulting from the Markdown source. |
-| `Field` | `MarkdownField` | The `MarkdownField` instance. |
-| `Part` | `ContentPart` | The part this field is attached to. |
-| `PartFieldDefinition` | `ContentPartFieldDefinition` | The part field definition. |
+| `Markdown` | `string` | 所有令牌处理后的Markdown值。 |
+| `Html` | `string` | Markdown源生成的HTML内容。 |
+| `Field` | `MarkdownField` | `MarkdownField`实例。 |
+| `Part` | `ContentPart` | 附加到此字段的部分。 |
+| `PartFieldDefinition` | `ContentPartFieldDefinition` | 部分字段定义。 |
 
-## Sanitization
+## 消毒
 
-Markdown output is sanitized during the rendering of content with Display Management.
+在使用显示管理呈现内容期间，Markdown输出会进行消毒。
 
-You can disable this by unchecking the `Sanitize HTML` setting, or further configuring the [HTML Sanitizer](../../core/Sanitizer/README.md)
+您可以通过取消选中`Sanitize HTML`设置或进一步配置[HTML Sanitizer]（../../core/Sanitizer/README.md）来禁用此功能。
 
-When rendering content directly you can disable sanitization by passing a boolean to the helper.
+在直接呈现内容时，可以通过将布尔值传递给助手来禁用消毒。
 
-## Editors
+## 编辑器
 
-The __Markdown Part__ editor can be different for each content type. In the __Markdown Part__ settings of a 
-content type, just select the one that needs to be used.
+__Markdown Part__编辑器可以针对每个内容类型不同。在__Markdown Part__设置中的内容类型中，只需选择需要使用的内容类型即可。
 
-There are two predefined editor names:
+有两个预定义的编辑器名称：
 
-- `Default` is the editor that is used by default.
-- `Wysiwyg` is the editor that provides a WYSIWYG experience.
+- `Default`是默认使用的编辑器。
+- `Wysiwyg`是提供WYSIWYG体验的编辑器。
 
-### Custom Editors
+### 自定义编辑器
 
-Customizing the editor can mean to replace the predefined one with different experiences, or to provide
-new options for the user to choose from.
+自定义编辑器可以意味着使用不同的预定义体验替换预定义的体验，或者为用户提供新的选项。
 
-To create a new custom editor, it is required to provide two shape templates, one to provide
-the name of the editor (optional if you want to override an existing one), and a shape to
-render the actual HTML for the editor.
+要创建新的自定义编辑器，需要提供两个形状模板，一个用于提供编辑器名称（如果要覆盖现有名称，则为可选），另一个用于呈现编辑器的实际HTML。
 
-#### Declaration
+#### 声明
 
-To declare a new editor, create a shape named `Markdown_Option__{Name}` where `{Name}` is a value 
-of your choosing. This will be represented by a file named `Markdown-{Name}.Option.cshtml`.
+要声明新编辑器，请创建名为`Markdown_Option__{Name}`的形状，其中`{Name}`是您选择的值。这将由名为`Markdown-{Name}.Option.cshtml`的文件表示。
 
-Sample content:
+示例内容：
 
 ```csharp
 @{
@@ -89,12 +84,11 @@ Sample content:
 <option value="Wysiwyg" selected="@(currentEditor == "Wysiwyg")">@T["Wysiwyg editor"]</option>
 ```
 
-#### HTML Editor
+#### HTML编辑器
 
-To define what HTML to render when the editor is selected from the settings, a shape named 
-`Markdown_Edit__{Name}` corresponding to a file `Markdown-{Name}.Edit.cshtml` can be created.
+要定义在从设置中选择编辑器时呈现的HTML，请创建名为`Markdown_Edit__{Name}`的形状，对应于文件`Markdown-{Name}.Edit.cshtml`。
 
-Sample content:
+示例内容：
 
 ```csharp
 @using OrchardCore.Markdown.ViewModels
@@ -107,35 +101,34 @@ Sample content:
 </fieldset>
 ```
 
-### Overriding the predefined editors
+### 覆盖预定义的编辑器
 
-You can override the HTML editor for the `Default` editor by creating a shape file named 
-`Markdown.Edit.cshtml`. The WYSIWYG editor is defined by using the file named 
-`Markdown-Wysiwyg.Edit.cshtml`.
+您可以通过创建名为`Markdown.Edit.cshtml`的形状文件来覆盖`Default`编辑器的HTML编辑器。使用文件定义WYSIWYG编辑器
+`Markdown-Wysiwyg.Edit.cshtml`。
 
-## Razor Helper
+## Razor助手
 
-To render a Markdown string to HTML within Razor use the `MarkdownToHtmlAsync` helper extension method on the view's base `Orchard` property, e.g.:
+要在Razor中将Markdown字符串呈现为HTML，请使用视图的基本`Orchard`属性上的`MarkdownToHtmlAsync`助手扩展方法，例如：
 
 ```csharp
 @await Orchard.MarkdownToHtmlAsync((string)Model.ContentItem.Content.MarkdownParagraph.Content.Markdown)
 ```
 
-In this example we assume that `Model.ContentItem.Content.MarkdownParagraph.Content` represents an `MarkdownField`, and `Markdown` is the field value, and we cast to a string, as extension methods do not support dynamic dispatching.
+在此示例中，我们假设`Model.ContentItem.Content.MarkdownParagraph.Content`表示`MarkdownField`，`Markdown`是字段值，并将其强制转换为字符串，因为扩展方法不支持动态调度。
 
-This helper will also parse any liquid included in the Markdown.
+此助手还将解析Markdown中包含的任何Liquid。
 
-By default this helper will also sanitize the Markdown. 
+默认情况下，此助手还将消毒Markdown。
 
-To disable sanitization:
+要禁用消毒：
 
 ```csharp
 @await Orchard.MarkdownToHtmlAsync((string)Model.ContentItem.Content.MarkdownParagraph.Content.Markdown, false)
 ```
 
-## Markdown Configuration
+## Markdown配置
 
-The following configuration values are used by default and can be customized:
+默认情况下使用以下配置值，并且可以自定义：
 
 ```json
     "OrchardCore_Markdown": {
@@ -143,50 +136,49 @@ The following configuration values are used by default and can be customized:
     }
 ```
 
-The supported extensions described as following:
+支持的扩展描述如下：
 
-| Extension | Description |
+| 扩展 | 描述 |
 | --- | --- |
-| `advanced` | Enable advanced markdown extensions |
-| `pipetables` | Adds a pipe table |
-| `gfm-pipetables` | Adds a pipe table with using header for column count |
-| `hardlinebreak` | Uses the softline break as hardline break |
-| `footnotes` | Allows a footnotes |
-| `footers` | Adds footer block |
-| `citations` | Adds citation |
-| `attributes` |  Allows to attach HTML attributes |
-| `gridtables` | Adds grid table |
-| `abbreviations` | Stores an abbreviation object at the document level |
-| `emojis` | Supports the emojis and smileys |
-| `definitionlists` | Adds a definition list |
-| `customcontainers` | Adds a block custom container |
-| `figures` | Adds figure |
-| `mathematics` | Enable mathematics symbols |
-| `bootstrap` | Enable bootstrap classes |
-| `medialinks` | Extends image Markdown links in case a video or an audio file is linked and output proper link |
-| `smartypants` | Uses the SmartyPants |
-| `autoidentifiers` | Uses the auto-identifier |
-| `tasklists` | Adds the task list |
-| `diagrams` | Allows diagrams |
-| `nofollowlinks` | Add rel=nofollow to all links rendered to HTML |
+| `advanced` | 启用高级Markdown扩展 |
+| `pipetables` | 添加管道表 |
+| `gfm-pipetables` | 添加使用标题的管道表以获取列数 |
+| `hardlinebreak` | 使用软换行符作为硬换行符 |
+| `footnotes` | 允许脚注 |
+| `footers` | 添加页脚块 |
+| `citations` | 添加引用 |
+| `attributes` | 允许附加HTML属性 |
+| `gridtables` | 添加网格表 |
+| `abbreviations` | 在文档级别存储缩写对象 |
+| `emojis` | 支持表情符号和笑脸 |
+| `definitionlists` | 添加定义列表 |
+| `customcontainers` | 添加块自定义容器 |
+| `figures` | 添加图形 |
+| `mathematics` | 启用数学符号 |
+| `bootstrap` | 启用引导程序类 |
+| `medialinks` | 扩展图像Markdown链接，以防链接到视频或音频文件，并输出适当的链接 |
+| `smartypants` | 使用SmartyPants |
+| `autoidentifiers` | 使用自动标识符 |
+| `tasklists` | 添加任务列表 |
+| `diagrams` | 允许图表 |
+| `nofollowlinks` | 将rel = nofollow添加到呈现为HTML的所有链接 |
 | `noopenerlinks` |  |
-| `noreferrerlinks` | Adds rel=nofollow to all links rendered to HTML |
-| `nohtml` | Disables html support |
-| `yaml` | Parses a YAML format into the MarkdownDocument |
-| `nonascii-noescape` | Disables URI escape with % characters for non-US-ASCII characters |
-| `autolinks` | Enable autolinks from text `http://`, `https://`, `ftp://`, `mailto:`, `www.xxx.yyy` |
-| `globalization` | Adds support for right-to-left content by adding appropriate html attribtues |
+| `noreferrerlinks` | 将rel = nofollow添加到呈现为HTML的所有链接 |
+| `nohtml` | 禁用HTML支持 |
+| `yaml` | 将YAML格式解析为MarkdownDocument |
+| `nonascii-noescape` | 禁用非美国ASCII字符的URI转义 |
+| `autolinks` | 启用文本`http：//`，`https：//`，`ftp：//`，`mailto：`，`www.xxx.yyy`的自动链接 |
+| `globalization` | 通过添加适当的html属性添加对从右到左的内容的支持 |
 
-## Markdown Pipeline
+## Markdown管道
 
-The markdown pipeline is configurable using `IOptions<MarkdownPipelineOptions>` during service registration with a configuration 
-extension method `ConfigureMarkdownPipeline`.
+在服务注册期间使用`IOptions<MarkdownPipelineOptions>`配置Markdown管道，使用配置扩展方法`ConfigureMarkdownPipeline`可配置管道。
 
-By default the pipeline enables some markdown advanced features and disables HTML by converting any HTML found in the Markdown content to escaped HTML entities.
+默认情况下，管道启用一些Markdown高级功能，并通过将在Markdown内容中找到的任何HTML转换为转义的HTML实体来禁用HTML。
 
-You may call this extension method multiple times during the startup pipeline to alter configurations.
+您可以在启动管道期间多次调用此扩展方法以更改配置。
 
-To clear this configuration:
+要清除此配置：
 
 ```
 services
@@ -198,7 +190,7 @@ services
             }));
 ```
 
-To include other `MarkdownPipelineOptions` such as emojis and smileys we could use:
+要包括其他`MarkdownPipelineOptions`，例如表情符号和笑脸，我们可以使用：
 
 ```
 services

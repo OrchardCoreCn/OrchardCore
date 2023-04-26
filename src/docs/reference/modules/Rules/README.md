@@ -1,17 +1,17 @@
-# Rules (`OrchardCore.Rules`)
+# 规则 (`OrchardCore.Rules`)
 
-Enabling the `OrchardCore.Rules` module allows you to implement condition based rules.
+启用 `OrchardCore.Rules` 模块可以让您实现基于条件的规则。
 
-### Custom Conditions
+### 自定义条件
 
-You may create your own conditions for more complex scenarios.
+您可以为更复杂的场景创建自己的条件。
 
-You will need to implement the abstractions found in the `OrchardCore.Rules.Abstractions` package.
+您需要实现 `OrchardCore.Rules.Abstractions` 包中找到的抽象。
 
 - `Condition`
 - `ConditionEvaluator`
 - `ConditionDisplayDriver`
-- Appropriate views for your condition display driver.
+- 适当的视图以供您的条件显示驱动程序使用。
 
 ``` csharp
   services
@@ -19,8 +19,10 @@ You will need to implement the abstractions found in the `OrchardCore.Rules.Abst
     .AddCondition<BooleanCondition, BooleanConditionEvaluator, ConditionFactory<BooleanCondition>>();
 ```
 
-Refer [Layers](../Layers/README.md) for more information about rules and conditions.
+有关规则和条件的更多信息，请参见[层](../Layers/README.md)。
 
-#### Video
+#### 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Iq6VbXZg0B0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+> 该文档由ChatGPT 4 翻译

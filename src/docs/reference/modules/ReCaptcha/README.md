@@ -1,36 +1,37 @@
 # ReCaptcha (`OrchardCore.ReCaptcha`)
 
-The OrchardCore.ReCaptcha module can be used to prevent robots from abusing your OrchardCore website.
+OrchardCore.ReCaptcha模块可用于防止机器人滥用您的OrchardCore网站。
 
-There are four features in the module:
+该模块有四个功能：
 
-## Configuration
-In order to activate the ReCaptcha feature, you have to create an account with Google and enter the secret and site key in the Admin section.
-You can sign up here: https://developers.google.com/recaptcha/
+## 配置
+为了激活ReCaptcha功能，您必须在Google上创建一个帐户，并在管理部分中输入密钥和站点密钥。
+您可以在此处注册：https://developers.google.com/recaptcha/
 
-### Users protection
-You can enable this feature in the admin section and your login pages will be protected against robots.
-The feature will use the IP address of the request to count the number of login attempts. 
-When the threshold for login attempts are broken, a captcha is shown on the login page preventing robots from making any further requests.
+### 用户保护
+您可以在管理部分中启用此功能，您的登录页面将受到机器人的保护。
+该功能将使用请求的IP地址来计算登录尝试次数。
+当登录尝试次数的阈值被打破时，登录页面上会显示验证码，以防止机器人进行进一步的请求。
 
-### Forms
-You can add protection from robots to forms by including the recaptcha field when you design a form.
+### 表单
+您可以在设计表单时包含recaptcha字段，以保护表单免受机器人攻击。
 
-### Workflow
-You can add a validate ReCaptcha task in your workflow.
-You can use this to validate the captcha that you show on your OrchardCore.Forms form.
+### 工作流
+您可以在工作流中添加验证ReCaptcha任务。
+您可以使用此功能验证您在OrchardCore.Forms表单上显示的验证码。
 
-### Manual validation
-You can decorate your controllers with [ValidateReCaptcha] attribute.
-This attribute works in tandem with the <recaptcha /> HTML element, both need to be configured.
-The standard mode is PreventAbuse, this will show the captcha when a robot is suspected.
-The mode AlwaysShow, always shows the captcha on the page.
-If you have a requirement to display the captcha in a specific language, you can use the language property to set it to desired language using either the culture string or the two letter ISO code of the language.
+### 手动验证
+您可以使用[ValidateReCaptcha]属性装饰您的控制器。
+此属性与<recaptcha /> HTML元素配合使用，两者都需要配置。
+标准模式是PreventAbuse，当怀疑有机器人时，它将显示验证码。
+AlwaysShow模式始终在页面上显示验证码。
+如果您需要以特定语言显示验证码，则可以使用语言属性将其设置为所需的语言，使用语言的区域字符串或语言的两个字母ISO代码。
 
-## Extending the module
-If you have requirements that you have to protect against robots using another method than IP address,
-you can create your own implementation of the IDetectRobots interface and it will join the robot detectors.
+## 扩展模块
+如果您有要求，必须使用IP地址以外的另一种方法来保护自己免受机器人攻击，
+您可以创建自己的IDetectRobots接口实现，它将加入机器人检测器。
 
-## Using with a form post with Content-Type = "application/json" from a javascript framework
+## 使用来自javascript框架的Content-Type =“application / json”的表单提交
 
-The ReCaptcha api uses the data-callback attribute to return the token generated when validating the ReCaptcha widget. This allows to post that token from an Angular, Vue.js form post. If you want to validate the ReCaptcha from the Workflow task you will need to pass the token in the header of your request as "g-recaptcha-response".
+ReCaptcha api使用data-callback属性返回验证ReCaptcha小部件时生成的令牌。这允许从Angular，Vue.js表单提交中发布该令牌。如果要从Workflow任务验证ReCaptcha，则需要将令牌作为“g-recaptcha-response”传递到请求的标头中。
+> 该文档由ChatGPT 4 翻译

@@ -1,26 +1,27 @@
-# Content Parts
+# 内容部件
 
-Orchard Core allows you to add Parts to a content type.
+Orchard Core 允许您向内容类型添加部件。
 
-## Available Parts
+## 可用部件
 
-| Name | Description |
+| 名称 | 描述 |
 | --- | --- |
-| [`TitlePart`](../../modules/Title/README.md) | Allows you to add a title. |
-| [`AutoroutePart`](../../modules/Autoroute/README.md) | Allows you to add a permalink. |
-| `CommonPart` | Allows you to edit the creation date and the owner of the content. |
-| [`AliasPart`](../../modules/Alias/README.md) | Allows you to add an alias. |
-| [`HtmlBodyPart`](../../modules/Html/README.md) | Allows you to add an HTML body. |
-| [`MarkdownPart`](../../modules/Markdown/README.md) | Allows you to add a Markdown body. |
-| [`LiquidPart`](../../modules/Liquid/README.md) | Allows you to add a Liquid input. |
-| [`LocalizationPart`](../../modules/Localize/README.md) | Allows you to create a localization of the current content. |
-| [`ListPart`](../../modules/Lists/README.md) | Allows you to add a list. |
-| [`FlowPart`](../../modules/Flow/README.md) | Allows you to add widgets. |
-| [`BagPart`](../../modules/Flow/BagPart.md) | Allows you to add inner content items. |
-| `WidgetsListPart` | Allows you to add widgets in the different zones. |
-| [`FormPart`](../../modules/Forms/README.md) | Allows you to add a form. |
-| [`Preview`](../../modules/ContentPreview/README.md) | Allows you to add a preview button. |
-| [`PublishLater`](../../modules/PublishLater/README.md) | Allows you to set a date in order to publish later. |
-| [`ReCaptcha`](../../modules/ReCaptcha/README.md) | Allows you to add a ReCaptcha. |
-| [`SeoMeta`](../../modules/Seo/README.md) | Allows you to configure SEO meta tags. |
-| [`AuditTrail`](../../modules/AuditTrail/README.md) | Allows you to add a comment describing the changes of a content item, to be recorded to the Audit Trail. |
+| [`TitlePart`](../../modules/Title/README.md) | 允许您添加标题。 |
+| [`AutoroutePart`](../../modules/Autoroute/README.md) | 允许您添加永久链接。 |
+| `CommonPart` | 允许您编辑内容的创建日期和所有者。 |
+| [`AliasPart`](../../modules/Alias/README.md) | 允许您添加别名。 |
+| [`HtmlBodyPart`](../../modules/Html/README.md) | 允许您添加 HTML 正文。 |
+| [`MarkdownPart`](../../modules/Markdown/README.md) | 允许您添加 Markdown 正文。 |
+| [`LiquidPart`](../../modules/Liquid/README.md) | 允许您添加 Liquid 输入。 |
+| [`LocalizationPart`](../../modules/Localize/README.md) | 允许您创建当前内容的本地化。 |
+| [`ListPart`](../../modules/Lists/README.md) | 允许您添加列表。 |
+| [`FlowPart`](../../modules/Flow/README.md) | 允许您添加小部件。 |
+| [`BagPart`](../../modules/Flow/BagPart.md) | 允许您添加内部内容项。 |
+| `WidgetsListPart` | 允许您在不同区域中添加小部件。 |
+| [`FormPart`](../../modules/Forms/README.md) | 允许您添加表单。 |
+| [`Preview`](../../modules/ContentPreview/README.md) | 允许您添加预览按钮。 |
+| [`PublishLater`](../../modules/PublishLater/README.md) | 允许您设置日期以便以后发布。 |
+| [`ReCaptcha`](../../modules/ReCaptcha/README.md) | 允许您添加 ReCaptcha。 |
+| [`SeoMeta`](../../modules/Seo/README.md) | 允许您配置 SEO 元标记。 |
+| [`AuditTrail`](../../modules/AuditTrail/README.md) | 允许您添加描述内容项更改的注释，以记录到审核跟踪中。 |
+> 该文档由ChatGPT 4 翻译

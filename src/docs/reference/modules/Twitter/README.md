@@ -1,49 +1,49 @@
 # Twitter (`OrchardCore.Twitter`)
 
-This module adds Twitter for Websites features to OrchardCore.
+该模块为OrchardCore添加了Twitter for Websites功能。
 
-## Twitter Integration
+## Twitter集成
 
-Integrate with Twitter. Provides a client to integrate with Twitter API
-Configuration can be set through the _Twitter -> Twitter Integration_ menu in the admin dashboard.
+与Twitter集成。提供了一个客户端来集成Twitter API
+可以通过管理仪表板中的_Twitter-> Twitter Integration_菜单设置配置。
 
-Available settings are:
+可用设置为：
 
-- API Key: API key found in the keys and tokens tab of your twitter app.
-- API Secret Key: The API secret key of your twitter app.
-- Access Token: Access token key found in the keys and tokens tab of your twitter app.
-- Access Token Secret: The Access token secret key of your twitter app.
+- API密钥：在Twitter应用程序的密钥和令牌选项卡中找到的API密钥。
+- API秘密密钥：您的Twitter应用程序的API秘密密钥。
+- 访问令牌：在Twitter应用程序的密钥和令牌选项卡中找到的访问令牌密钥。
+- 访问令牌秘密：您的Twitter应用程序的访问令牌秘密密钥。
 
-### Workflows
+### 工作流
 
-If the OrchardCore.Workflows is enabled, a new Task is added to Update Twitter Status
+如果启用了OrchardCore.Workflows，则会添加一个新任务以更新Twitter状态
 
-## Sign in with Twitter
+## 使用Twitter登录
 
-Authenticates users with their Twitter Account.
+使用其Twitter帐户对用户进行身份验证。
 
-Create an app in the [Twitter Developer Platform](https://developer.twitter.com) and enable Sign in with Twitter.  
-In the app details, you must configure the Callback URL. The default url in OrchardCore is [tenant]/signin-twitter.
+在[Twitter Developer Platform]（https://developer.twitter.com）中创建一个应用程序，并启用使用Twitter登录。
+在应用程序详细信息中，必须配置回调URL。 OrchardCore中的默认URL为[tenant] / signin-twitter。
 
-Configuration can be set through the _Twitter -> Sign in with Twitter_ settings menu in the admin dashboard.
+可以通过管理仪表板中的_Twitter->使用Twitter登录_设置菜单设置配置。
 
-Available settings are:
+可用设置为：
 
-- ConsumerKey: API key found in the keys and tokens tab of your twitter app.
-- ConsumerSecret: The API secret key of your twitter app.
-- CallbackPath: The request path within the application's base path where the user-agent will be returned. The middleware will process this request when it arrives.
-If no value is provided, setup Callback URL in Twitter app to use the default path /signin-twitter.
+- ConsumerKey：在Twitter应用程序的密钥和令牌选项卡中找到的API密钥。
+- ConsumerSecret：您的Twitter应用程序的API秘密密钥。
+- CallbackPath：用户代理将返回的应用程序基本路径内的请求路径。当它到达时，中间件将处理此请求。
+如果未提供任何值，请在Twitter应用程序中设置回调URL以使用默认路径/signin-twitter。
 
-### Users Registration
+### 用户注册
 
-- If you want to enable new users to register to the site through their Twitter account, the `OrchardCore.Users.Registration` feature must be enabled and setup accordingly.
-- An existing user can link his account to his Twitter account through the External Logins link from User menu.
+- 如果要通过其Twitter帐户启用新用户注册到站点，则必须启用`OrchardCore.Users.Registration`功能并相应地进行设置。
+- 现有用户可以通过用户菜单中的外部登录链接将其帐户链接到其Twitter帐户。
 
-## Twitter Settings Configuration
+## Twitter设置配置
 
-The `OrchardCore.Twitter` module allows the user to use configuration values to override the settings configured from the admin area by calling the `ConfigureTwitterSettings()` extension method on `OrchardCoreBuilder` when initializing the app.
+`OrchardCore.Twitter`模块允许用户通过在初始化应用程序时调用`OrchardCoreBuilder`上的`ConfigureTwitterSettings（）`扩展方法来使用配置值覆盖从管理区域配置的设置。
 
-The following configuration values can be customized:
+可以自定义以下配置值：
 
 ```json
     "OrchardCore_Twitter": {
@@ -54,4 +54,5 @@ The following configuration values can be customized:
     }
 ```
 
-For more information please refer to [Configuration](../../core/Configuration/README.md).
+有关更多信息，请参见[Configuration]（../../core/Configuration/README.md）。
+> 该文档由ChatGPT 4 翻译

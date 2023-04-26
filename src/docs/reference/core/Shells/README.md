@@ -1,57 +1,50 @@
-# Shells Configuration Providers
+# Shells 配置提供程序
 
-The Azure Shells Configuration and Database Shells Configuration providers allow hosting of shell / tenant 
-`tenants.json` files and related tenants `appsettings.json` configuration settings in an environment external to the Orchard Core host.
+Azure Shells 配置和 Database Shells 配置提供程序允许在 Orchard Core 主机外部的环境中托管 shell / 租户 `tenants.json` 文件和相关租户 `appsettings.json` 配置设置。
 
-By default the `tenants.json` and related `appsettings.json` for the `Default` shell and any configured tenants
-are stored in the `App_Data` folder.
+默认情况下，`Default` shell 和任何配置的租户的 `tenants.json` 和相关的 `appsettings.json` 存储在 `App_Data` 文件夹中。
 
-This configuration in the `App_Data` folder is suitable for most sites, however for advanced configuration
-of stateless multi-tenancy environments, where multiple hosts require write access to these shared configuration settings,
-you can choose to use either the Azure Shells Configuration or Database Shells Configuration providers.
+`App_Data` 文件夹中的此配置适用于大多数站点，但对于无状态多租户环境的高级配置，其中多个主机需要对这些共享配置设置进行写访问，您可以选择使用 Azure Shells 配置或 Database Shells 配置提供程序之一。
 
-The primary purpose of the Shell Configuration providers is to provide a shared external environment for multi-tenancy
-where tenants need to be created, and their settings mutated, during live operation of the stateless hosts.
+Shell 配置提供程序的主要目的是为多租户提供共享的外部环境，在无状态主机的实时操作期间需要创建租户并改变其设置。
 
-It is not intended to support shared configuration between local development and production environments.
+它不旨在支持本地开发和生产环境之间的共享配置。
 
-## Azure Shells Configuration Provider
+## Azure Shells 配置提供程序
 
-The Azure Shells Configuration provider uses an Azure Blob Storage Container to store the `tenants.json` and related tenant `appsettings.json` 
-files in a similar hierarchy to that of the default `App_Data` configuration.
+Azure Shells 配置提供程序使用 Azure Blob 存储容器来存储 `tenants.json` 和相关租户 `appsettings.json` 文件，其层次结构类似于默认的 `App_Data` 配置。
 
-The root of the Azure Blob Container includes a `tenants.json` file, and optionally can include a `appsettings.json` file.
+Azure Blob 容器的根目录包括一个 `tenants.json` 文件，还可以包括一个 `appsettings.json` 文件。
 
-Each shell, or tenant has a directory under the `Sites` folder, named for the tenant, with an individual `appsettings.json` file.
+每个 shell 或租户在 `Sites` 文件夹下都有一个目录，以租户命名，并带有一个单独的 `appsettings.json` 文件。
 
-The hierarchy is separated into single files, and is useful if you need to manage the tenants `appsettings.json` independently from Orchard Core.
-For example, you may prefer to provide different Azure Blob Storage keys, for each tenant when using the Azure Media Storage feature.
+层次结构分为单个文件，并且如果您需要独立于 Orchard Core 管理租户的 `appsettings.json`，则非常有用。例如，当使用 Azure 媒体存储功能时，您可能更喜欢为每个租户提供不同的 Azure Blob 存储密钥。
 
-The Azure Shells Configuration supports a root `appsettings.json` and `appsettings.Environment.json` file.
+Azure Shells 配置支持根 `appsettings.json` 和 `appsettings.Environment.json` 文件。
 
-!!! note
-    Individual tenants do not support a `appsettings.Environment.json` file.
+!!! 注意
+    单个租户不支持 `appsettings.Environment.json` 文件。
 
-### Enable Azure Shells Configuration
+### 启用 Azure Shells 配置
 
-The Azure Shells Configuration is provided by a separate NuGet package: `OrchardCore.Shells.Azure`
+Azure Shells 配置由单独的 NuGet 包提供：`OrchardCore.Shells.Azure`
 
-The Azure Shells Configuration is configured via the `appsettings.json` section in the web host project.
+Azure Shells 配置通过 web 主机项目中的 `appsettings.json` 部分进行配置。
 
 ``` json
 {
   "OrchardCore": {
     "OrchardCore_Shells_Azure": {
-      "ConnectionString": "", // Set to your Azure Storage account connection string.
-      "ContainerName": "hostcontainer", // Set to the Azure Blob container name.
-      "BasePath": "some/base/path", // Optionally, set to a subdirectory inside your container.
-      "MigrateFromFiles": true // Optionally, enable to migrate existing App_Data files to Blob automatically.
+      "ConnectionString": "", // 设置为 Azure 存储帐户连接字符串。
+      "ContainerName": "hostcontainer", // 设置为 Azure Blob 容器名称。
+      "BasePath": "some/base/path", // 可选地，设置为容器内的子目录。
+      "MigrateFromFiles": true // 可选地，启用以自动将现有的 App_Data 文件迁移到 Blob。
     }
   }
 }
 ```
 
-In the web host `Startup.cs` it is enabled via an extension method on the Orchard Core Builder.
+在 web 主机 `Startup.cs` 中，它通过 Orchard Core Builder 上的扩展方法启用。
 
 ``` csharp
 namespace OrchardCore.Cms.Web
@@ -67,35 +60,34 @@ namespace OrchardCore.Cms.Web
 }
 ```
 
-!!! note
-    The container must be created before using the Azure Shells Configuration provider.
-    Make sure this container is secure and access to keys is limited.
+!!! 注意
+    必须在使用 Azure Shells 配置提供程序之前创建容器。
+    确保此容器是安全的，并且对密钥的访问受到限制。
 
-## Database Shells Configuration Provider
+## Database Shells 配置提供程序
 
-The Database Shells Configuration provider uses any supported database to store all the tenant related configuration
-as part of a single json document.
+Database Shells 配置提供程序使用任何支持的数据库将所有与租户相关的配置存储为单个 json 文档的一部分。
 
-The Database Shells Configuration provider does not support a site `appsettings.json` and `appsettings.Environment.json` file.
+Database Shells 配置提供程序不支持站点 `appsettings.json` 和 `appsettings.Environment.json` 文件。
 
-### Enable Database Shells Configuration
+### 启用 Database Shells 配置
 
-The Database Shells Configuration is configured via the `appsettings.json` section in the web host project.
+Database Shells 配置通过 web 主机项目中的 `appsettings.json` 部分进行配置。
 
 ``` json
 {
   "OrchardCore": {
     "OrchardCore_Shells_Database": {
-      "DatabaseProvider": "SqlConnection", // Set to a supported database provider.
-      "ConnectionString": "", // Set to the database connection string.
-      "TablePrefix": "", // Optionally, configure a table prefix.
-      "MigrateFromFiles": true // Optionally, enable to migrate existing App_Data files to Database automatically.
+      "DatabaseProvider": "SqlConnection", // 设置为受支持的数据库提供程序。
+      "ConnectionString": "", // 设置为数据库连接字符串。
+      "TablePrefix": "", // 可选地，配置表前缀。
+      "MigrateFromFiles": true // 可选地，启用以自动将现有的 App_Data 文件迁移到数据库。
     },
   }
 }
 ```
 
-In the web host `Startup.cs` it is enabled via an extension method on the Orchard Core Builder.
+在 web 主机 `Startup.cs` 中，它通过 Orchard Core Builder 上的扩展方法启用。
 
 ``` csharp
 namespace OrchardCore.Cms.Web
@@ -111,24 +103,21 @@ namespace OrchardCore.Cms.Web
 }
 ```
 
-!!! note
-    The database must be created before using the Database Configuration provider.
-    Make sure this database is secure and access to it is limited.
+!!! 注意
+    必须在使用 Database 配置提供程序之前创建数据库。
+    确保此数据库是安全的，并且对其的访问受到限制。
 
-## Migrate From Files
+## 从文件迁移
 
-The `MigrateFromFiles` option is available for both the Azure Shells and Database Shells Configuration providers
-to assist migrating from an existing `App_Data` configuration.
+Azure Shells 和 Database Shells 配置提供程序都提供了 `MigrateFromFiles` 选项，以帮助从现有的 `App_Data` 配置迁移。
 
-When enabled the Shell Configuration provider will first check to see if a configuration exists for a given tenant
-for the chosen storage platform, Database, or Azure Blob Storage.
+启用时，Shell 配置提供程序将首先检查给定租户的配置是否存在于所选存储平台（Database 或 Azure Blob Storage）中。
 
-If the configuration does not exist, the provider will try to load it from the `App_Data` folder, 
-and migrate it to the storage platform of choice.
+如果配置不存在，则提供程序将尝试从 `App_Data` 文件夹中加载它，并将其迁移到所选的存储平台。
 
-## Environment Options
+## 环境选项
 
-To disable a provider in Development, or different environments, inject the `IHostEnvironment` 
+要在开发或不同环境中禁用提供程序，请注入 `IHostEnvironment` 
 
 ``` csharp
 namespace OrchardCore.Cms.Web
@@ -153,3 +142,5 @@ namespace OrchardCore.Cms.Web
     }
 }
 ```
+
+该文档由ChatGPT 4 翻译

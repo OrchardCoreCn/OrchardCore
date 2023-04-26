@@ -1,7 +1,7 @@
-# Users Authentication Ticket Store
+# 用户身份验证票据存储
 
-Out of the box Orchard Core stores the authentication tickets inside a cookie that resides on the client/browser. For some scenarios, requirement is to store lot of permissions that result in larger cookie on request - that could result in falied request due to exceeding header limit. Use this feature to reduce the cookie size and store the authentication tickets server side.
+Orchard Core默认将身份验证票据存储在客户端/浏览器上的cookie中。对于某些场景，需要存储大量权限，这会导致请求中的cookie过大，从而导致请求失败。使用此功能可以减小cookie大小并将身份验证票据存储在服务器端。
 
-Enabling Users Authentication Ticket Store feature, stores users authentication tickets on server in memory cache. If [distributed cache](../Redis/README.md) feature is enabled it will store authentication tickets on distributed cache.
+启用用户身份验证票据存储功能，将用户身份验证票据存储在服务器端的内存缓存中。如果启用了[分布式缓存](../Redis/README.md)功能，则会将身份验证票据存储在分布式缓存中。
 
-
+> 该文档由ChatGPT 4 翻译

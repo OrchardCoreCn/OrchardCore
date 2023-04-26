@@ -2,14 +2,13 @@
 
 ## GraphQL
 
-The GraphQL module allows client applications to query the content handled by an Orchard website.  
-It enables the GraphiQL Explorer view to test GraphQL queries, and provides HTTP endpoints to send client queries.
+GraphQL模块允许客户端应用程序查询Orchard网站处理的内容。它使GraphiQL Explorer视图能够测试GraphQL查询，并提供HTTP端点以发送客户端查询。
 
-## HTTP Methods, Headers, and Body
+## HTTP方法，标头和正文
 
-### GET request
+### GET请求
 
-When receiving an HTTP GET request, the GraphQL query should be specified in the "query" query string. For example, if we wanted to execute the following GraphQL query:
+在接收到HTTP GET请求时，GraphQL查询应在“query”查询字符串中指定。例如，如果我们想执行以下GraphQL查询：
 
 ```graphql
 {
@@ -19,17 +18,17 @@ When receiving an HTTP GET request, the GraphQL query should be specified in the
 }
 ```
 
-This request could be sent via an HTTP GET like so:
+可以通过HTTP GET发送此请求：
 
 `http://myapi/graphql?query={me{name}}`
 
-Query variables can be sent as a JSON-encoded string in an additional query parameter called variables. If the query contains several named operations, an operationName query parameter can be used to control which one should be executed.
+查询变量可以作为JSON编码的字符串发送到名为variables的附加查询参数中。如果查询包含多个命名操作，则可以使用operationName查询参数来控制应执行哪个操作。
 
-### POST request 
+### POST请求
 
-#### application/json content type
+#### application/json内容类型
 
-A standard GraphQL POST request should use the `application/json` content-type header, and include a JSON-encoded body of the following form:
+标准的GraphQL POST请求应使用`application/json`内容类型标头，并包括以下形式的JSON编码正文：
 
 ```graphql
 {
@@ -39,20 +38,19 @@ A standard GraphQL POST request should use the `application/json` content-type h
 }
 ```
 
-`operationName` and `variables` are optional fields. `operationName` is only required if multiple operations are present in the query.
+`operationName`和`variables`是可选字段。仅在查询中存在多个操作时才需要`operationName`。
 
-#### application/graphql content type
+#### application/graphql内容类型
 
-Another option is to use the `application/graphql` content-type header, and the HTTP POST body contents is treated as the GraphQL query string.
+另一个选项是使用`application/graphql`内容类型标头，HTTP POST正文内容将被视为GraphQL查询字符串。
 
-#### query string
+#### 查询字符串
 
-In addition to the above, If the "query" query string parameter is present (as in the GET example above), it will be parsed and handled in the same way as the HTTP GET case.
+除上述内容外，如果存在“query”查询字符串参数（如上面的GET示例中），则将解析并以与HTTP GET相同的方式处理。
 
-### Response
+### 响应
 
-Regardless of the method by which the query and variables were sent, the response is returned in the body of the request in JSON format.  
-A query might result in some data and some errors, and those are returned in a JSON object of the form:
+无论通过哪种方式发送查询和变量，响应都以JSON格式在请求正文中返回。查询可能会导致一些数据和一些错误，并以以下形式的JSON对象返回：
 
 ```json
 {
@@ -61,21 +59,19 @@ A query might result in some data and some errors, and those are returned in a J
 }
 ```
 
-If there were no errors returned, the "errors" field is not present on the response. 
-If no data is returned the "data" field is only included if the error occurred during execution.
+如果没有返回错误，则响应中不存在“errors”字段。如果未返回数据，则仅在执行期间发生错误时才包括“data”字段。
 
-## Authentication
+## 身份验证
 
-Executing a GraphQL query requires the issuer to have the `ExecuteGraphQL` permission. Like any other API in Orchard Core, the GraphQL API supports 
-cookie and OAuth 2.0 authentication. This means it's compatible with the OpenId module and supports JSON Web Token (JWT).
+执行GraphQL查询需要发行者具有`ExecuteGraphQL`权限。与Orchard Core中的任何其他API一样，GraphQL API支持cookie和OAuth 2.0身份验证。这意味着它与OpenId模块兼容，并支持JSON Web Token（JWT）。
 
-By default anonymous users are not able to execute a GraphQL query.
+默认情况下，匿名用户无法执行GraphQL查询。
 
-## Configuration
+## 配置
 
-It's possible to configure graphql options for exposing exceptions and max depth, max complexity and field impact.
+可以通过标准的shell配置来配置公共选项，如暴露异常和最大深度、最大复杂度和字段影响。
 
-Configuration is done via the standard shell configuration, as follows.
+配置如下。
 
 ```json
 {
@@ -93,29 +89,30 @@ Configuration is done via the standard shell configuration, as follows.
 }
 ```
 
-*ExposeExceptions (bool, Default: false for production, true for development)*
+*ExposeExceptions（bool，默认值：生产为false，开发为true）*
 
-If set to true stack traces are exposed to graphql clients
+如果设置为true，则将堆栈跟踪暴露给graphql客户端
 
-*DefaultNumberOfResults (int, Default: 100)*
-The default number of results returned by all paged fields/types.
+*DefaultNumberOfResults（int，默认值：100）*
+所有分页字段/类型返回的默认结果数。
 
-*MaxNumberOfResults (int, Default: 1000)*
-The maximum number of results returned by all paged fields/types.
+*MaxNumberOfResults（int，默认值：1000）*
+所有分页字段/类型返回的最大结果数。
 
-*MaxNumberOfResultsValidationMode (enum, Values: Default|Enabled|Disabled, Default: Default)()*
-Specify the validation behaviour if the max number of results is exceeded in a pager parameter
+*MaxNumberOfResultsValidationMode（枚举，值：Default | Enabled | Disabled，默认值：Default）()*
+如果在分页器参数中超过了最大结果数，则指定验证行为
 
-* Default - In production info will be logged and only the max number of results will be returned. In development a graphql validation error will be raised.
-* Enabled - a graphql validation error will be raised
-* Disabled - Info will be logged and only the max number of results will be returned
+* 默认-在生产中将记录信息并仅返回最大结果数。在开发中，将引发graphql验证错误。
+* Enabled-将引发graphql验证错误
+* Disabled-将记录信息并仅返回最大结果数
 
-*MaxDepth (int?, Default: 20)*
+*MaxDepth（int？，默认值：20）*
 
-Enforces the total maximum nesting across all queries in a request.
+强制执行请求中所有查询的总最大嵌套。
 
-*MaxComplexity (int?, Default: null)*
+*MaxComplexity（int？，默认值：null）*
 
-*FieldImpact (double?, Default: null)*
+*FieldImpact（double？，默认值：null）*
 
-For more information on MaxDepth, MaxComplexity, FieldImpact & protecting against malicious queries view the graphql-dot-net documentation at <https://graphql-dotnet.github.io/docs/getting-started/malicious-queries/>
+有关MaxDepth、MaxComplexity、FieldImpact和保护免受恶意查询的更多信息，请参见graphql-dot-net文档：<https://graphql-dotnet.github.io/docs/getting-started/malicious-queries/>
+> 该文档由ChatGPT 4 翻译

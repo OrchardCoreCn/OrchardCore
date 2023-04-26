@@ -1,12 +1,12 @@
 # OrchardCore.Logging.Serilog
 
-`OrchardCore.Logging.Serilog` integrates [Serilog](https://serilog.net/) structured logging with OrchardCore.
+`OrchardCore.Logging.Serilog` 将 [Serilog](https://serilog.net/) 结构化日志与 OrchardCore 集成。
 
-## How to use
+## 如何使用
 
-Add a reference to `OrchardCore.Logging.Serilog`.
+添加对 `OrchardCore.Logging.Serilog` 的引用。
 
-### Add serilog configuration in appsettings.json
+### 在 appsettings.json 中添加 serilog 配置
 
 ``` json
   "Serilog": {
@@ -40,7 +40,7 @@ Add a reference to `OrchardCore.Logging.Serilog`.
   }
 ```
 
-### Modify `program.cs` to use Serilog
+### 修改 `program.cs` 以使用 Serilog
 
 ``` csharp
         using Serilog;
@@ -57,7 +57,7 @@ Add a reference to `OrchardCore.Logging.Serilog`.
                 .Build();
 ```
 
-### Modify `startup.cs` to include TenantName in LogContext
+### 修改 `startup.cs` 以在 LogContext 中包含 TenantName
 
 ``` csharp
         using OrchardCore.Logging;
@@ -73,10 +73,11 @@ Add a reference to `OrchardCore.Logging.Serilog`.
         }
 ```
 
-## Credits
+## 鸣谢
 
 ### Serilog
 
 <https://github.com/serilog/serilog-aspnetcore>
 
-Apache-2.0 License
+Apache-2.0 许可证
+> 该文档由ChatGPT 4 翻译

@@ -1,46 +1,43 @@
-# Resources (`OrchardCore.Resources`) 中文文档
+# 资源 (`OrchardCore.Resources`)
 
-## Purpose
 
-The `Resources` module provides commonly used resources like JavaScript libraries and CSS files. It also enables the Resource Manager
-so any module can describe what resources are necessary on any page or component. When the full page is rendered all the required
-resources are computed and custom `<script>` and `<link>` tags are rendered accordingly. You can also register custom `<meta>` tags.
+## 目的
 
-## Resource Locations
+`Resources` 模块提供了常用的资源，如 JavaScript 库和 CSS 文件。它还启用了资源管理器，因此任何模块都可以描述任何页面或组件所需的资源。当完整页面被呈现时，所有必需的资源都会被计算，并相应地呈现自定义 `<script>` 和 `<link>` 标记。您还可以注册自定义 `<meta>` 标记。
 
-`Resources` will be served via the `StaticFileMiddleware` from either a module or themes `wwwroot` folder.
-When defining a resource the naming convention is `~/ThemeName/scripts/path-to-file.js` or `~/Module.Name/styles/path-to-file.css`
+## 资源位置
 
-The tilde (~) is a convention used to indicate a relative path, for example a tenant base path.
-All script or stylesheet resources should be prefixed with the `~` character.
+`Resources` 将通过模块或主题的 `wwwroot` 文件夹从 `StaticFileMiddleware` 提供。当定义资源时，命名约定是 `~/ThemeName/scripts/path-to-file.js` 或 `~/Module.Name/styles/path-to-file.css`
 
-## Resource Settings
+波浪号（~）是用于指示相对路径的约定，例如租户基本路径。
+所有脚本或样式表资源都应以 `~` 字符为前缀。
 
-Resource Settings are configured through the site admin.
+## 资源设置
+
+资源设置通过站点管理配置。
 
 ### `AppendVersion`
 
-Enabling `AppendVersion` or Resources cache busting will automatically append a version hash to all local scripts and style sheets.
-This is turned on by default.
+启用 `AppendVersion` 或资源缓存破坏将自动在所有本地脚本和样式表上附加版本哈希。默认情况下启用此功能。
 
 ### `UseCdn`
 
-Enabling UseCdn will configure the `IResourceManager` to provide any scripts or styles, such as `jQuery`, from the configured CDN.
+启用 UseCdn 将配置 `IResourceManager` 以从配置的 CDN 提供任何脚本或样式，例如 `jQuery`。
 
 ### `ResourceDebugMode`
 
-When enabled will serve scripts or styles, that have a CDN configured, or a debug-src, from the local server in non minified format.  
-This will also disable the `CdnBaseUrl` prepending.
+启用时，将从本地服务器以非最小化格式提供具有 CDN 配置或 debug-src 的脚本或样式。  
+这也将禁用 `CdnBaseUrl` 前缀。
 
 ### `CdnBaseUrl`
 
-When supplied this will prepend local resources served via the `IResourceManager` or Tag Helpers with the absolute url provided. This will be disabled in `ResourceDebugMode`
+当提供时，这将在通过 `IResourceManager` 或标记助手提供的本地资源之前使用提供的绝对 URL 进行前缀。在 `ResourceDebugMode` 中将禁用此功能。
 
-## Named Resources
+## 命名资源
 
-Named resources are well-known scripts and stylesheets that are described in a module or theme.  
-They have a name, a type (script, stylesheet) and optionally a version.  
-The `OrchardCore.Resources` module provides some commonly used ones:
+命名资源是在模块或主题中描述的众所周知的脚本和样式表。  
+它们有一个名称、一个类型（脚本、样式表）和可选的版本。  
+`OrchardCore.Resources` 模块提供了一些常用的资源：<|im_end|>
 
 | Name                  | Type   | Versions      | Dependencies   |
 | --------------------- | ------ | ------------- | -------------- |
@@ -73,11 +70,11 @@ The `OrchardCore.Resources` module provides some commonly used ones:
 | nouislider            | Script | 15.6.1        | -              |
 | nouislider            | Style  | 15.6.1        | -              |
 
-### Registering a Resource Manifest
+### 注册资源清单
 
-Named resources are registered by configuring the `ResourceManagementOptions` options.
+通过配置 `ResourceManagementOptions` 选项来注册命名资源。
 
-This example is provided from `TheBlogTheme` to demonstrate.
+此示例来自 `TheBlogTheme`。
 
 ```csharp
 public class ResourceManagementOptionsConfiguration : IConfigureOptions<ResourceManagementOptions>
@@ -104,16 +101,16 @@ public class ResourceManagementOptionsConfiguration : IConfigureOptions<Resource
 
 ```
 
-In this example we define a script with the unique name `TheBlogTheme-vendor-jQuery`. 
-We use a name that is unique to `TheBlogTheme` to prevent collisions when multiple themes are active. 
+在此示例中，我们定义了一个名为 `TheBlogTheme-vendor-jQuery` 的脚本。
+我们使用一个对 `TheBlogTheme` 唯一的名称，以防止在多个主题处于活动状态时发生冲突。
 
-We set a url for the minified version, and the unminified version, which will be used in `ResourceDebugMode`.
-For the same reason we define two CDN Url's, which will be preferred over the local urls if the `UseCdn` setting in the site admin is set. 
-We set the Cdn Integrity Hashes and the version to `3.4.1`
+我们为缩小版本和未缩小版本设置了一个 URL，这将在 `ResourceDebugMode` 中使用。
+出于同样的原因，我们定义了两个 CDN URL，如果站点管理员中的 `UseCdn` 设置，则将优先使用这些 URL 而不是本地 URL。
+我们设置了 Cdn 完整性哈希和版本为 `3.4.1`
 
-This script will then be available for the tag helper or API to register by name. 
+然后，此脚本将可供标记助手或 API 按名称注册。
 
-Additionally, we can use the `SetDependencies` method to ensure the script or style is loaded after their dependency. 
+此外，我们可以使用 `SetDependencies` 方法来确保在其依赖项之后加载脚本或样式。
 
 ```csharp
 public class ResourceManagementOptionsConfiguration : IConfigureOptions<ResourceManagementOptions>
@@ -138,92 +135,92 @@ public class ResourceManagementOptionsConfiguration : IConfigureOptions<Resource
 
 ```
 
-In this example, we define a style that depends on Bootstrap version 4. In this case, the latest available minor version of bootstrap version 4 will be added. Alternatively, you can set a specific version of your choice or the latest version available. [See Inline definition](#inline-definition) for more details about versioning usage.
+在此示例中，我们定义了一个依赖于 Bootstrap 版本 4 的样式。在这种情况下，将添加可用的最新的 Bootstrap 版本 4 的次要版本。或者，您可以设置您选择的特定版本或最新版本。[有关版本使用的更多详细信息，请参见内联定义](#inline-definition)。
 
-!!! note "Registration"
-    Make sure to register this `IConfigureOptions<ResourceManagementOptions>` in the `Startup` or your theme or module.
+!!! 注意 "注册"
+    确保在 `Startup` 或您的主题或模块中注册此 `IConfigureOptions<ResourceManagementOptions>`。
     `serviceCollection.AddTransient<IConfigureOptions<ResourceManagementOptions>, ResourceManagementOptionsConfiguration>();`
   
+## 用法
 
-## Usage
+有两种调用资源的方法：使用 `IResourceManager` API 或标记助手。  
+如果需要从代码中注入资源，则需要使用 API，但建议在视图内部使用标记助手。
 
-There are two ways to invoke a resource: either by using the `IResourceManager` API or a Tag Helper.  
-The API is necessary if you need to inject a resource from code, however it is recommended to use a Tag Helper when inside a view.
+### 使用 API
 
-### Using the API
+从您的模块中，添加对 `OrchardCore.Resources.Abstractions` 项目的引用。  
+从要在其中使用 API 的类中，注入 `OrchardCore.ResourceManagement.IResourceManager` 接口。
 
-From your module, add a reference to the `OrchardCore.Resources.Abstractions` project.  
-From the class you want to use the API in, inject the `OrchardCore.ResourceManagement.IResourceManager` interface.
-
-#### Register a named resource
+#### 注册命名资源
 
 ```csharp
 var settings = _resourceManager.RegisterResource("script", "bootstrap")
 ```
 
-The result of this call is an object of type `RequireSettings` that is used to pass more parameters to the required resource.
+此调用的结果是一个 `RequireSettings` 类型的对象，用于将更多参数传递给所需的资源。
 
-##### Place the resource at the beginning of the HTML document
+##### 将资源放置在 HTML 文档的开头
 
 ```csharp
 settings.AtHead();
 ```
 
-##### Place the resource at the end of the HTML document
+##### 将资源放置在 HTML 文档的结尾
 
 ```csharp
 settings.AtFoot();
 ```
 
-##### Set the version to use
+##### 设置要使用的版本
 
 ```csharp
 settings.UseVersion("3.4");
 ```
 
-This will use the latest available version between `3.4` and `3.5`. If the version is not available an exception is thrown.
+这将使用 `3.4` 和 `3.5` 之间最新的可用版本。如果版本不可用，则会抛出异常。
 
-##### Append a version
+##### 添加版本
 
 ```csharp
 settings.UseAppendVersion(true);
 ```
 
-This will append a version string that is calculated at runtime as an SHA256 hash of the file, the calculation cached, and appended to the url as part of the query string, e.g. `my-script.js?v=eER9OO6zWGKaIq1RlNjImsrWN9y2oTgQKg2TrJnDUWk`
+这将在运行时附加一个版本字符串，该字符串是文件的SHA256哈希值，计算被缓存，并作为查询字符串的一部分附加到URL中，例如`my-script.js?v=eER9OO6zWGKaIq1RlNjImsrWN9y2oTgQKg2TrJnDUWk`
 
-#### Register custom script
+#### 注册自定义脚本
 
-At the beginning of the HTML document:
+在HTML文档的开头：
 
 ```csharp
 resourceManager.RegisterHeadScript(new HtmlString("<script>alert('Hello')</script>"));
 ```
 
-At the end of the HTML document:
+在HTML文档的结尾：
 
 ```csharp
 resourceManager.RegisterFootScript(new HtmlString("<script>alert('Hello')</script>"));
 ```
 
-### Add custom meta tag
+### 添加自定义元标记
 
 ```csharp
 resourceManager.RegisterMeta(new MetaEntry { Content = "Orchard", Name = "generator" });
 ```
 
-You can also add more content to an existing tag like this:
+您还可以像这样向现有标记添加更多内容：
 
 ```csharp
 resourceManager.AppendMeta(new MetaEntry { Name = "keywords", Content = "orchard" }, ",");
 ```
 
-### Using the Tag Helpers
+### 使用标记助手
 
-From your module, in the `_ViewImports.cshtml` or your view, add `@addTagHelper *, OrchardCore.ResourceManagement`, and take a direct reference to the `OrchardCore.ResourceManagement` nuget package.
+从您的模块，在`_ViewImports.cshtml`或您的视图中，添加`@addTagHelper *，OrchardCore.ResourceManagement`，并直接引用`OrchardCore.ResourceManagement` nuget包。
 
-#### Register a named script or stylesheet
 
-This example registers the script named `bootstrap` and all its dependencies (jquery).
+#### 注册命名的脚本或样式表
+
+此示例注册名为`bootstrap`的脚本及其所有依赖项（jquery）。
 
 === "Liquid"
 
@@ -237,7 +234,7 @@ This example registers the script named `bootstrap` and all its dependencies (jq
     <script asp-name="bootstrap"></script>
     ```
 
-And for a stylesheet:
+对于样式表：
 
 === "Liquid"
 
@@ -251,9 +248,9 @@ And for a stylesheet:
     <style asp-name="bootstrap"></style>
     ```
 
-##### Force the CDN
+##### 强制使用CDN
 
-You can force a resource to be used from its CDN. By default the behavior is defined by configuration.
+您可以强制使用CDN中的资源。默认情况下，行为由配置定义。
 
 === "Liquid"
 
@@ -267,10 +264,9 @@ You can force a resource to be used from its CDN. By default the behavior is def
     <script asp-name="bootstrap" use-cdn="true"></script>
     ```
 
-##### Use specific version
+##### 使用特定版本
 
-This example will use the latest available version with a Major version of `3`, like `3.4.0`. If the version is not specified
-the latest one is always used.
+此示例将使用具有主版本为`3`的最新可用版本，例如`3.4.0`。如果未指定版本，则始终使用最新版本。
 
 === "Liquid"
 
@@ -284,9 +280,9 @@ the latest one is always used.
     <script asp-name="bootstrap" version="3"></script>
     ```
 
-##### Append a Version Hash
+##### 添加版本哈希
 
-You can append a version hash that will be calculated, and calculation cached, and appended in the format ?v=eER9OO6zWGKaIq1RlNjImsrWN9y2oTgQKg2TrJnDUWk
+您可以附加一个版本哈希，该哈希将被计算并缓存计算，并以格式`?v=eER9OO6zWGKaIq1RlNjImsrWN9y2oTgQKg2TrJnDUWk`附加
 
 === "Liquid"
 
@@ -300,9 +296,9 @@ You can append a version hash that will be calculated, and calculation cached, a
     <script asp-name="bootstrap" asp-append-version="true"></script>
     ```
 
-##### Specify location
+##### 指定位置
 
-Specify a location the script should load using `at`, for example `Foot` to rendered wherever the `FootScript` helper is located or `Head` to render with the `HeadScript` [See Foot Resources](#foot-resources). If the location is not specified, or specified as `Inline`, the script will be inserted wherever it is placed (inline).
+使用`at`指定脚本应加载的位置，例如`Foot`以在`FootScript`助手所在的位置呈现或`Head`以与`HeadScript`一起呈现[请参见Foot Resources]（＃foot-resources）。如果未指定位置或指定为`Inline`，则脚本将插入到其放置的任何位置（内联）。
 
 === "Liquid"
 
@@ -316,11 +312,11 @@ Specify a location the script should load using `at`, for example `Foot` to rend
     <script asp-name="bootstrap" at="Foot"></script>
     ```
 
-Link and styles tag helpers always inject into the header section of the HTML document, unless the `at` location is set to `Inline`.
+链接和样式标记助手始终注入到HTML文档的标题部分中，除非将`at`位置设置为`Inline`。
 
-#### Inline definition
+#### 内联定义
 
-You can declare a new resource directly from a view, and it will be injected only once even if the view is called multiple time.
+您可以直接从视图中声明新资源，即使多次调用视图，它也只会被注入一次。
 
 === "Liquid"
 
@@ -336,19 +332,20 @@ You can declare a new resource directly from a view, and it will be injected onl
     <script asp-name="bar" asp-src="~/TheTheme/js/bar.min.js?v=1.0" debug-src="~/TheTheme/js/bar.js?v=1.0" depends-on="foo:1.0" version="1.0"></script>
     ```
 
-We define a script named `foo` with a dependency on `jQuery` with the version `1.0`. 
+我们定义了一个名为 `foo` 的脚本，它依赖于 `jQuery` 的版本 `1.0`。
 
-We then define a script named `bar` which also takes a dependency on version `1.0` of the `foo` script.
+然后，我们定义了一个名为 `bar` 的脚本，它还依赖于 `foo` 脚本的版本 `1.0`。
 
-If the version was not set the one with the highest number would be used.
+如果未设置版本，则使用数字最高的版本。
 
-When rendering the scripts the resource manager will order the output based on the dependencies, regardless of the order they are written to:
+在呈现脚本时，资源管理器将根据依赖项对输出进行排序，而不考虑它们的书写顺序：
 
 1. `jQuery`
 2. `foo`
 3. `bar`
 
-You can also do the same for a stylesheet:
+
+您还可以为样式表执行相同的操作：
 
 === "Liquid"
 
@@ -364,22 +361,22 @@ You can also do the same for a stylesheet:
     <style asp-name="foo" asp-src="~/TheTheme/css/foo.min.css" debug-src="~/TheTheme/css/foo.css" depends-on="bootstrap"></style>
     ```
 
-In this example define a style named `bar` with a dependency on the style named `foo`
+在此示例中，定义了一个名为 `bar` 的样式，其依赖于名为 `foo` 的样式
 
-We then define the style named `foo`
+然后我们定义名为 `foo` 的样式
 
-When rendering the scripts the resource manager will order the output based on the dependencies, regardless of the order they are written to:
+在呈现脚本时，资源管理器将根据依赖项对输出进行排序，而不考虑它们编写的顺序：
 
 1. `bootstrap`
 2. `foo`
 3. `bar`
 
-!!! note
-    You do not have to define a name for your script or style unless you want to reference it as a dependency, or declare it as `Inline`. Hence why the above inline examples all include a name.
+!!! 注意
+    您不必为脚本或样式定义名称，除非您想将其作为依赖项引用或将其声明为 `Inline`。因此，上面的所有内联示例都包括名称。
 
-#### Custom scripts
+#### 自定义脚本
 
-The following example demonstrates how to inject a custom script in the footer section.
+以下示例演示了如何在页脚部分注入自定义脚本。
 
 === "Liquid"
 
@@ -397,7 +394,7 @@ The following example demonstrates how to inject a custom script in the footer s
     </script>
     ```
 
-You can also inject a named custom script.
+您还可以注入命名的自定义脚本。
 
 === "Liquid"
 
@@ -415,12 +412,12 @@ You can also inject a named custom script.
     </script>
     ```
 
-Named script will only be injected once and can optionally specify dependencies.
+命名脚本将仅注入一次，并且可以选择指定依赖项。
 
-#### Custom style
+#### 自定义样式
 
-The following example demonstrates how to inject a custom style in the head section.
-The style block will be injected after all stylesheet resources.
+以下示例演示了如何在页眉部分注入自定义样式表。
+样式块将在所有样式表资源之后注入。
 
 === "Liquid"
 
@@ -442,8 +439,8 @@ The style block will be injected after all stylesheet resources.
     </style>
     ```
 
-You can also inject a named style block.
-The style block will only be injected once based on its name and can optionally specify dependencies.
+您还可以注入命名的样式块。
+样式块将根据其名称仅注入一次，并且可以选择指定依赖项。
 
 === "Liquid"
 
@@ -464,10 +461,9 @@ The style block will only be injected once based on its name and can optionally 
         }
     </style>
     ```
+#### 链接标签
 
-#### Link tag
-
-A link tag is used to define the relationship between the current document and an external resource such as a favicon or stylesheet. For a stylesheet, however, use the [style helper](#register-a-named-script). 
+链接标签用于定义当前文档与外部资源（如网站图标或样式表）之间的关系。但是，对于样式表，请使用[style helper](#register-a-named-script)。
 
 === "Liquid"
 
@@ -481,14 +477,14 @@ A link tag is used to define the relationship between the current document and a
     <link asp-src="~/MyTheme/favicon/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16" />
     ```
 
-Output
+输出
 
 ```text
 <link href="/MyTheme/favicon/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
 ```
 
-##### Using a file in the media library
-If you wish to use files contained in the media library when using the link tag helper, you can use the `AssetUrl` helper directly in razor but in liquid you will need to first assign the filter result to a variable like so to generate the correct URL:
+##### 使用媒体库中的文件
+如果您希望在使用链接标签助手时使用媒体库中包含的文件，则可以直接在razor中使用`AssetUrl`助手，但是在Liquid中，您需要首先将过滤器结果分配给变量，如下所示以生成正确的URL：
 
 === "Liquid"
 
@@ -503,7 +499,7 @@ If you wish to use files contained in the media library when using the link tag 
     <link asp-src=@Orchard.AssetUrl("favicon/favicon-16x16.png") rel="icon" type="image/png" sizes="16x16" />
     ```
 
-#### Meta tags
+#### 元标签
 
 === "Liquid"
 
@@ -517,23 +513,23 @@ If you wish to use files contained in the media library when using the link tag 
     <meta asp-name="description" content="This is a website" />
     ```
 
-These properties are available:
+这些属性可用：
 
-| Name                         | Description                                                           |
+| 名称                         | 描述                                                           |
 | ---------------------------- | --------------------------------------------------------------------- |
-| `name` (`asp-name` in Razor) | The `name` attribute of the tag                                       |
-| `content`                    | The `content` attribute of the tag                                    |
-| `httpequiv`                  | The `http-equiv` attribute of the tag                                 |
-| `charset`                    | The `charset` attribute of the tag                                    |
-| `separator`                  | The separator to use when multiple tags are defined for the same name |
+| `name` (`asp-name` in Razor) | 标记的`name`属性                                       |
+| `content`                    | 标记的`content`属性                                    |
+| `httpequiv`                  | 标记的`http-equiv`属性                                 |
+| `charset`                    | 标记的`charset`属性                                    |
+| `separator`                  | 在为相同名称定义多个标记时使用的分隔符 |
 
-### Rendering
+### 渲染
 
-Your `Layout.cshtml` or `Layout.liquid` must make a call to the resource manager to render resources that have been registered.
+您的`Layout.cshtml`或`Layout.liquid`必须调用资源管理器以呈现已注册的资源。
 
 #### Head Resources
 
-These are generally rendered at the lower portion of the `<head>` section.
+这些通常在`<head>`部分的底部呈现。
 
 === "Liquid"
 
@@ -561,7 +557,7 @@ These are generally rendered at the lower portion of the `<head>` section.
 
 #### Foot Resources
 
-These should be rendered at the bottom of the `<body>` section.
+这些应在`<body>`部分的底部呈现。
 
 === "Liquid"
 
@@ -582,16 +578,43 @@ These should be rendered at the bottom of the `<body>` section.
     ```
 
 !!! note
-    When using tag helpers in Razor, you must take a direct reference to the `OrchardCore.ResourceManagement` nuget package in each theme or module that uses the tag helpers. This is not required when using Liquid.
-    
-### Logging
+    在Razor中使用标记助手时，必须在每个使用标记助手的主题或模块中直接引用`OrchardCore.ResourceManagement` nuget包。在使用Liquid时不需要。
 
-If you register a resource by name and it is not found this will be logged as an error in your `App_Data/Logs` folder.
+### 日志记录
 
-## CDN disabled by default
+如果按名称注册资源但未找到该资源，则会将其记录为错误并保存在`App_Data/Logs`文件夹中。
 
-The `UseCdn` option, configured in the _Configuration -> Settings -> General_ section, is disabled by default.
-This is to allow access to resources when an internet connection is not available or in countries like China, where CDNs are not always accessible.  
+## 默认情况下禁用CDN
+
+`UseCdn`选项在“配置->设置->常规”部分中配置，默认情况下禁用。
+这是为了在没有互联网连接或在像中国这样的国家中，CDN不总是可访问时访问资源。
 
 !!! note
-    It is recommended to enable the CDN setting after setup.
+    建议在设置后启用CDN设置。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

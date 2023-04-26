@@ -1,12 +1,12 @@
-# Reverse Proxy (`OrchardCore.ReverseProxy`)
+# 反向代理 (`OrchardCore.ReverseProxy`)
 
-Enables configuration of hosting scenarios with a reverse proxy, like which HTTP headers to forward.
+启用反向代理的托管场景配置，例如要转发哪些 HTTP 标头。
 
-## Reverse Proxy Settings Configuration
+## 反向代理设置配置
 
-The `OrchardCore.ReverseProxy` module allows the user to use configuration values to override the settings configured from the admin area by calling the `ConfigureReverseProxySettings()` extension method on `OrchardCoreBuilder` when initializing the app.
+`OrchardCore.ReverseProxy` 模块允许用户使用配置值来覆盖通过调用 `OrchardCoreBuilder` 上的 `ConfigureReverseProxySettings()` 扩展方法从管理区域配置的设置来初始化应用程序。
 
-The following configuration values can be customized:
+以下配置值可以自定义：
 
 ```json
     "OrchardCore_ReverseProxy": {
@@ -14,4 +14,4 @@ The following configuration values can be customized:
     }
 ```
 
-For more information please refer to [Configuration](../../core/Configuration/README.md).
+有关更多信息，请参见[配置](../../core/Configuration/README.md)。

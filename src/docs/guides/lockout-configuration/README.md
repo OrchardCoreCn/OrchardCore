@@ -1,25 +1,23 @@
-# How to change the Lockout configuration
+# 如何更改锁定配置
 
-The Lockout settings are set with the settings configured in ASP.NET Identity.  
-Those options are used to define, for example, the TimeSpan a user is locked out for when a lockout occurs or the number of failed access attempts allowed before a user is locked out.   
+锁定设置使用ASP.NET Identity中配置的设置进行设置。这些选项用于定义例如锁定发生时用户被锁定的时间间隔，或允许在用户被锁定之前的失败访问尝试次数。
 
-The documentation about the LockoutOptions in ASP.NET Core Identity is available here:  
+有关ASP.NET Core Identity中LockoutOptions的文档可在此处找到：  
 https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.lockoutoptions
 
-## Reading configuration from an external config file
+## 从外部配置文件读取配置
 
-A better way to achieve this is to read configuration from configuration sources as settings files, environment variables, command-line arguments. For a complete list of the default configuration sources used by the default configuration providers, and how you can customize it, see the related ASP.NET Core documentation:  
+更好的方法是从配置源读取配置，如设置文件，环境变量，命令行参数。有关默认配置提供程序使用的默认配置源的完整列表以及如何自定义它，请参见相关的ASP.NET Core文档：  
 https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/
 
-Using the `appsettings.{Environment}.json` settings files, for example `appsettings.json`, `appsettings.Production.json` and `appsettings.Development.json`, will allow you to specify different settings depending on the environment and transform the configuration section when you deploy it.
+例如，使用`appsettings.{Environment}.json`设置文件，如`appsettings.json`，`appsettings.Production.json`和`appsettings.Development.json`，将允许您根据环境指定不同的设置并在部署时转换配置节。
 
-To do this, add a `Configuration` property in the `Startup` class:
+为此，在`Startup`类中添加一个`Configuration`属性：
 
 ```csharp
 public IConfiguration Configuration { get; }
 ```
-
-In order to initialize the `Configuration`, set the property in the constructor like this:
+为了初始化 `Configuration`，请在构造函数中设置属性，如下所示：
 
 ```csharp
 public Startup(IConfiguration configuration)
@@ -28,7 +26,7 @@ public Startup(IConfiguration configuration)
 }
 ```
 
-Then, bind configuration with this code that reads it from the configuration file:
+然后，使用以下代码将配置绑定到从配置文件中读取的配置：
 
 ```csharp
 services.Configure<IdentityOptions>(options =>
@@ -36,8 +34,11 @@ services.Configure<IdentityOptions>(options =>
     Configuration.GetSection("IdentityOptions").Bind(options);
 });
 ```
- 
-Finally, create a file called `appsettings.json` with this configuration in json:
+
+最后，在名为 `appsettings.json` 的文件中创建此配置的 JSON，如下所示：
+## 概述
+
+您刚刚学习了如何从`appsettings.json`文件配置锁定设置。 
 
 ```json
 {  
@@ -51,6 +52,7 @@ Finally, create a file called `appsettings.json` with this configuration in json
 }
 ```
 
-## Summary
+上述代码展示了锁定设置的示例配置，包括允许新用户锁定、默认锁定时长和最大登录失败次数。
 
-You just learned how to configure the Lockout settings from an `appsettings.json` file.
+
+> 该文档由Chat-GPT 翻译

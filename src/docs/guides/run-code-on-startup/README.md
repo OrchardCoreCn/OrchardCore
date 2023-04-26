@@ -1,16 +1,12 @@
-# How to run tasks on application startup from a module
+# 如何在模块启动时运行任务
 
-The `Startup` classes are used to initialize the services and piece of middleware. 
-They are called when a tenant is initialized.
+`Startup` 类用于初始化服务和中间件，会在租户初始化时被调用。
 
-The interface `OrchardCore.Modules.IModularTenantEvents` provides a way to define user code that will 
-be executed when the tenant is first hit (tenant activation).
+接口 `OrchardCore.Modules.IModularTenantEvents` 提供了一种定义用户代码的方式，该代码在第一次访问租户时（租户激活）将被执行。
 
-All tenants are lazy-loaded, meaning that when the app starts the event handlers are 
-not invoked. They are instead called when the first request is processed.
+所有租户都是延迟加载的，这意味着当应用程序启动时，不会调用事件处理程序。相反，它们会在处理第一个请求时调用。
 
-In the following example the class `MyStartupTaskService` inherits from `ModularTenantEvents` 
-to implement `IModularTenantEvents`.
+在下面的示例中，类 `MyStartupTaskService` 继承自 `ModularTenantEvents` 来实现 `IModularTenantEvents`。
 
 ```csharp
 using System;
@@ -18,6 +14,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using OrchardCore.Modules;
 
+
+```
 public class MyStartupTaskService : ModularTenantEvents
 {
     private readonly ILogger<MyStartupTaskService> _logger;
@@ -29,26 +27,27 @@ public class MyStartupTaskService : ModularTenantEvents
 
     public override Task ActivatingAsync()
     {
-        _logger.LogInformation("A tenant has been activated.");
+        _logger.LogInformation("一个租户已被激活。");
 
         return Task.CompletedTask;
     }
 }
 ```
 
-Then this class is registered on the `ConfigureServices()` method of the module's __Startup.cs__ file.
-
+然后在模块的__Startup.cs__文件的`ConfigureServices()`方法中注册该类。
 ```csharp
 services.AddScoped<IModularTenantEvents, MyStartupTaskService>();
 ```
 
 !!! note
-    `ActivatingAsync` events are invoked in the order of their registration, which is derived from
-    the modules dependency graph. The `ActivatedAsync` events are invoked in the reverse order.
+    `ActivatingAsync`事件按照它们的注册顺序执行，该顺序来自模块的依赖项图。`ActivatedAsync`事件按相反顺序执行。
 
-When ran from the terminal, you should see output like the following after the first request is processed:
+当从终端运行时，在处理第一个请求后，您应该看到以下输出：
 
 ```
 info: MyStartupTaskService[0]
-      A tenant has been activated.
+      租户已激活。
 ```
+
+
+> 该文档由Chat-GPT 翻译

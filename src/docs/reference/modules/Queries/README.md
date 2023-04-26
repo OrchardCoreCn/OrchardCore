@@ -1,25 +1,25 @@
-# Queries (`OrchardCore.Queries`)
+# 查询 (`OrchardCore.Queries`)
 
-The queries module provides a management UI and APIs for querying data.
+查询模块提供了一个管理UI和API，用于查询数据。
 
-## Creating custom query sources
+## 创建自定义查询源
 
-### Query
+### 查询
 
-Create a class inheriting from `Query` which will represent the state that is necessary to represent this new query.
+创建一个继承自`Query`的类，该类将表示表示此新查询所必需的状态。
 
-### QuerySource
+### 查询源
 
-Create a class implementing `IQuerySource` in order to expose the new type of query.  
-The query source can be registered like this:
+创建一个实现`IQuerySource`的类，以公开新类型的查询。  
+可以像这样注册查询源：
 
 ```csharp
 services.AddScoped<IQuerySource, LuceneQuerySource>();
 ```
 
-### Editors
+### 编辑器
 
-Queries are edited by providing a custom implementation of a `DisplayDriver` for the type `Query`.
+通过为类型`Query`提供自定义的`DisplayDriver`实现来编辑查询。
 
 ```csharp
 public class LuceneQueryDisplayDriver : DisplayDriver<Query, LuceneQuery>
@@ -28,15 +28,15 @@ public class LuceneQueryDisplayDriver : DisplayDriver<Query, LuceneQuery>
 }
 ```
 
-### Queries dialog
+### 查询对话框
 
-When the list of query types is displayed, a template for the shape `Query_Link__[QuerySource]` will be used.  
-For instance, if the source is `Lucene` then the file `Query-Lucene.Link.cshtml` will be used.
+显示查询类型列表时，将使用形状`Query_Link__[QuerySource]`的模板。  
+例如，如果源是`Lucene`，则将使用文件`Query-Lucene.Link.cshtml`。
 
-## Recipe step
+## 配方步骤
 
-Queries can be created during recipes using the `queries` step.  
-Here is a sample step:
+可以在配方中使用`queries`步骤创建查询。  
+以下是一个示例步骤：
 
 ```json
 {
@@ -53,25 +53,25 @@ Here is a sample step:
 
 ```
 
-## Web APIs
+## Web API
 
 ### `api/queries/{name}`
 
-Executes a query with the specified name.
+执行指定名称的查询。
 
-Verbs: **POST** and **GET**
+动词：**POST**和**GET**
 
-| Parameter | Example | Description |
+| 参数 | 示例 | 描述 |
 | --------- | ---- |------------ |
-| `name` | `myQuery` | The name of the query to execute. |
-| `parameters` | `{ size: 3}` | A Json object representing the parameters of the query. |
+| `name` | `myQuery` | 要执行的查询的名称。 |
+| `parameters` | `{ size: 3}` | 表示查询参数的Json对象。 |
 
 ## GraphQL
 
-When exposing queries (Lucene or SQL) through GraphQL, you need to define schema of a query return type.  
-There are two options: To return a `ContentItem` or to return a custom object.
+通过GraphQL公开查询（Lucene或SQL）时，需要定义查询返回类型的模式。  
+有两个选项：返回`ContentItem`或返回自定义对象。
 
-If you want to expose `ContentItems` (e.g. of type `BlogPost`), you need to check `Return Content Items` checkbox and define `Schema` like this:
+如果要公开`ContentItems`（例如类型为`BlogPost`），则需要选中`Return Content Items`复选框，并像这样定义`Schema`：
 
 ```json
 {
@@ -80,7 +80,7 @@ If you want to expose `ContentItems` (e.g. of type `BlogPost`), you need to chec
 
 ```
 
-However, if you want to expose a custom object (e.g. only DisplayText), you need to uncheck `Return Content Items` checkbox and change `Schema` to look like this:
+但是，如果要公开自定义对象（例如仅DisplayText），则需要取消选中`Return Content Items`复选框，并将`Schema`更改为如下所示：
 
 ```json
 {
@@ -94,20 +94,20 @@ However, if you want to expose a custom object (e.g. only DisplayText), you need
 }
 ```
 
-Where properties can either be of `string` or `integer` type.
+其中属性可以是`string`或`integer`类型。
 
-For Lucene queries with custom object schema, you are limited to elements stored in Lucene index.
+对于具有自定义对象模式的Lucene查询，您仅限于存储在Lucene索引中的元素。
 
-For SQL queries, you can expose any column where property name is a column alias from the query.
+对于SQL查询，可以公开查询中的任何列，其中属性名称是查询中的列别名。
 
-Here is an example of a custom Query from a manually added table in a database : 
+以下是手动添加到数据库中的表的自定义查询示例：
 
 ```sql
--- On the Query don't check the "return content items" checkbox
+-- 在查询上不要选中“返回内容项”复选框
 SELECT Name FROM Test
 ```
 
-Here is how you would define a Schema for this Query to add it to the GraphQL endpoint.
+以下是如何为此查询定义模式以将其添加到GraphQL端点。
 
 ```json
 {
@@ -121,8 +121,8 @@ Here is how you would define a Schema for this Query to add it to the GraphQL en
 }
 ```
 
-If your Query has the same name as a content type name it could lead into having them colliding in the GraphQL endpoint.
-For SQL and Lucene queries you can then define a custom field type name in their schema.
+如果您的查询与内容类型名称相同，则可能会导致它们在GraphQL端点中发生冲突。
+对于SQL和Lucene查询，您可以在其模式中定义自定义字段类型名称。
 
 ```json
 {
@@ -137,13 +137,13 @@ For SQL and Lucene queries you can then define a custom field type name in their
 }
 ```
 
-## SQL Queries (`OrchardCore.Queries.Sql`)
+## SQL查询（`OrchardCore.Queries.Sql`）
 
-This feature provides a new type of query targeting the SQL database.
+此功能提供了一种针对SQL数据库的新类型查询。
 
-### Queries recipe step
+### 查询配方步骤
 
-Here is an example for creating a SQL query from a Queries recipe step:
+以下是从查询配方步骤创建SQL查询的示例：
 
 ```json
 {
@@ -154,14 +154,14 @@ Here is an example for creating a SQL query from a Queries recipe step:
 }
 ```
 
-## Liquid templates
+## Liquid模板
 
-You can access queries from liquid views and templates by using the `Queries` property.  
-Queries are accessed by name, for example `Queries.RecentBlogPosts`.
+您可以通过使用`Queries`属性从Liquid视图和模板访问查询。  
+查询按名称访问，例如`Queries.RecentBlogPosts`。
 
-### query
+### 查询
 
-The `query` filter provides a way to execute queries.
+`query`过滤器提供了一种执行查询的方法。
 
 ```liquid
 {% assign recentBlogPosts = Queries.RecentBlogPosts | query %}
@@ -170,12 +170,12 @@ The `query` filter provides a way to execute queries.
 {% endfor %}
 ```
 
-The example above will iterate over all the results of the query name `RecentBlogPosts` and display the text representing the content item.  
-Any available property on the results of the queries can be used. This example assumes the results will be content items.
+上面的示例将遍历查询名称为`RecentBlogPosts`的所有结果，并显示表示内容项的文本。  
+可以使用查询结果的任何可用属性。此示例假定结果将是内容项。
 
-### Parameters
+### 参数
 
-The `query` filter allows you to pass in parameters to your parameterized queries. For example, a query called `ContentItems` that has two parameters (`contentType` and `limit`) can be called like this:
+`query`过滤器允许您向参数化查询传递参数。例如，名为`ContentItems`的查询具有两个参数（`contentType`和`limit`），可以像这样调用它：
 
 ```liquid
 {% assign fiveBlogPosts = Queries.ContentItems | query: contentType: "BlogPost", limit: 5 %}
@@ -183,11 +183,11 @@ The `query` filter allows you to pass in parameters to your parameterized querie
 
 ## Razor Helpers
 
-The `QueryAsync` and `ContentQueryAsync` Orchard Helper extension methods (in the `OrchardCore.Queries` and `OrchardCore.ContentManagement` namespaces respectively) allow you to run queries directly from razor pages.
+`QueryAsync`和`ContentQueryAsync`Orchard Helper扩展方法（分别在`OrchardCore.Queries`和`OrchardCore.ContentManagement`命名空间中）允许您直接从razor页面运行查询。
 
-You can use the `DisplayAsync` extension method (also in `OrchardCore.ContentManagement`) to display the content items returned from `ContentQueryAsync`.
+您可以使用`ContentQueryAsync`返回的内容项显示内容项的`DisplayAsync`扩展方法（也在`OrchardCore.ContentManagement`中）。
 
-For example, to run a query called `RecentBlogPosts`, and display the results:
+例如，要运行名为`RecentBlogPosts`的查询并显示结果：
 
 ```liquid
 @foreach (var contentItem in await Orchard.ContentQueryAsync("RecentBlogPosts"))
@@ -196,18 +196,18 @@ For example, to run a query called `RecentBlogPosts`, and display the results:
 }
 ```
 
-> The Razor Helper is accessible on the `Orchard` property if the view is using Orchard Core's Razor base class, or by injecting `OrchardCore.IOrchardHelper` in all other cases.
+> 如果视图使用Orchard Core的Razor基类，则可以在`Orchard`属性上访问Razor Helper，否则可以在所有其他情况下注入`OrchardCore.IOrchardHelper`。
 
-## Executing SQL Queries
+## 执行SQL查询
 
-### RDBMS support
+### RDBMS支持
 
-Because RDBMS vendors support different SQL flavors this module will analyze the query you defined and render a specific one based on the RDBMS that is used.  
-This also allows the queries to be exported and shared across website instances even if they run on different RDBMS.
+因为RDBMS供应商支持不同的SQL语言，所以此模块将分析您定义的查询并根据使用的RDBMS呈现特定的查询。  
+这也允许在不同的RDBMS上运行的网站实例之间导出和共享查询。
 
-### Examples
+### 示例
 
-Here is an example of a query that returns all published Blog Posts:
+以下是返回所有已发布的博客文章的查询示例：
 
 ```sql
     select DocumentId
@@ -215,9 +215,9 @@ Here is an example of a query that returns all published Blog Posts:
     where Published = true and ContentType = 'BlogPost'
 ```
 
-By selecting the "Return documents" options, the content items associated with the resulting `DocumentId` values are loaded.
+通过选择“返回文档”选项，将加载与生成的`DocumentId`值相关联的内容项。
 
-The example below returns a custom set of values instead of content items:
+以下示例返回一组自定义值而不是内容项：
 
 ```sql
 select
@@ -230,15 +230,14 @@ where Published = true and ContentType = 'BlogPost' and PublishedUtc > now()
 group by day(CreatedUtc), month(CreatedUtc), year(CreatedUtc)
 ```
 
-## SQL Parameters
+## SQL参数
 
-Parameters can be provided when running queries.  
-Parameters are safe to use as they will always be parsed before being included in a query.  
-The syntax of a parameter is `@name:default_value`,
-where `name` is the name of the parameter, and `default_value` an expression (usually a literal) to use in case
-the parameter is not defined.
+可以在运行查询时提供参数。  
+参数是安全的，因为它们将始终在包含在查询中之前进行解析。  
+参数的语法是`@name:default_value`，
+其中`name`是参数的名称，`default_value`是表达式（通常是文字），用于在未定义参数时使用。
 
-The following example loads the document ids for a parameterized content type:
+以下示例加载参数化内容类型的文档ID：
 
 ```sql
 select DocumentId
@@ -246,17 +245,17 @@ from ContentItemIndex
 where Published = true and ContentType = @contenttype:'BlogPost'
 ```
 
-If the `contenttype` parameter is not passed when the query is invoked, then the default value is used.
+如果在调用查询时未传递`contenttype`参数，则使用默认值。
 
-Parameter names are case-sensitive.
+参数名称区分大小写。
 
-## Templates
+## 模板
 
-A SQL query is actually a Liquid template. This allows your queries to be shaped based on the parameters it gets.  
-When injecting user-provided values, be sure to encode these such that they can't be exploited.  
-It is recommended to use parameters to inject values in the queries, and only use Liquid templates to change the shape of the query.
+SQL查询实际上是Liquid模板。这允许您的查询根据其获得的参数进行形状。  
+在注入用户提供的值时，请确保对其进行编码，以使其无法被利用。  
+建议使用参数将值注入查询，并仅使用Liquid模板更改查询的形状。
 
-This example checks that a `limit` parameter is provided and if so uses it:
+此示例检查是否提供了`limit`参数，如果是，则使用它：
 
 ```liquid
 {% if limit > 0 %}
@@ -266,51 +265,43 @@ This example checks that a `limit` parameter is provided and if so uses it:
 {% endif %}
 ```
 
-## Paging
+## 分页
 
-Use `LIMIT [number]` and `OFFSET [number]` to define paged results.
+使用`LIMIT [number]`和`OFFSET [number]`定义分页结果。
 
-These statements will be converted automatically based on the RDBMS in use.
+这些语句将根据使用的RDBMS自动转换。
 
-## Helper functions
+## 助手函数
 
-The SQL parser is also able to convert some specific functions to the intended dialect.
+SQL解析器还能够将某些特定函数转换为预期的方言。
 
-| Name             | Description                        |
+| 名称 | 描述 |
 | ---------------- |----------------------------------- |
-| `second(_date_)` | Returns the seconds part of a date. |
-| `minute(_date_)` | Returns the minutes part of a date. |
-| `hour(_date_)`   | Returns the hours part of a date.   |
-| `day(_date_)`    | Returns the days part of a date.    |
-| `month(_date_)`  | Returns the months part of a date.  |
-| `year(_date_)`   | Returns the years part of a date.   |
-| `now()`          | Returns current date time (utc).    |
+| `second(_date_)` | 返回日期的秒部分。 |
+| `minute(_date_)` | 返回日期的分钟部分。 |
+| `hour(_date_)`   | 返回日期的小时部分。   |
+| `day(_date_)`    | 返回日期的天数部分。    |
+| `month(_date_)`  | 返回日期的月份部分。  |
+| `year(_date_)`   | 返回日期的年份部分。   |
+| `now()`          | 返回当前日期时间（utc）。    |
 
-## Scripting
+## 脚本
 
-The following JavaScript functions are available with this module.
+此模块提供了以下JavaScript函数。
 
-| Function | Description | Signature |
+| 函数 | 描述 | 签名 |
 | -------- | ----------- | --------- |
-| `executeQuery` | Returns the result of the query. | `executeQuery(name: String, parameters: Dictionary<string,object>): IEnumerable<object>` |
+| `executeQuery` | 返回查询的结果。 | `executeQuery(name: String, parameters: Dictionary<string,object>): IEnumerable<object>` |
 
-## Tutorial
+## 教程
 
 <https://www.youtube.com/watch?v=6ZaqWmq8Pog&t=2891s>
 
-## Breaking changes
+## 破坏性更改
 
 1.0 -> 1.1
 
-The Query API now returns an IQueryResults which now will also contain a count for the Lucene results. The JSON data structure has changed from :
-
-```json
-[
-    {...}
-]
-```
-
-To :
+查询API现在返回一个IQueryResults，它现在还将包含Lucene结果的计数。JSON数据结构已更改为：
 
 ```json
 {

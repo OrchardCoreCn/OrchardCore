@@ -1,80 +1,91 @@
-# Orchard Core Branding
+# Orchard Core 品牌形象
 
-Here you can find some guidelines and graphic assets for Orchard Core's branding.
+在这里，您可以找到 Orchard Core 品牌形象的一些参考和设计资产。
 
-# Branding Guidelines
+# 品牌指南
 
-When referring to Orchard Core please use one of the logo variations, without altering anything apart from the resolution (so don't change the colors, aspect ratio, graphics, or anything else). Further information on how to use these assets and colors see the [Branding Guidelines (PDF)](assets/orchard-core-branding-guidelines.pdf) (and [here's the AI version](assets/orchard-core-branding-guidelines.ai)).
+当提及 Orchard Core 时，请使用其中一种标志变化，不要更改任何内容，除了分辨率（因此请勿更改颜色、宽高比、图形或任何其他内容）。有关如何使用这些资产和颜色更多信息请参见[品牌指南（PDF）](assets/orchard-core-branding-guidelines.pdf)（这是 AI 版本）。
 
-# Logo Variations
+# 标志变化
 
-## Color Logo
+## 彩色标志
 
-![Color Orchard Core logo](assets/logo/color/orchard-core-logo-color.png)
+![彩色 Orchard Core 标志](assets/logo/color/orchard-core-logo-color.png)
 
-Other formats:
+其他格式：
 
 - [AI](assets/logo/color/orchard-core-logo-color.ai)
 - [PDF](assets/logo/color/orchard-core-logo-color.pdf)
-- [PNG, high-resolution](assets/logo/color/orchard-core-logo-color-high-resolution.png)
+- [PNG，高分辨率](assets/logo/color/orchard-core-logo-color-high-resolution.png)
 - [SVG](assets/logo/color/orchard-core-logo-color.svg)
-
-## Dark Logo
+## 暗色标志
 
 ![Dark Orchard Core logo](assets/logo/dark/orchard-core-logo-dark.png)
 
-Other formats:
+其他格式：
 
 - [AI](assets/logo/dark/orchard-core-logo-dark.ai)
 - [PDF](assets/logo/dark/orchard-core-logo-dark.pdf)
-- [PNG, high-resolution](assets/logo/dark/orchard-core-logo-dark-high-resolution.png)
+- [PNG, 高清](assets/logo/dark/orchard-core-logo-dark-high-resolution.png)
 - [SVG](assets/logo/dark/orchard-core-logo-dark.svg)
 
-## Light Logo
+## 浅色标志
 
-The background of this logo in the below display is set to black so it's actually visible but otherwise it has a transparent background.
+下面展示的标志的背景设置为黑色，以便于查看，但实际上它具有透明的背景。
 
 <img src="assets/logo/light/orchard-core-logo-light.png" alt="Light Orchard Core logo" style="background-color: #000;">
 
-Other formats:
+其他格式：
+## 浅色文本标志
 
-- [AI](assets/logo/light/orchard-core-logo-light.ai)
-- [PDF](assets/logo/light/orchard-core-logo-light.pdf)
-- [PNG, high-resolution](assets/logo/light/orchard-core-logo-light-high-resolution.png)
-- [SVG](assets/logo/light/orchard-core-logo-light.svg)
+![浅色Orchard Core文本标志]（assets/logo/light/orchard-core-logo-light-high-resolution.png）
 
-## Color Symbol Logo
+其他格式：
 
-![Color Orchard Core symbol logo](assets/logo/symbol/color/orchard-core-symbol-logo-color.png)
+- [AI]（assets / logo / light /orchard-core-logo-light.ai）
+- [PDF]（assets / logo / light /orchard-core-logo-light.pdf）
+- [PNG，高分辨率]（assets / logo / light /orchard-core-logo-light-high-resolution.png）
+- [SVG]（assets / logo / light /orchard-core-logo-light.svg）
 
-Other formats:
+## 彩色标志标志
 
-- [AI](assets/logo/symbol/color/orchard-core-symbol-logo-color.ai)
-- [PDF](assets/logo/symbol/color/orchard-core-symbol-logo-color.pdf)
-- [SVG](assets/logo/symbol/color/orchard-core-symbol-logo-color.svg)
+![彩色橘园核心符号标志]（assets/logo/symbol/color/orchard-core-symbol-logo-color.png）
 
-## Dark Symbol Logo
+其他格式：
 
-![Dark Orchard Core symbol logo](assets/logo/symbol/dark/orchard-core-symbol-logo-dark.png)
+- [AI]（assets / logo / symbol / color /orchard-core-symbol-logo-color.ai）
+- [PDF]（assets / logo / symbol / color /orchard-core-symbol-logo-color.pdf）
+- [SVG]（assets / logo / symbol / color /orchard-core-symbol-logo-color.svg）
 
-Other formats:
+## 暗色符号标志
 
-- [AI](assets/logo/symbol/dark/orchard-core-symbol-logo-dark.ai)
-- [PDF](assets/logo/symbol/dark/orchard-core-symbol-logo-dark.pdf)
-- [SVG](assets/logo/symbol/dark/orchard-core-symbol-logo-dark.svg)
+![暗橘园核心符号标志]（assets/logo/symbol/dark/orchard-core-symbol-logo-dark.png）
+# 字体
 
-## Light Symbol Logo
+Orchard Core uses two fonts in its branding: Muli and Roboto.
 
-The background of this logo in the below display is set to black so it's actually visible but otherwise it has a transparent background.
+Orchard Core在品牌设计中使用了两种字体：Muli和Roboto。
 
-<img src="assets/logo/symbol/light/orchard-core-symbol-logo-light.png" alt="Light Orchard Core symbol logo" style="background-color: #000;">
+## Muli
 
-Other formats:
+Muli is used primarily for headings and titles.
 
-- [AI](assets/logo/symbol/light/orchard-core-symbol-logo-light.ai)
-- [PDF](assets/logo/symbol/light/orchard-core-symbol-logo-light.pdf)
-- [SVG](assets/logo/symbol/light/orchard-core-symbol-logo-light.svg)
+Muli主要用于标题。
 
-# Fonts
+### Download
 
-We use the [Open Sans font family](https://fonts.google.com/specimen/Open+Sans). You can find all the font files in [the `assets/fonts` folder](https://github.com/OrchardCMS/OrchardCore/tree/dev/src/docs/resources/branding/assets/fonts) of this documentation page. Be sure to adhere to [the font's license](assets/fonts/LICENSE.txt).
+- [Google Fonts](https://fonts.google.com/specimen/Muli)
+
+## Roboto
+
+Roboto is used primarily for body text.
+
+Roboto主要用于正文文本。
+
+### Download
+
+- [Google Fonts](https://fonts.google.com/specimen/Roboto)
+我们使用[Open Sans字体家族](https://fonts.google.com/specimen/Open+Sans)。你可以在[文档页面的`assets/fonts`文件夹](https://github.com/OrchardCMS/OrchardCore/tree/dev/src/docs/resources/branding/assets/fonts)中找到所有字体文件。请务必遵守[字体的许可证](assets/fonts/LICENSE.txt)。
+
+
+> 该文档由Chat-GPT 翻译

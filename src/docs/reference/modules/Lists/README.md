@@ -1,52 +1,52 @@
-# Lists (`OrchardCore.Lists`)
+# 列表 (`OrchardCore.Lists`)
 
-A ListPart allows you to associate content items to a parent container (Ex: A blog contains a list of blog posts).
+ListPart 允许您将内容项与父容器关联（例如，博客包含博客文章列表）。
 
-## Theming
+## 主题
 
 ### Shapes
 
-These shapes are available for theming when a `ListPart` is attached to a content item.
+当 `ListPart` 附加到内容项时，可以为其设置以下形状。
 
-| Name | Display Type | Default Location | Model Type |
+| 名称 | 显示类型 | 默认位置 | 模型类型 |
 | ------| ------------ |----------------- | ---------- |
 | `ListPart` | `Detail`, `DetailAdmin` | `Content:10` | `ListPartViewModel` |
 
 ### `ListPartViewModel`
 
-The following properties are available on the `ListPartViewModel` class.
+`ListPartViewModel` 类上可用以下属性。
 
-| Property | Type | Description |
+| 属性 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `ListPart` | `ListPart` | The `ListPart` instance. |
-| `ContentItems` | `IEnumerable<ContentItem>` | The content items the part is made of. |
-| `ContainedContentTypeDefinitions` | `IEnumerable<ContentTypeDefinition>` | The content types the list accepts. |
-| `Context` | `BuildPartDisplayContext` | The current display context. |
-| `Pager` | `dynamic` | The pager for the list. |
+| `ListPart` | `ListPart` | `ListPart` 实例。 |
+| `ContentItems` | `IEnumerable<ContentItem>` | 部分由其组成的内容项。 |
+| `ContainedContentTypeDefinitions` | `IEnumerable<ContentTypeDefinition>` | 列表接受的内容类型。 |
+| `Context` | `BuildPartDisplayContext` | 当前显示上下文。 |
+| `Pager` | `dynamic` | 列表的分页器。 |
 
 ### `ListPart`
 
-The following properties are available on the `ListPart` class.
+`ListPart` 类上可用以下属性。
 
-| Name | Type | Description |
+| 名称 | 类型 | 描述 |
 | -----| ---- |------------ |
-| `Content` | The raw content of the part. |
-| `ContentItem` | The content item containing this part. |
+| `Content` | 部分的原始内容。 |
+| `ContentItem` | 包含此部分的内容项。 |
 
 ### `ListPartSettings`
 
-The following properties are available on the `ListPartSettings` class.
+`ListPartSettings` 类上可用以下属性。
 
-| Name | Type | Description |
+| 名称 | 类型 | 描述 |
 | -----| ---- |------------ |
-| `PageSize` | The number of content items returned per page. |
-| `EnableOrdering` | Flag to enable drag and drop ordering of content items. |
-| `ContainedContentTypes` | The content types that may be contained by this part. |
+| `PageSize` | 每页返回的内容项数。 |
+| `EnableOrdering` | 启用拖放排序内容项的标志。 |
+| `ContainedContentTypes` | 可包含此部分的内容类型。 |
 
-### Template
+### 模板
 
-The following example is used to render the items of a `ListPart` and customize the pager.  
-For instance, it can be set in a file named `Blog-ListPart.liquid` to override the `Blog` content type only.
+以下示例用于呈现 `ListPart` 的项目并自定义分页器。
+例如，它可以在名为 `Blog-ListPart.liquid` 的文件中设置，以仅覆盖 `Blog` 内容类型。
 
 ```liquid
 {% for item in Model.ContentItems %}
@@ -68,35 +68,36 @@ For instance, it can be set in a file named `Blog-ListPart.liquid` to override t
 
 ### QueryListItemsCountAsync
 
-Returns the count of `IEnumerable<ContentItem>` satisfying the given predicate.
+返回满足给定谓词的 `IEnumerable<ContentItem>` 的计数。
 
 ### QueryListItemsAsync
 
-Returns the `IEnumerable<ContentItem>` satisfying the given predicate.
+返回满足给定谓词的 `IEnumerable<ContentItem>`。
 
-## Liquid Tags
+## Liquid 标签
 
 ### list_count
 
-The `list_count` filter counts published content items for a given `ContentItem` object or explicit `ContentItem` id given as a string in a list.
+`list_count` 过滤器计算给定 `ContentItem` 对象或以字符串形式给定的显式 `ContentItem` id 的列表中发布的内容项的数量。
 
 ### list_items
 
-The `list_items` filter loads published content items for a given `ContentItem` object or explicit `ContentItem` id given as a string in a list.
+`list_items` 过滤器为给定的 `ContentItem` 对象或以字符串形式给定的显式 `ContentItem` id 的列表加载发布的内容项。
 
-## Video
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/a3yyR27vdQQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Lucene Indexing
+## Lucene 索引
 
-**Breaking Change**: Every content item that is contained in a list has a `ContainedPart` associated with it.
-The indexed data in Lucene before Orchard Core 1.1 was:
+**重大变更**：包含在列表中的每个内容项都有一个关联的 `ContainedPart`。
+Orchard Core 1.1 之前 Lucene 中的索引数据为：
 
 `"Content.ContentItem.ListContentItemId"`
 
-After 1.1 this has changed for also including the display order, so it is now:
+在 1.1 之后，它已更改为包括显示顺序，因此现在是：
 
 `"Content.ContentItem.ContainedPart.ListContentItemId"`   
-and  
+和  
 `"Content.ContentItem.ContainedPart.Order"`
+> 该文档由ChatGPT 4 翻译

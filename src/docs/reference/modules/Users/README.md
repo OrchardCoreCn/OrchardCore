@@ -1,21 +1,21 @@
-# Users (`OrchardCore.Users`)
+# 用户 (`OrchardCore.Users`)
 
-The Users module enables authentication UI and user management.
+用户模块启用身份验证UI和用户管理。
 
-## Features
+## 特征
 
-The module contains the following features apart from the base feature:
+该模块除了基本功能外，还包含以下功能：
 
-- Users Change Email: Allows users to change their email address.
-- Users Registration: Allows external users to sign up to the site and ask to confirm their email.
-- Reset Password: Allows users to reset their password.
-- User Time Zone: Provides a way to set the time zone per user.
-- Custom User Settings: See [its own documentation page](CustomUserSettings/README.md).
-- [Users Authentication Ticket Store](./TicketStore.md): Stores users authentication tickets on server in memory cache instead of cookies. If distributed cache feature is enabled it will store authentication tickets on distributed cache.
+- 用户更改电子邮件：允许用户更改其电子邮件地址。
+- 用户注册：允许外部用户注册网站并要求确认其电子邮件。
+- 重置密码：允许用户重置密码。
+- 用户时区：提供一种设置每个用户的时区的方法。
+- 自定义用户设置：请参阅[其自己的文档页面](CustomUserSettings/README.md)。
+- [用户身份验证票证存储](./TicketStore.md)：将用户身份验证票证存储在服务器内存缓存中，而不是cookie。如果启用了分布式缓存功能，则会将身份验证票证存储在分布式缓存中。
 
-## Custom Paths
+## 自定义路径
 
-If you want to specify custom paths to access the authentication related urls, you can change them by using this option in the appsettings.json:
+如果您想指定自定义路径以访问身份验证相关的URL，则可以使用appsettings.json中的此选项更改它们：
 
 ``` json
   "OrchardCore": {
@@ -29,8 +29,9 @@ If you want to specify custom paths to access the authentication related urls, y
   }
 ```
 
-## Videos
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/78m04Inmilw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ZgDkWUi2HGs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+> 该文档由ChatGPT 4 翻译

@@ -1,14 +1,17 @@
-# Workshops
+# 工作坊
 
-1 day of training to learn Orchard Core.
+1天的培训来学习Orchard Core。
 
-The Workshops are organized by contributors on Orchard Core.  
-Their goal is to make you discover the different features available.
+这些工作坊是由Orchard Core的贡献者组织的。
+他们的目标是让你了解可用的不同功能。
 
-## Presentation
+## 介绍
 
-- [Presentation of the Workshops](https://orchardcore.net/workshops)
+- [工作坊介绍](https://orchardcore.net/workshops)
 
-## Sign-up link
+## 报名链接
 
-- [Registration form for the Workshops](https://forms.office.com/Pages/ResponsePage.aspx?id=vLlPa0hJy0a8SkTVCjbmq4YeKJYGYglHmeA2Spx2JJdUNkhUU1NSTFYwUE40VjVDTzRIUkNEWk1JRy4u)
+- [工作坊报名表](https://forms.office.com/Pages/ResponsePage.aspx?id=vLlPa0hJy0a8SkTVCjbmq4YeKJYGYglHmeA2Spx2JJdUNkhUU1NSTFYwUE40VjVDTzRIUkNEWk1JRy4u)
+
+
+> 该文档由Chat-GPT 翻译

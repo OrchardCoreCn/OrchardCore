@@ -1,21 +1,22 @@
-# Alias (`OrchardCore.Alias`)
+# 别名 (`OrchardCore.Alias`)
 
-This module allows you to specify friendly identifiers for your content items. Aliases can also be imported and exported, which means that they are persisted when running recipes or deploying content (whereas content item IDs are not).
+该模块允许您为内容项指定友好的标识符。别名也可以导入和导出，这意味着在运行配方或部署内容时它们是持久化的（而内容项ID不是）。
 
-## Alias Part
+## 别名部件
 
-Attach this part to a content type to specify aliases for your content items.
+将此部件附加到内容类型以指定内容项的别名。
 
 ## Liquid
 
-With Alias enabled, you can retrieve content by its alias handle in your liquid views and templates:
+启用别名后，您可以在Liquid视图和模板中通过其别名句柄检索内容：
 
 ```liquid
 {% assign my_content = Content["alias:footer-widget"] %}
 ```
 
-or
+或
 
 ```liquid
 {% assign my_content = Content.Alias["footer-widget"] %}
 ```
+> 该文档由ChatGPT 4 翻译

@@ -1,12 +1,15 @@
-# Display
+# 显示
 
-Orchard Core allows you to customize the look and feel of your application by integrating your own [theme](../../glossary/README.md#Theme) or by overriding the rendering of the [templates](../../glossary/README.md#Template) in Razor or Liquid syntax.
+Orchard Core 允许您通过集成自己的[主题](../../glossary/README.md#Theme)或通过覆盖 Razor 或 Liquid 语法中模板的渲染来自定义应用程序的外观和感觉。
 
-## Customize your Display
+## 自定义显示
 
-- [Create a Theme](../../getting-started/theme.md)
-- [Edit your Templates](../../reference/modules/Templates/README.md)
-- [Learn the Liquid Syntax](../../reference/modules/Liquid/README.md)
-- [Define the Placement](../../reference/core/Placement/README.md)
-- TBD Create an Orchard Core theme from an HTML template
-- TBD [What is a shape?](https://github.com/OrchardCMS/OrchardCore/issues/1184)
+- [创建主题](../../getting-started/theme.md)
+- [编辑模板](../../reference/modules/Templates/README.md)
+- [学习 Liquid 语法](../../reference/modules/Liquid/README.md)
+- [定义放置](../../reference/core/Placement/README.md)
+- 待定：从 HTML 模板创建 Orchard Core 主题
+- 待定：[什么是形状？](https://github.com/OrchardCMS/OrchardCore/issues/1184)
+
+
+> 该文档由Chat-GPT 翻译

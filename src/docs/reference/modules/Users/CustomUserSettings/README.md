@@ -1,36 +1,36 @@
-# Custom Users Settings (`OrchardCore.User.CustomUserSettings`)
+# 自定义用户设置 (`OrchardCore.User.CustomUserSettings`)
 
-Custom Users Settings allow a site administrator to create a customized set of properties for a given user.  
+自定义用户设置允许站点管理员为给定用户创建自定义属性集。
 
-## Creating Custom User Settings
+## 创建自定义用户设置
 
-Custom User Settings are organized in sections. Each section is represented by a Content Type with the `CustomUserSettings` stereotype.  
-When creating such a section, remember to disable `Creatable`, `Listable`, `Draftable` and `Securable` metadata as they don't apply.
+自定义用户设置按部分组织。每个部分由具有`CustomUserSettings`构造的内容类型表示。
+创建此类部分时，请记住禁用`Creatable`，`Listable`，`Draftable`和`Securable`元数据，因为它们不适用。
 
-!!! warning
-    Don't mark any existing Content Type with this `CustomUserSettings` stereotype, as this will break existing content items of this type.
+!!! 警告
+    不要将任何现有内容类型标记为此`CustomUserSettings`构造，因为这将破坏此类型的现有内容项。
 
-Custom User Settings are then comprised of parts and fields like any other content type.  
-Once created, open the Setting menu item and each of these sections should appear alongside the module-provided ones.
+然后，自定义用户设置由部分和字段组成，就像任何其他内容类型一样。
+创建后，打开设置菜单项，每个部分都应出现在模块提供的部分旁边。
 
-## Usage
+## 用法
 
 ### Liquid
 
-The Custom User Settings are available when loading the user from the database. 
+在从数据库加载用户时，可以使用自定义用户设置。
 ```liquid 
 {% assign user = User | user_id | users_by_id %}
 {{user.Properties}}
 ```
-Each section is made available using its name.
+每个部分都可以使用其名称。
 
-For instance for a custom settings section named `UserProfile`, with a `TextField` named `FirstName` would be accessible using `{{ user.Properties.UserProfile.UserProfile.FirstName.Text }}`.
+例如，对于名为`UserProfile`的自定义设置部分，具有名为`FirstName`的`TextField`将使用`{{ user.Properties.UserProfile.UserProfile.FirstName.Text }}`访问。
 
-### Placement
+### 放置
 
-By default each Custom User Settings Content Type is placed in a tab.
+默认情况下，每个自定义用户设置内容类型都放置在选项卡中。
 
-To adjust the placement, for example, to move the setting out of the tab, use the `Differentiator` of `CustomUserSettings-PartDefinitionName`.
+要调整放置位置，例如将设置移出选项卡，请使用`CustomUserSettings-PartDefinitionName`的`Differentiator`。
 
 ``` json
 {
@@ -43,11 +43,13 @@ To adjust the placement, for example, to move the setting out of the tab, use th
 }
 ```
 
-## User Section Display Driver
+## 用户部分显示驱动程序
 
-You may also extend the `User` properties by implementing a `SectionDisplayDriver<User, UserProfile>` where `User` is the type of entity to be edited,
-and `UserProfile` is the property to extend the `User` entity with.
+您还可以通过实现`SectionDisplayDriver<User，UserProfile>`来扩展`User`属性，其中`User`是要编辑的实体类型，
+而`UserProfile`是要将`User`实体扩展的属性。
 
-## Video
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_ff79hm5PAc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+> 该文档由ChatGPT 4 翻译

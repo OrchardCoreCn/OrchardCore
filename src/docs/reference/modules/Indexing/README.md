@@ -1,8 +1,6 @@
-# Indexing (`OrchardCore.Indexing`)
+# 索引 (`OrchardCore.Indexing`)
 
-The `Indexing` module provides services to index content items. It does so by storing an append-only log of 
-content item entries, and providing a service to query this list with a cursor-like interface. An entry can 
-be either an `Update` or a `Deletion` task. This list of tasks can also be seen as an event store for content items.
+`Indexing` 模块提供了索引内容项的服务。它通过存储内容项条目的追加日志来实现这一点，并提供了一种查询此列表的类似于光标的接口。条目可以是 `Update` 或 `Deletion` 任务。这些任务列表也可以被视为内容项的事件存储。
 
-Other modules can then store their own cursor location for this list, and check for updates and deletions
-of content items and do custom operations based on these changes.
+然后，其他模块可以为此列表存储自己的光标位置，并检查内容项的更新和删除，并根据这些更改执行自定义操作。
+> 该文档由ChatGPT 4 翻译

@@ -1,39 +1,38 @@
-# HTML Sanitizer
+# HTML 清理器
 
-An HTML Sanitizer is available as part of the Orchard Core Infrastructure.
+作为Orchard Core基础设施的一部分，提供了一个HTML清理器。
 
-The Sanitizer cleans user input that could lead to XSS attacks.
+清理器清理可能导致XSS攻击的用户输入。
 
-It is used by default for the following parts and fields:
+默认情况下，它用于以下部分和字段：
 
-- HTML Body Part
-- HTML Field
-- Markdown Body Part
-- Markdown Field
+- HTML正文部分
+- HTML字段
+- Markdown正文部分
+- Markdown字段
 
-!!! note
-    To disable sanitization on these fields disable the `Sanitize Html` option in the field or part settings.
+!!! 注意
+    要在这些字段上禁用清理，请在字段或部分设置中禁用“Sanitize Html”选项。
 
 ## Razor Helper
 
 `@Orchard.SanitizeHtml((string)Model.ContentItem.HtmlBodyPart.Html);`
 
 
-## Defaults configuration
+## 默认配置
 
-The elements sanitized by default are listed on this page: https://github.com/mganss/HtmlSanitizer#tags-allowed-by-default
+默认情况下，清理的元素列在此页面上：https://github.com/mganss/HtmlSanitizer#tags-allowed-by-default
 
-Orchard Core changes these defaults by:
+Orchard Core通过以下方式更改这些默认值：
 
-- allowing the attribute `class`
-- removing the tag `form`
+- 允许属性`class`
+- 删除标签`form`
 
-## Configuring the Sanitizer
+## 配置清理器
 
-The sanitizer is configurable using `IOptions<HtmlSanitizerOptions>` during service registration with a configuration 
-extension method `ConfigureHtmlSanitizer`.
+可以使用`IOptions<HtmlSanitizerOptions>`在服务注册期间使用配置扩展方法`ConfigureHtmlSanitizer`对清理器进行配置。
 
-You may call this extension method multiple times during the startup pipeline to alter configurations.
+您可以在启动管道期间多次调用此扩展方法以更改配置。
 
 ```csharp
 services
@@ -45,4 +44,5 @@ services
             }));
 ```
 
-Refer https://github.com/mganss/HtmlSanitizer for options.
+有关选项，请参见https://github.com/mganss/HtmlSanitizer。
+> 该文档由ChatGPT 4 翻译

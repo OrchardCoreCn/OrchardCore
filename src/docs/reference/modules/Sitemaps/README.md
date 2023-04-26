@@ -1,102 +1,97 @@
-# Sitemaps (`OrchardCore.Sitemaps`)
+# 网站地图 (`OrchardCore.Sitemaps`)
 
-The sitemaps module provides automatic generation of sitemaps.
+网站地图模块提供了自动生成网站地图的功能。
 
-It supports creation of XML Sitemap files and XML Sitemap Index files conforming to a standard sitemap protocol.
+它支持创建符合标准网站地图协议的XML网站地图文件和XML网站地图索引文件。
 
-For more information about sitemaps see [sitemaps.org](https://www.sitemaps.org/)
+有关网站地图的更多信息，请参见[sitemaps.org](https://www.sitemaps.org/)
 
-## General Concepts
+## 常规概念
 
-Sitemaps are configured by creating a Sitemap and adding Sitemap Sources.
+通过创建网站地图并添加网站地图源来配置网站地图。
 
-Sitemap Indexes are configured by creating a Sitemap Index and selecting which Sitemaps are contained within the index.
+通过创建网站地图索引并选择包含在索引中的网站地图来配置网站地图索引。
 
-## How to create a Sitemap
+## 如何创建网站地图
 
-- Ensure the Sitemaps feature is enabled.
+- 确保启用了网站地图功能。
 
-- Go to _Configuration -> SEO -> Sitemaps_
+- 转到 _Configuration -> SEO -> Sitemaps_
 
-- Create a new Sitemap.
+- 创建一个新的网站地图。
 
-- Set the path for the Sitemap, note that the path must end in `.xml`
+- 设置网站地图的路径，注意路径必须以`.xml`结尾
 
-- Give it a name.
+- 给它一个名称。
 
-- Select Edit.
+- 选择编辑。
 
-- Add a Sitemap Source to it.
+- 向其中添加网站地图源。
 
-- The sitemap can now be browsed to and will be served on the specified path.
+- 现在可以浏览网站地图，并在指定的路径上提供服务。
 
-## Sitemap Content Types Source
+## 网站地图内容类型源
 
-The Content Types Source will provide a sitemap for your content items,
-on a per Content Type basis. 
+内容类型源将为您的内容项提供网站地图，每个内容类型为一组。
 
-You can choose to Index All Content Types, or specify the Content Types. 
+您可以选择索引所有内容类型，或指定内容类型。
 
-You may also select the default Priority, and Change Frequency, either for all Content Types, 
-or individual Content Types.
+您还可以选择默认优先级和更改频率，无论是所有内容类型还是单个内容类型。
 
-You may also choose to Limit Items.
+您还可以选择限制项目。
 
-The Limit Items option is generally used in combination with a Sitemap Index to limit the size of Sitemaps,
-and make maintaining the Sitemap easier. 
+限制项目选项通常与网站地图索引结合使用，以限制网站地图的大小，并使维护网站地图更加容易。
 
-Google and Bing limit the size of a sitemap to either 50,000 items, or 10MB, 
-whichever is reached first. 
+Google和Bing将网站地图的大小限制为50,000个项目或10MB，以先达到为准。
 
-If you need to limit the quantity of Content Items in a Sitemap 
+如果需要限制网站地图中的内容项数量
 
-- Uncheck Index All Content Types.
+- 取消选中索引所有内容类型。
 
-- Check Limit items.
+- 选中限制项目。
 
-- Select the Content Type to index.
+- 选择要索引的内容类型。
 
-- Choose to Skip `x` number of Content Items and Take `x` number of Content Items. 
+- 选择跳过`x`个内容项并获取`x`个内容项。
 
-For the remaining Content Items, create another Sitemap, and repeat choosing different values for Skip and Take as appropriate.
+对于剩余的内容项，请创建另一个网站地图，并根据需要重复选择不同的跳过和获取值。
 
-For other Content Types, create another Sitemap and include all these Sitemaps in a Sitemap index.
+对于其他内容类型，请创建另一个网站地图，并将所有这些网站地图包含在网站地图索引中。
 
-!!! note
-    The only content types listed for inclusion on a sitemap are those with the `AutoroutePart` attached.
-    To include content items routed without `Autoroute` implement a `IRouteableContentTypeProvider`
+!!! 注意
+    仅列出了具有`AutoroutePart`附加的内容类型以包含在网站地图中。
+    要包括没有`Autoroute`路由的内容项，请实现`IRouteableContentTypeProvider`
 
-## SitemapPart
+## 网站地图部分
 
-Add the SitemapPart to a Content Type to provide sitemap configuration at a Content Item level.
+将SitemapPart添加到内容类型中，以在内容项级别提供网站地图配置。
 
-Settings here can override any Sitemap configuration.
+此处的设置可以覆盖任何网站地图配置。
 
-- Check to override the Sitemap configuration.
+- 选中以覆盖网站地图配置。
 
-- Exclude the Content Item.
+- 排除内容项。
 
-- Alter the Priority.
+- 更改优先级。
 
-- Alter the Change Frequency.
+- 更改更改频率。
 
-!!! note
-    You do not have to add the SitemapPart to a Content Type for it to be part of a Sitemap.
+!!! 注意
+    您不必将SitemapPart添加到内容类型中，以使其成为网站地图的一部分。
 
-## Localized Sitemaps
+## 本地化网站地图
 
-To support the google hreflang sitemap extensions, enable the Localized Content Items Sitemap feature.
+要支持Google hreflang网站地图扩展，请启用本地化内容项网站地图功能。
 
-This will automatically include any localized content items in your sitemap.
+这将自动在您的网站地图中包含任何本地化的内容项。
 
-Refer [Google Sitemap Extensions](https://support.google.com/webmasters/answer/189077) for more information
-on this protocol.
+有关此协议的更多信息，请参见[Google Sitemap Extensions](https://support.google.com/webmasters/answer/189077)。
 
-## Decoupled Razor Pages
+## 解耦的Razor页面
 
-To include Content Types displayed with Razor Pages, enable the Sitemaps for Decoupled Razor Pages feature.
+要包括使用Razor页面显示的内容类型，请启用解耦的Razor页面网站地图功能。
 
-In your `Program.cs`, configure the `SitemapsRazorPagesOptions` to support the routes for your Content Types.
+在您的`Program.cs`中，配置`SitemapsRazorPagesOptions`以支持您的内容类型的路由。
 
 ```csharp
 builder.Services.Configure<SitemapsRazorPagesOptions>(options =>
@@ -109,18 +104,18 @@ builder.Services.Configure<SitemapsRazorPagesOptions>(options =>
 });    
 ```
 
-!!! note
-    Be sure to include the area in the route values.
+!!! 注意
+    确保在路由值中包含区域。
 
-## Sitemap Cache
+## 网站地图缓存
 
-Sitemaps are cached on a tenant by tenant basic in the `wwwroot/sm-cache` folder.
+网站地图在`wwwroot/sm-cache`文件夹中以租户为基础进行缓存。
 
-The cache is automatically cleared when content items are published.
+当发布内容项时，缓存会自动清除。
 
-To clear the cache manually use the _Configuration -> SEO -> Sitemaps Cache_ feature.
+要手动清除缓存，请使用_Configuration -> SEO -> Sitemaps Cache_功能。
 
-## Video
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/fG_rFD0wffw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -130,6 +125,6 @@ To clear the cache manually use the _Configuration -> SEO -> Sitemaps Cache_ fea
 
 <https://github.com/IDeliverable/IDeliverable.Seo>  
 
-Copyright (c) IDeliverable, Ltd. 
+版权所有 (c) IDeliverable, Ltd. 
 
 BSD-3

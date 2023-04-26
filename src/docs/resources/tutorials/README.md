@@ -1,13 +1,16 @@
-# Tutorials
+# 教程
 
-If you want to learn or improve your knowledge about Orchard Core, you can follow some tutorials.
+如果您想学习或提高对Orchard Core的知识，可以参考一些教程。
 
 ## Lombiq
 
-[Lombiq](https://lombiq.com) created a video playlist and a Demo Orchard Core module for training purposes guiding you to become an Orchard Core developer:
+[Lombiq](https://lombiq.com)创建了一个视频播放列表和一个Demo Orchard Core模块，用于培训，指导您成为Orchard Core开发人员：
 
-- [Dojo Course 3 - the full Orchard Core tutorial](https://orcharddojo.net/orchard-training/dojo-course-3-the-full-orchard-core-tutorial)
-- [Orchard Core Training Demo module](https://github.com/Lombiq/Orchard-Training-Demo-Module)
+- [Dojo课程3-完整的Orchard Core教程](https://orcharddojo.net/orchard-training/dojo-course-3-the-full-orchard-core-tutorial)
+- [Orchard Core培训演示模块](https://github.com/Lombiq/Orchard-Training-Demo-Module)
 
-!!! warning
-    The module assumes that you have a good understanding of basic Orchard Core concepts, and that you can get around the Orchard admin area. You should also be familiar with how to use Visual Studio and write C#, as well as the concepts of ASP.NET Core MVC. 
+!!! 警告
+    该模块假设您已经对基本的Orchard Core概念有很好的理解，并且可以在Orchard管理员区域进行操作。您还应该熟悉如何使用Visual Studio并编写C#，以及ASP.NET Core MVC的概念。
+
+
+> 该文档由Chat-GPT 翻译

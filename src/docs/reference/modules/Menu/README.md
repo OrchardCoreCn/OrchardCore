@@ -1,24 +1,24 @@
-# Menu (`OrchardCore.Menu`)
+# 菜单 (`OrchardCore.Menu`)
 
 ## Shapes
 
 ### `Menu`
 
-The `Menu` shape is used to render a Menu.
+`Menu` 形状用于呈现菜单。
 
-| Property | Description |
+| 属性 | 描述 |
 | --------- | ------------ |
-| `Model.ContentItemId` | If defined, contains the content item identifier of the menu to render. |
-| `Model.Items` | The list of menu items shapes for the menu. These are shapes of type `MenuItem`. |
-| `Model.Differentiator` | If defined, contains the formatted name of the menu (title). For instance `MainMenu`. |
+| `Model.ContentItemId` | 如果定义，则包含要呈现的菜单的内容项标识符。 |
+| `Model.Items` | 菜单的菜单项形状列表。这些是 `MenuItem` 类型的形状。 |
+| `Model.Differentiator` | 如果定义，则包含菜单的格式化名称（标题）。例如 `MainMenu`。 |
 
-#### Menu Alternates
+#### 菜单备用
 
-| Definition | Template | Filename|
+| 定义 | 模板 | 文件名 |
 | ---------- | --------- | ------------ |
 | `Menu__[Differentiator]` | `Menu__MainMenu` | `Menu-MainMenu.cshtml` |
 
-#### Menu Example
+#### 菜单示例
 
 === "Liquid"
 
@@ -50,19 +50,19 @@ The `Menu` shape is used to render a Menu.
 
 ### `MenuItem`
 
-The `MenuItem` shape is used to render a menu item.
+`MenuItem` 形状用于呈现菜单项。
 
-| Property | Description |
+| 属性 | 描述 |
 | --------- | ------------ |
-| `Model.Menu` | The `Menu` shape owning this item. |
-| `Model.ContentItem` | The content item representing this menu item. |
-| `Model.Level` | The level of the menu item. `0` for top level menu items. |
-| `Model.Items` | The list of sub menu items shapes. These are shapes of type `MenuItem`. |
-| `Model.Differentiator` | If defined, contains the formatted name of the menu. For instance `MainMenu`. |
+| `Model.Menu` | 拥有此项的 `Menu` 形状。 |
+| `Model.ContentItem` | 表示此菜单项的内容项。 |
+| `Model.Level` | 菜单项的级别。顶级菜单项为 `0`。 |
+| `Model.Items` | 子菜单项形状列表。这些是 `MenuItem` 类型的形状。 |
+| `Model.Differentiator` | 如果定义，则包含菜单的格式化名称。例如 `MainMenu`。 |
 
-#### MenuItem Alternates
+#### 菜单项备用
 
-| Definition | Template | Filename|
+| 定义 | 模板 | 文件名 |
 | ---------- | --------- | ------------ |
 | `MenuItem__level__[level]` | `MenuItem__level__2` | `MenuItem-level-2.cshtml` |
 | `MenuItem__[ContentType]` | `MenuItem__HtmlMenuItem` | `MenuItem-HtmlMenuItem.cshtml` |
@@ -72,7 +72,7 @@ The `MenuItem` shape is used to render a menu item.
 | `MenuItem__[MenuName]__[ContentType]` | `MenuItem__MainMenu__HtmlMenuItem` | `MenuItem-MainMenu-HtmlMenuItem.cshtml` |
 | `MenuItem__[MenuName]__[ContentType]__level__[level]` | `MenuItem__MainMenu__HtmlMenuItem__level__2` | `MenuItem-MainMenu-HtmlMenuItem-level-2.cshtml` |
 
-#### MenuItem Example
+#### 菜单项示例
 
 === "Liquid"
 
@@ -128,21 +128,21 @@ The `MenuItem` shape is used to render a menu item.
 
 ### `MenuItemLink`
 
-The `MenuItemLink` shape is used to render a menu item link.
-This shape is created by morphing a `MenuItem` shape into a `MenuItemLink`. Hence all the properties
-available on the `MenuItem` shape are still available.
+`MenuItemLink` 形状用于呈现菜单项链接。
+通过将 `MenuItem` 形状变形为 `MenuItemLink` 来创建此形状。因此，所有属性
+在 `MenuItem` 形状上可用。
 
-| Property | Description |
+| 属性 | 描述 |
 | --------- | ------------ |
-| `Model.Menu` | The `Menu` shape owning this item. |
-| `Model.ContentItem` | The content item representing this menu item. |
-| `Model.Level` | The level of the menu item. `0` for top level menu items. |
-| `Model.Items` | The list of sub menu items shapes. These are shapes of type `MenuItem`. |
-| `Model.Differentiator` | If defined, contains the formatted name of the menu. For instance `MainMenu`. |
+| `Model.Menu` | 拥有此项的 `Menu` 形状。 |
+| `Model.ContentItem` | 表示此菜单项的内容项。 |
+| `Model.Level` | 菜单项的级别。顶级菜单项为 `0`。 |
+| `Model.Items` | 子菜单项形状列表。这些是 `MenuItem` 类型的形状。 |
+| `Model.Differentiator` | 如果定义，则包含菜单的格式化名称。例如 `MainMenu`。 |
 
-#### `MenuItemLink` Alternates
+#### `MenuItemLink` 备用
 
-| Definition | Template | Filename|
+| 定义 | 模板 | 文件名 |
 | ---------- | --------- | ------------ |
 | `MenuItemLink__level__[level]` | `MenuItemLink__level__2` | `MenuItemLink-level-2.cshtml` |
 | `MenuItemLink__[ContentType]` | `MenuItemLink__HtmlMenuItem` | `MenuItemLink-HtmlMenuItem.cshtml` |
@@ -152,7 +152,7 @@ available on the `MenuItem` shape are still available.
 | `MenuItemLink__[MenuName]__[ContentType]` | `MenuItemLink__MainMenu__HtmlMenuItem` | `MenuItemLink-MainMenu-HtmlMenuItem.cshtml` |
 | `MenuItemLink__[MenuName]__[ContentType]__level__[level]` | `MenuItemLink__MainMenu__HtmlMenuItem__level__2` | `MenuItemLink-MainMenu-HtmlMenuItem-level-2.cshtml` |
 
-#### `MenuItemLink` Example
+#### `MenuItemLink` 示例
 
 === "Liquid"
 
@@ -186,21 +186,21 @@ available on the `MenuItem` shape are still available.
     }
     ```
 
-## Mark active item in a menu
+## 标记菜单中的活动项
 
-Some times you need to set a menu item as active if it is the currently displayed one.
-Because menus are cached, this must be done from javascript. OrchardCore.Menu module provides a script to help you with that.
+有时需要将菜单项设置为活动状态，如果它是当前显示的菜单项。
+因为菜单被缓存，所以必须从 javascript 中完成。OrchardCore.Menu 模块提供了一个脚本来帮助您完成此操作。
 
 ``` javascript
 function activateLinks(options,cb)
 ```
 
-| Parameter | Description|
+| 参数 | 描述 |
 | -------- | ----------- |
-| `options: {class:'active',selector:null,traverse:0}` | Use `class` to define what class you want to add to the parent of the anchor tag that has the current url as href. If you want to apply it to a child, set the `selector` property. Use the `traverse` to a positive number in order to seek a less specific url in the menu tree then the currently displayed on. ex. If you have a link to '/todo-items' in menu and you have navigated to '/todo-items/Create', it will try to find the item with traverse item less segments in the menu and activate it. |
-| `cb: function( items )` | If it finds an active item, the call back is hit for extra configuration. ex. Expand a menu item if the active one is nested.|
+| `options: {class:'active',selector:null,traverse:0}` | 使用 `class` 定义要添加到具有当前 url 作为 href 的锚标记的父级的类。如果要应用于子级，请设置 `selector` 属性。使用 `traverse` 来查找菜单树中比当前显示的菜单更不具体的 url 的正数。例如 如果在菜单中有指向 '/todo-items' 的链接，并且您已导航到 '/todo-items/Create'，则会尝试查找菜单树中比当前显示的菜单更少的项目，并将其激活。 |
+| `cb: function( items )` | 如果找到活动项，则会调用回调进行额外配置。例如 展开嵌套的菜单项，如果活动的菜单项是嵌套的。|
 
-### `activateLinks` usage in `Layout` file
+### `activateLinks` 在 `Layout` 文件中的用法
 
 === "Liquid"
 
@@ -240,13 +240,15 @@ function activateLinks(options,cb)
     ...
     ```
 
+
+
+## Video
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/mOhbqHKd_CI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ## CREDITS
 
 ### nestedSortable jQuery plugin
 
 <https://github.com/ilikenwf/nestedSortable>  
 License: MIT
-
-## Video
-
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/mOhbqHKd_CI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+> 该文档由ChatGPT 4 翻译

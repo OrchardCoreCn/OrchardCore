@@ -1,74 +1,69 @@
 # Body (`OrchardCore.Html`)
 
-## Theming
+## 主题
 
 ### Shapes
 
-The following shapes are rendered when the `HtmlBodyPart` is attached to a content type:
+当将`HtmlBodyPart`附加到内容类型时，将呈现以下形状：
 
-| Name | Display Type | Default Location | Model Type |
+| 名称 | 显示类型 | 默认位置 | 模型类型 |
 | ------| ------------ |----------------- | ---------- |
 | `HtmlBodyPart` | `Detail` | `Content:5` | `HtmlBodyPartViewModel` |
 | `HtmlBodyPart` | `Summary` | `Content:10` | `HtmlBodyPartViewModel` |
 
 ### HtmlBodyPartViewModel
 
-The following properties are available on the `HtmlBodyPartViewModel` class:
+`HtmlBodyPartViewModel`类上可用以下属性：
 
-| Property | Type | Description |
+| 属性 | 类型 | 描述 |
 | --------- | ---- |------------ |
-| `Body` | `string` | The content that was edited. It might contain tokens. |
-| `Html` | `string` | The HTML content once all tokens have been processed. |
-| `ContentItem` | `ContentItem` | The content item of the part. |
-| `HtmlBodyPart` | `HtmlBodyPart` | The `HtmlBodyPart` instance. |
-| `TypePartSettings` | `HtmlBodyPartSettings` | The settings of the part. |
+| `Body` | `string` | 已编辑的内容。它可能包含令牌。 |
+| `Html` | `string` | 处理所有令牌后的HTML内容。 |
+| `ContentItem` | `ContentItem` | 部分的内容项。 |
+| `HtmlBodyPart` | `HtmlBodyPart` | `HtmlBodyPart`实例。 |
+| `TypePartSettings` | `HtmlBodyPartSettings` | 部分的设置。 |
 
 ### HtmlBodyPart
 
-The following properties are available on `HtmlBodyPart`:
+`HtmlBodyPart`上可用以下属性：
 
-| Name | Type | Description |
+| 名称 | 类型 | 描述 |
 | -----| ---- |------------ |
-| `Body` | `string` | The HTML content in the body. It can contain Liquid tags so using it directly might result in unexpected results. Prefer rendering the `HtmlBodyPart` shape instead. |
-| `Content` | The raw content of the part. |
-| `ContentItem` | The content item containing this part. |
+| `Body` | `string` | 正文中的HTML内容。它可以包含Liquid标记，因此直接使用它可能会导致意外结果。最好渲染`HtmlBodyPart`形状。 |
+| `Content` | 部分的原始内容。 |
+| `ContentItem` | 包含此部分的内容项。 |
 
-## Sanitization
+## 消毒
 
-By default all HTML input is sanitized when the `HtmlBodyPart` is saved.
+默认情况下，保存`HtmlBodyPart`时会对所有HTML输入进行消毒。
 
-You can disable this by unchecking the `Sanitize HTML` setting, or further configuring the [HTML Sanitizer](../../core/Sanitizer/README.md)
+您可以通过取消选中`Sanitize HTML`设置或进一步配置[HTML Sanitizer](../../core/Sanitizer/README.md)来禁用此功能。
 
-## Editors
+## 编辑器
 
-The __HtmlBody Part__ editor can be different for each content type. In the __HtmlBody Part__ settings of a 
-content type, just select the one that needs to be used.
+__HtmlBody Part__编辑器可以针对每个内容类型不同。在内容类型的__HtmlBody Part__设置中，只需选择要使用的编辑器即可。
 
-There are three predefined editor names:
+有三个预定义的编辑器名称：
 
-- `Default` is the editor that is used by default.
-- `Wysiwyg` is the editor that provides a WYSIWYG experience.
-- `Monaco` is the editor that provides a source code experience.
+- `Default`是默认使用的编辑器。
+- `Wysiwyg`是提供所见即所得体验的编辑器。
+- `Monaco`是提供源代码体验的编辑器。
 
-#### Video
+#### 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lnjdRildsL8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-### Custom Editors
+### 自定义编辑器
 
-Customizing the editor can mean to replace the predefined one with different experiences, or to provide
-new options for the user to choose from.
+自定义编辑器可以意味着使用不同的体验替换预定义的编辑器，或者为用户提供新的选择选项。
 
-To create a new custom editor, it is required to provide two shape templates, one to provide
-the name of the editor (optional if you want to override an existing one), and a shape to
-render the actual HTML for the editor.
+要创建新的自定义编辑器，需要提供两个形状模板，一个用于提供编辑器名称（如果要覆盖现有名称，则为可选项），另一个用于呈现编辑器的实际HTML的形状。
 
-#### Declaration
+#### 声明
 
-To declare a new editor, create a shape named `HtmlBodyPart_Option__{Name}` where `{Name}` is a value 
-of your choosing. This will be represented by a file named `HtmlBodyPart-{Name}.Option.cshtml`.
+要声明新编辑器，请创建名为`HtmlBodyPart_Option__{Name}`的形状，其中`{Name}`是您选择的值。这将由名为`HtmlBodyPart-{Name}.Option.cshtml`的文件表示。
 
-Sample content:
+示例内容：
 
 ```csharp
 @{
@@ -77,11 +72,11 @@ Sample content:
 <option value="Wysiwyg" selected="@(currentEditor == "Wysiwyg")">@T["Wysiwyg editor"]</option>
 ```
 
-#### HTML Editor
+#### HTML编辑器
 
-To define what HTML to render when the editor is selected from the settings, a shape named `HtmlBodyPart_Edit__{Name}` corresponding to a file `HtmlBodyPart-{Name}.Edit.cshtml` can be created.
+要定义在从设置中选择编辑器时呈现的HTML，可以创建一个名为`HtmlBodyPart_Edit__{Name}`的形状，对应于文件`HtmlBodyPart-{Name}.Edit.cshtml`。
 
-Sample content:
+示例内容：
 
 ```csharp
 @using OrchardCore.Html.ViewModels
@@ -94,8 +89,6 @@ Sample content:
 </fieldset>
 ```
 
-### Overriding the predefined editors
+### 覆盖预定义的编辑器
 
-You can override the HTML editor for the `Default` editor by creating a shape file named  
-`HtmlBodyPart.Edit.cshtml`. The Wysiwyg editor is defined by using the file named  
-`HtmlBodyPart-Wysiwyg.Edit.cshtml`.
+您可以通过创建名为`HtmlBodyPart.Edit.cshtml`的形状文件来覆盖`Default`编辑器的HTML编辑器。所使用的Wysiwyg编辑器是通过使用名为`HtmlBodyPart-Wysiwyg.Edit.cshtml`的文件定义的。

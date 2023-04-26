@@ -1,18 +1,18 @@
-# Data (`OrchardCore.Data`)
+# 数据 (`OrchardCore.Data`)
 
-## Configuring Databases
+## 配置数据库
 
-Most database configuration is handled automatically, but there are limited options which can affect the way the database works.
+大多数数据库配置都是自动处理的，但有一些有限的选项可能会影响数据库的工作方式。
 
 ### Sqlite
 
-#### `UseConnectionPooling` (boolean)
+#### `UseConnectionPooling` (布尔值)
 
-By default in `.NET 6`, `Microsoft.Data.Sqlite` pools connections to the database. It achieves this by putting locking the database file and leaving connections open to be reused. If the lock is preventing tasks like backups, this functionality can be disabled.
+在 `.NET 6` 中，默认情况下，`Microsoft.Data.Sqlite` 对数据库进行连接池化。它通过锁定数据库文件并保留连接以供重用来实现这一点。如果锁定正在阻止备份等任务，则可以禁用此功能。
 
-There may be a performance penalty associated with disabling connection pooling.
+禁用连接池可能会带来性能损失。
 
-See the [`Microsoft.Data.Sqlite` documentation](https://docs.microsoft.com/en-us/dotnet/standard/data/sqlite/connection-strings#pooling) for more details.
+有关更多详细信息，请参见 [`Microsoft.Data.Sqlite` 文档](https://docs.microsoft.com/en-us/dotnet/standard/data/sqlite/connection-strings#pooling)。
 
 ##### `appsettings.json`
 
@@ -24,20 +24,20 @@ See the [`Microsoft.Data.Sqlite` documentation](https://docs.microsoft.com/en-us
 }
 ```
 
-## Configuring YesSql
+## 配置 YesSql
 
-OrchardCore uses the `YesSql` library to interact with the configured database provider. `YesSql` is shipped with configuration that is suitable for most use cases. However, you can change these settings by configuring `YesSqlOptions`. `YesSqlOptions` provides the following configurable options.
+OrchardCore 使用 `YesSql` 库与配置的数据库提供程序进行交互。`YesSql` 随附了适用于大多数用例的配置。但是，您可以通过配置 `YesSqlOptions` 更改这些设置。`YesSqlOptions` 提供以下可配置选项。
 
-| Setting | Description |
+| 设置 | 描述 |
 | --- | --- |
-| `CommandsPageSize` | Gets or sets the command page size. If you have to many queries in one command, `YesSql` will split the large command into multiple commands. |
-| `QueryGatingEnabled` | Gets or sets the `QueryGatingEnabled` option in `YesSql`. |
-| `IdGenerator` | You can provide your own implementation for generating ids. |
-| `IdentifierAccessorFactory` | You can provide your own value accessor factory. |
-| `VersionAccessorFactory` | You can provide your own version accessor factory. |
-| `ContentSerializer` | You can provide your own content serializer. |
+| `CommandsPageSize` | 获取或设置命令页大小。如果在一个命令中有太多查询，则 `YesSql` 将把大型命令拆分为多个命令。 |
+| `QueryGatingEnabled` | 获取或设置 `YesSql` 中的 `QueryGatingEnabled` 选项。 |
+| `IdGenerator` | 您可以提供自己的实现来生成 ID。 |
+| `IdentifierAccessorFactory` | 您可以提供自己的值访问器工厂。 |
+| `VersionAccessorFactory` | 您可以提供自己的版本访问器工厂。 |
+| `ContentSerializer` | 您可以提供自己的内容序列化器。 |
 
-For example, you can change the default command-page-size from `500` to `1000` by adding the following code to your startup code.
+例如，您可以通过将以下代码添加到启动代码中将默认命令页大小从 `500` 更改为 `1000`。
 
 ```C#
 services.Configure<YesSqlOptions>(options =>
@@ -46,15 +46,15 @@ services.Configure<YesSqlOptions>(options =>
 });
 ```
 
-## Database table
+## 数据库表
 
-The following database table settings, only used as presets before a given tenant is setup, can be provided from any configuration source.
+以下数据库表设置仅在设置给定租户之前用作预设，可以从任何配置源提供。
 
-| Setting | Description |
+| 设置 | 描述 |
 | --- | --- |
-| `DefaultDocumentTable` | Document table name, defaults to 'Document'. |
-| `DefaultTableNameSeparator` | Table name separator, one or multiple '_', "NULL" means no separator, defaults to '_'. |
-| `DefaultIdentityColumnSize` | Identity column size, 'Int32' or 'Int64', defaults to 'Int64'. |
+| `DefaultDocumentTable` | 文档表名称，默认为“Document”。 |
+| `DefaultTableNameSeparator` | 表名分隔符，一个或多个“_”，“NULL”表示没有分隔符，默认为“_”。 |
+| `DefaultIdentityColumnSize` | 标识列大小，“Int32”或“Int64”，默认为“Int64”。 |
 
 ##### `appsettings.json`
 
@@ -66,26 +66,23 @@ The following database table settings, only used as presets before a given tenan
 }
 ```
 
-## Running SQL queries
+## 运行 SQL 查询
 
-### Creating a `DbConnection` instance
+### 创建 `DbConnection` 实例
 
-To get a new `DbConnection` pointing to the same database as the running site, use `IDbConnectionAccessor` from the `OrchardCore.Data` namespace in the `Orchard.Data.Abstractions` package..
+要获取指向运行站点相同数据库的新 `DbConnection`，请使用 `Orchard.Data.Abstractions` 包中的 `OrchardCore.Data` 命名空间中的 `IDbConnectionAccessor`。
 
-### Writing database provider agnostic queries
+### 编写数据库提供程序不可知的查询
 
-Once a connection has been created, a custom `ISqlDialect` can be obtained from `IStore` from the `YesSql` namespace in the `YesSql.Abstractions` package.
-This service provides methods to build SQL queries that can will be use the syntax of the underlying connection.
+创建连接后，可以从 `YesSql.Abstractions` 包中的 `YesSql` 命名空间中的 `IStore` 中获取自定义 `ISqlDialect`。此服务提供了构建 SQL 查询的方法，可以使用底层连接的语法。
 
-### Handling prefixed tables
+### 处理前缀表
 
-Each tenant in an Orchard Core application can have a table prefix. When building custom queries it 
-is necessary to take it into account. It is available by resolving `ShellSettings` and accessing the `TablePrefix` setting.
-It is available from the `OrchardCore.Environment.Shell` namespace in the `OrchardCore.Abstractions` package.
+Orchard Core 应用程序中的每个租户都可以有一个表前缀。在构建自定义查询时，需要考虑到它。可以通过解析 `ShellSettings` 并访问 `TablePrefix` 设置来获得它。它可从 `OrchardCore.Abstractions` 包中的 `OrchardCore.Environment.Shell` 命名空间中获得。
 
-## Example
+## 示例
 
-The following example uses Dapper to execute a SQL query.
+以下示例使用 Dapper 执行 SQL 查询。
 
 ```csharp
 using Dapper;
@@ -118,7 +115,7 @@ public class AdminController : Controller
 
                 var model = connection.QueryAsync<CustomTable>(selectCommand);
 
-                // If an exception occurs the transaction is disposed and rollbacked
+                // 如果发生异常，则事务将被处理并回滚
                 transaction.Commit();
 
                 return View(model);
@@ -126,4 +123,3 @@ public class AdminController : Controller
         }
     }
 }
-```

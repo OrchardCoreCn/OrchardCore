@@ -1,11 +1,14 @@
-# Search
+# 搜索
 
-Orchard Core allows you to define the information to [index](../../glossary/README.md#Indexing) and to [query](../../glossary/README.md#Query) them in order to provide an integrated Search experience.
+Orchard Core可以让你定义信息并将它们[索引](../../glossary/README.md#Indexing)，然后查询它们，以提供集成的搜索体验。
 
-## Query and Search
+## 查询和搜索
 
-- [Indexing](../../reference/modules/Indexing/README.md)
-- [SQL Indexing](../../reference/modules/SQLIndexing/README.md)
+- [索引](../../reference/modules/Indexing/README.md)
+- [SQL索引](../../reference/modules/SQLIndexing/README.md)
 - [Lucene](../../reference/modules/Lucene/README.md)
-- [Queries](../../reference/modules/Queries/README.md)
-- [Full text search implementation](../../guides/implement-fulltext-search/README.md)
+- [查询](../../reference/modules/Queries/README.md)
+- [全文搜索实现](../../guides/implement-fulltext-search/README.md)
+
+
+> 该文档由Chat-GPT 翻译

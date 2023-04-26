@@ -1,321 +1,317 @@
-# Media (`OrchardCore.Media`)
+# 媒体 (`OrchardCore.Media`)
 
-The Media module provides a UI to upload and organize binary files that can be used while creating content.
+媒体模块提供了一个UI来上传和组织二进制文件，这些文件可以在创建内容时使用。
 
-The media-processing liquid filters can also create custom sized images.
+媒体处理Liquid过滤器还可以创建自定义大小的图像。
 
-## HTML filters
+## HTML 过滤器
 
-The following filters allow for media manipulation:
+以下过滤器允许进行媒体操作：
 
 ### `asset_url`
 
-Returns the URL of a media file, based on its location in the media library.
+根据媒体库中的位置，返回媒体文件的URL。
 
-#### Input
+#### 输入
 
 `{{ 'animals/kittens.jpg' | asset_url }}`
 
-or when using your added content
+或者当使用您添加的内容时
 
 `{{ Model.ContentItem.Content.YourContentType.YourMediaField.Paths.first | asset_url }}`
 
-#### Output
+#### 输出
 
 `/media/animals/kittens.jpg`
 
 ### `img_tag`
 
-Renders an `<img src />` HTML tag.
+呈现一个`<img src />` HTML 标签。
 
-#### img_tag Input
+#### img_tag 输入
 
 `{{ 'animals/kittens.jpg' | asset_url | img_tag }}`
 
-#### img_tag Output
+#### img_tag 输出
 
 `<img src="~/media/animals/kittens.jpg" />`
 
-#### Options
+#### 选项
 
-You can add as many html attributes as you want with the img_tag.
+您可以使用img_tag添加任意数量的html属性。
 `{{ 'animals/kittens.jpg' | asset_url | img_tag: alt: 'kittens', class: 'kittens black', data_order: some_var }}`
 
-## Image resizing filters
+## 图像调整大小过滤器
 
 ### `resize_url`
 
-Convert the input URL to create a resized image with the specified size arguments.
+将输入URL转换为使用指定大小参数创建调整大小的图像。
 
-#### resize_url Input
+#### resize_url 输入
 
 `{{ 'animals/kittens.jpg' | asset_url | resize_url: width:100, height:240 | img_tag }}`
 
-#### resize_url Output
+#### resize_url 输出
 
 `<img src="~/media/animals/kittens.jpg?width=100&height=240" />`
 
-#### Arguments
+#### 参数
 
-Refer [Query string tokens](#query-string-tokens) to understand the valid values for a width or height command,
-and when a query string must utilize a token.
+请参阅[查询字符串标记](#query-string-tokens)以了解宽度或高度命令的有效值以及查询字符串何时必须使用令牌。
 
-!!! note
-    You cannot mix named and indexed arguments. If any of the arguments is named, all arguments must be named.
+!!! 注意
+    您不能混合使用命名和索引参数。如果任何参数是命名的，则所有参数都必须命名。
 
-#### `width` (or first argument)
+#### `width` (或第一个参数)
 
-The width of the new image. One of the allowed values.
+新图像的宽度。允许的值之一。
 
-#### `height` (or second argument)
+#### `height` (或第二个参数)
 
-The height of the new image. One of the allowed values.
+新图像的高度。允许的值之一。
 
-#### `mode` (or third argument)
+#### `mode` (或第三个参数)
 
-The resize mode.
+调整大小模式。
 
 ##### `pad`
 
-Pads the resized image to fit the bounds of its container.  
-If only one dimension is passed, the original aspect ratio will be maintained.
+将调整大小的图像填充到适合其容器的边界。  
+如果只传递一个维度，则将保持原始宽高比。
 
 ##### `boxpad`
 
-Pads the image to fit the bounds of the container without resizing the original source.  
-When downscaling, performs the same functionality as `pad`.
+将图像填充到容器的边界，而不调整原始源。  
+当缩小时，执行与`pad`相同的功能。
 
-##### `max` (Default)
+##### `max` (默认)
 
-Constrains the resized image to fit the bounds of its container maintaining the original aspect ratio.
+将调整大小的图像限制为适合其容器的边界，保持原始宽高比。
 
 ##### `min`
 
-Resizes the image until the shortest side reaches the given dimension. Upscaling is disabled in this mode and the original image will be returned if attempted.
+调整图像大小，直到最短边达到给定的尺寸。在此模式下禁用放大，并且如果尝试，则将返回原始图像。
 
 ##### `stretch`
 
-Stretches the resized image to fit the bounds of its container.
+将调整大小的图像拉伸到适合其容器的边界。
 
 ##### `crop`
 
-Resizes the image using the same functionality as `max` then removes any image area falling outside the bounds of its container.
+使用与`max`相同的功能调整图像大小，然后删除任何落在其容器边界之外的图像区域。
 
-#### mode Input
+#### mode 输入
 
 `{{ 'animals/kittens.jpg' | asset_url | resize_url: width:100, height:240, mode:'crop' }}`
 
-#### mode Output
+#### mode 输出
 
 `<img src="~/media/animals/kittens.jpg?width=100&height=240&rmode=crop" />`
 
-#### `quality` (or fourth argument)
+#### `quality` (或第四个参数)
 
-The quality used when compressing the image.
+压缩图像时使用的质量。
 
-!!! note
-    The quality argument is only supported for `JPG` images, but can be combined with the `format` argument to convert to `JPG`
+!!! 注意
+    质量参数仅支持`JPG`图像，但可以与`format`参数结合使用以转换为`JPG`
 
-#### `format` (or fifth argument)
+#### `format` (或第五个参数)
 
-The image format to use when processing the ouput of an image.
+处理图像输出时要使用的图像格式。
 
-Supported formats include `bmp`, `gif`, `jpg`, `png`, `tga`.
+支持的格式包括`bmp`、`gif`、`jpg`、`png`、`tga`。
 
-Can be combined with the `quality` argument to convert an image to a `JPG` and reduce the quality.
+可以与`quality`参数结合使用，将图像转换为`JPG`并降低质量。
 
-#### quality/format Input
+#### quality/format 输入
 
 `{{ 'animals/kittens.jpg' | asset_url | resize_url: width:100, height:240, mode:'crop', quality: 50, format:'jpg' }}`
 
-#### quality/format Output
+#### quality/format 输出
 
 `<img src="~/media/animals/kittens.jpg?width=100&height=240&rmode=crop&quality=50&format=jpg" />`
 
-### `anchor` (or sixth argument)
+### `anchor` (或第六个参数)
 
-The anchor of the new image.
+新图像的锚点。
 
-#### anchor Input
+#### anchor 输入
 
 ```
 {% assign anchor = Model.ContentItem.Content.Blog.Image.Anchors.first %}
 {{ 'animals/kittens.jpg' | asset_url | resize_url: width:100, height:240, mode:'crop', anchor:anchor }}
 ```
 
-#### anchor Output
+#### anchor 输出
 
 `<img src="~/media/animals/kittens.jpg?width=100&height=240&rmode=crop&rxy=0.5,0.5" />`
 
-### `bgcolor` (or seventh argument)
+### `bgcolor` (或第七个参数)
 
-The background color of the new image when `mode` is `pad` or `boxpad`. Examples of valid values: `white`, `ffff00`, `ffff0080`, `128,64,32` and `128,64,32,16`.
+当`mode`为`pad`或`boxpad`时，新图像的背景颜色。有效值的示例：`white`、`ffff00`、`ffff0080`、`128,64,32`和`128,64,32,16`。
 
-#### bgcolor Input
+#### bgcolor 输入
 
 ```
 {{ 'animals/kittens.jpg' | asset_url | resize_url: width:100, height:240, mode:'pad', bgcolor:'white' }}
 ```
 
-#### bgcolor Output
+#### bgcolor 输出
 
 `<img src="~/media/animals/kittens.jpg?width=100&height=240&rmode=pad&bgcolor=white" />`
 
-### `profile` (named argument)
+### `profile` (命名参数)
 
-A [Media Profile](#media-profiles) can be specified as a named argument to provide preset formatting commands.
+可以指定[媒体配置文件](#media-profiles)作为命名参数，以提供预设的格式化命令。
 
-#### `profile` Input
+#### `profile` 输入
 
 `{{ 'animals/kittens.jpg' | asset_url | resize_url: profile : 'medium' }}`
 
-#### `profile` Output
+#### `profile` 输出
 
 `<img src="~/media/animals/kittens.jpg?width=240&height=240" />`
 
 ### `append_version`
 
-Appends a version hash for an asset. Can be piped together with the other media filters.
+为资产附加版本哈希。可以将其与其他媒体过滤器一起使用。
 
-#### version Input
+#### version 输入
 
 `{{ 'animals/kittens.jpg' | asset_url | append_version | img_tag }}`
 
-#### version Output
+#### version 输出
 
 `<img src="~/media/animals/kittens.jpg?v=Ailxbj_jQtYc9LRXKa21DygRzmQqc3OfN1XxSaQ3UWE" />`
 
-## Razor Helpers
+## Razor 帮助程序
 
-To obtain the correct URL for an asset, use the `AssetUrl` helper extension method on the view's base `Orchard` property, e.g.:
+要获取资产的正确URL，请在视图的基本`Orchard`属性上使用`AssetUrl`帮助程序扩展方法，例如：
 
 `@Orchard.AssetUrl(Model.Paths[0])`
 
-To obtain the correct URL for a resized asset use `AssetUrl` with the optional width, height and resizeMode parameters, e.g.:
+要获取调整大小的资产的正确URL，请使用带有可选的宽度、高度和resizeMode参数的`AssetUrl`，例如：
 
 `@Orchard.AssetUrl(Model.Paths[0], width: 100 , height: 240, resizeMode: ResizeMode.Crop)`
 
-To obtain the correct URL for a resized asset use `AssetUrl` with the optional width, height, resizeMode, quality and format parameters, e.g.:
+要获取调整大小的资产的正确URL，请使用带有可选的宽度、高度、resizeMode、quality和format参数的`AssetUrl`，例如：
 
 `@Orchard.AssetUrl(Model.Paths[0], width: 100 , height: 240, resizeMode: ResizeMode.Crop, quality: 50, format: Format.Jpg)`
 
-To obtain the correct URL for a resized asset use `AssetUrl` with the optional width, height, resizeMode and bgcolor, e.g.:
+要获取调整大小的资产的正确URL，请使用带有可选的宽度、高度、resizeMode和bgcolor的`AssetUrl`，例如：
 
 `@Orchard.AssetUrl(Model.Paths[0], width: 100 , height: 240, resizeMode: ResizeMode.Pad, bgcolor: "white")`
 
-To append a version hash for an asset use `AssetUrl` with the append version parameter, e.g.:
+要附加资产的版本哈希，请使用带有附加版本参数的`AssetUrl`，例如：
 
 `@Orchard.AssetUrl(Model.Paths[0], appendVersion: true)`
 
-or with resizing options as well, noting that the version hash is based on the source image
+或者也可以使用调整大小选项，注意版本哈希基于源图像
 
 `@Orchard.AssetUrl(Model.Paths[0], width: 100 , height: 240, resizeMode: ResizeMode.Crop, appendVersion: true)`
 
-To use a [Media Profile](#media-profiles), use the `AssetProfileUrlAsync` helper extension method on the view's base `Orchard` property, e.g.:
+要使用[媒体配置文件](#media-profiles)，请在视图的基本`Orchard`属性上使用`AssetProfileUrlAsync`帮助程序扩展方法，例如：
 
 `@await Orchard.AssetProfileUrlAsync(Model.Paths[0], "medium")`
 
-To use [Image Anchors](#image-anchors), use the `GetAnchors` helper extension method on the media field, e.g.:
+要使用[图像锚](#image-anchors)，请在媒体字段上使用`GetAnchors`帮助程序扩展方法，例如：
 
 `@await Orchard.AssetUrl(Model.Paths[0], , width: 100 , height: 240, resizeMode: ResizeMode.Crop, @Model.Field.GetAnchors()[0])`
 
-### Razor image resizing tag helpers
+### Razor 调整大小标记助手
 
-To use the image tag helpers add `@addTagHelper *, OrchardCore.Media` to `_ViewImports.cshtml`, and take a direct reference to the `OrchardCore.Media` nuget package.
+要使用图像标记助手，请在`_ViewImports.cshtml`中添加`@addTagHelper *, OrchardCore.Media`，并直接引用`OrchardCore.Media` nuget包。
 
-`asset-src` is used to obtain the correct URL for the asset and set the `src` attribute. Width, height, resize mode, quality and format can be set using `img-width`, `img-height`, `img-resize-mode`, `img-quality`, and `img-format` respectively. e.g.:
+`asset-src`用于获取资产的正确URL并设置`src`属性。可以使用`img-width`、`img-height`、`img-resize-mode`、`img-quality`和`img-format`分别设置宽度、高度、调整大小模式、质量和格式。例如：
 
 `<img asset-src="Model.Paths[0]" alt="..." img-width="100" img-height="240" img-resize-mode="Crop" img-quality="50" img-format="Jpg" />`
 
-Alternatively the Asset Url can be resolved independently and the `src` attribute used:
+或者可以独立解析资产URL并使用`src`属性：
 
 `<img src="@Orchard.AssetUrl(Model.Paths[0])" alt="..." img-width="100" img-height="240" img-resize-mode="Crop" img-quality="50" img-format="Jpg" />`
 
-When resize mode is `pad` or `boxpad`, the background color can be set using `img-bgcolor`, e.g.:
+当调整大小模式为`pad`或`boxpad`时，可以使用`img-bgcolor`设置背景颜色。例如：
 
 `<img asset-src="Model.Paths[0]" alt="..." img-width="100" img-height="240" img-resize-mode="Pad" img-bgcolor="white" />`
 
-To use a [Media Profile](#media-profiles) set the `asset-src` property and the `img-profile` attribute.
+要使用[媒体配置文件](#media-profiles)，请设置`asset-src`属性和`img-profile`属性。
 
 `<img asset-src="Model.Paths[0]" alt="..." img-profile="medium" />`
 
-You can optionally include more formatting information, or override the profiles properties.
+您可以选择包含更多格式信息，或覆盖配置文件属性。
 
 `<img asset-src="Model.Paths[0]" alt="..." img-profile="medium" img-quality="50" img-format="Jpg" />`
 
-To use a [Media Text](#media-text) set the `alt` attribute.
+要使用[媒体文本](#media-text)，请设置`alt`属性。
 
 `<img asset-src="Model.Paths[0]" alt="@Model.MediaTexts[0]" />`
 
-To use a [Image Anchor](#image-anchors) set the `asset-src` property and the `img-anchor` attribute.
+要使用[图像锚](#image-anchors)，请设置`asset-src`属性和`img-anchor`属性。
 
 `<img asset-src="Model.Paths[0]" alt="..." img-width="100" img-height="240" img-profile="medium" img-anchor="@Model.GetAnchors()[0]" />`
 
-### Razor append version
+### Razor 追加版本
 
-`asp-append-version` support is available on the OrchardCore tag helpers and MVC tag helpers.
+`asp-append-version`支持OrchardCore标记助手和MVC标记助手。
 
 `<img asset-src="Model.Paths[0]" alt="..." asp-append-version="true" />`
 
-Alternatively the Asset Url can be resolved independently and the `src` attribute used:
+或者也可以使用调整大小选项，注意版本哈希基于源图像
 
-`<img src="@Orchard.AssetUrl(Model.Paths[0])" alt="..." asp-append-version="true" />`
+`<img src="@Orchard.AssetUrl(Model.Paths[0], width: 100 , height: 240, resizeMode: ResizeMode.Crop, appendVersion: true)" alt="..." />`
 
-Or when using the MVC tag helpers and the image is resolved from static assets, i.e. wwwroot
+或者当使用MVC标记助手并且图像是从静态资产（即wwwroot）解析时：
 
 `<img src="/favicon.ico" asp-append-version="true"/>`
 
-> The Razor Helper is accessible on the `Orchard` property if the view is using Orchard Core's Razor base class, or by injecting `OrchardCore.IOrchardHelper` in all other cases.
+!!! 注意
+    如果视图使用Orchard Core的Razor基类，则可以在`Orchard`属性上访问Razor Helper，否则可以在所有其他情况下注入`OrchardCore.IOrchardHelper`。
 
-!!! note
-    When using tag helpers in Razor, you must take a direct reference to the `OrchardCore.Media` nuget package in each theme or module that uses the tag helpers. This is not required when using Liquid.
+## 部署步骤编辑器
 
-## Deployment Step Editor
+在使用部署步骤编辑器时，请记住以下几点：
 
-Keep these things in mind when working with the deployment step editor:
+- 选择“包括所有媒体。”将确保在执行此部署计划时将所有媒体添加到包中，而不管您现在看到什么。
+- 选择文件将确保在执行此部署计划时仅将该文件添加到包中，而不管您现在看到什么。
+- 选择目录将确保在执行此部署计划时将该目录中的所有文件添加到包中，而不管您现在看到什么。
+- 选择目录中的所有文件将确保在执行此部署计划时仅将这些文件添加到包中，即使在那时，该目录具有比您现在看到的更多的文件。
 
-- Selecting "Include all media." will ensure that all media is added to the package when this deployment plan executes, regardless of what you see here now.
-- Selecting a file will ensure that only that file is added to the package when this deployment plan executes, regardless of what you see here now.
-- Selecting a directory will ensure that all the files in that directory at the time this deployment plan executes, are added to the package during execution, regardless of what you see here now.
-- Selecting all files in a directory will ensure that only those files are added to the package when this deployment plan executes, even if at that time, that directory has more files than what you see here now.
+## 配置
 
-## Configuration
-
-The following configuration values are used by default and can be customized:
+默认情况下使用以下配置值，并且可以自定义：
 
 ```json
     "OrchardCore_Media": {
 
-      // The accepted sizes for custom width and height.
-      // When the 'UseTokenizedQueryString' is True (default) all sizes are valid.
+      // 自定义宽度和高度的接受大小。
+      // 当“UseTokenizedQueryString”为True（默认值）时，所有大小都有效。
       "SupportedSizes": [ 16, 32, 50, 100, 160, 240, 480, 600, 1024, 2048 ],
 
-      // The number of days to store images in the browser cache.
-      // NB: To control cache headers for module static assets, refer to the Orchard Core Modules Section.
+      // 在浏览器缓存中存储图像的天数。
+      // 注意：要控制模块静态资产的缓存标头，请参阅Orchard Core模块部分。
       "MaxBrowserCacheDays": 30,
 
-      // The number of days a cached resized media item will be valid for, before being rebuilt on request.
+      // 在请求时重新构建缓存的调整大小的媒体项的天数。
       "MaxCacheDays": 365,
 
-      // The maximum size of an uploaded file in bytes. 
-      // NB: You might still need to configure the limit in IIS (https://docs.microsoft.com/en-us/iis/configuration/system.webserver/security/requestfiltering/requestlimits/)
+      // 上传文件的最大大小（以字节为单位）。
+      // 注意：您可能仍需要在IIS中配置限制（https://docs.microsoft.com/en-us/iis/configuration/system.webserver/security/requestfiltering/requestlimits/）
       "MaxFileSize": 30000000,
 
-      // A CDN base url that will be prefixed to the request path when serving images.
+      // 在提供图像时要添加到请求路径的CDN基本URL。
       "CdnBaseUrl": "https://your-cdn.com",
 
-      // The path used when serving media assets.
+      // 用于提供媒体资产的路径。
       "AssetsRequestPath": "/media",
 
-      // The path used to store media assets. The path can be relative to the tenant's App_Data folder, or absolute.
+      // 用于存储媒体资产的路径。路径可以相对于租户的App_Data文件夹或绝对路径。
       "AssetsPath": "Media",
 
-      // Whether to use a token in the query string to prevent disc filling.
+      // 是否在查询字符串中使用令牌以防止磁盘填充。
       "UseTokenizedQueryString": true,
 
-      // The list of allowed file extensions
+      // 允许的文件扩展名。
       "AllowedFileExtensions": [
-
             // Images
             ".jpg",
             ".jpeg",
@@ -354,39 +350,162 @@ The following configuration values are used by default and can be customized:
             ".3gp", // 3GPP
         ],
 
-      // The Content Security Policy to apply to assets served from the media library.
+      // 应用于从媒体库提供的资产的内容安全策略。
       "ContentSecurityPolicy" : "default-src 'self'; style-src 'unsafe-inline'"
     }
 ```
 
-To configure the `StaticFileOptions` in more detail, including event handlers, for the Media Library `StaticFileMiddleware` apply:
+要更改配置，请在`Startup.cs`中添加以下代码：
 
-```
-services.PostConfigure<MediaOptions>(o => ...);
-```
-
-To configure the `ImageSharpMiddleware` in more detail, including event handlers, apply:
-
-```
-services.PostConfigure<ImageSharpMiddlewareOptions>(o => ...);
-```
-
-!!! note
-    The Media Library `StaticFileOptions` configuration is separated from the configuration for static files contained in module `wwwroot` folders.
-
-To configure `wwwroot` static file options apply:
-
-```
-services.Configure<StaticFileOptions>(o => ...);
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    services.Configure<MediaOptions>(options =>
+    {
+        options.MaxBrowserCacheDays = 365;
+    });
+}
 ```
 
-## Media Profiles
+要更改配置，请在`appsettings.json`中添加以下代码：
 
-Media profiles allow you to defined preset image resizing and formatting commands.
+```json
+{
+  "OrchardCore_Media": {
+    "MaxBrowserCacheDays": 365
+  }
+}
+```
 
-You can create a media profile from the _Configuration -> Media -> Media Profiles_ menu.
+## 静态文件
 
-When specifying a media profile with either the liquid, razor helper, or tag helper you provide the profile name, and any additional commands which you want to apply to the media item.
+要使用静态文件，请在`Startup.cs`中添加以下代码：
+
+```csharp
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    app.UseStaticFiles();
+}
+```
+
+要使用静态文件，请在`appsettings.json`中添加以下代码：
+
+```json
+{
+  "StaticFileOptions": {
+    "FileProvider": {
+      "Type": "Physical",
+      "Properties": {
+        "Root": "C:\\Files"
+      }
+    },
+    "RequestPath": "/files",
+    "OnPrepareResponse": [
+      {
+        "Action": "SetCacheControl",
+        "Duration": "365.00:00:00"
+      }
+    ]
+  }
+}
+```
+
+## 事件
+
+以下事件可用于在媒体库中执行自定义逻辑：
+
+- `MediaCreating` - 在创建媒体项之前。
+- `MediaCreated` - 在创建媒体项之后。
+- `MediaUpdating` - 在更新媒体项之前。
+- `MediaUpdated` - 在更新媒体项之后。
+- `MediaDeleting` - 在删除媒体项之前。
+- `MediaDeleted` - 在删除媒体项之后。
+
+要订阅事件，请在`Startup.cs`中添加以下代码：
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddScoped<IEventHandler<MediaCreated>, MyMediaCreatedEventHandler>();
+}
+```
+
+要发布事件，请使用以下代码：
+
+```csharp
+await _eventBus.PublishAsync(new MediaCreated { ContentItem = media.ContentItem });
+```
+
+## 模板
+
+以下模板可用于在Liquid中访问媒体库：
+
+```liquid
+{% assign media = Model.ContentItem | media %}
+{% assign media = Model.ContentItem | media_property:'MyMediaField' %}
+{% assign media = 'animals/kittens.jpg' | asset_url | media %}
+{% assign media = 'animals/kittens.jpg' | asset_url | append_version | media %}
+{% assign media = 'animals/kittens.jpg' | asset_url | append_version | media_property:'MyMediaField' %}
+
+{% if media %}
+  <img src="{{ media.Paths[0] | asset_url }}" alt="{{ media.MediaTexts[0] }}" />
+{% endif %}
+```
+
+以下模板可用于在Razor中访问媒体库：
+
+```html
+@using OrchardCore.Media
+@inject IOrchardHelper Orchard
+
+@{
+    var media = Model.ContentItem | media;
+    var media = Model.ContentItem | media_property:'MyMediaField';
+    var media = Orchard.AssetUrl("animals/kittens.jpg") | media;
+    var media = Orchard.AssetUrl("animals/kittens.jpg", appendVersion: true) | media;
+    var media = Orchard.AssetUrl("animals/kittens.jpg", appendVersion: true) | media_property:'MyMediaField';
+}
+
+@if (media != null)
+{
+    <img src="@Orchard.AssetUrl(media.Paths[0])" alt="@media.MediaTexts[0]" />
+}
+```
+
+## 调整大小
+
+要调整大小，请使用以下Liquid代码：
+
+```liquid
+{% assign media = 'animals/kittens.jpg' | asset_url | media %}
+{% assign url = media.Paths[0] | resize_url: width:100, height:240, mode:'crop' %}
+<img src="{{ url }}" alt="{{ media.MediaTexts[0] }}" />
+```
+
+要调整大小，请使用以下Razor代码：
+
+```html
+@using OrchardCore.Media
+@inject IOrchardHelper Orchard
+
+@{
+    var media = Orchard.AssetUrl("animals/kittens.jpg") | media;
+    var url = Orchard.ResizeUrl(media.Paths[0], width:100, height:240, resizeMode:ResizeMode.Crop);
+}
+
+@if (media != null)
+{
+    <img src="@url" alt="@media.MediaTexts[0]" />
+}
+```
+
+## 媒体配置文件
+
+媒体配置文件允许您定义预设的图像调整大小和格式化命令。
+
+您可以从“配置->媒体->媒体配置文件”菜单中创建媒体配置文件。
+
+使用Liquid、Razor助手或标记助手指定媒体配置文件时，您提供配置文件名称和要应用于媒体项的任何其他命令。
 
 === "Liquid"
 
@@ -402,39 +521,39 @@ When specifying a media profile with either the liquid, razor helper, or tag hel
     @await Orchard.AssetProfileUrlAsync(Model.Paths[0], "medium", resizeMode: ResizeMode.Crop);
     ```
 
-=== "Tag"
+=== "标记"
 
     ``` html
     <img asset-src="Model.Paths[0]" img-profile="medium" />
     <img asset-src="Model.Paths[0]" img-profile="medium" img-resize-mode="Crop"/>
     ```
 
-!!! note
-    Media Profiles are only available from the [Preview Feed](../../../getting-started/preview-package-source)
+!!! 注意
+    媒体配置文件仅在[预览源](../../../getting-started/preview-package-source)中可用
 
-## Media Text
+## 媒体文本
 
-Media text is an optional setting, on by default, on the `MediaField`.
+媒体文本是“媒体字段”的可选设置，默认情况下打开。
 
-When provided it allows the editor of the field to include a text value for each selected media item.
+当提供时，它允许字段的编辑器为每个选定的媒体项包括文本值。
 
-This can be used for the `alt` tag of an image.
+这可用于图像的“alt”标记。
 
-When the setting is enabled the template must read and provide the value to the `img` tag.
+启用设置后，模板必须读取并提供值给“img”标记。
 
-The `MediaTexts[]` is kept in sync with the `Paths[]` array and the index for a given path represents the index of a `MediaText` value.
+`MediaTexts []`与`Paths []`数组保持同步，给定路径的索引表示`MediaText`值的索引。
 
-## Image Anchors
+## 图像锚点
 
-Image anchors are an optional setting, off by default, on the `MediaField`.
+图像锚点是“媒体字段”的可选设置，默认情况下关闭。
 
-When enabled they allow a media field to provide an anchor point, or x and y value for use when cropping, or padding the image.
+启用后，它们允许媒体字段提供锚点或用于裁剪或填充图像时的x和y值。
 
-The anchor value provided can be used to specify the center point of a crop or pad.
+提供的锚点值可用于指定裁剪或填充的中心点。
 
-When the setting is enabled the template must read and provide the value to the resizing helpers or filters.
+启用设置后，模板必须读取并提供值给调整大小的帮助程序或过滤器。
 
-The `Anchors[]` is a less well known property of a `MediaField` and can be accessed via the `GetAnchors()` extension, or directly.
+`Anchors []`是`MediaField`的一个不太知名的属性，可以通过`GetAnchors（）`扩展或直接访问。
 
 === "Liquid"
 
@@ -449,53 +568,53 @@ The `Anchors[]` is a less well known property of a `MediaField` and can be acces
     var anchors = (Anchor[])Model.ContentItem.Content.Blog.Image.Anchors.ToObject<Anchor[]>();
     ```
 
-The `Anchors[]` is kept in sync with the `Paths[]` array and the index for a given path represents the index of a `Anchor` value.
+`Anchors []`与`Paths []`数组保持同步，给定路径的索引表示`Anchor`值的索引。
 
-!!! note
-    Anchors are only available from the [Preview Feed](../../../getting-started/preview-package-source)
+!!! 注意
+    锚点仅在[预览源](../../../getting-started/preview-package-source)中可用
 
-## Query string tokens
+## 查询字符串令牌
 
-When resizing images, the query string command values are, by default, signed with an HMAC signature that is unique to the tenant.
+调整图像大小时，默认情况下，查询字符串命令值使用HMAC签名进行签名，该签名对于租户是唯一的。
 
-This prevents prevent malicious clients from creating too many variations of the same image. 
+这可以防止恶意客户端创建太多相同图像的变体。
 
-If the `UseTokenizedQueryString` is set to `false` the following features will be removed.
+如果将“UseTokenizedQueryString”设置为“false”，则将删除以下功能。
 
-- Cache busting, or query string versioning.
-- Anchors.
-- The width or height must match a value from the `SupportedSizes` configuration.
-- Background color.
+- 缓存破坏或查询字符串版本控制。
+- 锚点。
+- 宽度或高度必须与“SupportedSizes”配置中的值匹配。
+- 背景颜色。
 
-When the query string is signed with a token any width, height value may be used.
+当查询字符串使用令牌签名时，可以使用任何宽度、高度值。
 
 `<img src="/media/kittens.jpg?width=101&height=241&token=0J3hyv6jIPEsSdlvTCrf30fIdygkpmrF6mphqgYQyas%3D">`
 
-!!! note
-    Tokens are only available from the [Preview Feed](../../../getting-started/preview-package-source)
-    Prior to this the width or height values are limited to `16`, `32`, `50`, `100`, `160`, `240`, `480`, `600`, `1024`, `2048`.
+!!! 注意
+    令牌仅在[预览源](../../../getting-started/preview-package-source)中可用
+    在此之前，宽度或高度值限于`16`、`32`、`50`、`100`、`160`、`240`、`480`、`600`、`1024`、`2048`。
 
-## Media Indexing
+## 媒体索引
 
-Media can be optionally indexed for search as well if files are referenced via Media Fields. The following data can be indexed for each file referenced from a Media Field:
+如果通过媒体字段引用文件，则可以选择将媒体索引用于搜索。对于从媒体字段引用的每个文件，可以为以下数据进行索引：
 
-- Media Text
-- Textual content of PDF files
+- 媒体文本
+- PDF文件的文本内容
 
-!!! note
-    Standalone files, i.e. files that are just uploaded to the Media Library but never referenced from a content item via a Media Field, can't be indexed.
+!!! 注意
+    独立文件，即仅上传到媒体库但从未通过媒体字段引用的文件，无法进行索引。
 
-!!! note
-    You need an indexing implementation enabled for Media Indexing and search to work. The below guide assumes you're using [Lucene](../Lucene/README.md).
+!!! 注意
+    您需要启用索引实现才能使用媒体索引和搜索。下面的指南假定您正在使用[Lucene](../Lucene/README.md)。
 
-To set up indexing for Media do the following:
+要设置媒体索引，请执行以下操作：
 
-1. For each Media Field open the field's editor from under the given content type's or content part's editor, and tick "Include this element in the index", and tick both "Stored" and "Analyzed".
-2. When a content item of that type is published next time, Media content will be indexed as well. Check the name of the new Lucene field. You can do this by running a Lucene query for the given content type (can be done from the admin from under Search, Run Lucene Query): You should be able to see two new fields named with the pattern "ContentPart.FieldTechnicalName.MediaText" and "ContentPart.FieldTechnicalName.FileText", e.g. "BlogPost.File.MediaText" and "BlogPost.File.FileText".
-3. Configure the new field to be used for search. You can do this from the admin under Search, Settings, Search, and adding the name of the new field under "Default search fields" (arriving at something like "Content.ContentItem.FullText, BlogPost.File.MediaText, BlogPost.File.FileText").
-4. Try searching for content only available in the Media Text of selected media files, or referenced PDF files. You should see corresponding results.
+1. 对于每个媒体字段，从给定内容类型或内容部分的编辑器中打开字段的编辑器，并选中“将此元素包含在索引中”，并选中“存储”和“分析”。
+2. 下次发布该类型的内容时，媒体内容也将被索引。检查新Lucene字段的名称。您可以通过运行Lucene查询来执行此操作，以获取给定内容类型的名称（可以从管理界面的搜索下运行Lucene查询）：您应该能够看到两个名为“ContentPart.FieldTechnicalName.MediaText”和“ContentPart.FieldTechnicalName.FileText”的新字段，例如“BlogPost.File.MediaText”和“BlogPost.File.FileText”。
+3. 配置要用于搜索的新字段。您可以从管理界面的搜索下进行此操作，设置，搜索，并在“默认搜索字段”下添加新字段的名称（到达类似“Content.ContentItem.FullText，BlogPost.File.MediaText，BlogPost.File.FileText”的内容）。
+4. 尝试仅在所选媒体文件的媒体文本或引用的PDF文件中搜索内容。您应该看到相应的结果。
 
-## Videos
+## 视频
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/BQHUlvPFRR4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -505,7 +624,7 @@ To set up indexing for Media do the following:
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Nb5GUqM7ZzI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Credits
+## 信用
 
-To index PDF files the [PdfPig library](https://github.com/UglyToad/PdfPig/) is used.
-
+要索引PDF文件，使用[PdfPig库](https://github.com/UglyToad/PdfPig/)。
+> 该文档由ChatGPT 4 翻译
