@@ -2,8 +2,9 @@
 
 文档中心： [简体中文](https://docs.orchardcore.net/zh_CN/dev/) | [English](https://docs.orchardcore.net/en/latest/)
 
-# 注意：本文档不再更新，为了防止与主干分支脱节，请异步 [官方英文文档](https://docs.orchardcore.net/en/latest/)
-推荐翻译工具： [沉浸式翻译](https://microsoftedge.microsoft.com/addons/detail/%E6%B2%89%E6%B5%B8%E5%BC%8F%E7%BF%BB%E8%AF%91-%E7%BD%91%E9%A1%B5%E7%BF%BB%E8%AF%91%E6%8F%92%E4%BB%B6-pdf%E7%BF%BB%E8%AF%91-/amkbmndfnliijdhojkpoglbnaaahippg)
+## 注意：本文档不再更新，为了防止与主干分支脱节，请异步 [官方英文文档](https://docs.orchardcore.net/en/latest/)
+
+## 推荐翻译工具： [沉浸式翻译](https://microsoftedge.microsoft.com/addons/detail/%E6%B2%89%E6%B5%B8%E5%BC%8F%E7%BF%BB%E8%AF%91-%E7%BD%91%E9%A1%B5%E7%BF%BB%E8%AF%91%E6%8F%92%E4%BB%B6-pdf%E7%BF%BB%E8%AF%91-/amkbmndfnliijdhojkpoglbnaaahippg)
 
 Orchard Core 是基于 [Orchard CMS](https://github.com/OrchardCMS/Orchard) 使用 [ASP.NET Core](https://docs.microsoft.com/aspnet/core/) 重新构建的。
 
