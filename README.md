@@ -1,6 +1,6 @@
 # Orchard Core 中文文档
 
-文档中心： [简体中文](https://docs.orchardcore.net/zh_CN/dev/) | [English](https://docs.orchardcore.net/en/dev/)
+文档中心： [简体中文](https://docs.orchardcore.net/zh_CN/dev/) | [English](https://docs.orchardcore.net/en/latest/)
 
 由于目前中文文档翻译工作刚刚起步，欢迎小伙伴们踊跃报名参加文档翻译工作。
 
